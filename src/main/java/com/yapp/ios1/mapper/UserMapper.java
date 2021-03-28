@@ -1,0 +1,15 @@
+package com.yapp.ios1.mapper;
+
+import com.yapp.ios1.dto.user.UserDto;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+/**
+ * created by jg 2021/03/28
+ */
+@Mapper
+public interface UserMapper {
+
+    // 나중에 삭제 예정 (테스트 용)
+    void test(@Param("userDto") UserDto userDto);
+}
