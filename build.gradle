@@ -25,6 +25,14 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // AWS
+    compile 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
+    compile 'org.springframework.cloud:spring-cloud-aws-context:1.2.1.RELEASE'
+    compile 'org.springframework.cloud:spring-cloud-aws-autoconfigure:1.2.1.RELEASE'
+
+    compile "javax.xml.bind:jaxb-api"
+
 }
 
 test {
