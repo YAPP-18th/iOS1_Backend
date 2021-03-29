@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yapp.ios1.mapper.UserMapper">
+    <insert id="test">
+        INSERT INTO user (email, social_type) VALUES(#{userDto.email}, #{userDto.socialType})
+    </insert>
+</mapper>
