@@ -7,8 +7,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @SpringBootTest(properties = "spring.config.location=classpath:application.yml")
 public class DBConnectionTest {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("${spring.datasource.driver-class-name}")
     private String DRIVER;
@@ -25,10 +30,10 @@ public class DBConnectionTest {
     @Test
     public void testConnection() throws ClassNotFoundException {
         Class.forName(DRIVER);
-        try(Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            System.out.println("Connection : " + connection);
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            logger.info("Connection : " + connection);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("Exception : " + e.getMessage());
         }
     }
 
