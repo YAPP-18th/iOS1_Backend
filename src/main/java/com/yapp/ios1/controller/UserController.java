@@ -1,11 +1,12 @@
 package com.yapp.ios1.controller;
 
+import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.service.UserService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,11 +22,13 @@ public class UserController {
 
     /**
      * MyBatis 세팅을 위한 임시 코드 (삭제 예정)
+     *  + ResponseDto 테스트를 위한 코드 추가 (by ayoung 2021/04/10)
      */
     @GetMapping("/")
-    public String test() {
+    public ResponseEntity<?> test() {
         UserDto userDto = new UserDto("wjdrbs966@gmail.com", "KAKAO");
         userService.test(userDto);
-        return "test";
+        ResponseDto<?> response = ResponseDto.of(HttpStatus.OK, "응답 테스트 메세지", userDto);
+        return ResponseEntity.ok().body(response);
     }
 }
