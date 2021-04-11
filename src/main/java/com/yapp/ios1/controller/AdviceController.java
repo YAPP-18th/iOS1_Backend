@@ -1,6 +1,7 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
+import com.yapp.ios1.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,5 +17,11 @@ public class AdviceController {
     public ResponseEntity<ResponseDto> tokenException(IllegalArgumentException e) {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.UNAUTHORIZED, e.getMessage()));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ResponseDto> userNotFoundException(UserNotFoundException e) {
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.NOT_FOUND, e.getMessage()));
     }
 }

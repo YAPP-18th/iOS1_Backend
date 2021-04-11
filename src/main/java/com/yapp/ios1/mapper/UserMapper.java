@@ -12,4 +12,6 @@ public interface UserMapper {
 
     // 나중에 삭제 예정 (테스트 용)
     void test(@Param("userDto") UserDto userDto);
+
+    UserDto findByUserId(@Param("userId") long userId);
 }
