@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * created by jg 2021/04/11
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Auth {
 }
