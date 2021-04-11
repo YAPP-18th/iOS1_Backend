@@ -20,8 +20,8 @@ public class ResponseDtoTest {
         UserDto userDto = new UserDto("ayong703@gmail.com", "GOOGLE");
 
         //when
-        ResponseDto<?> res1 = ResponseDto.of(HttpStatus.OK, "응답 테스트 메세지1", userDto);
-        ResponseDto<?> res2 = ResponseDto.of(HttpStatus.BAD_REQUEST, "응답 테스트 메세지2");
+        ResponseDto res1 = ResponseDto.of(HttpStatus.OK, "응답 테스트 메세지1", userDto);
+        ResponseDto res2 = ResponseDto.of(HttpStatus.BAD_REQUEST, "응답 테스트 메세지2");
 
         //then
         assertThat(res1.getStatus()).isEqualTo(200);

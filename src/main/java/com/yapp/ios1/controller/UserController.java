@@ -22,13 +22,13 @@ public class UserController {
 
     /**
      * MyBatis 세팅을 위한 임시 코드 (삭제 예정)
-     *  + ResponseDto 테스트를 위한 코드 추가 (by ayoung 2021/04/10)
+     * + ResponseDto 테스트를 위한 코드 추가 (by ayoung 2021/04/10)
      */
     @GetMapping("/")
-    public ResponseEntity<?> test() {
+    public ResponseEntity<ResponseDto> test() {
         UserDto userDto = new UserDto("wjdrbs966@gmail.com", "KAKAO");
         userService.test(userDto);
-        ResponseDto<?> response = ResponseDto.of(HttpStatus.OK, "응답 테스트 메세지", userDto);
+        ResponseDto response = ResponseDto.of(HttpStatus.OK, "응답 테스트 메세지", userDto);
         return ResponseEntity.ok().body(response);
     }
 }
