@@ -9,16 +9,17 @@ import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * created by jg 2021/03/28
  */
 @RequiredArgsConstructor
+@Slf4j
 @RestController
 @RequestMapping("/api/v2")
 public class UserController {
@@ -41,7 +42,7 @@ public class UserController {
     // 테스트 입니다 ~
     @Auth
     @GetMapping("/test")
-    public ResponseEntity<ResponseDto> tokenTest() throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> tokenTest(Long id) throws JsonProcessingException {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, "테스트", new TokenDto(jwtService.createToken(new JwtPayload(1L)))));
     }

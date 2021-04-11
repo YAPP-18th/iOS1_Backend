@@ -1,10 +1,12 @@
 package com.yapp.ios1.user;
 
+import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.S3Service;
 import com.yapp.ios1.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
