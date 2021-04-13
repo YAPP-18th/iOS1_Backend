@@ -34,13 +34,15 @@ public class UserTest {
     @MockBean
     private S3Service s3Service;
 
+    @MockBean
+    private JwtService jwtService;
+
     @DisplayName("임시로 만든 API 테스트 => 지금은 의미가 없지만 연습겸 한번 짜보았습니다!(지울 예정)")
     @Test
     void test() throws Exception {
         String test = "test";
 
-        mockMvc.perform(get("/api/v2/"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(test));
+        mockMvc.perform(get("/api/v2/user/"))
+                .andExpect(status().isOk());
     }
 }

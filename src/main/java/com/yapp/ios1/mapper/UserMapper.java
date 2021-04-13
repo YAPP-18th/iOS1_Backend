@@ -4,6 +4,8 @@ import com.yapp.ios1.dto.user.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Optional;
+
 /**
  * created by jg 2021/03/28
  */
@@ -13,5 +15,7 @@ public interface UserMapper {
     // 나중에 삭제 예정 (테스트 용)
     void test(@Param("userDto") UserDto userDto);
 
-    UserDto findByUserId(@Param("userId") long userId);
+    Optional<UserDto> findByUserId(@Param("userId") long userId);
+
+    Optional<UserDto> findByEmail(@Param("email") String email);
 }

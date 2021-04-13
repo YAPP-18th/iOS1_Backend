@@ -1,5 +1,6 @@
 package com.yapp.ios1.controller;
 
+import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.S3Service;
 import com.yapp.ios1.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -32,17 +33,21 @@ public class UserControllerTest {
     @MockBean
     private S3Service s3Service;
 
+    @MockBean
+    private JwtService jwtService;
+
     @Test
     public void 컨트롤러_응답_테스트() throws Exception {
         String message = "응답 테스트 메세지";
         String email = "wjdrbs966@gmail.com";
         String socialType = "KAKAO";
 
-        mockMvc.perform(get("/api/v2/"))
+        mockMvc.perform(get("/api/v2/user/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status", is(HttpStatus.OK.value())))
                 .andExpect(jsonPath("$.message", is(message)))
                 .andExpect(jsonPath("$.data.email", is(email)))
                 .andExpect(jsonPath("$.data.socialType", is(socialType)));
     }
+
 }

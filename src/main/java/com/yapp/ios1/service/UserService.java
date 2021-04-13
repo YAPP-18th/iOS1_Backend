@@ -5,6 +5,8 @@ import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * created by jg 2021/03/28
  */
@@ -19,5 +21,14 @@ public class UserService {
      */
     public void test(final UserDto userDto) {
         userMapper.test(userDto);
+    }
+
+    /**
+     * 이메일 존재하는지 확인
+     *
+     * @param email 이메일
+     */
+    public Optional<UserDto> emailCheck(String email) {
+        return userMapper.findByEmail(email);
     }
 }

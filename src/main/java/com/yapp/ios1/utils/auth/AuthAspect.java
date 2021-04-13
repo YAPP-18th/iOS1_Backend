@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 /**
  * created by jg 2021/04/11
@@ -42,13 +44,13 @@ public class AuthAspect {
 
             JwtPayload payload = jwtService.getPayload(token);
 
-            UserDto user = userMapper.findByUserId(payload.getId());
+            Optional<UserDto> user = userMapper.findByUserId(payload.getId());
 
-            if (user == null) {
+            if (user.isEmpty()) {
                 throw new UserNotFoundException("존재하지 않는 유저입니다.");
             }
 
-            return pjp.proceed(new Object[] { user.getId() });
+            return pjp.proceed(new Object[] { user.get().getId() });
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
