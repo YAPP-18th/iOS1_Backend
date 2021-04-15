@@ -1,6 +1,7 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
+import com.yapp.ios1.exception.PasswordNotMatchException;
 import com.yapp.ios1.exception.UserDuplicatedException;
 import com.yapp.ios1.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -31,5 +32,11 @@ public class AdviceController {
     public ResponseEntity<ResponseDto> userDuplicatedException(UserDuplicatedException e) {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.BAD_REQUEST, "이미 존재하는 계정입니다.", e.getEmail()));
+    }
+
+    @ExceptionHandler(PasswordNotMatchException.class)
+    public ResponseEntity<ResponseDto> passwordNotMatchException(PasswordNotMatchException e) {
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 }

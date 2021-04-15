@@ -3,10 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yapp.ios1.mapper.UserMapper">
-    <insert id="test">
-        INSERT INTO user (email, social_type) VALUES(#{userDto.email}, #{userDto.socialType})
-    </insert>
-
     <insert id="signUp">
         INSERT INTO user (email, social_type, password, nickname, intro) VALUES(#{email}, #{socialType}, #{password}, #{nickname}, #{intro})
     </insert>

@@ -3,6 +3,7 @@ package com.yapp.ios1.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.JwtPayload;
 import com.yapp.ios1.dto.ResponseDto;
+import com.yapp.ios1.dto.user.SignInDto;
 import com.yapp.ios1.dto.user.SignUpDto;
 import com.yapp.ios1.dto.user.TokenDto;
 import com.yapp.ios1.dto.user.UserDto;
@@ -33,6 +34,7 @@ public class UserController {
 
     /**
      * 이메일 확인
+     *
      * @param email 이메일
      */
     @PostMapping("/check")
@@ -42,25 +44,38 @@ public class UserController {
         if (user.isEmpty()) {
             response = ResponseDto.of(HttpStatus.NOT_FOUND, "회원이 존재하지 않습니다.");
         } else {
-            response = ResponseDto.of(HttpStatus.OK, "회원이 존재합니다.");
+            response = ResponseDto.of(HttpStatus.OK, "회원이 존재합니다.", user.get().getNickname());
         }
         return ResponseEntity.ok().body(response);
     }
 
     /**
      * 회원가입
+     *
      * @param signUpDto 회원가입 정보
      */
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpDto signUpDto) throws SQLException {
         Optional<UserDto> user = userService.emailCheck(signUpDto.getEmail());
-        ResponseDto response;
         if (user.isPresent()) {
             throw new UserDuplicatedException(signUpDto.getEmail());
-        } else {
-            userService.signUp(signUpDto);
-            response = ResponseDto.of(HttpStatus.CREATED, "회원가입이 완료되었습니다.");
         }
+
+        userService.signUp(signUpDto);
+        ResponseDto response = ResponseDto.of(HttpStatus.CREATED, "회원가입이 완료되었습니다.");
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * 로그인
+     *
+     * @param signInDto 로그인 정보
+     */
+    @PostMapping("/signin")
+    public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException {
+        UserDto userDto = userService.getMember(signInDto);
+        String token = jwtService.createToken(new JwtPayload(userDto.getId()));
+        ResponseDto response = ResponseDto.of(HttpStatus.OK, "로그인이 완료되었습니다.", new TokenDto(token));
         return ResponseEntity.ok().body(response);
     }
 
