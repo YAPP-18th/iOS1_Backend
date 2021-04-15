@@ -7,13 +7,22 @@ import lombok.Getter;
  */
 @Getter
 public class UserDto {
-    // 나중에 수정 예정 (지금은 임시)
     private Long id;
     private String email;
     private String socialType;
+    private String nickname;
+    private String password;
+    private String intro;
 
-    public UserDto(String email, String socialType) {
+    public UserDto(String email, String socialType, String nickname, String password, String intro) {
         this.email = email;
         this.socialType = socialType;
+        this.nickname = nickname;
+        this.password = password;
+        this.intro = intro;
+    }
+
+    public static UserDto of(SignUpDto signUpDto) {
+        return new UserDto(signUpDto.getEmail(), "", signUpDto.getNickname(), signUpDto.getPassword(), signUpDto.getIntro());
     }
 }

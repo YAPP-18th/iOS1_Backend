@@ -42,6 +42,8 @@ dependencies {
 
     compile "javax.xml.bind:jaxb-api"
 
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+
 }
 
 test {

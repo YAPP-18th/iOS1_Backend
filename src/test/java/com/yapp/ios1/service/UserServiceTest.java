@@ -36,7 +36,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("해당 이메일 존재할 때 리턴값 테스트")
     public void 이메일_존재O_테스트() {
-        UserDto user = new UserDto("ayong0310@naver.com", null);
+        UserDto user = new UserDto("ayong0310@naver.com", null, "문아영", "test", "test");
         Optional<UserDto> optional = Optional.of(user);
         given(userMapper.findByEmail("ayong0310@naver.com")).willReturn(optional);
 
