@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors().disable()
-                .csrf().disable()
-                .headers().frameOptions().disable();
+                .csrf().disable();
+//                .headers().frameOptions().disable();
     }
 }

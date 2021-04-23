@@ -42,7 +42,9 @@ public class UserService {
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         UserDto userDto = UserDto.of(signUpDto);
         int res = userMapper.signUp(userDto);
-        if (res != 1) throw new SQLException("데이터베이스에 저장되지 않았습니다.");
+        if (res != 1) {
+            throw new SQLException("데이터베이스에 저장되지 않았습니다.");
+        }
     }
 
     /**
@@ -59,6 +61,7 @@ public class UserService {
         UserDto user = optional.get();
         if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
             return user;
-        } else throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+        }
+        throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
     }
 }

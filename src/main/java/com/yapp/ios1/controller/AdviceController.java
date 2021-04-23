@@ -31,7 +31,7 @@ public class AdviceController {
     @ExceptionHandler(UserDuplicatedException.class)
     public ResponseEntity<ResponseDto> userDuplicatedException(UserDuplicatedException e) {
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, "이미 존재하는 계정입니다.", e.getEmail()));
+                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler(PasswordNotMatchException.class)

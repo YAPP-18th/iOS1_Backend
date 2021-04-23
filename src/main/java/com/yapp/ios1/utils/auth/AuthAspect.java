@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 /**
@@ -28,8 +27,6 @@ import java.util.Optional;
 @Aspect
 @Component
 public class AuthAspect {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final String AUTHORIZATION = "token";
 

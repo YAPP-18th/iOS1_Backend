@@ -3,10 +3,7 @@ package com.yapp.ios1.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.JwtPayload;
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.user.SignInDto;
-import com.yapp.ios1.dto.user.SignUpDto;
-import com.yapp.ios1.dto.user.TokenDto;
-import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.dto.user.*;
 import com.yapp.ios1.exception.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
@@ -35,11 +32,11 @@ public class UserController {
     /**
      * 이메일 확인
      *
-     * @param email 이메일
+     * @param emailDto 이메일
      */
     @PostMapping("/check")
-    public ResponseEntity<ResponseDto> emailCheck(@RequestBody String email) {
-        Optional<UserDto> user = userService.emailCheck(email);
+    public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) {
+        Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
         ResponseDto response;
         if (user.isEmpty()) {
             response = ResponseDto.of(HttpStatus.NOT_FOUND, "회원이 존재하지 않습니다.");
@@ -58,7 +55,7 @@ public class UserController {
     public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpDto signUpDto) throws SQLException {
         Optional<UserDto> user = userService.emailCheck(signUpDto.getEmail());
         if (user.isPresent()) {
-            throw new UserDuplicatedException(signUpDto.getEmail());
+            throw new UserDuplicatedException("이미 존재하는 계정입니다.");
         }
 
         userService.signUp(signUpDto);

@@ -7,11 +7,7 @@ import lombok.Getter;
  */
 @Getter
 public class UserDuplicatedException extends RuntimeException {
-
-    private final String email;
-
-    public UserDuplicatedException(String email) {
-        this.email = email;
+    public UserDuplicatedException(String message) {
+        super(message);
     }
-
 }
