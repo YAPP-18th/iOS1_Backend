@@ -35,7 +35,7 @@ public class UserController {
      * @param emailDto 이메일
      */
     @PostMapping("/check")
-    public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) {
+    public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) throws SQLException {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
         ResponseDto response;
         if (user.isEmpty()) {
@@ -69,7 +69,7 @@ public class UserController {
      * @param signInDto 로그인 정보
      */
     @PostMapping("/signin")
-    public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException, SQLException {
         UserDto userDto = userService.getMember(signInDto);
         String token = jwtService.createToken(new JwtPayload(userDto.getId()));
         ResponseDto response = ResponseDto.of(HttpStatus.OK, "로그인이 완료되었습니다.", new TokenDto(token));

@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLException;
+
 /**
  * created by jg 2021/04/11
  */
@@ -39,4 +41,11 @@ public class AdviceController {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
+
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<ResponseDto> sqlException(SQLException e) {
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+    }
+
 }

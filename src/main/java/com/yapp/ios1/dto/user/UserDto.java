@@ -1,11 +1,13 @@
 package com.yapp.ios1.dto.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 /**
  * created by jg 2021/03/28
  */
+@AllArgsConstructor
 @Getter
 @Builder
 public class UserDto {
@@ -15,6 +17,15 @@ public class UserDto {
     private String nickname;
     private String password;
     private String intro;
+    private String createdDate;
+
+    public UserDto(String email, String socialType, String nickname, String password, String intro) {
+        this.email = email;
+        this.socialType = socialType;
+        this.nickname = nickname;
+        this.password = password;
+        this.intro = intro;
+    }
 
     public static UserDto of(SignUpDto signUpDto) {
         return UserDto.builder()

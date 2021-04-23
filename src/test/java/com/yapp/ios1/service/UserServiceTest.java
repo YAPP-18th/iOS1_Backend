@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
@@ -26,7 +27,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("해당 이메일 존재하지 않을 때 리턴값 테스트")
-    public void 이메일_존재X_테스트() {
+    public void 이메일_존재X_테스트() throws SQLException {
         Optional<UserDto> optional = Optional.ofNullable(null);
         given(userMapper.findByEmail("없는계정@naver.com")).willReturn(optional);
 
@@ -35,7 +36,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("해당 이메일 존재할 때 리턴값 테스트")
-    public void 이메일_존재O_테스트() {
+    public void 이메일_존재O_테스트() throws SQLException {
         UserDto user = new UserDto("ayong0310@naver.com", null, "문아영", "test", "test");
         Optional<UserDto> optional = Optional.of(user);
         given(userMapper.findByEmail("ayong0310@naver.com")).willReturn(optional);
