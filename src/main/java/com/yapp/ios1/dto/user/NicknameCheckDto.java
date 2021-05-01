@@ -4,9 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * created by ayoung 2021/04/20
+ * created by ayoung 2021/05/01
  */
 @Getter
-public class EmailCheckDto {
-    private String email;
+public class NicknameCheckDto {
+    private String nickname;
 }
+

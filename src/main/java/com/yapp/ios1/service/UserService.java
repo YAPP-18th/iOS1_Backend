@@ -39,6 +39,33 @@ public class UserService {
     }
 
     /**
+     * 닉네임 존재하는지 확인
+     *
+     * @param nickname 닉네임
+     */
+    public Optional<UserDto> nicknameCheck(String nickname) throws SQLException {
+        try {
+            return userMapper.findByNickname(nickname);
+        } catch (Exception e) {
+            throw new SQLException("데이터베이스 오류입니다.");
+        }
+    }
+
+    /**
+     * 이메일 or 닉네임 중복 확인
+     *
+     * @param email 이메일
+     * @param nickname 닉네임
+     */
+    public Optional<UserDto> signUpCheck(String email, String nickname) throws SQLException {
+        try {
+            return userMapper.findByEmailOrNickname(email, nickname);
+        } catch (Exception e) {
+            throw new SQLException("데이터베이스 오류입니다.");
+        }
+    }
+
+    /**
      * 회원가입
      *
      * @param signUpDto 회원가입 정보
