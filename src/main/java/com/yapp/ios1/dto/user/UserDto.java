@@ -3,6 +3,7 @@ package com.yapp.ios1.dto.user;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * created by jg 2021/03/28

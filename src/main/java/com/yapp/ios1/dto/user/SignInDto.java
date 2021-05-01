@@ -1,13 +1,13 @@
 package com.yapp.ios1.dto.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * created by ayoung 2021/04/15
  */
+@AllArgsConstructor
 @Getter
-@Setter
 public class SignInDto {
     private String email;
     private String password;

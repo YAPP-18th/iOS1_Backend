@@ -4,7 +4,7 @@
 
 <mapper namespace="com.yapp.ios1.mapper.UserMapper">
     <insert id="signUp">
-        INSERT INTO user (email, social_type, password, nickname, intro) VALUES(#{email}, #{socialType}, #{password}, #{nickname}, #{intro})
+        INSERT INTO user (email, password, nickname, intro) VALUES(#{email}, #{password}, #{nickname}, #{intro})
     </insert>
 
     <select id="findByUserId" resultType="UserDto">
