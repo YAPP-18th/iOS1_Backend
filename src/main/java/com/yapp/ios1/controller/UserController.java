@@ -8,6 +8,7 @@ import com.yapp.ios1.exception.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
+import com.yapp.ios1.utils.auth.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -79,7 +80,8 @@ public class UserController {
     // 테스트 입니다 ~
     @Auth
     @GetMapping("/test")
-    public ResponseEntity<ResponseDto> tokenTest(Long id) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> tokenTest() throws JsonProcessingException {
+        log.info(UserContext.currentUser.get().getEmail());
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, "테스트", new TokenDto(jwtService.createToken(new JwtPayload(1L)))));
     }

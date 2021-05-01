@@ -47,7 +47,9 @@ public class AuthAspect {
                 throw new UserNotFoundException("존재하지 않는 유저입니다.");
             }
 
-            return pjp.proceed(new Object[] { user.get().getId() });
+            UserContext.currentUser.set(user.get());
+
+            return pjp.proceed();
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
