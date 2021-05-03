@@ -10,6 +10,8 @@ import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/api/v2/user")
+@Api(tags = "User")
 public class UserController {
 
     private final UserService userService;
@@ -36,6 +39,9 @@ public class UserController {
      *
      * @param emailDto 이메일
      */
+    @ApiOperation(
+            value = "이메일 존재 여부"
+    )
     @PostMapping("/check-email")
     public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) throws SQLException {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
@@ -53,6 +59,9 @@ public class UserController {
      *
      * @param nicknameDto 닉네임
      */
+    @ApiOperation(
+            value = "닉네임 존재 여부"
+    )
     @PostMapping("/check-nickname")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) throws SQLException {
         Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
@@ -70,6 +79,9 @@ public class UserController {
      *
      * @param signUpDto 회원가입 정보
      */
+    @ApiOperation(
+            value = "회원가입"
+    )
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpDto signUpDto) throws SQLException {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
@@ -87,6 +99,9 @@ public class UserController {
      *
      * @param signInDto 로그인 정보
      */
+    @ApiOperation(
+            value = "로그인"
+    )
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException, SQLException {
         UserDto userDto = userService.getMember(signInDto);
@@ -96,6 +111,9 @@ public class UserController {
     }
 
     // 테스트 입니다 ~
+    @ApiOperation(
+            value = "인증 테스트"
+    )
     @Auth
     @GetMapping("/test")
     public ResponseEntity<ResponseDto> tokenTest() throws JsonProcessingException {
