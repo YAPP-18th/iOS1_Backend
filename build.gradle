@@ -37,13 +37,14 @@ dependencies {
 
     // AWS
     compile 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
-    compile 'org.springframework.cloud:spring-cloud-aws-context:1.2.1.RELEASE'
-    compile 'org.springframework.cloud:spring-cloud-aws-autoconfigure:1.2.1.RELEASE'
 
     compile "javax.xml.bind:jaxb-api"
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 
+    // Swagger
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 }
 
 test {
