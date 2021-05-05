@@ -35,6 +35,9 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
+    implementation 'com.googlecode.json-simple:json-simple:1.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
     // AWS
     compile 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
 

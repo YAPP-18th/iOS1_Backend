@@ -5,7 +5,7 @@ import com.yapp.ios1.dto.JwtPayload;
 import com.yapp.ios1.dto.user.NicknameCheckDto;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.*;
-import com.yapp.ios1.exception.UserDuplicatedException;
+import com.yapp.ios1.exception.user.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
@@ -117,7 +117,6 @@ public class UserController {
     @Auth
     @GetMapping("/test")
     public ResponseEntity<ResponseDto> tokenTest() throws JsonProcessingException {
-        log.info(UserContext.currentUser.get().getEmail());
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, "테스트", new TokenDto(jwtService.createToken(new JwtPayload(1L)))));
     }

@@ -1,4 +1,4 @@
-package com.yapp.ios1.exception;
+package com.yapp.ios1.exception.user;
 
 /**
  * created by jg 2021/04/11

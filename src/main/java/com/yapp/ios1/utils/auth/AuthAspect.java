@@ -1,8 +1,9 @@
 package com.yapp.ios1.utils.auth;
 
+import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.JwtPayload;
 import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.exception.UserNotFoundException;
+import com.yapp.ios1.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -13,12 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 /**
  * created by jg 2021/04/11
@@ -41,16 +39,13 @@ public class AuthAspect {
 
             JwtPayload payload = jwtService.getPayload(token);
 
-            Optional<UserDto> user = userMapper.findByUserId(payload.getId());
+            UserDto user = userMapper.findByUserId(payload.getId())
+                    .orElseThrow(() -> new UserNotFoundException(ResponseMessage.NOT_FOUND_USER));
 
-            if (user.isEmpty()) {
-                throw new UserNotFoundException("존재하지 않는 유저입니다.");
-            }
-
-            UserContext.currentUser.set(user.get());
+            UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
 
             return pjp.proceed();
-        } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException e) {
+        } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
