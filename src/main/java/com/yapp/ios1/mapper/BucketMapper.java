@@ -1,6 +1,6 @@
 package com.yapp.ios1.mapper;
 
-import com.yapp.ios1.dto.bucket.BucketDto;
+import com.yapp.ios1.model.bucket.BucketDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

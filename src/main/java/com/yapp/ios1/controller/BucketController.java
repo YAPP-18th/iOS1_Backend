@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BucketController {
 
-    private final BucketService homeService;
+    private final BucketService bucketService;
 
     /**
      *
@@ -33,6 +33,6 @@ public class BucketController {
     public ResponseEntity<ResponseDto> home(@PathVariable String bucketState) {
         Long userId = UserContext.getCurrentUserId();
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST, homeService.homeBucketList(bucketState, userId)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST, bucketService.homeBucketList(bucketState, userId)));
     }
 }
