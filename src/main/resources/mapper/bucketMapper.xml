@@ -4,11 +4,12 @@
 
 <mapper namespace="com.yapp.ios1.mapper.BucketMapper">
     <select id="findByBucketState" resultType="BucketDto">
-        SELECT * FROM bucket_list WHERE bucket_state = #{bucketState} and user_id = #{userId};
+        SELECT id, bucket_name, start_date, end_date, bucket_state, count(id) as bucketListCount
+        FROM bucket_list WHERE bucket_state = #{bucketState} and user_id = #{userId};
     </select>
 
     <select id="findByUserBucketListAll" resultType="BucketDto">
-        SELECT id, bucket_name, start_date, end_date, bucket_state
+        SELECT id, bucket_name, start_date, end_date, bucket_state, count(id) as bucketListCount,
         FROM bucket_list WHERE user_id = #{userId};
     </select>
 </mapper>
