@@ -16,10 +16,12 @@ import java.util.List;
 @Service
 public class BucketService {
 
+    private static final String BUCKET_LIST_ALL = "ALL";
+
     private final BucketMapper bucketMapper;
 
     public List<BucketDto> homeBucketList(String bucketState, Long userId) {
-        if (bucketState.equals("ALL")) {
+        if (bucketState.equals(BUCKET_LIST_ALL)) {
             return bucketMapper.findByUserBucketListAll(userId);
         }
         return bucketMapper.findByBucketState(bucketState, userId);
