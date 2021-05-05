@@ -1,4 +1,4 @@
-package com.yapp.ios1.exception;
+package com.yapp.ios1.exception.user;
 
 import lombok.Getter;
 
