@@ -3,11 +3,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yapp.ios1.mapper.BucketMapper">
-    <select id="findByBucketState" resultType="BookDto">
+    <select id="findByBucketState" resultType="BucketDto">
         SELECT * FROM bucket_list WHERE bucket_state = #{bucketState} and user_id = #{userId};
     </select>
 
-    <select id="findByUserBucketListAll" resultType="BookDto">
-        SELECT * FROM bucket_list WHERE user_id = #{userId};
+    <select id="findByUserBucketListAll" resultType="BucketDto">
+        SELECT id, bucket_name, start_date, end_date, bucket_state
+        FROM bucket_list WHERE user_id = #{userId};
     </select>
 </mapper>

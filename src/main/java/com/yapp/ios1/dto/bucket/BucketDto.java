@@ -7,4 +7,9 @@ import lombok.Getter;
  */
 @Getter
 public class BucketDto {
+    private Long id;
+    private String bucket_name;
+    private String start_date;
+    private String end_date;
+    private String bucket_state;
 }
