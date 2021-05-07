@@ -1,6 +1,7 @@
 package com.yapp.ios1.dto;
 
 import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.dto.user.social.SocialType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ public class ResponseDtoTest {
     public void responseTest() {
 
         //given
-        UserDto userDto = new UserDto("ayong703@gmail.com", "GOOGLE", "문아영","test", "test");
+        UserDto userDto = new UserDto("ayong703@gmail.com", SocialType.GOOGLE, "문아영","test", "test");
 
         //when
         ResponseDto res1 = ResponseDto.of(HttpStatus.OK, "응답 테스트 메세지1", userDto);

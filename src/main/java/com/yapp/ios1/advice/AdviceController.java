@@ -19,6 +19,7 @@ public class AdviceController {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ResponseDto> tokenException(IllegalArgumentException e) {
+        e.printStackTrace();
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.UNAUTHORIZED, e.getMessage()));
     }

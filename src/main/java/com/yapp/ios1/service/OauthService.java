@@ -15,9 +15,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Optional;
+
+import static com.yapp.ios1.dto.user.social.SocialType.*;
 
 /**
  * created by ayoung 2021/05/04
@@ -29,20 +31,36 @@ public class OauthService {
     private final UserService userService;
     private final RestTemplate restTemplate;
 
-    @Value("${buok.key}")
+    @Value("${social.key}")
     private String BUOK_KEY;
+
+    @Value("${social.url.google}")
+    private String GOOGLE_REQUEST_URL;
+
+    public UserCheckDto getSocialUser(String socialType, String accessToken) throws JsonProcessingException, SQLException {
+        switch (SocialType.valueOf(socialType.toUpperCase(Locale.ROOT))) {
+            case GOOGLE:
+                return getGoogleUser(accessToken);
+            case KAKAO:
+                return getKakaoUser(accessToken);
+            case APPLE:
+                return getAppleUser(accessToken);
+            default:
+                return null;
+        }
+    }
 
     // 구글 로그인
     public UserCheckDto getGoogleUser(String accessToken) throws JsonProcessingException, SQLException, HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
 
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        headers.add("Authorization", "Bearer " + accessToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(accessToken);
 
         HttpEntity<MultiValueMap<String, String>> googleProfileRequest = new HttpEntity<>(headers);
 
         ResponseEntity<String> restResponse = restTemplate.exchange(
-                "https://www.googleapis.com/oauth2/v3/userinfo",
+                GOOGLE_REQUEST_URL,
                 HttpMethod.POST,
                 googleProfileRequest,
                 String.class
@@ -56,14 +74,13 @@ public class OauthService {
         if (optionalUser.isEmpty()) { // 회원가입 처리
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(profile.getEmail())
-                    .socialType(SocialType.GOOGLE)
+                    .socialType(GOOGLE)
                     .password(BUOK_KEY)
                     .socialId(profile.getSub())
                     .build();
-            return new UserCheckDto(201, userService.signUp(UserDto.of(signUpDto)));
-        } else {
-            return new UserCheckDto(200, optionalUser.get().getId());
+            return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
         }
+        return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId());
     }
 
     // 카카오 로그인

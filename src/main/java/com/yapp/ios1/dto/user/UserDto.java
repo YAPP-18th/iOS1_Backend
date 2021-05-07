@@ -1,10 +1,9 @@
 package com.yapp.ios1.dto.user;
 
-import com.google.gson.annotations.SerializedName;
+import com.yapp.ios1.dto.user.social.SocialType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * created by jg 2021/03/28
@@ -15,14 +14,14 @@ import lombok.NoArgsConstructor;
 public class UserDto {
     private Long id;
     private String email;
-    private String socialType;
+    private SocialType socialType;
     private String nickname;
     private String password;
     private String intro;
     private String createdDate;
     private String socialId;
 
-    public UserDto(String email, String socialType, String nickname, String password, String intro) {
+    public UserDto(String email, SocialType socialType, String nickname, String password, String intro) {
         this.email = email;
         this.socialType = socialType;
         this.nickname = nickname;

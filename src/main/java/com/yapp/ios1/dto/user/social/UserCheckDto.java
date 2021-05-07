@@ -2,6 +2,7 @@ package com.yapp.ios1.dto.user.social;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 /**
  * created by ayoung 2021/05/05
@@ -9,6 +10,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class UserCheckDto {
-    private int status;
+    private HttpStatus status;
     private Long userId;
 }

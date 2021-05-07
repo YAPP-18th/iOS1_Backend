@@ -1,13 +1,11 @@
 package com.yapp.ios1.dto.user.social;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
  * created by ayoung 2021/05/04
  */
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class GoogleProfileDto {

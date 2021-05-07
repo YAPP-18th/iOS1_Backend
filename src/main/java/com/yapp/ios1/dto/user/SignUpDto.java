@@ -1,5 +1,6 @@
 package com.yapp.ios1.dto.user;
 
+import com.yapp.ios1.dto.user.social.SocialType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.Getter;
 @Getter
 public class SignUpDto {
     private String email;
-    private String socialType;
+    private SocialType socialType;
     private String password;
     private String nickname;
     private String intro;
