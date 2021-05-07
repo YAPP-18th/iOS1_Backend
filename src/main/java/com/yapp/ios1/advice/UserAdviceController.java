@@ -1,5 +1,6 @@
 package com.yapp.ios1.advice;
 
+import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.exception.user.UserDuplicatedException;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
 /**
  * created by jg 2021/05/05
@@ -34,4 +36,10 @@ public class UserAdviceController {
                 .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
+    // 소셜 로그인
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<ResponseDto> socialException() {
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.SOCIAL_LOGIN_ERROR));
+    }
 }

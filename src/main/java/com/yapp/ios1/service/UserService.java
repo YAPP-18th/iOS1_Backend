@@ -1,7 +1,6 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.user.SignInDto;
-import com.yapp.ios1.dto.user.SignUpDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
@@ -68,16 +67,12 @@ public class UserService {
     /**
      * 회원가입
      *
-     * @param signUpDto 회원가입 정보
+     * @param userDto 회원가입 정보
      */
-    public void signUp(SignUpDto signUpDto) throws SQLException {
-        try {
-            signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-            UserDto userDto = UserDto.of(signUpDto);
-            userMapper.signUp(userDto);
-        } catch (Exception e) {
-            throw new SQLException("데이터베이스 오류입니다.");
-        }
+    public Long signUp(UserDto userDto) {
+        userDto.encodePassword(passwordEncoder.encode(userDto.getPassword()));
+        userMapper.signUp(userDto);
+        return userDto.getId();
     }
 
     /**
