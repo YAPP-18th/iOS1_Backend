@@ -1,9 +1,9 @@
 package com.yapp.ios1.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yapp.ios1.dto.user.SignUpDto;
-import com.yapp.ios1.dto.user.social.GoogleProfileDto;
 import com.yapp.ios1.dto.user.social.SocialType;
 import com.yapp.ios1.dto.user.social.UserCheckDto;
 import com.yapp.ios1.dto.user.UserDto;
@@ -30,12 +30,16 @@ public class OauthService {
 
     private final UserService userService;
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     @Value("${social.key}")
     private String BUOK_KEY;
 
     @Value("${social.url.google}")
     private String GOOGLE_REQUEST_URL;
+
+    @Value("${social.url.kakao}")
+    private String KAKAO_REQUEST_URL;
 
     public UserCheckDto getSocialUser(String socialType, String accessToken) throws JsonProcessingException, SQLException {
         switch (SocialType.valueOf(socialType.toUpperCase(Locale.ROOT))) {
@@ -50,33 +54,36 @@ public class OauthService {
         }
     }
 
-    // 구글 로그인
-    public UserCheckDto getGoogleUser(String accessToken) throws JsonProcessingException, SQLException, HttpClientErrorException {
+    private JsonNode getProfile(String accessToken, String requestUrl) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(accessToken);
 
-        HttpEntity<MultiValueMap<String, String>> googleProfileRequest = new HttpEntity<>(headers);
+        HttpEntity<MultiValueMap<String, String>> profileRequest = new HttpEntity<>(headers);
 
         ResponseEntity<String> restResponse = restTemplate.exchange(
-                GOOGLE_REQUEST_URL,
+                requestUrl,
                 HttpMethod.POST,
-                googleProfileRequest,
+                profileRequest,
                 String.class
         );
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        // 구글 프로필 정보
-        GoogleProfileDto profile = objectMapper.readValue(restResponse.getBody(), GoogleProfileDto.class);
+        return objectMapper.readTree(restResponse.getBody());
+    }
 
-        Optional<UserDto> optionalUser = userService.emailCheck(profile.getEmail());
+    // 구글 로그인
+    private UserCheckDto getGoogleUser(String accessToken) throws JsonProcessingException, SQLException, HttpClientErrorException {
+        JsonNode profile = getProfile(accessToken, GOOGLE_REQUEST_URL);
+        String userEmail = profile.get("email").textValue();
+
+        Optional<UserDto> optionalUser = userService.emailCheck(userEmail);
         if (optionalUser.isEmpty()) { // 회원가입 처리
             SignUpDto signUpDto = SignUpDto.builder()
-                    .email(profile.getEmail())
+                    .email(userEmail)
                     .socialType(GOOGLE)
                     .password(BUOK_KEY)
-                    .socialId(profile.getSub())
+                    .socialId(profile.get("sub").textValue())
                     .build();
             return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
         }
@@ -84,12 +91,25 @@ public class OauthService {
     }
 
     // 카카오 로그인
-    public UserCheckDto getKakaoUser(String accessToken) {
-        return null;
+    private UserCheckDto getKakaoUser(String accessToken) throws JsonProcessingException, SQLException {
+        JsonNode profile = getProfile(accessToken, KAKAO_REQUEST_URL);
+        String userEmail = profile.get("kakao_account").get("email").textValue();
+
+        Optional<UserDto> optionalUser = userService.emailCheck(userEmail);
+        if (optionalUser.isEmpty()) {
+            SignUpDto signUpDto = SignUpDto.builder()
+                    .email(userEmail)
+                    .socialType(KAKAO)
+                    .password(BUOK_KEY)
+                    .socialId(profile.get("id").toString())
+                    .build();
+            return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
+        }
+        return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId());
     }
 
     // 애플 로그인
-    public UserCheckDto getAppleUser(String accessToken) {
+    private UserCheckDto getAppleUser(String accessToken) {
         return null;
     }
 }
