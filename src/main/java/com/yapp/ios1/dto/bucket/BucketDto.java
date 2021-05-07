@@ -1,4 +1,4 @@
-package com.yapp.ios1.model.bucket;
+package com.yapp.ios1.dto.bucket;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
