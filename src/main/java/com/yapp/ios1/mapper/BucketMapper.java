@@ -13,4 +13,6 @@ public interface BucketMapper {
     List<BucketDto> findByBucketStateAndCategory(String bucketState, Long categoryId, Long userId);
 
     List<BucketDto> findByUserBucketListAll(Long userId);
+
+    int findByCategoryId(Long categoryId);
 }

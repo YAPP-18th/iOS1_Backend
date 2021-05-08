@@ -15,4 +15,8 @@
         FROM bucket
         WHERE user_id = #{userId};
     </select>
+
+    <select id="findByCategoryId" resultType="int">
+        SELECT count(*) FROM category WHERE id = #{categoryId};
+    </select>
 </mapper>
