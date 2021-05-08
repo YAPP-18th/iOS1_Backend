@@ -13,7 +13,11 @@ import java.util.List;
 public interface BucketMapper {
     List<BucketDto> findByBucketStateAndCategory(@Param("bucketState") String bucketState, @Param("categoryId") Long categoryId, @Param("userId") Long userId);
 
+    int findByBucketStateAndCategoryCount(@Param("bucketState") String bucketState, @Param("categoryId") Long categoryId, @Param("userId") Long userId);
+
     List<BucketDto> findByUserBucketList(@Param("userId") Long userId, @Param("categoryId") Long categoryId);
+
+    int findByUserBucketListCount(@Param("userId") Long userId, @Param("categoryId") Long categoryId);
 
     int findByCategoryId(Long categoryId);
 }
