@@ -23,4 +23,7 @@ public class BucketDto {
     private String bucketState;
 
     private int bucketListCount;
+
+    @SerializedName("category_name")
+    private String categoryName;
 }
