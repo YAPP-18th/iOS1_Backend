@@ -12,7 +12,7 @@ import java.util.List;
 public interface BucketMapper {
     List<BucketDto> findByBucketStateAndCategory(String bucketState, Long categoryId, Long userId);
 
-    List<BucketDto> findByUserBucketListAll(Long userId);
+    List<BucketDto> findByUserBucketList(Long userId, Long categoryId);
 
     int findByCategoryId(Long categoryId);
 }

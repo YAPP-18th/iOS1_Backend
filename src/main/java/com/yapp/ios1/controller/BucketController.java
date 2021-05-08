@@ -34,6 +34,7 @@ public class BucketController {
                                             @RequestParam("categoryId") Long categoryId) {
         Long userId = UserContext.getCurrentUserId();
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST, bucketService.homeBucketList(bucketState, categoryId, userId)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,
+                        bucketService.homeBucketList(bucketState, categoryId, userId)));
     }
 }

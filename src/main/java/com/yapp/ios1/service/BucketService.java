@@ -29,12 +29,12 @@ public class BucketService {
             throw new CategoryNotFoundException(ResponseMessage.NOT_FOUND_CATEGORY);
         }
 
+        // 버킷 전체, 카테고리
         if (bucketState.equals(BUCKET_LIST_ALL)) {
-            return bucketMapper.findByUserBucketListAll(userId);
+            return bucketMapper.findByUserBucketList(userId, categoryId);
         }
 
+        // 버킷 상태 선택, 카테고리
         return bucketMapper.findByBucketStateAndCategory(bucketState, categoryId, userId);
     }
-
-
 }
