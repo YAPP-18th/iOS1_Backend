@@ -2,6 +2,7 @@ package com.yapp.ios1.controller;
 
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
+import com.yapp.ios1.dto.bucket.BucketRegisterDto;
 import com.yapp.ios1.service.BucketService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
@@ -9,9 +10,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * created by jg 2021/05/05
@@ -23,7 +25,6 @@ public class BucketController {
     private final BucketService bucketService;
 
     /**
-     *
      * @param bucketState ONGOING(진행 중), EXPECT(예정), COMPLETE(완료), ALL(전체)
      * @return List<BucketDto>
      */
@@ -34,5 +35,23 @@ public class BucketController {
         Long userId = UserContext.getCurrentUserId();
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST, bucketService.homeBucketList(bucketState, userId)));
+    }
+
+    /**
+     * @param bucket    버킷 등록 정보
+     * @param imageList 버킷 이미지 리스트
+     */
+    @ApiOperation(value = "버킷 등록")
+    @Auth
+    @PostMapping("/buckets")
+    public ResponseEntity<ResponseDto> registerBucket(@RequestPart(value = "image", required = false) MultipartFile[] imageList,
+                                                      @RequestPart BucketRegisterDto bucket) throws IOException, IllegalArgumentException {
+        if (imageList != null) {
+            bucket.setImageList(imageList);
+        }
+        bucket.setUserId(UserContext.getCurrentUserId());
+        bucketService.registerBucket(bucket);
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.REGISTER_BUCKET_SUCCESS));
     }
 }

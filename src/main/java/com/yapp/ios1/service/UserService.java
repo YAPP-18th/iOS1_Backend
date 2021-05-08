@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import static com.yapp.ios1.common.ResponseMessage.*;
+
 /**
  * created by jg 2021/03/28
  */
@@ -85,15 +87,15 @@ public class UserService {
         try {
             Optional<UserDto> optional = emailCheck(signInDto.getEmail());
             if (optional.isEmpty()) {
-                throw new UserNotFoundException("존재하지 않는 유저입니다.");
+                throw new UserNotFoundException(NOT_EXIST_USER);
             }
             UserDto user = optional.get();
             if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
                 return user;
             }
-            throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+            throw new PasswordNotMatchException(NOT_MATCH_PASSWORD);
         } catch (Exception e) {
-            throw new SQLException("데이터베이스 오류입니다.");
+            throw new SQLException(DATABASE_ERROR);
         }
     }
 }

@@ -1,9 +1,13 @@
 package com.yapp.ios1.mapper;
 
+import com.yapp.ios1.dto.bucket.BucketRegisterDto;
+import com.yapp.ios1.dto.bucket.TagDto;
 import com.yapp.ios1.model.bucket.BucketDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * created by jg 2021/05/05
@@ -13,4 +17,14 @@ public interface BucketMapper {
     List<BucketDto> findByBucketState(String bucketState, Long userId);
 
     List<BucketDto> findByUserBucketListAll(Long userId);
+
+    void registerBucket(BucketRegisterDto registerDto);
+
+    void saveBucketImageUrl(@Param("bucketId") Long bucketId, @Param("imageUrl") String imageUrl);
+
+    Optional<TagDto> findByTagName(String tagName);
+
+    void saveBucketAndTag(@Param("bucketId") Long bucketId, @Param("tagId") Long tagId);
+
+    void saveTag(TagDto tag);
 }
