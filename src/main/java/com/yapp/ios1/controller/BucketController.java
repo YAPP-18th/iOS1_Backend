@@ -25,7 +25,7 @@ public class BucketController {
     /**
      *
      * @param bucketState ONGOING(진행 중), EXPECT(예정), COMPLETE(완료), ALL(전체)
-     * @return List<BucketDto>
+     * @return BucketResultDto
      */
     @ApiOperation(value = "홈 화면 전체 조회")
     @Auth

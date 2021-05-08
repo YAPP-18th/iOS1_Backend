@@ -1,15 +1,12 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.common.ResponseMessage;
-import com.yapp.ios1.dto.bucket.BucketDto;
 import com.yapp.ios1.dto.bucket.BucketResultDto;
 import com.yapp.ios1.exception.bucket.CategoryNotFoundException;
 import com.yapp.ios1.mapper.BucketMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 /**
