@@ -9,7 +9,6 @@ import com.yapp.ios1.exception.user.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
-import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -89,7 +88,7 @@ public class UserController {
             throw new UserDuplicatedException("이미 존재하는 계정입니다.");
         }
 
-        userService.signUp(signUpDto);
+        userService.signUp(UserDto.of(signUpDto));
         ResponseDto response = ResponseDto.of(HttpStatus.CREATED, "회원가입이 완료되었습니다.");
         return ResponseEntity.ok().body(response);
     }

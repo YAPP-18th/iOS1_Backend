@@ -20,5 +20,5 @@ public interface UserMapper {
 
     Optional<UserDto> findByEmailOrNickname(@Param("email") String email, @Param("nickname") String nickname);
 
-    int signUp(UserDto userDto);
+    void signUp(UserDto userDto);
 }
