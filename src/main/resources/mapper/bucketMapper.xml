@@ -11,22 +11,15 @@
                c.category_name as categoryName
         FROM bucket b JOIN category c
         ON b.category_id = c.id
-        WHERE b.bucket_state = #{bucketState} and b.user_id = #{userId}
+        WHERE b.user_id = #{userId}
+        <choose>
+            <when test="!bucketState.equals('ALL')">
+                AND b.bucket_state = #{bucketState}
+            </when>
+        </choose>
         <choose>
             <when test="categoryId lt 10">
                 AND c.id = #{categoryId}
-            </when>
-        </choose>
-    </select>
-
-    <select id="findByUserBucketList" resultType="BucketDto">
-        SELECT b.id, b.bucket_name, b.start_date, b.end_date, b.bucket_state
-        FROM bucket b JOIN category c
-        ON b.category_id = c.id
-        WHERE user_id = #{userId}
-        <choose>
-            <when test="categoryId lt 10">
-                AND b.categoryId = #{categoryId}
             </when>
         </choose>
     </select>

@@ -25,22 +25,20 @@ public class BucketService {
 
     private final BucketMapper bucketMapper;
 
-    public BucketResultDto homeBucketList(String bucketState, Long categoryId, Long userId) {
+    public BucketResultDto homeBucketList(String bucketState, Long categoryId, Long userId, Long sortId) {
         if (bucketMapper.findByCategoryId(categoryId) == NOT_FOUND_CATEGORY) {
             throw new CategoryNotFoundException(ResponseMessage.NOT_FOUND_CATEGORY);
         }
+//
+//        if (bucketState.equals(BUCKET_LIST_ALL)) {
+//            List<BucketDto> buckets = bucketMapper.findByUserBucketList(userId, categoryId, sortId);
+//            return new BucketResultDto(
+//                    buckets,
+//                    buckets.size()
+//            );
+//        }
 
-        // 버킷 전체, 카테고리
-        if (bucketState.equals(BUCKET_LIST_ALL)) {
-            List<BucketDto> buckets = bucketMapper.findByUserBucketList(userId, categoryId);
-            return new BucketResultDto(
-                    buckets,
-                    buckets.size()
-            );
-        }
-
-        // 버킷 상태 선택, 카테고리
-        List<BucketDto> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, categoryId, userId);
+        List<BucketDto> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, categoryId, userId, sortId);
         return new BucketResultDto(
                 buckets,
                 buckets.size()
