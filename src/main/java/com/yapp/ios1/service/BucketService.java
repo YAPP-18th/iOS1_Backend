@@ -21,8 +21,6 @@ import java.util.List;
 @Service
 public class BucketService {
 
-    private static final int NOT_FOUND_CATEGORY = 0;
-
     private final BucketMapper bucketMapper;
 
     public BucketResultDto homeBucketList(String bucketState, Long categoryId, Long userId, Long sortId) {
@@ -34,7 +32,7 @@ public class BucketService {
     }
 
     public void checkCategoryId(Long categoryId) {
-        if (bucketMapper.findByCategoryId(categoryId) == NOT_FOUND_CATEGORY) {
+        if (bucketMapper.findByCategoryId(categoryId) == 0) {
             throw new CategoryNotFoundException(ResponseMessage.NOT_FOUND_CATEGORY);
         }
     }
