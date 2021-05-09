@@ -1,12 +1,15 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.common.ResponseMessage;
+import com.yapp.ios1.dto.bucket.BucketDto;
 import com.yapp.ios1.dto.bucket.BucketResultDto;
 import com.yapp.ios1.exception.bucket.CategoryNotFoundException;
 import com.yapp.ios1.mapper.BucketMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 /**
@@ -29,16 +32,18 @@ public class BucketService {
 
         // 버킷 전체, 카테고리
         if (bucketState.equals(BUCKET_LIST_ALL)) {
+            List<BucketDto> buckets = bucketMapper.findByUserBucketList(userId, categoryId);
             return new BucketResultDto(
-                    bucketMapper.findByUserBucketList(userId, categoryId),
-                    bucketMapper.findByUserBucketListCount(userId, categoryId)
+                    buckets,
+                    buckets.size()
             );
         }
 
         // 버킷 상태 선택, 카테고리
+        List<BucketDto> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, categoryId, userId);
         return new BucketResultDto(
-                bucketMapper.findByBucketStateAndCategory(bucketState, categoryId, userId),
-                bucketMapper.findByBucketStateAndCategoryCount(bucketState, categoryId, userId)
+                buckets,
+                buckets.size()
         );
     }
 }
