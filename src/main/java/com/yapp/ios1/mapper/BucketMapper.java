@@ -15,10 +15,5 @@ public interface BucketMapper {
                                                  @Param("categoryId") Long categoryId,
                                                  @Param("userId") Long userId,
                                                  @Param("sortId") Long sortId);
-
-    List<BucketDto> findByUserBucketList(@Param("userId") Long userId,
-                                         @Param("categoryId") Long categoryId,
-                                         @Param("sortId") Long sortId);
-
     int findByCategoryId(Long categoryId);
 }
