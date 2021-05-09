@@ -13,6 +13,38 @@
         FROM bucket WHERE user_id = #{userId};
     </select>
 
+    <select id="findByBucketStateAndCategory" resultType="BucketDto">
+        SELECT b.id, b.bucket_name as bucketName,
+               b.start_date as startDate,
+               b.end_date as endDate,
+               b.bucket_state as bucketState,
+               c.category_name as categoryName
+        FROM bucket b JOIN category c
+        ON b.category_id = c.id
+        WHERE b.bucket_state = #{bucketState} and b.user_id = #{userId}
+        <choose>
+            <when test="categoryId lt 10">
+                AND c.id = #{categoryId}
+            </when>
+        </choose>
+    </select>
+
+    <select id="findByUserBucketList" resultType="BucketDto">
+        SELECT b.id, b.bucket_name, b.start_date, b.end_date, b.bucket_state
+        FROM bucket b JOIN category c
+        ON b.category_id = c.id
+        WHERE user_id = #{userId}
+        <choose>
+            <when test="categoryId lt 10">
+                AND b.categoryId = #{categoryId}
+            </when>
+        </choose>
+    </select>
+
+    <select id="findByCategoryId" resultType="int">
+        SELECT count(*) FROM category WHERE id = #{categoryId};
+    </select>
+
     <insert id="registerBucket" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO bucket (bucket_name, bucket_content, start_date, end_date, bucket_state, is_public, user_id, category_id)
         VALUES(#{bucketName}, #{content}, #{startDate}, #{endDate}, #{state}, #{isPublic}, #{userId}, #{categoryId});

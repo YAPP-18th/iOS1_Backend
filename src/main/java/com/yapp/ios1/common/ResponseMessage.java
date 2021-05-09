@@ -10,6 +10,7 @@ public class ResponseMessage {
     // Bucket
     public static final String GET_BUCKET_LIST = "버킷 리스트 조회 성공입니다.";
     public static final String REGISTER_BUCKET_SUCCESS = "버킷 등록 성공입니다.";
+    public static final String NOT_FOUND_CATEGORY = "존재하지 않는 카테고리 입니다.";
 
     // Login
     public static final String LOGIN_SUCCESS = "액세스 토큰 발급";
@@ -20,6 +21,4 @@ public class ResponseMessage {
     public static final String NOT_MATCH_PASSWORD = "비밀번호 오류입니다.";
 
     public static final String DATABASE_ERROR = "데이터베이스 오류입니다.";
-
-
 }
