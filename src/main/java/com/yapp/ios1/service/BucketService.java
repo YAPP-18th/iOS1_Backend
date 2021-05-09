@@ -20,7 +20,6 @@ import java.util.List;
 @Service
 public class BucketService {
 
-    private static final String BUCKET_LIST_ALL = "ALL";
     private static final int NOT_FOUND_CATEGORY = 0;
 
     private final BucketMapper bucketMapper;
@@ -29,14 +28,6 @@ public class BucketService {
         if (bucketMapper.findByCategoryId(categoryId) == NOT_FOUND_CATEGORY) {
             throw new CategoryNotFoundException(ResponseMessage.NOT_FOUND_CATEGORY);
         }
-//
-//        if (bucketState.equals(BUCKET_LIST_ALL)) {
-//            List<BucketDto> buckets = bucketMapper.findByUserBucketList(userId, categoryId, sortId);
-//            return new BucketResultDto(
-//                    buckets,
-//                    buckets.size()
-//            );
-//        }
 
         List<BucketDto> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, categoryId, userId, sortId);
         return new BucketResultDto(
