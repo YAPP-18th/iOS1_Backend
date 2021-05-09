@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,14 +25,16 @@ public class BucketController {
     /**
      *
      * @param bucketState ONGOING(진행 중), EXPECT(예정), COMPLETE(완료), ALL(전체)
-     * @return List<BucketDto>
+     * @return BucketResultDto
      */
     @ApiOperation(value = "홈 화면 전체 조회")
     @Auth
-    @GetMapping("/buckets/{bucketState}")
-    public ResponseEntity<ResponseDto> home(@PathVariable String bucketState) {
+    @GetMapping("/buckets")
+    public ResponseEntity<ResponseDto> home(@RequestParam("bucketState") String bucketState,
+                                            @RequestParam("categoryId") Long categoryId) {
         Long userId = UserContext.getCurrentUserId();
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST, bucketService.homeBucketList(bucketState, userId)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,
+                        bucketService.homeBucketList(bucketState, categoryId, userId)));
     }
 }

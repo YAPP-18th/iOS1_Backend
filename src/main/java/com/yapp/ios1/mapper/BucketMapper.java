@@ -1,7 +1,8 @@
 package com.yapp.ios1.mapper;
 
-import com.yapp.ios1.model.bucket.BucketDto;
+import com.yapp.ios1.dto.bucket.BucketDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,7 +11,9 @@ import java.util.List;
  */
 @Mapper
 public interface BucketMapper {
-    List<BucketDto> findByBucketState(String bucketState, Long userId);
+    List<BucketDto> findByBucketStateAndCategory(@Param("bucketState") String bucketState, @Param("categoryId") Long categoryId, @Param("userId") Long userId);
 
-    List<BucketDto> findByUserBucketListAll(Long userId);
+    List<BucketDto> findByUserBucketList(@Param("userId") Long userId, @Param("categoryId") Long categoryId);
+
+    int findByCategoryId(Long categoryId);
 }
