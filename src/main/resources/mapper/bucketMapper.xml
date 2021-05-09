@@ -22,6 +22,14 @@
                 AND c.id = #{categoryId}
             </when>
         </choose>
+        <choose>
+            <when test="sortId eq 1">
+                ORDER BY id
+            </when>
+            <otherwise>
+                ORDER BY bucket_name
+            </otherwise>
+        </choose>
     </select>
 
     <select id="findByCategoryId" resultType="int">
