@@ -1,11 +1,7 @@
 package com.yapp.ios1.service;
 
-<<<<<<< HEAD
 import com.yapp.ios1.dto.bucket.BucketRegisterDto;
 import com.yapp.ios1.dto.bucket.TagDto;
-import com.yapp.ios1.common.ResponseMessage;
-=======
->>>>>>> 6737b724ef0018ad4cde5c250dd8d0972b309088
 import com.yapp.ios1.dto.bucket.BucketDto;
 import com.yapp.ios1.dto.bucket.BucketResultDto;
 import com.yapp.ios1.mapper.BucketMapper;

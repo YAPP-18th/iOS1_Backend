@@ -14,10 +14,6 @@ import java.util.Optional;
  */
 @Mapper
 public interface BucketMapper {
-<<<<<<< HEAD
-    List<BucketDto> findByBucketStateAndCategory(@Param("bucketState") String bucketState, @Param("categoryId") Long categoryId, @Param("userId") Long userId);
-
-    List<BucketDto> findByUserBucketListAll(Long userId);
 
     void registerBucket(BucketRegisterDto registerDto);
 
@@ -29,13 +25,9 @@ public interface BucketMapper {
 
     void saveTag(TagDto tag);
 
-    List<BucketDto> findByUserBucketList(@Param("userId") Long userId, @Param("categoryId") Long categoryId);
-
-=======
     List<BucketDto> findByBucketStateAndCategory(@Param("bucketState") String bucketState,
                                                  @Param("category") String category,
                                                  @Param("userId") Long userId,
                                                  @Param("sort") String sort);
->>>>>>> 6737b724ef0018ad4cde5c250dd8d0972b309088
     int findByCategoryId(Long categoryId);
 }
