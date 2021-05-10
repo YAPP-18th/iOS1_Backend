@@ -12,8 +12,8 @@ import java.util.List;
 @Mapper
 public interface BucketMapper {
     List<BucketDto> findByBucketStateAndCategory(@Param("bucketState") String bucketState,
-                                                 @Param("categoryId") Long categoryId,
+                                                 @Param("category") String category,
                                                  @Param("userId") Long userId,
-                                                 @Param("sortId") Long sortId);
+                                                 @Param("sort") String sort);
     int findByCategoryId(Long categoryId);
 }

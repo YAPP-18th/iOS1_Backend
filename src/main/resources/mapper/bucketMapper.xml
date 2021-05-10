@@ -18,12 +18,12 @@
             </when>
         </choose>
         <choose>
-            <when test="categoryId lt 10">
-                AND c.id = #{categoryId}
+            <when test="!category.equalsIgnoreCase('ALL')">
+                AND c.id = #{category}
             </when>
         </choose>
         <choose>
-            <when test="sortId eq 1">
+            <when test="sort.equalsIgnoreCase('createdAt')">
                 ORDER BY id
             </when>
             <otherwise>
@@ -33,6 +33,6 @@
     </select>
 
     <select id="findByCategoryId" resultType="int">
-        SELECT count(*) FROM category WHERE id = #{categoryId};
+        SELECT count(*) FROM category WHERE id = #{category};
     </select>
 </mapper>

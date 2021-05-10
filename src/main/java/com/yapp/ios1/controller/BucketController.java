@@ -33,14 +33,12 @@ public class BucketController {
     @Auth
     @GetMapping("/buckets")
     public ResponseEntity<ResponseDto> home(@RequestParam("bucketState") String bucketState,
-                                            @RequestParam("categoryId") Long categoryId,
-                                            @RequestParam("sortId") Long sortId) {
+                                            @RequestParam("category") String category,
+                                            @RequestParam("sort") String sort) {
         Long userId = UserContext.getCurrentUserId();
-        bucketService.checkCategoryId(categoryId);
-        bucketService.checkSortId(sortId);
 
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,
-                        bucketService.homeBucketList(bucketState, categoryId, userId, sortId)));
+                        bucketService.homeBucketList(bucketState, category, userId, sort)));
     }
 }
