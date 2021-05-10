@@ -1,5 +1,6 @@
 package com.yapp.ios1.dto.bucket;
 
+import com.yapp.ios1.utils.validation.BucketConstraint;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ public class BucketRegisterDto {
     private Long id;
     private Long userId;
     private String bucketName;
+    @BucketConstraint
     private String state;
     private int categoryId;
     private String startDate;
