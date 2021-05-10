@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * created by jg 2021/05/05
  */
@@ -50,13 +52,13 @@ public class BucketController {
     @Auth
     @PostMapping("/buckets")
     public ResponseEntity<ResponseDto> registerBucket(@RequestPart(value = "image", required = false) MultipartFile[] imageList,
-                                                      @RequestPart BucketRegisterDto bucket) throws IOException, IllegalArgumentException {
+                                                      @RequestPart @Valid BucketRegisterDto bucket) throws IOException, IllegalArgumentException {
         if (imageList != null) {
             bucket.setImageList(imageList);
         }
         bucket.setUserId(UserContext.getCurrentUserId());
         bucketService.registerBucket(bucket);
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.REGISTER_BUCKET_SUCCESS));
+                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.REGISTER_BUCKET_SUCCESS));
     }
 }

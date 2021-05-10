@@ -20,7 +20,7 @@ public interface BucketMapper {
 
     void registerBucket(BucketRegisterDto registerDto);
 
-    void saveBucketImageUrl(@Param("bucketId") Long bucketId, @Param("imageUrl") String imageUrl);
+    void saveBucketImageUrlList(@Param("bucketId") Long bucketId, List<String> imageUrlList);
 
     Optional<TagDto> findByTagName(String tagName);
 

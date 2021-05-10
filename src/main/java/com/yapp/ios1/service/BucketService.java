@@ -10,6 +10,7 @@ import com.yapp.ios1.mapper.BucketMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,20 +54,30 @@ public class BucketService {
     }
 
     // 버킷 등록
+    @Transactional
     public void registerBucket(BucketRegisterDto registerDto) throws IOException, IllegalArgumentException {
         bucketMapper.registerBucket(registerDto); // bucket 저장
-        for (TagDto tag : registerDto.getTagList()) {
+
+        Long bucketId = registerDto.getId();
+        saveTagList(bucketId, registerDto.getTagList());
+        saveImageUrlList(bucketId, s3Service.upload(registerDto.getImageList()));
+    }
+
+    // 태그 저장
+    public void saveTagList(Long bucketId, List<TagDto> tagList) {
+        for (TagDto tag : tagList) {
             Optional<TagDto> optionalTag = bucketMapper.findByTagName(tag.getTagName());
             if (optionalTag.isEmpty()) { // 태그 기존에 없는 경우, tag 저장
                 bucketMapper.saveTag(tag);
             } else {
                 tag.setId(optionalTag.get().getId());
             }
-            bucketMapper.saveBucketAndTag(registerDto.getId(), tag.getId()); // bucket_tag 저장
+            bucketMapper.saveBucketAndTag(bucketId, tag.getId()); // bucket_tag 저장
         }
-        List<String> imageUrlList = s3Service.upload(registerDto.getImageList());
-        for (String imageUrl : imageUrlList) {
-            bucketMapper.saveBucketImageUrl(registerDto.getId(), imageUrl);
-        }
+    }
+
+    // 이미지 url 저장
+    private void saveImageUrlList(Long bucketId, List<String> imageUrlList) {
+        bucketMapper.saveBucketImageUrlList(bucketId, imageUrlList);
     }
 }

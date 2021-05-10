@@ -50,11 +50,16 @@
         VALUES(#{bucketName}, #{content}, #{startDate}, #{endDate}, #{state}, #{isPublic}, #{userId}, #{categoryId});
     </insert>
 
-    <insert id="saveBucketImageUrl" parameterType="BucketDto">
-        INSERT INTO image (bucket_id, image_url)
-        VALUES (#{bucketId}, #{imageUrl});
+    <insert id="saveBucketImageUrlList" parameterType="java.util.ArrayList">
+        <if test="imageUrlList.size != 0">
+            INSERT INTO image (bucket_id, image_url)
+            VALUES
+            <foreach collection="imageUrlList" item="item" separator=",">
+                (#{bucketId}, #{item})
+            </foreach>
+        </if>
     </insert>
-    
+
     <select id="findByTagName" resultType="TagDto">
         SELECT * FROM tag WHERE tag_name = #{tagName};
     </select>
