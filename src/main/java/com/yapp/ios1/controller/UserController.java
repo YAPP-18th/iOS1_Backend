@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import static com.yapp.ios1.common.ResponseMessage.*;
+
 /**
  * created by jg 2021/03/28
  */
@@ -44,13 +46,10 @@ public class UserController {
     @PostMapping("/check-email")
     public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) throws SQLException {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
-        ResponseDto response;
         if (user.isEmpty()) {
-            response = ResponseDto.of(HttpStatus.NOT_FOUND, "회원이 존재하지 않습니다.");
-        } else {
-            response = ResponseDto.of(HttpStatus.OK, "회원이 존재합니다.", user.get().getNickname());
+            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
         }
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER, user.get().getNickname()));
     }
 
     /**
@@ -64,13 +63,10 @@ public class UserController {
     @PostMapping("/check-nickname")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) throws SQLException {
         Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
-        ResponseDto response;
         if (user.isEmpty()) {
-            response = ResponseDto.of(HttpStatus.NOT_FOUND, "회원이 존재하지 않습니다.");
-        } else {
-            response = ResponseDto.of(HttpStatus.OK, "회원이 존재합니다.");
+            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
         }
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER));
     }
 
     /**
@@ -85,11 +81,11 @@ public class UserController {
     public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpDto signUpDto) throws SQLException {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         if (user.isPresent()) {
-            throw new UserDuplicatedException("이미 존재하는 계정입니다.");
+            throw new UserDuplicatedException(EXIST_USER);
         }
 
         userService.signUp(UserDto.of(signUpDto));
-        ResponseDto response = ResponseDto.of(HttpStatus.CREATED, "회원가입이 완료되었습니다.");
+        ResponseDto response = ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS);
         return ResponseEntity.ok().body(response);
     }
 
@@ -105,7 +101,7 @@ public class UserController {
     public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException, SQLException {
         UserDto userDto = userService.getMember(signInDto);
         String token = jwtService.createToken(new JwtPayload(userDto.getId()));
-        ResponseDto response = ResponseDto.of(HttpStatus.OK, "로그인이 완료되었습니다.", new TokenDto(token));
+        ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, new TokenDto(token));
         return ResponseEntity.ok().body(response);
     }
 

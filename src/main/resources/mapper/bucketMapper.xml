@@ -3,6 +3,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yapp.ios1.mapper.BucketMapper">
+    <select id="findByBucketState" resultType="BucketDto">
+        SELECT id, bucket_name, start_date, end_date, bucket_state, count(id) as bucketListCount
+        FROM bucket WHERE bucket_state = #{bucketState} and user_id = #{userId};
+    </select>
+
+    <select id="findByUserBucketListAll" resultType="BucketDto">
+        SELECT id, bucket_name, start_date, end_date, bucket_state, count(id) as bucketListCount,
+        FROM bucket WHERE user_id = #{userId};
+    </select>
+
     <select id="findByBucketStateAndCategory" resultType="BucketDto">
         SELECT b.id, b.bucket_name as bucketName,
                b.start_date as startDate,
@@ -35,4 +45,31 @@
     <select id="findByCategoryId" resultType="int">
         SELECT count(*) FROM category WHERE id = #{category};
     </select>
+
+    <insert id="registerBucket" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO bucket (bucket_name, bucket_content, start_date, end_date, bucket_state, is_public, user_id, category_id)
+        VALUES(#{bucketName}, #{content}, #{startDate}, #{endDate}, #{state}, #{isPublic}, #{userId}, #{categoryId});
+    </insert>
+
+    <insert id="saveBucketImageUrlList" parameterType="java.util.ArrayList">
+        <if test="imageUrlList.size != 0">
+            INSERT INTO image (bucket_id, image_url)
+            VALUES
+            <foreach collection="imageUrlList" item="item" separator=",">
+                (#{bucketId}, #{item})
+            </foreach>
+        </if>
+    </insert>
+
+    <select id="findByTagName" resultType="TagDto">
+        SELECT * FROM tag WHERE tag_name = #{tagName};
+    </select>
+
+    <insert id="saveBucketAndTag">
+        INSERT INTO bucket_tag (bucket_id, tag_id) VALUES (#{bucketId}, #{tagId});
+    </insert>
+
+    <insert id="saveTag" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tag (tag_name) VALUES (#{tagName});
+    </insert>
 </mapper>

@@ -18,8 +18,7 @@ import java.sql.SQLException;
 public class AdviceController {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ResponseDto> tokenException(IllegalArgumentException e) {
-        e.printStackTrace();
+    public ResponseEntity<ResponseDto> illegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.UNAUTHORIZED, e.getMessage()));
     }
