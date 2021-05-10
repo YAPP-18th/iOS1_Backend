@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Optional;
 
+import static com.yapp.ios1.common.ResponseMessage.BAD_SOCIAL_TYPE;
 import static com.yapp.ios1.dto.user.social.SocialType.*;
 
 /**
@@ -42,15 +43,19 @@ public class OauthService {
     private String KAKAO_REQUEST_URL;
 
     public UserCheckDto getSocialUser(String socialType, String accessToken) throws JsonProcessingException, SQLException {
-        switch (SocialType.valueOf(socialType.toUpperCase(Locale.ROOT))) {
-            case GOOGLE:
-                return getGoogleUser(accessToken);
-            case KAKAO:
-                return getKakaoUser(accessToken);
-            case APPLE:
-                return getAppleUser(accessToken);
-            default:
-                return null;
+        try {
+            switch (SocialType.valueOf(socialType.toUpperCase())) {
+                case GOOGLE:
+                    return getGoogleUser(accessToken);
+                case KAKAO:
+                    return getKakaoUser(accessToken);
+                case APPLE:
+                    return getAppleUser(accessToken);
+                default:
+                    return null;
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(BAD_SOCIAL_TYPE);
         }
     }
 

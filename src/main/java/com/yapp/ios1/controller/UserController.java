@@ -46,13 +46,10 @@ public class UserController {
     @PostMapping("/check-email")
     public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) throws SQLException {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
-        ResponseDto response;
         if (user.isEmpty()) {
-            response = ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER);
-        } else {
-            response = ResponseDto.of(HttpStatus.OK, EXIST_USER, user.get().getNickname());
+            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
         }
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER, user.get().getNickname()));
     }
 
     /**
@@ -66,13 +63,10 @@ public class UserController {
     @PostMapping("/check-nickname")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) throws SQLException {
         Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
-        ResponseDto response;
         if (user.isEmpty()) {
-            response = ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER);
-        } else {
-            response = ResponseDto.of(HttpStatus.OK, EXIST_USER);
+            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
         }
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER));
     }
 
     /**

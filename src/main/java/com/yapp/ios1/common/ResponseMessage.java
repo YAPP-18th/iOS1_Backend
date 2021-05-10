@@ -19,6 +19,7 @@ public class ResponseMessage {
     public static final String NOT_EXIST_USER = "존재하지 않는 회원입니다.";
     public static final String SIGN_UP_SUCCESS = "회원가입 성공입니다.";
     public static final String NOT_MATCH_PASSWORD = "비밀번호 오류입니다.";
+    public static final String BAD_SOCIAL_TYPE = "잘못된 소셜 타입입니다.";
 
     public static final String DATABASE_ERROR = "데이터베이스 오류입니다.";
 }
