@@ -9,6 +9,7 @@ import com.yapp.ios1.exception.user.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
+import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ import static com.yapp.ios1.common.ResponseMessage.*;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("/api/v2/user")
+@RequestMapping("/api/v2")
 @Api(tags = "User")
 public class UserController {
 
@@ -43,7 +44,7 @@ public class UserController {
     @ApiOperation(
             value = "이메일 존재 여부"
     )
-    @PostMapping("/check-email")
+    @PostMapping("/user/email-check")
     public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) throws SQLException {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
         if (user.isEmpty()) {
@@ -60,7 +61,7 @@ public class UserController {
     @ApiOperation(
             value = "닉네임 존재 여부"
     )
-    @PostMapping("/check-nickname")
+    @PostMapping("/user/nickname-check")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) throws SQLException {
         Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
         if (user.isEmpty()) {
@@ -77,7 +78,7 @@ public class UserController {
     @ApiOperation(
             value = "회원가입"
     )
-    @PostMapping("/signup")
+    @PostMapping("/user/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpDto signUpDto) throws SQLException {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         if (user.isPresent()) {
@@ -97,22 +98,26 @@ public class UserController {
     @ApiOperation(
             value = "로그인"
     )
-    @PostMapping("/signin")
+    @PostMapping("/user/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException, SQLException {
-        UserDto userDto = userService.getMember(signInDto);
+        UserDto userDto = userService.getUser(signInDto);
         String token = jwtService.createToken(new JwtPayload(userDto.getId()));
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, new TokenDto(token));
         return ResponseEntity.ok().body(response);
     }
 
-    // 테스트 입니다 ~
+    /**
+     * 마이페이지
+     */
     @ApiOperation(
-            value = "인증 테스트"
+            value = "마이 페이지"
     )
     @Auth
-    @GetMapping("/test")
-    public ResponseEntity<ResponseDto> tokenTest() throws JsonProcessingException {
+    @GetMapping("/users/me")
+    public ResponseEntity<ResponseDto> getMyInfo() {
+        Long userId = UserContext.getCurrentUserId();
+
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, "테스트", new TokenDto(jwtService.createToken(new JwtPayload(1L)))));
+                .body(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getUserInfo(userId, false)));
     }
 }

@@ -1,9 +1,6 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.dto.bucket.BucketRegisterDto;
-import com.yapp.ios1.dto.bucket.TagDto;
-import com.yapp.ios1.dto.bucket.BucketDto;
-import com.yapp.ios1.dto.bucket.BucketResultDto;
+import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.mapper.BucketMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,5 +56,19 @@ public class BucketService {
     // 이미지 url 저장
     private void saveImageUrlList(Long bucketId, List<String> imageUrlList) {
         bucketMapper.saveBucketImageUrlList(bucketId, imageUrlList);
+    }
+
+    public List<BookmarkDto> getBookmarkList(Long userId) {
+        return bucketMapper.findBookmarkListByUserId(userId);
+    }
+
+    /**
+     * 버킷 수 가져오기
+     *
+     * @param userId 사용자 id
+     * @param onlyPublic 친구 페이지 : true, 마이 페이지 : false
+     */
+    public int getBucketCountByUserIdAndPublic(Long userId, boolean onlyPublic) {
+        return bucketMapper.getBucketCountByUserIdAndPublic(userId, onlyPublic);
     }
 }
