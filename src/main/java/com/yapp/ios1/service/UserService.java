@@ -2,6 +2,7 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
+import com.yapp.ios1.dto.user.FriendDto;
 import com.yapp.ios1.dto.user.SignInDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.UserInfoDto;
@@ -63,7 +64,7 @@ public class UserService {
     /**
      * 이메일 or 닉네임 중복 확인
      *
-     * @param email 이메일
+     * @param email    이메일
      * @param nickname 닉네임
      */
     public Optional<UserDto> signUpCheck(String email, String nickname) throws SQLException {
@@ -130,6 +131,11 @@ public class UserService {
                 .bucketCount(bucketCount)
                 .bookmark(new BookmarkResultDto(bookmarkList, bookmarkList.size()))
                 .build();
+    }
+
+    // 친구 리스트
+    public List<FriendDto> getFriendList(Long userId) {
+        return followMapper.getFollowListByUserId(userId);
     }
 
 }
