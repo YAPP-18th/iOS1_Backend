@@ -129,14 +129,14 @@ public class UserController {
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "친구 목록 존재하는 경우"),
-            @ApiResponse(code = 204, message = "친구 목록 존재하지 않는 경우"),
+            @ApiResponse(code = 404, message = "친구 목록 존재하지 않는 경우"),
     })
     @GetMapping("/{userId}/friends")
     public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
         List<FriendDto> friendList = userService.getFriendList(userId);
         if (friendList.size() == 0) {
             return ResponseEntity.ok()
-                    .body(ResponseDto.of(HttpStatus.NO_CONTENT, NO_FRIEND_LIST));
+                    .body(ResponseDto.of(HttpStatus.NOT_FOUND, NO_FRIEND_LIST));
         }
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));

@@ -15,6 +15,7 @@ import lombok.Getter;
 public class UserDto {
     private Long id;
     private String email;
+    @JsonIgnore
     private SocialType socialType;
     private String nickname;
     @JsonIgnore
