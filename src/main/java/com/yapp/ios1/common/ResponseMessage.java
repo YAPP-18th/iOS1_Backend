@@ -24,4 +24,8 @@ public class ResponseMessage {
     public static final String NOT_MATCH_PASSWORD = "비밀번호 오류입니다.";
     public static final String BAD_SOCIAL_TYPE = "잘못된 소셜 타입입니다.";
 
+    // User
+    public static final String GET_USER_INFO = "마이페이지 정보입니다.";
+    public static final String GET_FRIEND_LIST = "친구 목록입니다.";
+    public static final String NO_FRIEND_LIST = "친구 목록이 없습니다.";
 }

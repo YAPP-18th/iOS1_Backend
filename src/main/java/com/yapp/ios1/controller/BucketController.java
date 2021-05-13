@@ -6,6 +6,7 @@ import com.yapp.ios1.dto.bucket.BucketRegisterDto;
 import com.yapp.ios1.service.BucketService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,8 @@ import javax.validation.Valid;
  */
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v2")
+@Api(tags = "Bucket")
 public class BucketController {
 
     private final BucketService bucketService;

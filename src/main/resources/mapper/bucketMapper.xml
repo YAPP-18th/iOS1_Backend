@@ -72,4 +72,22 @@
     <insert id="saveTag" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tag (tag_name) VALUES (#{tagName});
     </insert>
+
+    <select id="findBookmarkListByUserId" resultType="BookmarkDto">
+        SELECT b.id, b.bucket_name as bucketName, c.category_name as categoryName, b.end_date as endDate
+        FROM bucket b
+                 JOIN bookmark bm ON b.id = bm.bucket_id
+                 JOIN category c ON b.category_id = c.id
+        WHERE b.user_id = #{userId}
+        ORDER BY b.end_date DESC;
+    </select>
+
+    <select id="getBucketCountByUserIdAndPublic" resultType="int">
+        SELECT count(*) FROM bucket WHERE user_id = #{userId}
+        <choose>
+            <when test="!onlyPublic.equals(true)">
+                AND is_public = 1
+            </when>
+        </choose>
+    </select>
 </mapper>

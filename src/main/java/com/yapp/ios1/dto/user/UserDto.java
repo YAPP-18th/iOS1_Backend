@@ -1,10 +1,10 @@
 package com.yapp.ios1.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yapp.ios1.dto.user.social.SocialType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * created by jg 2021/03/28
@@ -15,11 +15,14 @@ import lombok.NoArgsConstructor;
 public class UserDto {
     private Long id;
     private String email;
+    @JsonIgnore
     private SocialType socialType;
     private String nickname;
+    @JsonIgnore
     private String password;
     private String intro;
     private String createdDate;
+    @JsonIgnore
     private String socialId;
 
     public UserDto(String email, SocialType socialType, String nickname, String password, String intro) {

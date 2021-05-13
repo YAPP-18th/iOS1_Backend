@@ -1,5 +1,6 @@
 package com.yapp.ios1.mapper;
 
+import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BucketRegisterDto;
 import com.yapp.ios1.dto.bucket.TagDto;
 import com.yapp.ios1.dto.bucket.BucketDto;
@@ -30,4 +31,8 @@ public interface BucketMapper {
                                                  @Param("userId") Long userId,
                                                  @Param("sort") String sort);
     int findByCategoryId(Long categoryId);
+
+    List<BookmarkDto> findBookmarkListByUserId(@Param("userId") Long userId);
+
+    int getBucketCountByUserIdAndPublic(@Param("userId") Long userId, @Param("onlyPublic") boolean onlyPublic);
 }

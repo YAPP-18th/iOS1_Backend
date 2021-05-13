@@ -9,8 +9,11 @@ import com.yapp.ios1.exception.user.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
+import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 import static com.yapp.ios1.common.ResponseMessage.*;
@@ -28,7 +32,7 @@ import static com.yapp.ios1.common.ResponseMessage.*;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("/api/v2/user")
+@RequestMapping("/api/v2/users")
 @Api(tags = "User")
 public class UserController {
 
@@ -43,7 +47,7 @@ public class UserController {
     @ApiOperation(
             value = "이메일 존재 여부"
     )
-    @PostMapping("/check-email")
+    @PostMapping("/email-check")
     public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) throws SQLException {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
         if (user.isEmpty()) {
@@ -60,7 +64,7 @@ public class UserController {
     @ApiOperation(
             value = "닉네임 존재 여부"
     )
-    @PostMapping("/check-nickname")
+    @PostMapping("/nickname-check")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) throws SQLException {
         Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
         if (user.isEmpty()) {
@@ -99,20 +103,43 @@ public class UserController {
     )
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException, SQLException {
-        UserDto userDto = userService.getMember(signInDto);
+        UserDto userDto = userService.getUser(signInDto);
         String token = jwtService.createToken(new JwtPayload(userDto.getId()));
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, new TokenDto(token));
         return ResponseEntity.ok().body(response);
     }
 
-    // 테스트 입니다 ~
+    /**
+     * 마이페이지
+     */
     @ApiOperation(
-            value = "인증 테스트"
+            value = "마이 페이지"
     )
     @Auth
-    @GetMapping("/test")
-    public ResponseEntity<ResponseDto> tokenTest() throws JsonProcessingException {
+    @GetMapping("/me")
+    public ResponseEntity<ResponseDto> getMyInfo() {
+        Long userId = UserContext.getCurrentUserId();
+
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, "테스트", new TokenDto(jwtService.createToken(new JwtPayload(1L)))));
+                .body(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getUserInfo(userId, false)));
     }
+
+    @ApiOperation(
+            value = "친구 리스트"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "친구 목록 존재하는 경우"),
+            @ApiResponse(code = 404, message = "친구 목록 존재하지 않는 경우"),
+    })
+    @GetMapping("/{userId}/friends")
+    public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
+        List<FriendDto> friendList = userService.getFriendList(userId);
+        if (friendList.size() == 0) {
+            return ResponseEntity.ok()
+                    .body(ResponseDto.of(HttpStatus.NOT_FOUND, NO_FRIEND_LIST));
+        }
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
+    }
+
 }
