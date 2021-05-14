@@ -10,6 +10,7 @@ import com.yapp.ios1.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;
+import com.yapp.ios1.utils.auth.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -108,6 +109,29 @@ public class UserService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public UserInfoDto getOtherUserInfo(Long userId) {
+        // currentUser 가져오기
+        Long currentUserId = UserContext.getCurrentUserId();
+
+        if (currentUserId.equals(userId)) { // 마이 페이지인 경우
+            return getUserInfo(userId, false);
+        }
+
+        UserInfoDto userInfo = getUserInfo(userId, true);
+
+        Optional<Long> checkFriend = followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId);
+
+        if (checkFriend.isEmpty()) { // 친구 아닌 경우
+            userInfo.setFriend(Boolean.FALSE);
+            return userInfo;
+        }
+
+        userInfo.setBucket(bucketService.getUserBucketList(userId, true));
+        userInfo.setFriend(Boolean.TRUE);
+
+        return userInfo;
+    }
 
     // 사용자 정보 get
     @Transactional(readOnly = true)

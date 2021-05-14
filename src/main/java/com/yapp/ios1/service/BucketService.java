@@ -30,6 +30,10 @@ public class BucketService {
         );
     }
 
+    public List<BucketDto> getUserBucketList(Long userId, boolean onlyPublic) {
+        return bucketMapper.findByUserIdAndIsPublic(userId, onlyPublic);
+    }
+
     // 버킷 등록
     @Transactional
     public void registerBucket(BucketRegisterDto registerDto) throws IOException, IllegalArgumentException {

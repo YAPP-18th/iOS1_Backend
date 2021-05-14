@@ -109,9 +109,6 @@ public class UserController {
         return ResponseEntity.ok().body(response);
     }
 
-    /**
-     * 마이페이지
-     */
     @ApiOperation(
             value = "마이 페이지"
     )
@@ -121,7 +118,17 @@ public class UserController {
         Long userId = UserContext.getCurrentUserId();
 
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getUserInfo(userId, false)));
+                .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId, false)));
+    }
+
+    @ApiOperation(
+            value = "사용자 페이지"
+    )
+    @Auth
+    @GetMapping("/{userId}")
+    public ResponseEntity<ResponseDto> getUserInfo(@PathVariable Long userId) {
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(userId)));
     }
 
     @ApiOperation(
