@@ -127,8 +127,14 @@ public class UserController {
     @Auth
     @GetMapping("/{userId}")
     public ResponseEntity<ResponseDto> getUserInfo(@PathVariable Long userId) {
+        Long currentUserId = UserContext.getCurrentUserId();
+        if (currentUserId.equals(userId)) {
+            return ResponseEntity.ok()
+                    .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId, false)));
+
+        }
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(userId)));
+                .body(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
     }
 
     @ApiOperation(
