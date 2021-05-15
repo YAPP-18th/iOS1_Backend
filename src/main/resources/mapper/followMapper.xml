@@ -15,5 +15,11 @@
                  JOIN user u ON f.follower_id = u.id
         WHERE following_id = #{userId};
     </select>
+
+    <select id="isFriendByCurrentUserIdAndUserId" resultType="Long">
+        SELECT id
+        FROM follow
+        WHERE following_id = #{currentUserId} AND follower_id = #{userId};
+    </select>
 </mapper>
 

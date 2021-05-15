@@ -42,6 +42,22 @@
         </choose>
     </select>
 
+    <select id="findByUserIdAndIsPublic" resultType="BucketDto">
+        SELECT b.id, b.bucket_name as bucketName,
+               b.start_date as startDate,
+               b.end_date as endDate,
+               b.bucket_state as bucketState,
+               c.category_name as categoryName
+        FROM bucket b JOIN category c
+                           ON b.category_id = c.id
+        WHERE b.user_id = #{userId}
+        <choose>
+            <when test="onlyPublic == true">
+                AND b.is_public = 1;
+            </when>
+        </choose>
+    </select>
+
     <select id="findByCategoryId" resultType="int">
         SELECT count(*) FROM category WHERE id = #{category};
     </select>
@@ -85,7 +101,7 @@
     <select id="getBucketCountByUserIdAndPublic" resultType="int">
         SELECT count(*) FROM bucket WHERE user_id = #{userId}
         <choose>
-            <when test="!onlyPublic.equals(true)">
+            <when test="onlyPublic == true">
                 AND is_public = 1
             </when>
         </choose>

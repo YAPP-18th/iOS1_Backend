@@ -30,6 +30,9 @@ public interface BucketMapper {
                                                  @Param("category") String category,
                                                  @Param("userId") Long userId,
                                                  @Param("sort") String sort);
+
+    List<BucketDto> findByUserIdAndIsPublic(Long userId, boolean onlyPublic);
+
     int findByCategoryId(Long categoryId);
 
     List<BookmarkDto> findBookmarkListByUserId(@Param("userId") Long userId);

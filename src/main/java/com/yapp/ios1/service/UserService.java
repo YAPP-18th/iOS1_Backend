@@ -108,6 +108,22 @@ public class UserService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public UserInfoDto getOtherUserInfo(Long currentUserId, Long userId) {
+        UserInfoDto userInfo = getUserInfo(userId, true);
+
+        Optional<Long> checkFriend = followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId);
+
+        if (checkFriend.isEmpty()) { // 친구 아닌 경우
+            userInfo.setFriend(Boolean.FALSE);
+            return userInfo;
+        }
+
+        userInfo.setBucket(bucketService.getUserBucketList(userId, true));
+        userInfo.setFriend(Boolean.TRUE);
+
+        return userInfo;
+    }
 
     // 사용자 정보 get
     @Transactional(readOnly = true)
