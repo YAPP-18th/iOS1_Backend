@@ -30,8 +30,8 @@ public class BucketService {
         );
     }
 
-    public List<BucketDto> getUserBucketList(Long userId, boolean onlyPublic) {
-        return bucketMapper.findByUserIdAndIsPublic(userId, onlyPublic);
+    public List<BucketDto> getUserBucketList(Long userId) {
+        return bucketMapper.findByUserId(userId);
     }
 
     // 버킷 등록
@@ -70,9 +70,8 @@ public class BucketService {
      * 버킷 수 가져오기
      *
      * @param userId 사용자 id
-     * @param onlyPublic 친구 페이지 : true, 마이 페이지 : false
      */
-    public int getBucketCountByUserIdAndPublic(Long userId, boolean onlyPublic) {
-        return bucketMapper.getBucketCountByUserIdAndPublic(userId, onlyPublic);
+    public int getBucketCountByUserId(Long userId) {
+        return bucketMapper.getBucketCountByUserId(userId);
     }
 }

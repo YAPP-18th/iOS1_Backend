@@ -16,7 +16,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.executor.ExecutorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -119,7 +118,7 @@ public class UserController {
         Long userId = UserContext.getCurrentUserId();
 
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId, false)));
+                .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
     }
 
     @ApiOperation(
@@ -131,7 +130,7 @@ public class UserController {
         Long currentUserId = UserContext.getCurrentUserId();
         if (currentUserId.equals(userId)) {
             return ResponseEntity.ok()
-                    .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId, false)));
+                    .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
 
         }
         return ResponseEntity.ok()

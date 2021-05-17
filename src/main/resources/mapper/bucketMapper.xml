@@ -42,7 +42,7 @@
         </choose>
     </select>
 
-    <select id="findByUserIdAndIsPublic" resultType="BucketDto">
+    <select id="findByUserId" resultType="BucketDto">
         SELECT b.id, b.bucket_name as bucketName,
                b.start_date as startDate,
                b.end_date as endDate,
@@ -51,11 +51,6 @@
         FROM bucket b JOIN category c
                            ON b.category_id = c.id
         WHERE b.user_id = #{userId}
-        <choose>
-            <when test="onlyPublic == true">
-                AND b.is_public = 1;
-            </when>
-        </choose>
     </select>
 
     <select id="findByCategoryId" resultType="int">
@@ -63,8 +58,8 @@
     </select>
 
     <insert id="registerBucket" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO bucket (bucket_name, bucket_content, start_date, end_date, bucket_state, is_public, user_id, category_id)
-        VALUES(#{bucketName}, #{content}, #{startDate}, #{endDate}, #{state}, #{isPublic}, #{userId}, #{categoryId});
+        INSERT INTO bucket (bucket_name, bucket_content, start_date, end_date, bucket_state, user_id, category_id)
+        VALUES(#{bucketName}, #{content}, #{startDate}, #{endDate}, #{state}, #{userId}, #{categoryId});
     </insert>
 
     <insert id="saveBucketImageUrlList" parameterType="java.util.ArrayList">
@@ -98,12 +93,7 @@
         ORDER BY b.end_date DESC;
     </select>
 
-    <select id="getBucketCountByUserIdAndPublic" resultType="int">
-        SELECT count(*) FROM bucket WHERE user_id = #{userId}
-        <choose>
-            <when test="onlyPublic == true">
-                AND is_public = 1
-            </when>
-        </choose>
+    <select id="getBucketCountByUserId" resultType="int">
+        SELECT count(*) FROM bucket WHERE user_id = #{userId};
     </select>
 </mapper>

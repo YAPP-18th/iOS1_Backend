@@ -31,11 +31,11 @@ public interface BucketMapper {
                                                  @Param("userId") Long userId,
                                                  @Param("sort") String sort);
 
-    List<BucketDto> findByUserIdAndIsPublic(Long userId, boolean onlyPublic);
+    List<BucketDto> findByUserId(Long userId);
 
     int findByCategoryId(Long categoryId);
 
     List<BookmarkDto> findBookmarkListByUserId(@Param("userId") Long userId);
 
-    int getBucketCountByUserIdAndPublic(@Param("userId") Long userId, @Param("onlyPublic") boolean onlyPublic);
+    int getBucketCountByUserId(@Param("userId") Long userId);
 }
