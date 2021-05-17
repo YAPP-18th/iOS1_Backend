@@ -22,4 +22,8 @@
     <select id="findByNickname" resultType="UserDto">
         SELECT * FROM user WHERE nickname = #{nickname};
     </select>
+
+    <select id="findBySocialId" resultType="UserDto">
+        SELECT * FROM user WHERE social_id = #{socialId};
+    </select>
 </mapper>

@@ -62,6 +62,19 @@ public class UserService {
     }
 
     /**
+     * 소셜 ID 존재하는지 확인
+     *
+     * @param socialId 소셜 아이디
+     */
+    public Optional<UserDto> socialIdCheck(String socialId) throws SQLException {
+        try {
+            return userMapper.findBySocialId(socialId);
+        } catch (Exception e) {
+            throw new SQLException(DATABASE_ERROR);
+        }
+    }
+
+    /**
      * 이메일 or 닉네임 중복 확인
      *
      * @param email    이메일
