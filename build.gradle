@@ -20,18 +20,22 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    // DataBase
+    runtimeOnly 'mysql:mysql-connector-java'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
+
+    // JWT
     implementation 'javax.xml.bind:jaxb-api'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'com.nimbusds:nimbus-jose-jwt:3.10'
-
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
+
+    implementation 'com.google.firebase:firebase-admin:6.8.1'
 
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
@@ -51,6 +55,9 @@ dependencies {
 
     // validation
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.4.5'
+
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 }
 
