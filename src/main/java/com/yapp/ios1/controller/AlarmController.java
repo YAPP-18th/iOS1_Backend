@@ -15,7 +15,7 @@ public class AlarmController {
 
     private final NotificationService notificationService;
 
-    // 삭제할 예정
+    // 삭제할 예정 (알람 테스트 입니다)
     @GetMapping("/alarm")
     public String testAlarm() {
         NotificationDto notificationDto = NotificationDto.builder()

@@ -62,7 +62,7 @@ public class NotificationService {
                 .setToken(token)
                 .build()).collect(Collectors.toList());
 
-        // 여러명 한테 보내기
+        // 여러명 알람 한테 보내기
         BatchResponse response;
         try {
             response = FirebaseMessaging.getInstance().sendAll(messages);
