@@ -40,12 +40,8 @@ public class UserService {
      *
      * @param email 이메일
      */
-    public Optional<UserDto> emailCheck(String email) throws SQLException {
-        try {
-            return userMapper.findByEmail(email);
-        } catch (Exception e) {
-            throw new SQLException(DATABASE_ERROR);
-        }
+    public Optional<UserDto> emailCheck(String email) {
+        return userMapper.findByEmail(email);
     }
 
     /**
@@ -53,12 +49,17 @@ public class UserService {
      *
      * @param nickname 닉네임
      */
-    public Optional<UserDto> nicknameCheck(String nickname) throws SQLException {
-        try {
-            return userMapper.findByNickname(nickname);
-        } catch (Exception e) {
-            throw new SQLException(DATABASE_ERROR);
-        }
+    public Optional<UserDto> nicknameCheck(String nickname) {
+        return userMapper.findByNickname(nickname);
+    }
+
+    /**
+     * 소셜 ID 존재하는지 확인
+     *
+     * @param socialId 소셜 아이디
+     */
+    public Optional<UserDto> socialIdCheck(String socialId) {
+        return userMapper.findBySocialId(socialId);
     }
 
     /**
@@ -92,20 +93,16 @@ public class UserService {
      * @param signInDto 로그인 정보
      * @return UserDto 비밀번호 확인까지 완료한 UserDto
      */
-    public UserDto getUser(SignInDto signInDto) throws SQLException {
-        try {
-            Optional<UserDto> optional = emailCheck(signInDto.getEmail());
-            if (optional.isEmpty()) {
-                throw new UserNotFoundException(NOT_EXIST_USER);
-            }
-            UserDto user = optional.get();
-            if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
-                return user;
-            }
-            throw new PasswordNotMatchException(NOT_MATCH_PASSWORD);
-        } catch (Exception e) {
-            throw new SQLException(DATABASE_ERROR);
+    public UserDto getUser(SignInDto signInDto) {
+        Optional<UserDto> optional = emailCheck(signInDto.getEmail());
+        if (optional.isEmpty()) {
+            throw new UserNotFoundException(NOT_EXIST_USER);
         }
+        UserDto user = optional.get();
+        if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
+            return user;
+        }
+        throw new PasswordNotMatchException(NOT_MATCH_PASSWORD);
     }
 
     @Transactional(readOnly = true)

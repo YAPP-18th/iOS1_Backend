@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yapp.ios1.dto.user.SignUpDto;
+import com.yapp.ios1.dto.user.social.AppleRequestDto;
 import com.yapp.ios1.dto.user.social.SocialType;
 import com.yapp.ios1.dto.user.social.UserCheckDto;
 import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.exception.user.UserDuplicatedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -16,10 +18,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.SQLException;
-import java.util.Locale;
+import java.text.ParseException;
 import java.util.Optional;
 
-import static com.yapp.ios1.common.ResponseMessage.BAD_SOCIAL_TYPE;
+import static com.yapp.ios1.common.ResponseMessage.*;
 import static com.yapp.ios1.dto.user.social.SocialType.*;
 
 /**
@@ -30,6 +32,7 @@ import static com.yapp.ios1.dto.user.social.SocialType.*;
 public class OauthService {
 
     private final UserService userService;
+    private final JwtService jwtService;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
@@ -42,15 +45,13 @@ public class OauthService {
     @Value("${social.url.kakao}")
     private String KAKAO_REQUEST_URL;
 
-    public UserCheckDto getSocialUser(String socialType, String accessToken) throws JsonProcessingException, SQLException {
+    public UserCheckDto getSocialUser(String socialType, String accessToken) throws JsonProcessingException {
         try {
             switch (SocialType.valueOf(socialType.toUpperCase())) {
                 case GOOGLE:
                     return getGoogleUser(accessToken);
                 case KAKAO:
                     return getKakaoUser(accessToken);
-                case APPLE:
-                    return getAppleUser(accessToken);
                 default:
                     return null;
             }
@@ -78,7 +79,7 @@ public class OauthService {
     }
 
     // 구글 로그인
-    private UserCheckDto getGoogleUser(String accessToken) throws JsonProcessingException, SQLException, HttpClientErrorException {
+    private UserCheckDto getGoogleUser(String accessToken) throws JsonProcessingException, HttpClientErrorException {
         JsonNode profile = getProfile(accessToken, GOOGLE_REQUEST_URL);
         String userEmail = profile.get("email").textValue();
 
@@ -96,7 +97,7 @@ public class OauthService {
     }
 
     // 카카오 로그인
-    private UserCheckDto getKakaoUser(String accessToken) throws JsonProcessingException, SQLException {
+    private UserCheckDto getKakaoUser(String accessToken) throws JsonProcessingException {
         JsonNode profile = getProfile(accessToken, KAKAO_REQUEST_URL);
         String userEmail = profile.get("kakao_account").get("email").textValue();
 
@@ -114,7 +115,27 @@ public class OauthService {
     }
 
     // 애플 로그인
-    private UserCheckDto getAppleUser(String accessToken) {
-        return null;
+    public UserCheckDto getAppleUser(AppleRequestDto appleUser) throws ParseException {
+
+        if (!jwtService.getSubject(appleUser.getIdentityToken()).equals(appleUser.getUserIdentity())) {
+            throw new IllegalArgumentException(SOCIAL_LOGIN_ERROR);
+        }
+
+        String socialId = appleUser.getUserIdentity();
+        Optional<UserDto> optionalUser = userService.socialIdCheck(socialId);
+
+        if (optionalUser.isEmpty()) {
+            if (userService.emailCheck(appleUser.getEmail()).isPresent()) { // 이메일 중복 확인
+                throw new UserDuplicatedException(EXIST_EMAIL);
+            }
+            SignUpDto signUpDto = SignUpDto.builder()
+                    .email(appleUser.getEmail())
+                    .socialType(APPLE)
+                    .password(BUOK_KEY)
+                    .socialId(appleUser.getUserIdentity())
+                    .build();
+            return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto))); // 회원가입
+        }
+        return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId()); // 로그인
     }
 }

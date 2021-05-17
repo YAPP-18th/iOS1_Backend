@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.text.ParseException;
+
 /**
  * created by jg 2021/05/05
  */
@@ -41,5 +43,12 @@ public class UserAdviceController {
     public ResponseEntity<ResponseDto> socialException() {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.SOCIAL_LOGIN_ERROR));
+    }
+
+    // JWT Parse 에러
+    @ExceptionHandler(ParseException.class) 
+    public ResponseEntity<ResponseDto> jwtException() {
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.BAD_JWT));
     }
 }

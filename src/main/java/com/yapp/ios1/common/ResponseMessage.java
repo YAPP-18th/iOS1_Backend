@@ -18,11 +18,13 @@ public class ResponseMessage {
     // Login
     public static final String LOGIN_SUCCESS = "액세스 토큰 발급";
     public static final String SOCIAL_LOGIN_ERROR = "소셜 로그인 실패입니다.";
+    public static final String EXIST_EMAIL = "존재하는 이메일입니다.";
     public static final String EXIST_USER = "존재하는 회원입니다.";
     public static final String NOT_EXIST_USER = "존재하지 않는 회원입니다.";
     public static final String SIGN_UP_SUCCESS = "회원가입 성공입니다.";
     public static final String NOT_MATCH_PASSWORD = "비밀번호 오류입니다.";
     public static final String BAD_SOCIAL_TYPE = "잘못된 소셜 타입입니다.";
+    public static final String BAD_JWT = "잘못된 JWT 입니다.";
 
     // User
     public static final String GET_MY_INFO = "마이페이지 정보입니다.";

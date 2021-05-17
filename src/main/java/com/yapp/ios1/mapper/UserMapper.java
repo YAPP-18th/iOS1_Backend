@@ -18,6 +18,8 @@ public interface UserMapper {
 
     Optional<UserDto> findByNickname(@Param("nickname") String nickname);
 
+    Optional<UserDto> findBySocialId(@Param("socialId") String socialId);
+
     Optional<UserDto> findByEmailOrNickname(@Param("email") String email, @Param("nickname") String nickname);
 
     void signUp(UserDto userDto);
