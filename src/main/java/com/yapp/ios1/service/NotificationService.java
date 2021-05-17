@@ -2,7 +2,6 @@ package com.yapp.ios1.service;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
 import com.yapp.ios1.common.ResponseMessage;
@@ -44,7 +43,6 @@ public class NotificationService {
                 log.info("Firebase Cloud Messaging 서비스를 성공적으로 초기화하였습니다.");
             }
 
-
         } catch (IOException e) {
             log.error("cannot initial firebase " + e.getMessage());
             throw new FirebaseNotInitException(ResponseMessage.FIREBASE_INIT_ERROR);
@@ -53,7 +51,7 @@ public class NotificationService {
 
     public void sendPushNotification(NotificationDto pushNotificationRequest) {
 
-        // 임시 테스트 (저의 DeviceToken)
+        // 임시 테스트 (저의 DeviceToken) => 지금은 테스트 삭제 예정
         List<String> tokens = Arrays.asList(
                 "cYm9R_j7ReuSFz6Z2xZT6r:APA91bFgFquTCqTFXFYDK69kNrS_dRTCxdIPw7frEyG8IfcQ9AyovzS8sz-dhjCJoQTwXKI0G_IvcMy4Ae80Woou5SyeMyJ8faJd2ifPR-JsuSJofMIduyfoEHUcOsLarOTOnR162PFI"
         );
