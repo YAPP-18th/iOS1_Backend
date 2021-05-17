@@ -2,9 +2,12 @@ package com.yapp.ios1.service;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
+import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.notification.NotificationDto;
+import com.yapp.ios1.exception.notification.FirebaseNotInitException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,9 +47,9 @@ public class NotificationService {
 
         } catch (IOException e) {
             log.error("cannot initial firebase " + e.getMessage());
+            throw new FirebaseNotInitException(ResponseMessage.FIREBASE_INIT_ERROR);
         }
     }
-
 
     public void sendPushNotification(NotificationDto pushNotificationRequest) {
 

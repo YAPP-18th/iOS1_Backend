@@ -29,4 +29,7 @@ public class ResponseMessage {
     public static final String GET_USER_INFO = "사용자페이지 정보입니다.";
     public static final String GET_FRIEND_LIST = "친구 목록입니다.";
     public static final String NO_FRIEND_LIST = "친구 목록이 없습니다.";
+
+    // Notification
+    public static final String FIREBASE_INIT_ERROR = "파이어베이스 초기화 오류입니다.";
 }
