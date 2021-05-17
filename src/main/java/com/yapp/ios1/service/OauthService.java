@@ -45,7 +45,7 @@ public class OauthService {
     @Value("${social.url.kakao}")
     private String KAKAO_REQUEST_URL;
 
-    public UserCheckDto getSocialUser(String socialType, String accessToken) throws JsonProcessingException, SQLException {
+    public UserCheckDto getSocialUser(String socialType, String accessToken) throws JsonProcessingException {
         try {
             switch (SocialType.valueOf(socialType.toUpperCase())) {
                 case GOOGLE:
@@ -79,7 +79,7 @@ public class OauthService {
     }
 
     // 구글 로그인
-    private UserCheckDto getGoogleUser(String accessToken) throws JsonProcessingException, SQLException, HttpClientErrorException {
+    private UserCheckDto getGoogleUser(String accessToken) throws JsonProcessingException, HttpClientErrorException {
         JsonNode profile = getProfile(accessToken, GOOGLE_REQUEST_URL);
         String userEmail = profile.get("email").textValue();
 
@@ -97,7 +97,7 @@ public class OauthService {
     }
 
     // 카카오 로그인
-    private UserCheckDto getKakaoUser(String accessToken) throws JsonProcessingException, SQLException {
+    private UserCheckDto getKakaoUser(String accessToken) throws JsonProcessingException {
         JsonNode profile = getProfile(accessToken, KAKAO_REQUEST_URL);
         String userEmail = profile.get("kakao_account").get("email").textValue();
 
@@ -115,7 +115,7 @@ public class OauthService {
     }
 
     // 애플 로그인
-    public UserCheckDto getAppleUser(AppleRequestDto appleUser) throws ParseException, SQLException {
+    public UserCheckDto getAppleUser(AppleRequestDto appleUser) throws ParseException {
 
         if (!jwtService.getSubject(appleUser.getIdentityToken()).equals(appleUser.getUserIdentity())) {
             throw new IllegalArgumentException(SOCIAL_LOGIN_ERROR);
@@ -126,7 +126,7 @@ public class OauthService {
 
         if (optionalUser.isEmpty()) {
             if (userService.emailCheck(appleUser.getEmail()).isPresent()) { // 이메일 중복 확인
-                throw new UserDuplicatedException(EXIST_USER);
+                throw new UserDuplicatedException(EXIST_EMAIL);
             }
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(appleUser.getEmail())

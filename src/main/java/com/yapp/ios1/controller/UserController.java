@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.executor.ExecutorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,7 @@ public class UserController {
             value = "이메일 존재 여부"
     )
     @PostMapping("/email-check")
-    public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) throws SQLException {
+    public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
         if (user.isEmpty()) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
@@ -65,7 +66,7 @@ public class UserController {
             value = "닉네임 존재 여부"
     )
     @PostMapping("/nickname-check")
-    public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) throws SQLException {
+    public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) {
         Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
         if (user.isEmpty()) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
@@ -102,7 +103,7 @@ public class UserController {
             value = "로그인"
     )
     @PostMapping("/signin")
-    public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException, SQLException {
+    public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException {
         UserDto userDto = userService.getUser(signInDto);
         String token = jwtService.createToken(new JwtPayload(userDto.getId()));
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, new TokenDto(token));
