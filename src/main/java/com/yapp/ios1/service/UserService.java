@@ -2,10 +2,10 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
-import com.yapp.ios1.dto.user.FriendDto;
-import com.yapp.ios1.dto.user.SignInDto;
+import com.yapp.ios1.dto.user.result.FriendDto;
+import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.UserInfoDto;
+import com.yapp.ios1.dto.user.result.UserInfoDto;
 import com.yapp.ios1.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.FollowMapper;

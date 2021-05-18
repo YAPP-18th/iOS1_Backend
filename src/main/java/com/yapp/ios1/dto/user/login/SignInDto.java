@@ -1,4 +1,4 @@
-package com.yapp.ios1.dto.user;
+package com.yapp.ios1.dto.user.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

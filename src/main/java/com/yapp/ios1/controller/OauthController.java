@@ -3,9 +3,9 @@ package com.yapp.ios1.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.JwtPayload;
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.user.social.AppleRequestDto;
-import com.yapp.ios1.dto.user.social.UserCheckDto;
-import com.yapp.ios1.dto.user.TokenDto;
+import com.yapp.ios1.dto.user.login.social.AppleRequestDto;
+import com.yapp.ios1.dto.user.check.UserCheckDto;
+import com.yapp.ios1.dto.user.login.TokenDto;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.OauthService;
 import io.swagger.annotations.Api;
@@ -33,7 +33,7 @@ public class OauthController {
     private final JwtService jwtService;
 
     @PostMapping("/{social_type}")
-    public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") String socialType, @RequestBody TokenDto tokenDto) throws JsonProcessingException, SQLException {
+    public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") String socialType, @RequestBody TokenDto tokenDto) throws JsonProcessingException {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, tokenDto.getAccessToken());
 
         String token = jwtService.createToken(new JwtPayload(checkDto.getUserId()));
@@ -43,7 +43,7 @@ public class OauthController {
     }
 
     @PostMapping("/apple")
-    public ResponseEntity<ResponseDto> appleLogin(@RequestBody AppleRequestDto appleUser) throws JsonProcessingException, SQLException, ParseException {
+    public ResponseEntity<ResponseDto> appleLogin(@RequestBody AppleRequestDto appleUser) throws JsonProcessingException, ParseException {
         UserCheckDto checkDto = oauthService.getAppleUser(appleUser);
 
         String token = jwtService.createToken(new JwtPayload(checkDto.getUserId()));

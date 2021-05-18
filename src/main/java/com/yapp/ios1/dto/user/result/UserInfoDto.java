@@ -1,8 +1,9 @@
-package com.yapp.ios1.dto.user;
+package com.yapp.ios1.dto.user.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
 import com.yapp.ios1.dto.bucket.BucketDto;
+import com.yapp.ios1.dto.user.UserDto;
 import lombok.Builder;
 import lombok.Getter;
 

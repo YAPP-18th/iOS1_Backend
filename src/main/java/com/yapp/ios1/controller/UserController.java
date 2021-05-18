@@ -2,9 +2,14 @@ package com.yapp.ios1.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.JwtPayload;
-import com.yapp.ios1.dto.user.NicknameCheckDto;
+import com.yapp.ios1.dto.user.check.EmailCheckDto;
+import com.yapp.ios1.dto.user.check.NicknameCheckDto;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.*;
+import com.yapp.ios1.dto.user.login.SignInDto;
+import com.yapp.ios1.dto.user.login.SignUpDto;
+import com.yapp.ios1.dto.user.login.TokenDto;
+import com.yapp.ios1.dto.user.result.FriendDto;
 import com.yapp.ios1.exception.user.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
