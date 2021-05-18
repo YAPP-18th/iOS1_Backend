@@ -27,6 +27,7 @@ public class UserDto {
     private String socialId;
     @JsonIgnore
     private String deviceToken;
+    private String profileUrl;
 
     public UserDto(String email, SocialType socialType, String nickname, String password, String intro) {
         this.email = email;

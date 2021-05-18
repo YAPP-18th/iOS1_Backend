@@ -2,6 +2,8 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
+import com.yapp.ios1.dto.user.ProfileDto;
+import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.result.FriendDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.UserDto;
@@ -12,10 +14,13 @@ import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -31,9 +36,13 @@ import static com.yapp.ios1.common.ResponseMessage.*;
 public class UserService {
 
     private final BucketService bucketService;
+    private final S3Service s3Service;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final FollowMapper followMapper;
+
+    @Value("${buok.s3.dir.profile}")
+    private String profileDir;
 
     /**
      * 이메일 존재하는지 확인
@@ -103,6 +112,25 @@ public class UserService {
             return user;
         }
         throw new PasswordNotMatchException(NOT_MATCH_PASSWORD);
+    }
+
+    // 프로필 정보 GET
+    public ProfileResultDto getProfile(Long userId) {
+        Optional<ProfileResultDto> optional = userMapper.findProfileByUserId(userId);
+        if (optional.isEmpty()) {
+            throw new UserNotFoundException(NOT_EXIST_USER);
+        }
+        return optional.get();
+    }
+
+    // 프로필 업데이트
+    @Transactional
+    public void updateProfile(ProfileDto profileDto, MultipartFile profileImage, Long userId) throws IOException {
+        profileDto.setUserId(userId);
+        if (profileImage != null) {
+            profileDto.setProfileUrl(s3Service.upload(profileImage, profileDir));
+        }
+        userMapper.updateProfile(profileDto);
     }
 
     @Transactional(readOnly = true)
