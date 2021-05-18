@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.text.ParseException;
 
 import static com.yapp.ios1.common.ResponseMessage.LOGIN_SUCCESS;
@@ -33,7 +32,8 @@ public class OauthController {
     private final JwtService jwtService;
 
     @PostMapping("/{social_type}")
-    public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") String socialType, @RequestBody TokenDto tokenDto) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") String socialType,
+                                                   @RequestBody TokenDto tokenDto) throws JsonProcessingException {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, tokenDto.getAccessToken());
 
         String token = jwtService.createToken(new JwtPayload(checkDto.getUserId()));

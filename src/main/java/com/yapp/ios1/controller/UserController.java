@@ -24,7 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -112,6 +114,19 @@ public class UserController {
         String token = jwtService.createToken(new JwtPayload(userDto.getId()));
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, new TokenDto(token));
         return ResponseEntity.ok().body(response);
+    }
+
+    @Auth
+    @ApiOperation(
+            value = "프로필 수정",
+            notes = "포스트맨에서 테스트 가능"
+    )
+    @PutMapping("")
+    public ResponseEntity<ResponseDto> updateProfile(@RequestPart(value = "profileImage", required = false) MultipartFile profileImage,
+                                                     @RequestPart ProfileDto profile) throws IOException {
+        Long userId = UserContext.getCurrentUserId();
+        userService.updateProfile(profile, profileImage, userId);
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, PROFILE_UPDATE_SUCCESS));
     }
 
     @ApiOperation(

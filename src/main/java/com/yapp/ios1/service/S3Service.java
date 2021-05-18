@@ -11,14 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * created by ayoung 2021/03/29
@@ -35,20 +31,20 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${buok.s3.dir}")
-    private String dirName;
+    @Value("${buok.s3.dir.bucket}")
+    private String bucketDir;
 
     public List<String> upload(MultipartFile[] multipartFileList) throws IOException {
         List<String> imageUrlList = new ArrayList<>();
         if (multipartFileList != null) {
             for (MultipartFile multipartFile : multipartFileList) {
-                imageUrlList.add(upload(multipartFile));
+                imageUrlList.add(upload(multipartFile, bucketDir));
             }
         }
         return imageUrlList;
     }
 
-    public String upload(MultipartFile file) throws IOException {
+    public String upload(MultipartFile file, String dirName) throws IOException {
         String fileName = file.getOriginalFilename();
 
         ObjectMetadata objMeta = new ObjectMetadata();
@@ -60,6 +56,7 @@ public class S3Service {
 
         s3Client.putObject(new PutObjectRequest(bucket, dirName + fileName, byteArrayIs, objMeta)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
+
         return s3Client.getUrl(bucket, fileName).toString();
     }
 }

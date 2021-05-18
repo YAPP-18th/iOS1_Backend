@@ -55,7 +55,10 @@ public class BucketController {
      * @param bucket    버킷 등록 정보
      * @param imageList 버킷 이미지 리스트
      */
-    @ApiOperation(value = "버킷 등록")
+    @ApiOperation(
+            value = "버킷 등록",
+            notes = "포스트맨에서 테스트 가능"
+    )
     @Auth
     @PostMapping("/buckets")
     public ResponseEntity<ResponseDto> registerBucket(@RequestPart(value = "image", required = false) MultipartFile[] imageList,

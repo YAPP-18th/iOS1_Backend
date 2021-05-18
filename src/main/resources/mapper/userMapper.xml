@@ -26,4 +26,12 @@
     <select id="findBySocialId" resultType="UserDto">
         SELECT * FROM user WHERE social_id = #{socialId};
     </select>
+
+    <update id="updateProfile">
+        UPDATE user
+        SET nickname    = #{nickname},
+            intro       = #{intro},
+            profile_url = #{profileUrl}
+        WHERE id = #{userId};
+    </update>
 </mapper>
