@@ -2,10 +2,10 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
-import com.yapp.ios1.dto.user.FriendDto;
-import com.yapp.ios1.dto.user.SignInDto;
+import com.yapp.ios1.dto.user.result.FriendDto;
+import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.UserInfoDto;
+import com.yapp.ios1.dto.user.result.UserInfoDto;
 import com.yapp.ios1.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.FollowMapper;
@@ -107,7 +107,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserInfoDto getOtherUserInfo(Long currentUserId, Long userId) {
-        UserInfoDto userInfo = getUserInfo(userId, true);
+        UserInfoDto userInfo = getUserInfo(userId);
 
         Optional<Long> checkFriend = followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId);
 
@@ -116,7 +116,7 @@ public class UserService {
             return userInfo;
         }
 
-        userInfo.setBucket(bucketService.getUserBucketList(userId, true));
+        userInfo.setBucket(bucketService.getUserBucketList(userId));
         userInfo.setFriend(Boolean.TRUE);
 
         return userInfo;
@@ -124,7 +124,7 @@ public class UserService {
 
     // 사용자 정보 get
     @Transactional(readOnly = true)
-    public UserInfoDto getUserInfo(Long userId, boolean onlyPublic) {
+    public UserInfoDto getUserInfo(Long userId) {
         // 프로필 정보
         Optional<UserDto> optionalUser = userMapper.findByUserId(userId);
         if (optionalUser.isEmpty()) {
@@ -133,7 +133,7 @@ public class UserService {
 
         // 친구 수, 버킷 수
         int friendCount = followMapper.getFollowCountByUserId(userId);
-        int bucketCount = bucketService.getBucketCountByUserIdAndPublic(userId, onlyPublic);
+        int bucketCount = bucketService.getBucketCountByUserId(userId);
 
         // 북마크 수, 북마크
         List<BookmarkDto> bookmarkList = bucketService.getBookmarkList(userId);

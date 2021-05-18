@@ -1,7 +1,8 @@
 package com.yapp.ios1.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.yapp.ios1.dto.user.social.SocialType;
+import com.yapp.ios1.dto.user.login.SignUpDto;
+import com.yapp.ios1.dto.user.login.social.SocialType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class UserDto {
     private String createdDate;
     @JsonIgnore
     private String socialId;
+    @JsonIgnore
     private String deviceToken;
 
     public UserDto(String email, SocialType socialType, String nickname, String password, String intro) {

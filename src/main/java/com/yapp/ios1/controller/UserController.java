@@ -2,9 +2,14 @@ package com.yapp.ios1.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.JwtPayload;
-import com.yapp.ios1.dto.user.NicknameCheckDto;
+import com.yapp.ios1.dto.user.check.EmailCheckDto;
+import com.yapp.ios1.dto.user.check.NicknameCheckDto;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.*;
+import com.yapp.ios1.dto.user.login.SignInDto;
+import com.yapp.ios1.dto.user.login.SignUpDto;
+import com.yapp.ios1.dto.user.login.TokenDto;
+import com.yapp.ios1.dto.user.result.FriendDto;
 import com.yapp.ios1.exception.user.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
@@ -16,7 +21,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.executor.ExecutorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -119,7 +123,7 @@ public class UserController {
         Long userId = UserContext.getCurrentUserId();
 
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId, false)));
+                .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
     }
 
     @ApiOperation(
@@ -131,7 +135,7 @@ public class UserController {
         Long currentUserId = UserContext.getCurrentUserId();
         if (currentUserId.equals(userId)) {
             return ResponseEntity.ok()
-                    .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId, false)));
+                    .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
 
         }
         return ResponseEntity.ok()

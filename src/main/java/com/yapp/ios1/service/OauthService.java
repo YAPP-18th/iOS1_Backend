@@ -3,10 +3,10 @@ package com.yapp.ios1.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yapp.ios1.dto.user.SignUpDto;
-import com.yapp.ios1.dto.user.social.AppleRequestDto;
-import com.yapp.ios1.dto.user.social.SocialType;
-import com.yapp.ios1.dto.user.social.UserCheckDto;
+import com.yapp.ios1.dto.user.login.SignUpDto;
+import com.yapp.ios1.dto.user.login.social.AppleRequestDto;
+import com.yapp.ios1.dto.user.login.social.SocialType;
+import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.exception.user.UserDuplicatedException;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Optional;
 
 import static com.yapp.ios1.common.ResponseMessage.*;
-import static com.yapp.ios1.dto.user.social.SocialType.*;
+import static com.yapp.ios1.dto.user.login.social.SocialType.*;
 
 /**
  * created by ayoung 2021/05/04

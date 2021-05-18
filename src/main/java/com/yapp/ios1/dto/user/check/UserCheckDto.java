@@ -1,4 +1,4 @@
-package com.yapp.ios1.dto.user.social;
+package com.yapp.ios1.dto.user.check;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -22,7 +22,7 @@ public class UserAdviceController {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ResponseDto> userNotFoundException(UserNotFoundException e) {
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
+                .body(ResponseDto.of(HttpStatus.NOT_FOUND, e.getMessage()));
     }
 
     // 이메일 중복 회원가입
