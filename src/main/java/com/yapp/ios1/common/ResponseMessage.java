@@ -27,7 +27,8 @@ public class ResponseMessage {
     public static final String BAD_JWT = "잘못된 JWT 입니다.";
 
     // User
-    public static final String PROFILE_UPDATE_SUCCESS = "프로필 수정 완료.";
+    public static final String GET_PROFILE_SUCCESS = "프로필 가져오기 성공.";
+    public static final String UPDATE_PROFILE_SUCCESS = "프로필 수정 성공.";
     public static final String GET_MY_INFO = "마이페이지 정보입니다.";
     public static final String GET_USER_INFO = "사용자페이지 정보입니다.";
     public static final String GET_FRIEND_LIST = "친구 목록입니다.";

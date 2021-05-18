@@ -118,6 +118,16 @@ public class UserController {
 
     @Auth
     @ApiOperation(
+            value = "프로필 가져오기"
+    )
+    @GetMapping("")
+    public ResponseEntity<ResponseDto> getProfile() {
+        Long userId = UserContext.getCurrentUserId();
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK,GET_PROFILE_SUCCESS, userService.getProfile(userId)));
+    }
+
+    @Auth
+    @ApiOperation(
             value = "프로필 수정",
             notes = "포스트맨에서 테스트 가능"
     )
@@ -126,7 +136,7 @@ public class UserController {
                                                      @RequestPart ProfileDto profile) throws IOException {
         Long userId = UserContext.getCurrentUserId();
         userService.updateProfile(profile, profileImage, userId);
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, PROFILE_UPDATE_SUCCESS));
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, UPDATE_PROFILE_SUCCESS));
     }
 
     @ApiOperation(

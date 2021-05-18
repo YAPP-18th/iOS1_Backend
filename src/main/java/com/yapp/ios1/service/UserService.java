@@ -3,6 +3,7 @@ package com.yapp.ios1.service;
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
 import com.yapp.ios1.dto.user.ProfileDto;
+import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.result.FriendDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.UserDto;
@@ -111,6 +112,15 @@ public class UserService {
             return user;
         }
         throw new PasswordNotMatchException(NOT_MATCH_PASSWORD);
+    }
+
+    // 프로필 정보 GET
+    public ProfileResultDto getProfile(Long userId) {
+        Optional<ProfileResultDto> optional = userMapper.findProfileByUserId(userId);
+        if (optional.isEmpty()) {
+            throw new UserNotFoundException(NOT_EXIST_USER);
+        }
+        return optional.get();
     }
 
     // 프로필 업데이트

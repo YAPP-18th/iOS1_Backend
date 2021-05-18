@@ -1,6 +1,7 @@
 package com.yapp.ios1.mapper;
 
 import com.yapp.ios1.dto.user.ProfileDto;
+import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,6 +23,8 @@ public interface UserMapper {
     Optional<UserDto> findBySocialId(@Param("socialId") String socialId);
 
     Optional<UserDto> findByEmailOrNickname(@Param("email") String email, @Param("nickname") String nickname);
+
+    Optional<ProfileResultDto> findProfileByUserId(@Param("userId") Long userId);
 
     void updateProfile(ProfileDto profileDto);
 
