@@ -38,10 +38,4 @@ public class AdviceController {
                 .body(ResponseDto.of(HttpStatus.INTERNAL_SERVER_ERROR, ResponseMessage.DATABASE_ERROR));
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseDto> exception(Exception e) {
-        log.info(e.getMessage());
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.INTERNAL_SERVER_ERROR, ResponseMessage.INTERNAL_SERVER_ERROR));
-    }
 }
