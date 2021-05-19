@@ -37,7 +37,7 @@ public class SearchController {
             case "my":
                 return ok.body(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS_SEARCH, searchService.searchMyBook(userId)));
             case "user":
-                return ok.body(ResponseDto.of(HttpStatus.OK, ResponseMessage.NOT_FOUND_SEARCH_TYPE,  searchService.searchUser(userId)));
+                return ok.body(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS_SEARCH,  searchService.searchUser(userId)));
             case "mark":
                 return ok.body(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS_SEARCH, searchService.searchBookMark(userId)));
             default:

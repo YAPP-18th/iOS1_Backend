@@ -7,5 +7,8 @@ import lombok.Getter;
  */
 @Getter
 public class UserSearchDto {
-
+    private Long userId;
+    private String nickName;
+    private String intro;
+    private String friendStatus;  // String or int
 }
