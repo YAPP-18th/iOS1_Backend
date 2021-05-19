@@ -23,8 +23,7 @@ public class SearchService {
     }
 
     public List<UserSearchDto> searchUser(Long userId) {
-        searchMapper.searchUser(userId);
-        return null;
+        return searchMapper.searchUser(userId);
     }
 
     public List<BookMarkSearchDto> searchBookMark(Long userId) {

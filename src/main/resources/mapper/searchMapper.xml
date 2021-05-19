@@ -12,5 +12,9 @@
         FROM bucket
         WHERE user_id = #{userId};
     </select>
+
+    <select id="searchUser" resultType="com.yapp.ios1.dto.search.UserSearchDto">
+
+    </select>
 </mapper>
 
