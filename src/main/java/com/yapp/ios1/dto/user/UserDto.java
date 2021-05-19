@@ -5,10 +5,12 @@ import com.yapp.ios1.dto.user.social.SocialType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * created by jg 2021/03/28
  */
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Builder

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yapp.ios1.mapper.SearchMapper">
+    <select id="searchMyBook" resultType="com.yapp.ios1.dto.search.MyBookSearchDto">
+        SELECT id,
+               bucket_name as bucketName,
+               start_date as startDate,
+               end_date as endDate,
+               bucket_state as bucketState
+        FROM bucket
+        WHERE user_id = #{userId};
+    </select>
+</mapper>
+
