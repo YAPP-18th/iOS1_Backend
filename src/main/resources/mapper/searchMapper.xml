@@ -66,7 +66,6 @@
         WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%")
               OR c.category_name LIKE CONCAT("%", #{keyword}, "%"))
               AND u.id NOT IN (#{userId})
-              AND friend_status = #{friendStatus}
     </select>
 </mapper>
 

@@ -5,7 +5,9 @@ import com.yapp.ios1.mapper.SearchMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static com.yapp.ios1.dto.search.FriendStatus.*;
 
@@ -22,12 +24,22 @@ public class SearchService {
         return searchMapper.searchMyBook(keyword, userId);
     }
 
-    public SearchUserResultDto searchUser(String keyword, Long userId) {
+    public List<UserSearchDto> searchUser(String keyword, Long userId) {
         List<UserSearchDto> friendUsers = searchMapper.searchUser(keyword, userId, FRIEND.getFriendStatus());
         List<UserSearchDto> requestFriendUsers = searchMapper.searchUser(keyword, userId, REQUEST.getFriendStatus());
         List<UserSearchDto> noFriendUsers = searchMapper.searchNoFriends(keyword, userId);
         setFriendStatus(noFriendUsers);
-        return new SearchUserResultDto(friendUsers, requestFriendUsers, noFriendUsers);
+        return searchResult(friendUsers, requestFriendUsers, noFriendUsers);
+    }
+
+    private List<UserSearchDto> searchResult(List<UserSearchDto> friendUsers,
+                                             List<UserSearchDto> requestFriendUsers,
+                                             List<UserSearchDto> noFriendUsers) {
+        List<UserSearchDto> list = new ArrayList<>();
+        list.addAll(friendUsers);
+        list.addAll(requestFriendUsers);
+        list.addAll(noFriendUsers);
+        return list;
     }
 
     private void setFriendStatus(List<UserSearchDto> noFriendUsers) {

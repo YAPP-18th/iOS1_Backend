@@ -11,7 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class SearchUserResultDto {
-    private List<UserSearchDto> friendUsers;
-    private List<UserSearchDto> requestUsers;
-    private List<UserSearchDto> noFriendUsers;
+    private List<UserSearchDto> searchs;
 }
