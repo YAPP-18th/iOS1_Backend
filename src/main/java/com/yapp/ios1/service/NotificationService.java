@@ -34,7 +34,8 @@ public class NotificationService {
     public void init() {
         try {
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(accountPath).getInputStream())).build();
+                    .setCredentials(GoogleCredentials.
+                            fromStream(new ClassPathResource(accountPath).getInputStream())).build();
 
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);

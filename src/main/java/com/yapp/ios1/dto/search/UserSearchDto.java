@@ -10,7 +10,7 @@ public class UserSearchDto {
     private Long userId;
     private String nickName;
     private String intro;
-    private String friendStatus;  // String or int
+    private String friendStatus = "친구아님";  // String or int
 
     public void setFriendStatus(String friendStatus) {
         this.friendStatus = friendStatus;

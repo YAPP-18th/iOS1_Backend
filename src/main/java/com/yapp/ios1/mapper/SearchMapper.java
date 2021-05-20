@@ -1,6 +1,7 @@
 package com.yapp.ios1.mapper;
 
 import com.yapp.ios1.dto.search.BookMarkSearchDto;
+import com.yapp.ios1.dto.search.FriendDto;
 import com.yapp.ios1.dto.search.MyBookSearchDto;
 import com.yapp.ios1.dto.search.UserSearchDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,8 +15,12 @@ import java.util.List;
 @Mapper
 public interface SearchMapper {
 
-    List<UserSearchDto> searchUser(@Param("keyword") String keyword, @Param("userId") Long userId);
+    List<UserSearchDto> searchUser(@Param("keyword") String keyword,
+                                   @Param("userId") Long userId,
+                                   @Param("friendStatus") boolean friendStatus);
+    List<UserSearchDto> searchNoFriends(@Param("keyword") String keyword,
+                                        @Param("userId") Long userId);
+
     List<MyBookSearchDto> searchMyBook(@Param("keyword") String keyword, @Param("userId") Long userId);
     List<BookMarkSearchDto> searchBookMark(@Param("keyword") String keyword, @Param("userId") Long userId);
-    int checkFriendStatus(Long userId);
 }

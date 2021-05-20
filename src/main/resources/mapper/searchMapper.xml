@@ -20,12 +20,31 @@
     </select>
 
     <select id="searchUser" resultType="com.yapp.ios1.dto.search.UserSearchDto">
-        SELECT id as userId,
-               nickname,
-               intro
-        FROM user
-        WHERE nickname LIKE CONCAT("%", #{keyword}, "%")
-          ABD id NOT IN (#{userId})
+        SELECT u.id as userId,
+               u.nickname,
+               u.intro
+        FROM user u
+            JOIN follow f
+                ON u.id = f.follower_id
+        WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%")
+          OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
+          AND u.id NOT IN (#{userId})
+          AND f.friend_status = #{friendStatus}
+    </select>
+    
+    <select id="searchNoFriends" resultType="com.yapp.ios1.dto.search.UserSearchDto">
+        SELECT u.id as userId,
+               u.nickname,
+               u.intro
+        FROM user u
+        WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%")
+            OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
+          AND u.id NOT IN (#{userId})
+          AND u.id NOT IN (
+              select u.id from user u
+              JOIN follow f
+              ON u.id = f.follower_id
+          )
     </select>
 
     <select id="searchBookMark" resultType="com.yapp.ios1.dto.search.BookMarkSearchDto">
@@ -49,6 +68,7 @@
         WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%")
               OR c.category_name LIKE CONCAT("%", #{keyword}, "%"))
               AND u.id NOT IN (#{userId})
+              AND friend_status = #{friendStatus}
     </select>
 </mapper>
 
