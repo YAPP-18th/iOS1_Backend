@@ -25,11 +25,11 @@
                intro
         FROM user
         WHERE nickname LIKE CONCAT("%", #{keyword}, "%")
-          ABD id NOT IN (SELECT id FROM user WHERE id = #{userId})
+          ABD id NOT IN (#{userId})
     </select>
 
     <select id="searchBookMark" resultType="com.yapp.ios1.dto.search.BookMarkSearchDto">
-        SELECT b.id as bucketId,
+        SELECT DISTINCT (b.id) as bucketId,
                u.id as userId,
                b.bucket_name as bucketName,
                b.bucket_state as bucketState,
@@ -48,7 +48,7 @@
                 ON b.category_id = c.id
         WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%")
               OR c.category_name LIKE CONCAT("%", #{keyword}, "%"))
-              AND u.id NOT IN (SELECT id FROM user WHERE id = #{userId})
+              AND u.id NOT IN (#{userId})
     </select>
 </mapper>
 
