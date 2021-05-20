@@ -14,20 +14,19 @@
                 ON b.id = bt.bucket_id
             JOIN tag t
                 ON bt.tag_id = t.id
-        WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%")
-            OR t.tag_name LIKE CONCAT("%", #{keyword}, "%"))
+        WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%") OR t.tag_name LIKE CONCAT("%", #{keyword}, "%"))
             AND user_id = #{userId}
     </select>
 
     <select id="searchUser" resultType="com.yapp.ios1.dto.search.UserSearchDto">
         SELECT u.id as userId,
                u.nickname,
-               u.intro
+               u.intro,
+               f.friend_status as isFriend
         FROM user u
             JOIN follow f
                 ON u.id = f.follower_id
-        WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%")
-          OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
+        WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
           AND u.id NOT IN (#{userId})
           AND f.friend_status = #{friendStatus}
     </select>
@@ -37,8 +36,7 @@
                u.nickname,
                u.intro
         FROM user u
-        WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%")
-            OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
+        WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
           AND u.id NOT IN (#{userId})
           AND u.id NOT IN (
               select u.id from user u

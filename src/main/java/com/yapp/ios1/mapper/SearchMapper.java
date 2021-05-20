@@ -1,7 +1,6 @@
 package com.yapp.ios1.mapper;
 
 import com.yapp.ios1.dto.search.BookMarkSearchDto;
-import com.yapp.ios1.dto.search.FriendDto;
 import com.yapp.ios1.dto.search.MyBookSearchDto;
 import com.yapp.ios1.dto.search.UserSearchDto;
 import org.apache.ibatis.annotations.Mapper;
