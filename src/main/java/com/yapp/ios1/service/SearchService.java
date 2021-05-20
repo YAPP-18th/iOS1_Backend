@@ -7,15 +7,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.yapp.ios1.dto.search.FriendStatus.*;
+
 /**
  * created by jg 2021/05/17
  */
 @RequiredArgsConstructor
 @Service
 public class SearchService {
-
-    private static final boolean FRIEND = true;
-    private static final boolean FRIEND_REQUEST = false;
 
     private final SearchMapper searchMapper;
 
@@ -24,10 +23,17 @@ public class SearchService {
     }
 
     public SearchUserResultDto searchUser(String keyword, Long userId) {
-        List<UserSearchDto> friendUsers = searchMapper.searchUser(keyword, userId, FRIEND);
-        List<UserSearchDto> requestFriendUsers = searchMapper.searchUser(keyword, userId, FRIEND_REQUEST);
+        List<UserSearchDto> friendUsers = searchMapper.searchUser(keyword, userId, FRIEND.getFriendStatus());
+        List<UserSearchDto> requestFriendUsers = searchMapper.searchUser(keyword, userId, REQUEST.getFriendStatus());
         List<UserSearchDto> noFriendUsers = searchMapper.searchNoFriends(keyword, userId);
+        setFriendStatus(noFriendUsers);
         return new SearchUserResultDto(friendUsers, requestFriendUsers, noFriendUsers);
+    }
+
+    private void setFriendStatus(List<UserSearchDto> noFriendUsers) {
+        noFriendUsers.forEach(userSearchDto -> {
+            userSearchDto.setFriendStatus(NO_FRIENDS.getFriendStatus());
+        });
     }
 
     public List<BookMarkSearchDto> searchBookMark(String keyword, Long userId) {

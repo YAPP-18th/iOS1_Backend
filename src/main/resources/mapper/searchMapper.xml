@@ -22,7 +22,7 @@
         SELECT u.id as userId,
                u.nickname,
                u.intro,
-               f.friend_status as isFriend
+               f.friend_status as friendStatus
         FROM user u
             JOIN follow f
                 ON u.id = f.follower_id

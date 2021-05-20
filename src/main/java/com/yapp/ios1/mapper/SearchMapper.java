@@ -16,7 +16,7 @@ public interface SearchMapper {
 
     List<UserSearchDto> searchUser(@Param("keyword") String keyword,
                                    @Param("userId") Long userId,
-                                   @Param("friendStatus") boolean friendStatus);
+                                   @Param("friendStatus") String friendStatus);
     List<UserSearchDto> searchNoFriends(@Param("keyword") String keyword,
                                         @Param("userId") Long userId);
 
