@@ -23,11 +23,15 @@ public class SearchService {
     }
 
     public List<UserSearchDto> searchUser(Long userId) {
+        checkFriendStatus(userId);
         return searchMapper.searchUser(userId);
     }
 
+    private void checkFriendStatus(Long userId) {
+        int friendStatusCount = searchMapper.checkFriendStatus(userId);
+    }
+
     public List<BookMarkSearchDto> searchBookMark(Long userId) {
-        searchMapper.searchBookMark(userId);
-        return null;
+        return searchMapper.searchBookMark(userId);
     }
 }

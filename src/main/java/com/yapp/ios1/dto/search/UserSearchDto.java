@@ -11,4 +11,8 @@ public class UserSearchDto {
     private String nickName;
     private String intro;
     private String friendStatus;  // String or int
+
+    public void setFriendStatus(String friendStatus) {
+        this.friendStatus = friendStatus;
+    }
 }

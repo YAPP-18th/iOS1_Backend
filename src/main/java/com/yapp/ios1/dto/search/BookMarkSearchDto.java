@@ -7,4 +7,10 @@ import lombok.Getter;
  */
 @Getter
 public class BookMarkSearchDto {
+    private Long bucketId;
+    private Long userId;
+    private String bucketName;
+    private String bucketState;
+    private String endDate;
+    private String userProfileUrl;
 }
