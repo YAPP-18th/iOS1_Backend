@@ -28,13 +28,13 @@ public class SearchController {
      * @return
      */
     @Auth
-    @GetMapping("")
-    public ResponseEntity<ResponseDto> search(@RequestParam("search") String search,
+    @GetMapping("/search")
+    public ResponseEntity<ResponseDto> search(@RequestParam("type") String type,
                                               @RequestParam("keyword") String keyword) {
         ResponseEntity.BodyBuilder ok = ResponseEntity.ok();
         Long userId = UserContext.getCurrentUserId();
 
-        switch (search) {
+        switch (type) {
             case "my":
                 return ok.body(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS_SEARCH, searchService.searchMyBook(keyword, userId)));
             case "user":
