@@ -18,20 +18,20 @@ public class SearchService {
 
     private final SearchMapper searchMapper;
 
-    public List<MyBookSearchDto> searchMyBook(Long userId) {
-        return searchMapper.searchMyBook(userId);
+    public List<MyBookSearchDto> searchMyBook(String keyword, Long userId) {
+        return searchMapper.searchMyBook(keyword, userId);
     }
 
-    public List<UserSearchDto> searchUser(Long userId) {
+    public List<UserSearchDto> searchUser(String keyword, Long userId) {
         checkFriendStatus(userId);
-        return searchMapper.searchUser(userId);
+        return searchMapper.searchUser(keyword, userId);
     }
 
     private void checkFriendStatus(Long userId) {
         int friendStatusCount = searchMapper.checkFriendStatus(userId);
     }
 
-    public List<BookMarkSearchDto> searchBookMark(Long userId) {
-        return searchMapper.searchBookMark(userId);
+    public List<BookMarkSearchDto> searchBookMark(String keyword, Long userId) {
+        return searchMapper.searchBookMark(keyword, userId);
     }
 }

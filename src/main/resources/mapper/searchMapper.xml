@@ -4,13 +4,19 @@
 
 <mapper namespace="com.yapp.ios1.mapper.SearchMapper">
     <select id="searchMyBook" resultType="com.yapp.ios1.dto.search.MyBookSearchDto">
-        SELECT id,
-               bucket_name as bucketName,
-               start_date as startDate,
-               end_date as endDate,
-               bucket_state as bucketState
-        FROM bucket
-        WHERE user_id = #{userId};
+        SELECT DISTINCT(b.id),
+               b.bucket_name as bucketName,
+               b.start_date as startDate,
+               b.end_date as endDate,
+               b.bucket_state as bucketState
+        FROM bucket b
+            JOIN bucket_tag bt
+                ON b.id = bt.bucket_id
+            JOIN tag t
+                ON bt.tag_id = t.id
+        WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%")
+            OR t.tag_name LIKE CONCAT("%", #{keyword}, "%"))
+            AND user_id = #{userId}
     </select>
 
     <select id="searchUser" resultType="com.yapp.ios1.dto.search.UserSearchDto">
@@ -18,7 +24,8 @@
                nickname,
                intro
         FROM user
-        where id NOT IN (SELECT id FROM user WHERE id = #{userId})
+        WHERE nickname LIKE CONCAT("%", #{keyword}, "%")
+          ABD id NOT IN (SELECT id FROM user WHERE id = #{userId})
     </select>
 
     <select id="searchBookMark" resultType="com.yapp.ios1.dto.search.BookMarkSearchDto">
@@ -33,7 +40,8 @@
                 ON b.user_id = u.id
             JOIN bookmark bm
                 ON bm.bucket_id = b.id
-        WHERE u.id NOT IN (SELECT id FROM user WHERE id = #{userId})
+        WHERE b.bucket_name LIKE CONCAT("%", #{keyword}, "%")
+              AND u.id NOT IN (SELECT id FROM user WHERE id = #{userId})
     </select>
 </mapper>
 
