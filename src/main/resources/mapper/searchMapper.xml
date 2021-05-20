@@ -39,7 +39,7 @@
         WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
           AND u.id NOT IN (#{userId})
           AND u.id NOT IN (
-              select u.id from user u
+              SELECT u.id FROM user u
               JOIN follow f
               ON u.id = f.follower_id
           )
