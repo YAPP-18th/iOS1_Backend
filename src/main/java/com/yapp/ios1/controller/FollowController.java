@@ -1,11 +1,13 @@
 package com.yapp.ios1.controller;
 
+import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.FollowService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,16 +31,7 @@ public class FollowController {
         Long myUserId = UserContext.getCurrentUserId();
 
         followService.followRequest(myUserId, friendId);
-        return null;
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_REQUEST));
     }
-
-    @ApiOperation(
-            value = "친구요청 승낙"
-    )
-    @Auth
-    @PostMapping
-    public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId) {
-        return null;
-    }
-
 }

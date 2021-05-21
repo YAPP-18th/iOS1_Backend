@@ -42,4 +42,7 @@ public class ResponseMessage {
     // Search
     public static final String NOT_FOUND_SEARCH_TYPE = "존재하지 않는 검색 조건입니다.";
     public static final String SUCCESS_SEARCH = "검색 성공입니다.";
+
+    // Follow
+    public static final String FRIEND_REQUEST = "팔로우 요청 성공입니다.";
 }
