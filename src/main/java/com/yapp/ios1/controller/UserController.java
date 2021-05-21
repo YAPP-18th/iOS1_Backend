@@ -186,16 +186,4 @@ public class UserController {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
-
-    @ApiOperation(
-            value = "팔로우 요청"
-    )
-    @Auth
-    @PostMapping("/follow/{friendId}")
-    public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
-        Long myUserId = UserContext.getCurrentUserId();
-
-        userService.followRequest(myUserId, friendId);
-        return null;
-    }
 }
