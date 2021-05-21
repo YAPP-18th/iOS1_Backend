@@ -11,5 +11,5 @@ public class UserSearchDto {
     private String nickName;
     private String intro;
     private String profileUrl;
-    private String friendStatus = "친구 아님";
+    private Integer friendStatus = 3;
 }
