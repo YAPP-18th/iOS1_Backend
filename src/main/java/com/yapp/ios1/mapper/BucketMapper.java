@@ -41,4 +41,8 @@ public interface BucketMapper {
     int getBucketCountByUserId(@Param("userId") Long userId);
 
     void deleteTagListByBucketId(Long bucketId);
+
+    void saveBucketNameLog(Long bucketId);
+
+    void saveBucketEndDateLog(Long bucketId);
 }

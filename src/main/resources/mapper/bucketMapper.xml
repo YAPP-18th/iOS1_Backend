@@ -124,4 +124,24 @@
         DELETE FROM bucket_tag WHERE bucket_id = #{bucketId};
     </delete>
 
+    <insert id="saveBucketLogList">
+        INSERT INTO bucket_log (bucket_id, update_type, content)
+        VALUES
+        <foreach collection="bucketLogList" item="item" separator=",">
+            (#{item.bucketId}, #{item.updateType}, #{item.content})
+        </foreach>
+    </insert>
+
+    <insert id="saveBucketNameLog">
+        INSERT INTO bucket_log (bucket_id, update_type, content)
+        SELECT id, 1, bucket_name
+        FROM bucket WHERE id = #{bucketId};
+    </insert>
+
+    <insert id="saveBucketEndDateLog">
+        INSERT INTO bucket_log (bucket_id, update_type, content)
+        SELECT id, 0, end_date
+        FROM bucket WHERE id = #{bucketId};
+    </insert>
+
 </mapper>
