@@ -21,14 +21,24 @@ public class FollowController {
     private final FollowService followService;
 
     @ApiOperation(
-            value = "팔로우 요청"
+            value = "친구 요청"
     )
     @Auth
-    @PostMapping("/follow/{friendId}")
+    @PostMapping("/follow/request/{friendId}")
     public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
         Long myUserId = UserContext.getCurrentUserId();
 
         followService.followRequest(myUserId, friendId);
         return null;
     }
+
+    @ApiOperation(
+            value = "친구요청 승낙"
+    )
+    @Auth
+    @PostMapping
+    public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId) {
+        return null;
+    }
+
 }

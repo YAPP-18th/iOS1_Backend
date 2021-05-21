@@ -1,5 +1,7 @@
 package com.yapp.ios1.service;
 
+import com.yapp.ios1.dto.follow.FriendStatus;
+import com.yapp.ios1.dto.notification.AlarmLogStatus;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FollowMapper;
@@ -7,6 +9,10 @@ import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.yapp.ios1.dto.follow.FriendStatus.FRIEND;
+import static com.yapp.ios1.dto.follow.FriendStatus.REQUEST;
+import static com.yapp.ios1.dto.notification.AlarmLogStatus.ACTIVITY;
 
 /**
  * created by jg 2021/05/21
@@ -28,10 +34,9 @@ public class FollowService {
     @Transactional
     public void followRequest(Long myUserId, Long friendId) {
         // Friend INSERT Query 보다 알람을 먼저 보내도록 해놓았음
-        final int FOLLOW_REQUEST = 2;
         NotificationForOneDto notification = sendFollowAlarmRequest(friendId);
-        followMapper.followRequest(myUserId, friendId, FOLLOW_REQUEST);
-        alarmMapper.insertAlarmLog(notification, friendId);
+        followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus());
+        alarmMapper.insertAlarmLog(notification, friendId, ACTIVITY.getAlarmStatus());
     }
 
     private NotificationForOneDto sendFollowAlarmRequest(Long friendId) {

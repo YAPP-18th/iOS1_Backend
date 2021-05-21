@@ -21,5 +21,5 @@ public interface FollowMapper {
 
     void followRequest(@Param("myUserId") Long myUserId,
                        @Param("friendId") Long friendId,
-                       @Param("FOLLOW_REQUEST") int FOLLOW_REQUEST);
+                       @Param("followRequest") int followRequest);
 }

@@ -24,7 +24,7 @@
 
     <insert id="followRequest">
         INSERT INTO follow (following_id, follower_id, friend_status)
-        VALUES (#{friendId}, #{myUserId}, #{FOLLOW_REQUEST})
+        VALUES (#{friendId}, #{myUserId}, #{followRequest})
     </insert>
 </mapper>
 
