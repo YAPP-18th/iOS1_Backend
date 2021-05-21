@@ -22,7 +22,7 @@
         SELECT u.id as userId,
                u.nickname,
                u.intro,
-               u.profile_url as profileUrl
+               u.profile_url as profileUrl,
                f.friend_status as friendStatus
         FROM user u
             JOIN follow f

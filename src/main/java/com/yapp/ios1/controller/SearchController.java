@@ -31,19 +31,24 @@ public class SearchController {
     @GetMapping("/search")
     public ResponseEntity<ResponseDto> search(@RequestParam("type") String type,
                                               @RequestParam("keyword") String keyword) {
-        ResponseEntity.BodyBuilder ok = ResponseEntity.ok();
-        ResponseEntity<ResponseDto> responseEntity;
+        ResponseDto responseDto = ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS_SEARCH);
         Long userId = UserContext.getCurrentUserId();
 
         switch (type) {
             case "my":
-                return ok.body(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS_SEARCH, searchService.searchMyBook(keyword, userId)));
+                responseDto.setData(searchService.searchMyBook(keyword, userId));
+                break;
             case "user":
-                return ok.body(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS_SEARCH,  searchService.searchUser(keyword, userId)));
+                responseDto.setData(searchService.searchUser(keyword, userId));
+                break;
             case "mark":
-                return ok.body(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS_SEARCH, searchService.searchBookMark(keyword, userId)));
+                responseDto.setData(searchService.searchBookMark(keyword, userId));
+                break;
             default:
-                return ok.body(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.NOT_FOUND_SEARCH_TYPE));
+                return ResponseEntity.ok().
+                        body(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.NOT_FOUND_SEARCH_TYPE));
         }
+
+        return ResponseEntity.ok(responseDto);
     }
 }
