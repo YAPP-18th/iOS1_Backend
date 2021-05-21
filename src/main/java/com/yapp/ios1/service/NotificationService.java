@@ -6,11 +6,13 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.notification.NotificationDto;
+import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.exception.notification.FirebaseNotInitException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -48,11 +50,12 @@ public class NotificationService {
         }
     }
 
-    public void sendPushNotification(NotificationDto pushNotificationRequest) {
+    @Async("asyncTask")
+    public void sendPushNotification(NotificationDto pushNotificationRequest, String deviceToken) {
 
-        // 임시 테스트 (저의 DeviceToken) => 지금은 테스트 삭제 예정
         List<String> tokens = Arrays.asList(
-                "cYm9R_j7ReuSFz6Z2xZT6r:APA91bFgFquTCqTFXFYDK69kNrS_dRTCxdIPw7frEyG8IfcQ9AyovzS8sz-dhjCJoQTwXKI0G_IvcMy4Ae80Woou5SyeMyJ8faJd2ifPR-JsuSJofMIduyfoEHUcOsLarOTOnR162PFI"
+                //"cYm9R_j7ReuSFz6Z2xZT6r:APA91bFgFquTCqTFXFYDK69kNrS_dRTCxdIPw7frEyG8IfcQ9AyovzS8sz-dhjCJoQTwXKI0G_IvcMy4Ae80Woou5SyeMyJ8faJd2ifPR-JsuSJofMIduyfoEHUcOsLarOTOnR162PFI"
+                deviceToken
         );
 
         List<Message> messages = tokens.stream().map(token -> Message.builder()
@@ -71,17 +74,21 @@ public class NotificationService {
         }
     }
 
-    // 한명한테 알람 보내기
-    private Message writePushMessage(NotificationDto pushNotificationRequest, String token) {
-        return Message.builder()
-                .setWebpushConfig(WebpushConfig.builder()
-                        .setNotification(WebpushNotification.builder()
-                                .setTitle(pushNotificationRequest.getTitle())
-                                .setBody(pushNotificationRequest.getMessage())
-                                .build())
-                        .build())
-                .setToken(token)
+    @Async("asyncTask")
+    public void sendByToken(NotificationForOneDto messageInfo) {
+        Message message = Message.builder()
+                .setToken(messageInfo.getDeviceToken())
+                .putData("title", messageInfo.getTitle())
+                .putData("message", messageInfo.getMessage())
                 .build();
+
+        String response;
+        try {
+            response = FirebaseMessaging.getInstance().send(message);
+            log.info("Sent message: " + response);
+        } catch (FirebaseMessagingException e) {
+            log.error("cannot send message by token. error info : {}", e.getMessage());
+        }
     }
 }
 

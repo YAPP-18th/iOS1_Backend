@@ -4,6 +4,8 @@ package com.yapp.ios1.common;
  * created by jg 2021/05/05
  */
 public class ResponseMessage {
+    private ResponseMessage() {}
+
     public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러입니다.";
     public static final String NOT_FOUND_USER = "존재하지 않는 유저입니다.";
     public static final String DATABASE_ERROR = "데이터베이스 오류입니다.";

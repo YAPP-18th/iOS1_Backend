@@ -21,5 +21,10 @@
         FROM follow
         WHERE following_id = #{currentUserId} AND follower_id = #{userId};
     </select>
+
+    <insert id="followRequest">
+        INSERT INTO follow (follower_id, following_id, friend_status)
+        VALUES (#{myUserId}, #{friendId}, 2)
+    </insert>
 </mapper>
 

@@ -2,6 +2,8 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
+import com.yapp.ios1.dto.notification.NotificationDto;
+import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.result.FriendDto;
@@ -40,6 +42,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final FollowMapper followMapper;
+    private final NotificationService notificationService;
 
     @Value("${buok.s3.dir.profile}")
     private String profileDir;
@@ -179,4 +182,24 @@ public class UserService {
         return followMapper.getFollowListByUserId(userId);
     }
 
+    /**
+     * 팔로우 신청
+     * @param myUserId
+     * @param friendId
+     */
+    public void followRequest(Long myUserId, Long friendId) {
+        String deviceToken = userMapper.findDeviceTokenByUserId(1L);
+        System.out.println(deviceToken);
+        followMapper.followRequest(myUserId, friendId);
+        sendFollowRequestAlarm(deviceToken);
+    }
+
+    private void sendFollowRequestAlarm(String deviceToken) {
+        NotificationForOneDto notificationDto = NotificationForOneDto.builder()
+                .title("팔로우 제목")
+                .message("팔로우 신청 메세지")
+                .deviceToken(deviceToken)
+                .build();
+        notificationService.sendByToken(notificationDto);
+    }
 }
