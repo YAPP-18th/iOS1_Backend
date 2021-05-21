@@ -1,7 +1,5 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.dto.follow.FriendStatus;
-import com.yapp.ios1.dto.notification.AlarmLogStatus;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FollowMapper;
@@ -10,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.yapp.ios1.dto.follow.FriendStatus.FRIEND;
 import static com.yapp.ios1.dto.follow.FriendStatus.REQUEST;
 import static com.yapp.ios1.dto.notification.AlarmLogStatus.ACTIVITY;
 
