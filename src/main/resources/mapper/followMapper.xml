@@ -23,8 +23,8 @@
     </select>
 
     <insert id="followRequest">
-        INSERT INTO follow (follower_id, following_id, friend_status)
-        VALUES (#{myUserId}, #{friendId}, 2)
+        INSERT INTO follow (following_id, follower_id, friend_status)
+        VALUES (#{friendId}, #{myUserId}, 2)
     </insert>
 </mapper>
 

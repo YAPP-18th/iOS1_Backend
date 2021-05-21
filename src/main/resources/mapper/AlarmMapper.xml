@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yapp.ios1.mapper.AlarmMapper">
+    <insert id="insertAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationForOneDto">
+        INSERT INTO alarm_log (title, message, user_id)
+        VALUES (#{notification.title}, #{notification.message}, #{friendId})
+    </insert>
+</mapper>

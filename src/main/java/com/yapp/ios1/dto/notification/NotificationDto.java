@@ -1,6 +1,5 @@
 package com.yapp.ios1.dto.notification;
 
-import lombok.Builder;
 import lombok.Getter;
 
 /**

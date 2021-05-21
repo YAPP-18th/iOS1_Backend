@@ -2,16 +2,16 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
-import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.ProfileResultDto;
-import com.yapp.ios1.dto.user.result.FriendDto;
-import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.dto.user.login.SignInDto;
+import com.yapp.ios1.dto.user.result.FriendDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
 import com.yapp.ios1.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
+import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +43,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final FollowMapper followMapper;
     private final NotificationService notificationService;
+    private final AlarmMapper alarmMapper;
 
     @Value("${buok.s3.dir.profile}")
     private String profileDir;
@@ -183,23 +184,26 @@ public class UserService {
     }
 
     /**
-     * 팔로우 신청
+     * 팔로우 신청, 알람 로그 저장, 알람 보내기
      * @param myUserId
      * @param friendId
      */
+    @Transactional
     public void followRequest(Long myUserId, Long friendId) {
-        String deviceToken = userMapper.findDeviceTokenByUserId(1L);
-        System.out.println(deviceToken);
+        // Friend INSERT Query 보다 알람을 먼저 보내도록 해놓았음
+        NotificationForOneDto notification = sendFollowAlarmRequest(friendId);
         followMapper.followRequest(myUserId, friendId);
-        sendFollowRequestAlarm(deviceToken);
+        alarmMapper.insertAlarmLog(notification, friendId);
     }
 
-    private void sendFollowRequestAlarm(String deviceToken) {
+    private NotificationForOneDto sendFollowAlarmRequest(Long friendId) {
+        String deviceToken = userMapper.findDeviceTokenByUserId(1L);   // Redis 에서 꺼내오는 걸로 고도화 예정
         NotificationForOneDto notificationDto = NotificationForOneDto.builder()
                 .title("팔로우 제목")
                 .message("팔로우 신청 메세지")
                 .deviceToken(deviceToken)
                 .build();
         notificationService.sendByToken(notificationDto);
+        return notificationDto;
     }
 }

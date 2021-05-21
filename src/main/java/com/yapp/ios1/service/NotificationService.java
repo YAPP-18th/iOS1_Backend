@@ -68,7 +68,7 @@ public class NotificationService {
         BatchResponse response;
         try {
             response = FirebaseMessaging.getInstance().sendAll(messages);
-            log.info("Sent message: " + response);
+            log.info("send message: " + response);
         } catch (FirebaseMessagingException e) {
             log.error("cannot send to member push message. error info : {}", e.getMessage());
         }
@@ -85,7 +85,7 @@ public class NotificationService {
         String response;
         try {
             response = FirebaseMessaging.getInstance().send(message);
-            log.info("Sent message: " + response);
+            log.info("send message: " + response);
         } catch (FirebaseMessagingException e) {
             log.error("cannot send message by token. error info : {}", e.getMessage());
         }
