@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yapp.ios1.mapper.SearchMapper">
+    <select id="searchMyBook" resultType="com.yapp.ios1.dto.search.MyBookSearchDto">
+        SELECT DISTINCT(b.id),
+               b.bucket_name as bucketName,
+               b.start_date as startDate,
+               b.end_date as endDate,
+               b.bucket_state as bucketState
+        FROM bucket b
+            JOIN bucket_tag bt
+                ON b.id = bt.bucket_id
+            JOIN tag t
+                ON bt.tag_id = t.id
+        WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%") OR t.tag_name LIKE CONCAT("%", #{keyword}, "%"))
+            AND user_id = #{userId}
+    </select>
+
+    <select id="searchUser" resultType="com.yapp.ios1.dto.search.UserSearchDto">
+        SELECT u.id as userId,
+               u.nickname,
+               u.intro,
+               u.profile_url as profileUrl,
+               f.friend_status as friendStatus
+        FROM user u
+            JOIN follow f
+                ON u.id = f.follower_id OR f.following_id = u.id
+        WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
+          AND u.id NOT IN (#{userId})
+        ORDER BY friend_status DESC
+    </select>
+    
+    <select id="searchNoFriends" resultType="com.yapp.ios1.dto.search.UserSearchDto">
+        SELECT u.id as userId,
+               u.nickname,
+               u.intro
+        FROM user u
+        WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
+          AND u.id NOT IN (#{userId})
+          AND u.id NOT IN (
+              SELECT u.id FROM user u
+              JOIN follow f
+              ON u.id = f.follower_id
+          )
+    </select>
+
+    <select id="searchBookMark" resultType="com.yapp.ios1.dto.search.BookMarkSearchDto">
+        SELECT DISTINCT (b.id) as bucketId,
+               u.id as userId,
+               b.bucket_name as bucketName,
+               b.bucket_state as bucketState,
+               b.end_date as endDate,
+               u.profile_url as userProfileUrl
+        FROM bucket b
+            JOIN bucket_tag bt
+                ON b.id = bt.bucket_id
+            JOIN tag t
+                ON bt.tag_id = t.id
+            JOIN user u
+                ON b.user_id = u.id
+            JOIN bookmark bm
+                ON bm.bucket_id = b.id
+            JOIN category c
+                ON b.category_id = c.id
+        WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%")
+              OR c.category_name LIKE CONCAT("%", #{keyword}, "%"))
+              AND u.id NOT IN (#{userId})
+    </select>
+</mapper>
+

@@ -10,13 +10,11 @@ import com.yapp.ios1.exception.notification.FirebaseNotInitException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,9 +32,10 @@ public class NotificationService {
 
     @PostConstruct
     public void init() {
-        try (InputStream serviceAccount = Files.newInputStream(Paths.get(System.getProperty("user.dir") + accountPath))) {
+        try {
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
+                    .setCredentials(GoogleCredentials.
+                            fromStream(new ClassPathResource(accountPath).getInputStream())).build();
 
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
