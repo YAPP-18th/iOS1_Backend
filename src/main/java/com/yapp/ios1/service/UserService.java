@@ -191,13 +191,14 @@ public class UserService {
     @Transactional
     public void followRequest(Long myUserId, Long friendId) {
         // Friend INSERT Query 보다 알람을 먼저 보내도록 해놓았음
+        final int FOLLOW_REQUEST = 2;
         NotificationForOneDto notification = sendFollowAlarmRequest(friendId);
-        followMapper.followRequest(myUserId, friendId);
+        followMapper.followRequest(myUserId, friendId, FOLLOW_REQUEST);
         alarmMapper.insertAlarmLog(notification, friendId);
     }
 
     private NotificationForOneDto sendFollowAlarmRequest(Long friendId) {
-        String deviceToken = userMapper.findDeviceTokenByUserId(1L);   // Redis 에서 꺼내오는 걸로 고도화 예정
+        String deviceToken = userMapper.findDeviceTokenByUserId(1L);   // Redis 에서 꺼내오는 걸로 고도화 예정 (1L 는 임시)
         NotificationForOneDto notificationDto = NotificationForOneDto.builder()
                 .title("팔로우 제목")
                 .message("팔로우 신청 메세지")

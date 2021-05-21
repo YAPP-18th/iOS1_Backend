@@ -19,5 +19,7 @@ public interface FollowMapper {
 
     Optional<Long> isFriendByCurrentUserIdAndUserId(Long currentUserId, Long userId);
 
-    void followRequest(@Param("myUserId") Long myUserId, @Param("friendId") Long friendId);
+    void followRequest(@Param("myUserId") Long myUserId,
+                       @Param("friendId") Long friendId,
+                       @Param("FOLLOW_REQUEST") int FOLLOW_REQUEST);
 }
