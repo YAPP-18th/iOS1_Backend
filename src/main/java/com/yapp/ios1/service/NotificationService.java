@@ -51,11 +51,10 @@ public class NotificationService {
     }
 
     @Async("asyncTask")
-    public void sendPushNotification(NotificationDto pushNotificationRequest, String deviceToken) {
+    public void sendPushNotification(NotificationDto pushNotificationRequest) {
 
         List<String> tokens = Arrays.asList(
-                //"cYm9R_j7ReuSFz6Z2xZT6r:APA91bFgFquTCqTFXFYDK69kNrS_dRTCxdIPw7frEyG8IfcQ9AyovzS8sz-dhjCJoQTwXKI0G_IvcMy4Ae80Woou5SyeMyJ8faJd2ifPR-JsuSJofMIduyfoEHUcOsLarOTOnR162PFI"
-                deviceToken
+                "cYm9R_j7ReuSFz6Z2xZT6r:APA91bFgFquTCqTFXFYDK69kNrS_dRTCxdIPw7frEyG8IfcQ9AyovzS8sz-dhjCJoQTwXKI0G_IvcMy4Ae80Woou5SyeMyJ8faJd2ifPR-JsuSJofMIduyfoEHUcOsLarOTOnR162PFI"
         );
 
         List<Message> messages = tokens.stream().map(token -> Message.builder()
