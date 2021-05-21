@@ -24,8 +24,8 @@ public class SearchController {
     private final SearchService searchService;
 
     /**
-     * search = my(마이북), user(유저), mark(북마크) 검색
-     * @return
+     * type = my(마이북), user(유저), mark(북마크) 검색
+     * keyword = 검색 키워드
      */
     @Auth
     @GetMapping("/search")

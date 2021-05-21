@@ -1,15 +1,17 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.dto.search.*;
+import com.yapp.ios1.dto.search.BookMarkSearchDto;
+import com.yapp.ios1.dto.search.MyBookSearchDto;
+import com.yapp.ios1.dto.search.UserSearchDto;
 import com.yapp.ios1.mapper.SearchMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
-import static com.yapp.ios1.dto.search.FriendStatus.*;
+import static com.yapp.ios1.dto.search.FriendStatus.FRIEND;
+import static com.yapp.ios1.dto.search.FriendStatus.REQUEST;
 
 /**
  * created by jg 2021/05/17
@@ -31,7 +33,6 @@ public class SearchService {
         return searchResult(friendUsers, requestFriendUsers, noFriendUsers);
     }
 
-    // 클라이언트에게 데이터 형식을 깔끔하게 주기 위한 처리 메소드 (머지 전 주석 삭졔)
     private List<UserSearchDto> searchResult(List<UserSearchDto> friendUsers,
                                              List<UserSearchDto> requestFriendUsers,
                                              List<UserSearchDto> noFriendUsers) {
