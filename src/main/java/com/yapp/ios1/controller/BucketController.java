@@ -2,7 +2,7 @@ package com.yapp.ios1.controller;
 
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.bucket.BucketRegisterDto;
+import com.yapp.ios1.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.service.BucketService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
@@ -62,7 +62,7 @@ public class BucketController {
     @Auth
     @PostMapping("")
     public ResponseEntity<ResponseDto> registerBucket(@RequestPart(value = "image", required = false) MultipartFile[] imageList,
-                                                      @RequestPart @Valid BucketRegisterDto bucket) throws IOException, IllegalArgumentException {
+                                                      @RequestPart @Valid BucketRequestDto bucket) throws IOException, IllegalArgumentException {
         if (imageList != null) {
             bucket.setImageList(imageList);
         }
@@ -90,7 +90,7 @@ public class BucketController {
             categoryId = 0;
         }
 
-        BucketRegisterDto bucket = BucketRegisterDto.builder()
+        BucketRequestDto bucket = BucketRequestDto.builder()
                 .content(content)
                 .bucketName(bucketName)
                 .endDate(endDate)

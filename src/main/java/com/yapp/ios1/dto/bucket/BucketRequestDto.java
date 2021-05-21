@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Getter
 @Builder
-public class BucketRegisterDto {
+public class BucketRequestDto {
 
     private Long id;
     private Long userId;

@@ -15,7 +15,7 @@ public interface BucketMapper {
 
     Optional<BucketCompareDto> findByBucketId(Long bucketId);
 
-    void registerBucket(BucketRegisterDto registerDto);
+    void registerBucket(BucketRequestDto registerDto);
 
     void updateBucket(BucketCompareDto updateDto);
 
