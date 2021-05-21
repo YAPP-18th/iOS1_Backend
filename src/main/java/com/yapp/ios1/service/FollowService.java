@@ -18,8 +18,8 @@ import static com.yapp.ios1.dto.notification.AlarmLogStatus.ACTIVITY;
 @Service
 public class FollowService {
 
-    private final FollowMapper followMapper;
     private final NotificationService notificationService;
+    private final FollowMapper followMapper;
     private final AlarmMapper alarmMapper;
     private final UserMapper userMapper;
 
@@ -30,9 +30,8 @@ public class FollowService {
      */
     @Transactional
     public void followRequest(Long myUserId, Long friendId) {
-        // Friend INSERT Query 보다 알람을 먼저 보내도록 해놓았음
-        NotificationForOneDto notification = sendFollowAlarmRequest(friendId);
         followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus());
+        NotificationForOneDto notification = sendFollowAlarmRequest(friendId);
         alarmMapper.insertAlarmLog(notification, friendId, ACTIVITY.getAlarmStatus());
     }
 
