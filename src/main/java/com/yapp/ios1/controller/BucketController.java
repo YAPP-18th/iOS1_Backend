@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v2/buckets")
 @Api(tags = "Bucket")
 public class BucketController {
 
@@ -40,7 +40,7 @@ public class BucketController {
      */
     @ApiOperation(value = "홈 화면 전체 조회")
     @Auth
-    @GetMapping("/buckets")
+    @GetMapping("")
     public ResponseEntity<ResponseDto> home(@RequestParam("bucketState") String bucketState,
                                             @RequestParam("category") String category,
                                             @RequestParam("sort") String sort) {
@@ -60,7 +60,7 @@ public class BucketController {
             notes = "포스트맨에서 테스트 가능"
     )
     @Auth
-    @PostMapping("/buckets")
+    @PostMapping("")
     public ResponseEntity<ResponseDto> registerBucket(@RequestPart(value = "image", required = false) MultipartFile[] imageList,
                                                       @RequestPart @Valid BucketRegisterDto bucket) throws IOException, IllegalArgumentException {
         if (imageList != null) {
@@ -70,5 +70,36 @@ public class BucketController {
         bucketService.registerBucket(bucket);
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.REGISTER_BUCKET_SUCCESS));
+    }
+
+    /**
+     * 버킷 업데이트
+     */
+    @ApiOperation(
+            value = "버킷 수정",
+            notes = "포스트맨에서 테스트 가능"
+    )
+    @Auth
+    @PutMapping("/{bucketId}")
+    public ResponseEntity<ResponseDto> updateBucket(@PathVariable Long bucketId,
+                                                    @RequestParam(value = "content", required = false) String content,
+                                                    @RequestParam(value = "endDate", required = false) String endDate,
+                                                    @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                                                    @RequestParam(value = "bucketName", required = false) String bucketName) {
+        if (categoryId == null) {
+            categoryId = 0;
+        }
+
+        BucketRegisterDto bucket = BucketRegisterDto.builder()
+                .content(content)
+                .bucketName(bucketName)
+                .endDate(endDate)
+                .categoryId(categoryId)
+                .build();
+
+        bucketService.updateBucket(bucketId, bucket, UserContext.getCurrentUserId());
+
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.REGISTER_BUCKET_SUCCESS));
     }
 }

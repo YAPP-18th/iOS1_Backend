@@ -44,6 +44,37 @@ public class BucketService {
         saveImageUrlList(bucketId, s3Service.upload(registerDto.getImageList()));
     }
 
+    // 버킷 수정
+    @Transactional
+    public void updateBucket(Long bucketId, BucketRegisterDto registerDto, Long userId) throws IllegalArgumentException {
+        Optional<BucketCompareDto> optional = bucketMapper.findByBucketId(bucketId);
+        if (optional.isEmpty()) {
+            throw new IllegalArgumentException("해당 버킷이 존재하지 않습니다.");
+        }
+
+        BucketCompareDto bucketDto = optional.get();
+        if (!bucketDto.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("해당 권한이 존재하지 않습니다.");
+        }
+        if (registerDto.getBucketName() != null) {
+            bucketDto.setBucketName(registerDto.getBucketName());
+        }
+
+        if (registerDto.getContent() != null) {
+            bucketDto.setContent(registerDto.getContent());
+        }
+
+        if (registerDto.getEndDate() != null) {
+            bucketDto.setEndDate(registerDto.getEndDate());
+        }
+
+        if (registerDto.getCategoryId() != 0) {
+            bucketDto.setCategoryId(registerDto.getCategoryId());
+        }
+
+        bucketMapper.updateBucket(bucketDto); // bucket 저장
+    }
+
     // 태그 저장
     public void saveTagList(Long bucketId, List<TagDto> tagList) {
         for (TagDto tag : tagList) {
