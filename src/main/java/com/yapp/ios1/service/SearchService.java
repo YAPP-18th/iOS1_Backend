@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * created by jg 2021/05/17
@@ -26,15 +28,9 @@ public class SearchService {
     public List<UserSearchDto> searchUser(String keyword, Long userId) {
         List<UserSearchDto> users = searchMapper.searchUser(keyword, userId);
         List<UserSearchDto> noFriendUsers = searchMapper.searchNoFriends(keyword, userId);
-        return searchResult(users, noFriendUsers);
-    }
 
-    private List<UserSearchDto> searchResult(List<UserSearchDto> users,
-                                             List<UserSearchDto> noFriendUsers) {
-        List<UserSearchDto> list = new ArrayList<>();
-        list.addAll(users);
-        list.addAll(noFriendUsers);
-        return list;
+        return Stream.concat(users.stream(), noFriendUsers.stream())
+                .collect(Collectors.toList());
     }
 
     public List<BookMarkSearchDto> searchBookMark(String keyword, Long userId) {
