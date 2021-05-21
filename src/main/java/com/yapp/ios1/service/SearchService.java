@@ -24,16 +24,15 @@ public class SearchService {
     }
 
     public List<UserSearchDto> searchUser(String keyword, Long userId) {
-        List<UserSearchDto> friendUsers = searchMapper.searchUser(keyword, userId);
+        List<UserSearchDto> users = searchMapper.searchUser(keyword, userId);
         List<UserSearchDto> noFriendUsers = searchMapper.searchNoFriends(keyword, userId);
-        //return Arrays.asList(friendUsers, noFriendUsers);
-        return searchResult(friendUsers, noFriendUsers);
+        return searchResult(users, noFriendUsers);
     }
 
-    private List<UserSearchDto> searchResult(List<UserSearchDto> friendUsers,
+    private List<UserSearchDto> searchResult(List<UserSearchDto> users,
                                              List<UserSearchDto> noFriendUsers) {
         List<UserSearchDto> list = new ArrayList<>();
-        list.addAll(friendUsers);
+        list.addAll(users);
         list.addAll(noFriendUsers);
         return list;
     }
