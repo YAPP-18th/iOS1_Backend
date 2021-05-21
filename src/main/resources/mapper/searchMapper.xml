@@ -28,7 +28,7 @@
                 ON u.id = f.follower_id
         WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
           AND u.id NOT IN (#{userId})
-          AND f.friend_status = #{friendStatus}
+
     </select>
     
     <select id="searchNoFriends" resultType="com.yapp.ios1.dto.search.UserSearchDto">

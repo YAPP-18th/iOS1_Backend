@@ -14,9 +14,7 @@ import java.util.List;
 @Mapper
 public interface SearchMapper {
 
-    List<UserSearchDto> searchUser(@Param("keyword") String keyword,
-                                   @Param("userId") Long userId,
-                                   @Param("friendStatus") String friendStatus);
+    List<UserSearchDto> searchUser(@Param("keyword") String keyword, @Param("userId") Long userId);
 
     List<UserSearchDto> searchNoFriends(@Param("keyword") String keyword, @Param("userId") Long userId);
 

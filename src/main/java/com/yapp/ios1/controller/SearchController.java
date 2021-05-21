@@ -32,6 +32,7 @@ public class SearchController {
     public ResponseEntity<ResponseDto> search(@RequestParam("type") String type,
                                               @RequestParam("keyword") String keyword) {
         ResponseEntity.BodyBuilder ok = ResponseEntity.ok();
+        ResponseEntity<ResponseDto> responseEntity;
         Long userId = UserContext.getCurrentUserId();
 
         switch (type) {

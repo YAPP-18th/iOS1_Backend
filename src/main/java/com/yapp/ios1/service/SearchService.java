@@ -27,18 +27,15 @@ public class SearchService {
     }
 
     public List<UserSearchDto> searchUser(String keyword, Long userId) {
-        List<UserSearchDto> friendUsers = searchMapper.searchUser(keyword, userId, FRIEND.getFriendStatus());
-        List<UserSearchDto> requestFriendUsers = searchMapper.searchUser(keyword, userId, REQUEST.getFriendStatus());
+        List<UserSearchDto> friendUsers = searchMapper.searchUser(keyword, userId);
         List<UserSearchDto> noFriendUsers = searchMapper.searchNoFriends(keyword, userId);
-        return searchResult(friendUsers, requestFriendUsers, noFriendUsers);
+        return searchResult(friendUsers, noFriendUsers);
     }
 
     private List<UserSearchDto> searchResult(List<UserSearchDto> friendUsers,
-                                             List<UserSearchDto> requestFriendUsers,
                                              List<UserSearchDto> noFriendUsers) {
         List<UserSearchDto> list = new ArrayList<>();
         list.addAll(friendUsers);
-        list.addAll(requestFriendUsers);
         list.addAll(noFriendUsers);
         return list;
     }
