@@ -20,10 +20,6 @@ public class SearchService {
 
     private final SearchMapper searchMapper;
 
-    private static void accept(UserSearchDto userSearchDto) {
-        userSearchDto.setFriendStatus(NO_FRIENDS.getFriendStatus());
-    }
-
     public List<MyBookSearchDto> searchMyBook(String keyword, Long userId) {
         return searchMapper.searchMyBook(keyword, userId);
     }
@@ -32,7 +28,6 @@ public class SearchService {
         List<UserSearchDto> friendUsers = searchMapper.searchUser(keyword, userId, FRIEND.getFriendStatus());
         List<UserSearchDto> requestFriendUsers = searchMapper.searchUser(keyword, userId, REQUEST.getFriendStatus());
         List<UserSearchDto> noFriendUsers = searchMapper.searchNoFriends(keyword, userId);
-        setFriendStatus(noFriendUsers);
         return searchResult(friendUsers, requestFriendUsers, noFriendUsers);
     }
 
@@ -45,10 +40,6 @@ public class SearchService {
         list.addAll(requestFriendUsers);
         list.addAll(noFriendUsers);
         return list;
-    }
-
-    private void setFriendStatus(List<UserSearchDto> noFriendUsers) {
-        noFriendUsers.forEach(SearchService::accept);
     }
 
     public List<BookMarkSearchDto> searchBookMark(String keyword, Long userId) {
