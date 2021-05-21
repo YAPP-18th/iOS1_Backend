@@ -5,6 +5,7 @@ import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.SearchService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,9 @@ public class SearchController {
      * type = my(마이북), user(유저), mark(북마크) 검색
      * keyword = 검색 키워드
      */
+    @ApiOperation(
+            value = "마이북, 유저, 북마크 검색"
+    )
     @Auth
     @GetMapping("/search")
     public ResponseEntity<ResponseDto> search(@RequestParam("type") String type,

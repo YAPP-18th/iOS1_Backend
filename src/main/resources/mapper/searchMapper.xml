@@ -26,9 +26,10 @@
                f.friend_status as friendStatus
         FROM user u
             JOIN follow f
-                ON u.id = f.follower_id
+                ON u.id = f.follower_id OR f.following_id = u.id
         WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
           AND u.id NOT IN (#{userId})
+        ORDER BY friend_status DESC
     </select>
     
     <select id="searchNoFriends" resultType="com.yapp.ios1.dto.search.UserSearchDto">
