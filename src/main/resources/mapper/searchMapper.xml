@@ -22,13 +22,13 @@
         SELECT u.id as userId,
                u.nickname,
                u.intro,
+               u.profile_url as profileUrl
                f.friend_status as friendStatus
         FROM user u
             JOIN follow f
                 ON u.id = f.follower_id
         WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
           AND u.id NOT IN (#{userId})
-
     </select>
     
     <select id="searchNoFriends" resultType="com.yapp.ios1.dto.search.UserSearchDto">

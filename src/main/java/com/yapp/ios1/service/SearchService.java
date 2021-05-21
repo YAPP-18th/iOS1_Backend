@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.yapp.ios1.dto.search.FriendStatus.FRIEND;
-import static com.yapp.ios1.dto.search.FriendStatus.REQUEST;
-
 /**
  * created by jg 2021/05/17
  */
@@ -29,6 +26,7 @@ public class SearchService {
     public List<UserSearchDto> searchUser(String keyword, Long userId) {
         List<UserSearchDto> friendUsers = searchMapper.searchUser(keyword, userId);
         List<UserSearchDto> noFriendUsers = searchMapper.searchNoFriends(keyword, userId);
+        //return Arrays.asList(friendUsers, noFriendUsers);
         return searchResult(friendUsers, noFriendUsers);
     }
 
