@@ -2,14 +2,16 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
+import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.ProfileResultDto;
-import com.yapp.ios1.dto.user.result.FriendDto;
-import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.dto.user.login.SignInDto;
+import com.yapp.ios1.dto.user.result.FriendDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
 import com.yapp.ios1.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
+import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -178,5 +180,4 @@ public class UserService {
     public List<FriendDto> getFriendList(Long userId) {
         return followMapper.getFollowListByUserId(userId);
     }
-
 }

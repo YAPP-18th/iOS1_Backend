@@ -29,4 +29,6 @@ public interface UserMapper {
     void updateProfile(ProfileDto profileDto);
 
     void signUp(UserDto userDto);
+
+    String findDeviceTokenByUserId(Long userId);
 }

@@ -4,6 +4,8 @@ package com.yapp.ios1.common;
  * created by jg 2021/05/05
  */
 public class ResponseMessage {
+    private ResponseMessage() {}
+
     public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러입니다.";
     public static final String NOT_FOUND_USER = "존재하지 않는 유저입니다.";
     public static final String DATABASE_ERROR = "데이터베이스 오류입니다.";
@@ -40,4 +42,7 @@ public class ResponseMessage {
     // Search
     public static final String NOT_FOUND_SEARCH_TYPE = "존재하지 않는 검색 조건입니다.";
     public static final String SUCCESS_SEARCH = "검색 성공입니다.";
+
+    // Follow
+    public static final String FRIEND_REQUEST = "팔로우 요청 성공입니다.";
 }

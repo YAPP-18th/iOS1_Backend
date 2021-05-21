@@ -2,10 +2,12 @@ package com.yapp.ios1.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.JwtPayload;
+import com.yapp.ios1.dto.ResponseDto;
+import com.yapp.ios1.dto.notification.NotificationDto;
+import com.yapp.ios1.dto.user.ProfileDto;
+import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.EmailCheckDto;
 import com.yapp.ios1.dto.user.check.NicknameCheckDto;
-import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.user.*;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.TokenDto;
@@ -184,5 +186,4 @@ public class UserController {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
-
 }
