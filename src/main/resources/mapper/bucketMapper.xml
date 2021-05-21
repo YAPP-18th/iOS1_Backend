@@ -119,4 +119,9 @@
     <select id="getBucketCountByUserId" resultType="int">
         SELECT count(*) FROM bucket WHERE user_id = #{userId};
     </select>
+
+    <delete id="deleteTagListByBucketId">
+        DELETE FROM bucket_tag WHERE bucket_id = #{bucketId};
+    </delete>
+
 </mapper>

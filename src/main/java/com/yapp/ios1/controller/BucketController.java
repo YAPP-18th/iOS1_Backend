@@ -3,11 +3,13 @@ package com.yapp.ios1.controller;
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.bucket.BucketRequestDto;
+import com.yapp.ios1.dto.bucket.TagDto;
 import com.yapp.ios1.service.BucketService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,7 +89,10 @@ public class BucketController {
                                                     @RequestParam(value = "content", required = false) String content,
                                                     @RequestParam(value = "endDate", required = false) String endDate,
                                                     @RequestParam(value = "categoryId", required = false) Integer categoryId,
-                                                    @RequestParam(value = "bucketName", required = false) String bucketName) {
+                                                    @RequestParam(value = "bucketName", required = false) String bucketName,
+                                                    @RequestParam(value = "state", required = false) String state,
+                                                    @RequestParam(value = "tag", required = false) @ApiParam("수정1, 수정2") List<TagDto> tagList,
+                                                    @RequestParam(value = "image", required = false) MultipartFile[] imageList) {
         if (categoryId == null) {
             categoryId = 0;
         }
@@ -95,6 +102,9 @@ public class BucketController {
                 .bucketName(bucketName)
                 .endDate(endDate)
                 .categoryId(categoryId)
+                .tagList(tagList)
+                .imageList(imageList)
+                .state(state)
                 .build();
 
         bucketService.updateBucket(bucketId, bucket, UserContext.getCurrentUserId());

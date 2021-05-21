@@ -39,4 +39,6 @@ public interface BucketMapper {
     List<BookmarkDto> findBookmarkListByUserId(@Param("userId") Long userId);
 
     int getBucketCountByUserId(@Param("userId") Long userId);
+
+    void deleteTagListByBucketId(Long bucketId);
 }

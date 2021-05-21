@@ -13,6 +13,6 @@ public class BucketConstraintValidator implements ConstraintValidator<BucketCons
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value != null & bucketStateList.contains(value.toUpperCase());
+        return value != null && bucketStateList.contains(value.toUpperCase());
     }
 }

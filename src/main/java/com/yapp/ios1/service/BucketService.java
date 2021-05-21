@@ -2,11 +2,14 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.mapper.BucketMapper;
+import com.yapp.ios1.utils.validation.BucketConstraint;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.HTML;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -56,8 +59,13 @@ public class BucketService {
         if (!bucketDto.getUserId().equals(userId)) {
             throw new IllegalArgumentException("해당 권한이 존재하지 않습니다.");
         }
+
         if (updateDto.getBucketName() != null) {
             bucketDto.setBucketName(updateDto.getBucketName());
+        }
+
+        if (updateDto.getState() != null) {
+            bucketDto.setBucketState(updateDto.getState());
         }
 
         if (updateDto.getContent() != null) {
@@ -72,11 +80,21 @@ public class BucketService {
             bucketDto.setCategoryId(updateDto.getCategoryId());
         }
 
-        bucketMapper.updateBucket(bucketDto); // bucket 저장
+        bucketMapper.updateBucket(bucketDto); // bucket 업데이트
+
+        // 태그 업데이트
+        if (updateDto.getTagList() != null) {
+            updateTag(bucketId, updateDto.getTagList());
+        }
+
+        if (updateDto.getImageList() != null) {
+
+        }
+
     }
 
     // 태그 저장
-    public void saveTagList(Long bucketId, List<TagDto> tagList) {
+    private void saveTagList(Long bucketId, List<TagDto> tagList) {
         for (TagDto tag : tagList) {
             Optional<TagDto> optionalTag = bucketMapper.findByTagName(tag.getTagName());
             if (optionalTag.isEmpty()) { // 태그 기존에 없는 경우, tag 저장
@@ -88,9 +106,19 @@ public class BucketService {
         }
     }
 
+    private void updateTag(Long bucketId, List<TagDto> tagList) {
+        // 태그 제거
+        bucketMapper.deleteTagListByBucketId(bucketId);
+
+        // 태그 INSERT
+        saveTagList(bucketId, tagList);
+    }
+
     // 이미지 url 저장
     private void saveImageUrlList(Long bucketId, List<String> imageUrlList) {
-        bucketMapper.saveBucketImageUrlList(bucketId, imageUrlList);
+        if (!imageUrlList.isEmpty()) {
+            bucketMapper.saveBucketImageUrlList(bucketId, imageUrlList);
+        }
     }
 
     public List<BookmarkDto> getBookmarkList(Long userId) {
