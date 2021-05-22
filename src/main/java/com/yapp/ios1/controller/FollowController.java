@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,6 +28,7 @@ import static com.yapp.ios1.common.ResponseMessage.NO_FRIEND_LIST;
  */
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("follow")
 public class FollowController {
 
     private final FollowService followService;
@@ -35,7 +37,7 @@ public class FollowController {
             value = "친구 요청"
     )
     @Auth
-    @PostMapping("/follow/request/{friendId}")
+    @PostMapping("/request/{friendId}")
     public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
         Long myUserId = UserContext.getCurrentUserId();
 
@@ -60,5 +62,17 @@ public class FollowController {
         }
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
+    }
+    @ApiOperation(
+                value = "친구 요청 승낙"
+    )
+    @Auth
+    @PostMapping("/accept/{friendId}")
+    public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId) {
+        Long myUserId = UserContext.getCurrentUserId();
+
+        followService.followAccept(myUserId, friendId);
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_ACCEPT));
     }
 }

@@ -49,4 +49,5 @@ public class ResponseMessage {
 
     // Follow
     public static final String FRIEND_REQUEST = "팔로우 요청 성공입니다.";
+    public static final String FRIEND_ACCEPT = "팔로우 승낙 성공입니다";
 }
