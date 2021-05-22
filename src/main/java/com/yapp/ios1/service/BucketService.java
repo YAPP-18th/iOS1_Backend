@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +23,6 @@ import static com.yapp.ios1.common.ResponseMessage.NOT_FOUND_BUCKET;
 public class BucketService {
 
     private final BucketMapper bucketMapper;
-    private final S3Service s3Service;
 
     public BucketResultDto homeBucketList(String bucketState, String category, Long userId, String sort) {
         List<BucketDto> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
@@ -40,12 +38,12 @@ public class BucketService {
 
     // 버킷 등록
     @Transactional
-    public void registerBucket(BucketRequestDto registerDto) throws IOException, IllegalArgumentException {
+    public void registerBucket(BucketRequestDto registerDto) throws IllegalArgumentException {
         bucketMapper.registerBucket(registerDto); // bucket 저장
 
         Long bucketId = registerDto.getId();
         saveTagList(bucketId, registerDto.getTagList());
-        saveImageUrlList(bucketId, s3Service.upload(registerDto.getImageList()));
+        saveImageUrlList(bucketId, registerDto.getImageList());
     }
 
     // 버킷 수정
@@ -62,54 +60,30 @@ public class BucketService {
         if (!bucketDto.getUserId().equals(userId)) {
             throw new IllegalArgumentException(BAD_USER);
         }
-
-        bucketMapper.updateBucket(setUpdateBucketDto(bucketDto, updateDto)); // 버킷 수정
+        updateDto.setId(bucketId);
+        bucketMapper.updateBucket(updateDto); // 버킷 수정
 
         // 태그 수정
         updateTag(bucketId, updateDto.getTagList());
 
         // 이미지 수정
-
+        updateImageUrlList(bucketId, updateDto.getImageList());
 
         // 버킷 로그 저장
-        if (updateDto.getBucketName() != null) {
+        if (!updateDto.getBucketName().equals(bucketDto.getBucketName())) {
             bucketMapper.saveBucketNameLog(bucketId);
         }
 
-        if (updateDto.getEndDate() != null) {
+        if (!updateDto.getEndDate().equals(bucketDto.getEndDate())) {
             bucketMapper.saveBucketEndDateLog(bucketId);
         }
     }
 
-    // dto 업데이트
-    private BucketCompareDto setUpdateBucketDto(BucketCompareDto bucketDto, BucketRequestDto updateDto) {
-        if (updateDto.getBucketName() != null) {
-            bucketDto.setBucketName(updateDto.getBucketName());
-        }
-
-        if (updateDto.getState() != null) {
-            bucketDto.setBucketState(updateDto.getState());
-        }
-
-        if (updateDto.getContent() != null) {
-            bucketDto.setContent(updateDto.getContent());
-        }
-
-        if (updateDto.getEndDate() != null) {
-            bucketDto.setEndDate(updateDto.getEndDate());
-        }
-
-        if (updateDto.getCategoryId() != 0) {
-            bucketDto.setCategoryId(updateDto.getCategoryId());
-        }
-
-        return bucketDto;
-    }
-
     // 태그 저장
-    private void saveTagList(Long bucketId, List<TagDto> tagList) {
+    private void saveTagList(Long bucketId, List<String> tagList) {
         if (tagList != null) {
-            for (TagDto tag : tagList) {
+            for (String tagName : tagList) {
+                TagDto tag = new TagDto(tagName);
                 Optional<TagDto> optionalTag = bucketMapper.findByTagName(tag.getTagName());
                 if (optionalTag.isEmpty()) { // 태그 기존에 없는 경우, tag 저장
                     bucketMapper.saveTag(tag);
@@ -122,10 +96,9 @@ public class BucketService {
     }
 
     // 태그 수정
-    private void updateTag(Long bucketId, List<TagDto> tagList) {
+    private void updateTag(Long bucketId, List<String> tagList) {
         // 태그 제거
         bucketMapper.deleteTagListByBucketId(bucketId);
-
         // 태그 INSERT
         saveTagList(bucketId, tagList);
     }
@@ -135,6 +108,14 @@ public class BucketService {
         if (!imageUrlList.isEmpty()) {
             bucketMapper.saveBucketImageUrlList(bucketId, imageUrlList);
         }
+    }
+
+    // 이미지 url 수정
+    private void updateImageUrlList(Long bucketId, List<String> imageUrlList) {
+        // 이미지 제거
+        bucketMapper.deleteImageListByBucketId(bucketId);
+        // 이미지 INSERT
+        saveImageUrlList(bucketId, imageUrlList);
     }
 
     public List<BookmarkDto> getBookmarkList(Long userId) {

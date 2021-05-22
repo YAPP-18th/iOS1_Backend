@@ -17,7 +17,7 @@ public interface BucketMapper {
 
     void registerBucket(BucketRequestDto registerDto);
 
-    void updateBucket(BucketCompareDto updateDto);
+    void updateBucket(BucketRequestDto updateDto);
 
     void saveBucketImageUrlList(@Param("bucketId") Long bucketId, List<String> imageUrlList);
 
@@ -41,6 +41,8 @@ public interface BucketMapper {
     int getBucketCountByUserId(@Param("userId") Long userId);
 
     void deleteTagListByBucketId(Long bucketId);
+
+    void deleteImageListByBucketId(Long bucketId);
 
     void saveBucketNameLog(Long bucketId);
 

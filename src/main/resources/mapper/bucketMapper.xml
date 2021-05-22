@@ -80,7 +80,7 @@
         SET bucket_name = #{bucketName},
             bucket_content = #{content},
             end_date = #{endDate},
-            bucket_state = #{bucketState},
+            bucket_state = #{state},
             category_id = #{categoryId}
         WHERE id = #{id};
     </update>
@@ -122,6 +122,10 @@
 
     <delete id="deleteTagListByBucketId">
         DELETE FROM bucket_tag WHERE bucket_id = #{bucketId};
+    </delete>
+
+    <delete id="deleteImageListByBucketId">
+        DELETE FROM image WHERE bucket_id = #{bucketId};
     </delete>
 
     <insert id="saveBucketLogList">
