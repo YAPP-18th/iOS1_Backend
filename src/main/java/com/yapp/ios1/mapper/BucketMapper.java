@@ -1,9 +1,6 @@
 package com.yapp.ios1.mapper;
 
-import com.yapp.ios1.dto.bucket.BookmarkDto;
-import com.yapp.ios1.dto.bucket.BucketRegisterDto;
-import com.yapp.ios1.dto.bucket.TagDto;
-import com.yapp.ios1.dto.bucket.BucketDto;
+import com.yapp.ios1.dto.bucket.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,7 +13,11 @@ import java.util.Optional;
 @Mapper
 public interface BucketMapper {
 
-    void registerBucket(BucketRegisterDto registerDto);
+    Optional<BucketCompareDto> findByBucketId(Long bucketId);
+
+    void registerBucket(BucketRequestDto registerDto);
+
+    void updateBucket(BucketRequestDto updateDto);
 
     void saveBucketImageUrlList(@Param("bucketId") Long bucketId, List<String> imageUrlList);
 
@@ -38,4 +39,12 @@ public interface BucketMapper {
     List<BookmarkDto> findBookmarkListByUserId(@Param("userId") Long userId);
 
     int getBucketCountByUserId(@Param("userId") Long userId);
+
+    void deleteTagListByBucketId(Long bucketId);
+
+    void deleteImageListByBucketId(Long bucketId);
+
+    void saveBucketNameLog(Long bucketId);
+
+    void saveBucketEndDateLog(Long bucketId);
 }

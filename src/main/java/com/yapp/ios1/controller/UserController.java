@@ -3,7 +3,6 @@ package com.yapp.ios1.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.JwtPayload;
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.EmailCheckDto;
@@ -11,7 +10,6 @@ import com.yapp.ios1.dto.user.check.NicknameCheckDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.TokenDto;
-import com.yapp.ios1.dto.user.result.FriendDto;
 import com.yapp.ios1.exception.user.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
@@ -19,8 +17,6 @@ import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -167,23 +163,5 @@ public class UserController {
         }
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
-    }
-
-    @ApiOperation(
-            value = "친구 리스트"
-    )
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "친구 목록 존재하는 경우"),
-            @ApiResponse(code = 404, message = "친구 목록 존재하지 않는 경우"),
-    })
-    @GetMapping("/{userId}/friends")
-    public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
-        List<FriendDto> friendList = userService.getFriendList(userId);
-        if (friendList.size() == 0) {
-            return ResponseEntity.ok()
-                    .body(ResponseDto.of(HttpStatus.NOT_FOUND, NO_FRIEND_LIST));
-        }
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
 }

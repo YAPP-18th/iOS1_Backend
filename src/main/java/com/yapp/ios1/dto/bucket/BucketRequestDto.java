@@ -1,8 +1,9 @@
 package com.yapp.ios1.dto.bucket;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yapp.ios1.utils.validation.BucketConstraint;
+import lombok.Builder;
 import lombok.Getter;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -10,9 +11,12 @@ import java.util.List;
  * created by ayoung 2021/05/08
  */
 @Getter
-public class BucketRegisterDto {
+@Builder
+public class BucketRequestDto {
 
+    @JsonIgnore
     private Long id;
+    @JsonIgnore
     private Long userId;
     private String bucketName;
     @BucketConstraint
@@ -21,16 +25,12 @@ public class BucketRegisterDto {
     private String startDate;
     private String endDate;
     private String content;
-    private MultipartFile[] imageList;
-    private List<TagDto> tagList;
-    private Boolean isPublic;
+    private List<String> imageList;
+    private List<String> tagList;
 
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public void setImageList(MultipartFile[] imageList) {
-        this.imageList = imageList;
-    }
-
+    public void setId(Long id) { this.id = id; }
 }

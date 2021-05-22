@@ -175,9 +175,4 @@ public class UserService {
                 .bookmark(new BookmarkResultDto(bookmarkList, bookmarkList.size()))
                 .build();
     }
-
-    // 친구 리스트
-    public List<FriendDto> getFriendList(Long userId) {
-        return followMapper.getFollowListByUserId(userId);
-    }
 }

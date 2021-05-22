@@ -12,10 +12,13 @@ public class ResponseMessage {
 
     // Bucket
     public static final String GET_BUCKET_LIST = "버킷 리스트 조회 성공입니다.";
+    public static final String UPLOAD_IMAGE_SUCCESS = "이미지 업로드 성공입니다.";
+    public static final String NOT_EXIST_IMAGE = "업로드할 이미지 존재하지 않습니다.";
     public static final String REGISTER_BUCKET_SUCCESS = "버킷 등록 성공입니다.";
     public static final String NOT_FOUND_CATEGORY = "존재하지 않는 카테고리 입니다.";
     public static final String BAD_BUCKET_STATE = "잘못된 버킷 state 입니다.";
     public static final String NOT_FOUND_SORT = "잘못된 정렬 입니다.";
+    public static final String NOT_FOUND_BUCKET = "존재하지 않는 버킷입니다.";
 
     // Login
     public static final String LOGIN_SUCCESS = "액세스 토큰 발급";
@@ -27,6 +30,7 @@ public class ResponseMessage {
     public static final String NOT_MATCH_PASSWORD = "비밀번호 오류입니다.";
     public static final String BAD_SOCIAL_TYPE = "잘못된 소셜 타입입니다.";
     public static final String BAD_JWT = "잘못된 JWT 입니다.";
+    public static final String BAD_USER = "잘못된 접근입니다.";
 
     // User
     public static final String GET_PROFILE_SUCCESS = "프로필 가져오기 성공.";

@@ -1,12 +1,15 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
+import com.yapp.ios1.dto.user.result.FriendDto;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.yapp.ios1.dto.follow.FollowNotification.*;
 import static com.yapp.ios1.dto.follow.FriendStatus.FRIEND;
@@ -47,6 +50,12 @@ public class FollowService {
                 .build();
         notificationService.sendByToken(notificationDto);
         return notificationDto;
+    }
+
+
+    // 친구 리스트
+    public List<FriendDto> getFriendList(Long userId) {
+        return followMapper.getFollowListByUserId(userId);
     }
 
     /**

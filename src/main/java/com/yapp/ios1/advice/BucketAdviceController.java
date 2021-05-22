@@ -1,7 +1,7 @@
 package com.yapp.ios1.advice;
 
-import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
+import com.yapp.ios1.exception.bucket.BucketNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -28,5 +28,11 @@ public class BucketAdviceController {
 
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.BAD_REQUEST, builder.toString()));
+    }
+
+    @ExceptionHandler(BucketNotFoundException.class)
+    public ResponseEntity<ResponseDto> bucketNotFoundException(BucketNotFoundException e) {
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.NOT_FOUND, e.getMessage()));
     }
 }
