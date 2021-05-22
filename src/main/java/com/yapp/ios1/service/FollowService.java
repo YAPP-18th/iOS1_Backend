@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.yapp.ios1.dto.follow.FollowNotification.*;
 import static com.yapp.ios1.dto.follow.FriendStatus.FRIEND;
 import static com.yapp.ios1.dto.follow.FriendStatus.REQUEST;
-import static com.yapp.ios1.dto.notification.AlarmLogStatus.ACTIVITY;
 
 /**
  * created by jg 2021/05/21
@@ -36,7 +35,7 @@ public class FollowService {
         NotificationForOneDto notification = sendFollowAlarmRequest(
                 friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());
 
-        alarmMapper.insertAlarmLog(notification, friendId, ACTIVITY.getAlarmStatus());
+        alarmMapper.insertAlarmLog(notification, friendId);
     }
 
     private NotificationForOneDto sendFollowAlarmRequest(Long friendId, String title, String message) {
@@ -60,6 +59,7 @@ public class FollowService {
         followMapper.followAccept(myUserId, friendId, FRIEND.getFriendStatus());
         NotificationForOneDto notification = sendFollowAlarmRequest(
                 friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
-        alarmMapper.insertAlarmLog(notification, friendId, ACTIVITY.getAlarmStatus());
+        alarmMapper.insertAlarmLog(notification, friendId);
+
     }
 }
