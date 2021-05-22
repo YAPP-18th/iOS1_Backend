@@ -47,6 +47,19 @@ public class FollowController {
     }
 
     @ApiOperation(
+            value = "친구 요청 승낙"
+    )
+    @Auth
+    @PostMapping("/accept/{friendId}")
+    public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId) {
+        Long myUserId = UserContext.getCurrentUserId();
+
+        followService.followAccept(myUserId, friendId);
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_ACCEPT));
+    }
+
+    @ApiOperation(
             value = "친구 리스트"
     )
     @ApiResponses({
@@ -62,18 +75,5 @@ public class FollowController {
         }
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
-    }
-
-    @ApiOperation(
-                value = "친구 요청 승낙"
-    )
-    @Auth
-    @PostMapping("/accept/{friendId}")
-    public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId) {
-        Long myUserId = UserContext.getCurrentUserId();
-
-        followService.followAccept(myUserId, friendId);
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_ACCEPT));
     }
 }
