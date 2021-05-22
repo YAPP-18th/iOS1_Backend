@@ -1,6 +1,5 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.dto.follow.FollowNotification;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FollowMapper;
