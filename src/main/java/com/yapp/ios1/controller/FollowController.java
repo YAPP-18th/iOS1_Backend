@@ -63,6 +63,7 @@ public class FollowController {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
+
     @ApiOperation(
                 value = "친구 요청 승낙"
     )

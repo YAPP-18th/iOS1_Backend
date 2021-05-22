@@ -12,8 +12,6 @@ import java.util.List;
  * created by ayoung 2021/05/21
  */
 @Getter
-@Setter
-@ToString
 public class BucketCompareDto {
     private Long id;
     private Long userId;
@@ -22,7 +20,4 @@ public class BucketCompareDto {
     private int categoryId;
     private String endDate;
     private String content;
-
-//    private List<String> imageUrlList;
-//    private List<TagDto> tagList;
 }

@@ -68,7 +68,8 @@ public class BucketController {
     @PostMapping("/images")
     public ResponseEntity<ResponseDto> registerBucketImageList(@RequestParam(value = "image") MultipartFile[] imageList) throws IOException {
         if (imageList == null) {
-            throw new IllegalArgumentException(NOT_EXIST_IMAGE);
+            ResponseEntity.ok()
+                    .body(ResponseDto.of(HttpStatus.BAD_REQUEST, NOT_EXIST_IMAGE));
         }
 
         return ResponseEntity.ok()
