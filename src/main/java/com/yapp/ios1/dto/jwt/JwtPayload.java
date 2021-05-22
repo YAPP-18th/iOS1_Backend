@@ -1,4 +1,4 @@
-package com.yapp.ios1.dto;
+package com.yapp.ios1.dto.jwt;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

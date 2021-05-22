@@ -1,10 +1,11 @@
 package com.yapp.ios1.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.yapp.ios1.dto.JwtPayload;
+import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.service.JwtService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class TokenController {
     @GetMapping("/token")
     public String getToken() {
         try {
-            return jwtService.createToken(new JwtPayload(1L));
+            return jwtService.createAccessToken(new JwtPayload(1L));
         } catch (JsonProcessingException e) {
             return "에러";
         }

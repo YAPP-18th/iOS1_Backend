@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import com.yapp.ios1.dto.JwtPayload;
+import com.yapp.ios1.dto.jwt.JwtPayload;
+import com.yapp.ios1.dto.jwt.TokenResponseDto;
+import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.dto.user.login.SignInDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,18 +31,29 @@ public class JwtService {
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
 
-    @Value("${jwt.validTime}")
-    private long VALID_TIME;
+    @Value("${jwt.accessToken.validTime}")
+    private Long ACCESS_VALID_TIME;
 
-    public String createToken(JwtPayload payload) throws JsonProcessingException {
+    @Value("${jwt.refreshToken.validTime}")
+    private Long REFRESH_VALID_TIME;
+
+    private String createToken(JwtPayload payload, Long expireTime) throws JsonProcessingException {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
         Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
         return Jwts.builder()
                 .setSubject(objectMapper.writeValueAsString(payload.getId()))
                 .signWith(signingKey, signatureAlgorithm)
-                .setExpiration(new Date(System.currentTimeMillis() + VALID_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + expireTime))
                 .compact();
+    }
+
+    public String createAccessToken(JwtPayload payload) throws JsonProcessingException {
+        return createToken(payload, ACCESS_VALID_TIME);
+    }
+
+    public String createRefreshToken(JwtPayload payload) throws JsonProcessingException {
+        return createToken(payload, REFRESH_VALID_TIME);
     }
 
     public JwtPayload getPayload(String token) throws JsonProcessingException, SignatureException, ExpiredJwtException, MalformedJwtException, UnsupportedJwtException {
@@ -57,6 +71,17 @@ public class JwtService {
         ReadOnlyJWTClaimsSet payload = signedJWT.getJWTClaimsSet();
 
         return payload.getSubject();
+    }
+
+    public TokenResponseDto createTokenResponse(Long userId) throws JsonProcessingException {
+        JwtPayload jwtPayload = new JwtPayload(userId);
+        String accessToken = createAccessToken(jwtPayload);
+        String refreshToken = createRefreshToken(jwtPayload);
+
+        return TokenResponseDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 }
 
