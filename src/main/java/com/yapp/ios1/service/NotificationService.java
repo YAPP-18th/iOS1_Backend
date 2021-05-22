@@ -57,21 +57,16 @@ public class NotificationService {
     }
 
     @Async("asyncTask")
-    public void sendPushNotification(List<String> deviceTokens, NotificationDto pushNotificationRequest) {
+    public void sendPushNotification(NotificationDto pushNotificationRequest) {
+        // TODO 레디스에 DeviceToken 전부 넣어서 가져오도록 고도화 시키기
+        List<String> deviceTokens = userMapper.findAllUserDeviceToken();
 
-//        List<String> tokens = Arrays.asList(
-//                "cYm9R_j7ReuSFz6Z2xZT6r:APA91bFgFquTCqTFXFYDK69kNrS_dRTCxdIPw7frEyG8IfcQ9AyovzS8sz-dhjCJoQTwXKI0G_IvcMy4Ae80Woou5SyeMyJ8faJd2ifPR-JsuSJofMIduyfoEHUcOsLarOTOnR162PFI"
-//        );
-
-        deviceTokens.forEach(System.out::println);
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()
                 .putData("title", pushNotificationRequest.getTitle())
                 .putData("message", pushNotificationRequest.getMessage())
                 .setToken(token)
                 .build()).collect(Collectors.toList());
 
-        // 여러명 알람 한테 보내기
-        messages.forEach(System.out::println);
         BatchResponse response;
         try {
             response = FirebaseMessaging.getInstance().sendAll(messages);
@@ -98,15 +93,13 @@ public class NotificationService {
         }
     }
 
-    @Async("asyncTask")
     // 초, 분, 시간, 일, 월, 요일
     // 매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정
     @Scheduled(cron = "30 53 20 1 * ?", zone = "Asia/Seoul")
+    @Async("asyncTask")
     public void notificationSchedule() {
-        // TODO 레디스에 DeviceToken 전부 넣어서 가져오도록 고도화 시키기
-        List<String> deviceTokens = userMapper.findAllUserDeviceToken();
         NotificationDto notificationDto = new NotificationDto("제목", "메세지");
-        sendPushNotification(deviceTokens, notificationDto);
+        sendPushNotification(notificationDto);
     }
 }
 
