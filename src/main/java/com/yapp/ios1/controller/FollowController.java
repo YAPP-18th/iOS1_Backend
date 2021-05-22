@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("follow")
 public class FollowController {
 
     private final FollowService followService;
@@ -26,12 +28,25 @@ public class FollowController {
             value = "친구 요청"
     )
     @Auth
-    @PostMapping("/follow/request/{friendId}")
+    @PostMapping("/request/{friendId}")
     public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
         Long myUserId = UserContext.getCurrentUserId();
 
         followService.followRequest(myUserId, friendId);
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_REQUEST));
+    }
+
+    @ApiOperation(
+            value = "친구 요청 승낙"
+    )
+    @Auth
+    @PostMapping("/accept/{friendId}")
+    public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId) {
+        Long myUserId = UserContext.getCurrentUserId();
+
+        followService.followAccept(myUserId, friendId);
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_ACCEPT));
     }
 }

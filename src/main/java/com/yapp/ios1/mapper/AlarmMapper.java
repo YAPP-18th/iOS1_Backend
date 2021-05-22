@@ -11,6 +11,5 @@ import org.apache.ibatis.annotations.Param;
 public interface AlarmMapper {
 
     void insertAlarmLog(@Param("notification") NotificationForOneDto notification,
-                        @Param("friendId") Long friendId,
-                        @Param("alarmStatus") int alarmStatus);
+                        @Param("friendId") Long friendId);
 }

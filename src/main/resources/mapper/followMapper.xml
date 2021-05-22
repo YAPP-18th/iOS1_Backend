@@ -26,5 +26,11 @@
         INSERT INTO follow (following_id, follower_id, friend_status)
         VALUES (#{friendId}, #{myUserId}, #{followRequest})
     </insert>
+
+    <update id="followAccept">
+        UPDATE follow
+        SET friend_status = #{friendStatus}
+        WHERE following_id = #{myUserId} AND follower_id = #{friendId}
+    </update>
 </mapper>
 
