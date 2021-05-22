@@ -3,34 +3,40 @@ package com.yapp.ios1.service;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.messaging.*;
+import com.google.firebase.messaging.BatchResponse;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.exception.notification.FirebaseNotInitException;
+import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * created by jg 2021/05/02
  */
+@RequiredArgsConstructor
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class NotificationService {
 
     @Value("${fcm.account.path}")
     private String accountPath;
+
+    private final UserMapper userMapper;
 
     @PostConstruct
     public void init() {
@@ -52,18 +58,15 @@ public class NotificationService {
 
     @Async("asyncTask")
     public void sendPushNotification(NotificationDto pushNotificationRequest) {
+        // TODO 레디스에 DeviceToken 전부 넣어서 가져오도록 고도화 시키기
+        List<String> deviceTokens = userMapper.findAllUserDeviceToken();
 
-        List<String> tokens = Arrays.asList(
-                "cYm9R_j7ReuSFz6Z2xZT6r:APA91bFgFquTCqTFXFYDK69kNrS_dRTCxdIPw7frEyG8IfcQ9AyovzS8sz-dhjCJoQTwXKI0G_IvcMy4Ae80Woou5SyeMyJ8faJd2ifPR-JsuSJofMIduyfoEHUcOsLarOTOnR162PFI"
-        );
-
-        List<Message> messages = tokens.stream().map(token -> Message.builder()
+        List<Message> messages = deviceTokens.stream().map(token -> Message.builder()
                 .putData("title", pushNotificationRequest.getTitle())
                 .putData("message", pushNotificationRequest.getMessage())
                 .setToken(token)
                 .build()).collect(Collectors.toList());
 
-        // 여러명 알람 한테 보내기
         BatchResponse response;
         try {
             response = FirebaseMessaging.getInstance().sendAll(messages);
@@ -88,6 +91,15 @@ public class NotificationService {
         } catch (FirebaseMessagingException e) {
             log.error("cannot send message by token. error info : {}", e.getMessage());
         }
+    }
+
+    // 초, 분, 시간, 일, 월, 요일
+    // 매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정
+    @Scheduled(cron = "30 53 20 1 * ?", zone = "Asia/Seoul")
+    @Async("asyncTask")
+    public void notificationSchedule() {
+        NotificationDto notificationDto = new NotificationDto("제목", "메세지");
+        sendPushNotification(notificationDto);
     }
 }
 

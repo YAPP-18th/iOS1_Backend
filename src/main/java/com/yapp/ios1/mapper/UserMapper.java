@@ -6,6 +6,7 @@ import com.yapp.ios1.dto.user.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -31,4 +32,6 @@ public interface UserMapper {
     void signUp(UserDto userDto);
 
     String findDeviceTokenByUserId(Long userId);
+
+    List<String> findAllUserDeviceToken();
 }
