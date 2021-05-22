@@ -35,6 +35,7 @@ public class NotificationService {
     @PostConstruct
     public void init() {
         try {
+            System.out.println(new ClassPathResource(accountPath));
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.
                             fromStream(new ClassPathResource(accountPath).getInputStream())).build();
