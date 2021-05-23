@@ -31,6 +31,7 @@ public class ResponseMessage {
     public static final String BAD_SOCIAL_TYPE = "잘못된 소셜 타입입니다.";
     public static final String BAD_JWT = "잘못된 JWT 입니다.";
     public static final String BAD_USER = "잘못된 접근입니다.";
+    public static final String EXPIRED_TOKEN = "만료된 토큰입니다.";
 
     // User
     public static final String GET_PROFILE_SUCCESS = "프로필 가져오기 성공.";

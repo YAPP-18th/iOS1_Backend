@@ -3,6 +3,7 @@ package com.yapp.ios1.utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -11,7 +12,7 @@ import java.time.Duration;
  * created by ayoung 2021/05/23
  */
 @RequiredArgsConstructor
-@Service
+@Component
 public class RedisUtil {
 
     private final StringRedisTemplate redisTemplate;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
 import com.yapp.ios1.utils.RedisUtil;
@@ -21,6 +22,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.function.Function;
 
+import static com.google.firebase.database.DatabaseError.EXPIRED_TOKEN;
 import static com.yapp.ios1.common.ResponseMessage.NOT_FOUND_USER;
 
 /**
@@ -108,7 +110,7 @@ public class JwtService {
     public TokenResponseDto reissueToken(String refreshToken) throws JsonProcessingException {
         String data = redisUtil.getData(refreshToken);
         if (data == null) {
-            throw new IllegalArgumentException(NOT_FOUND_USER);
+            throw new IllegalArgumentException(ResponseMessage.EXPIRED_TOKEN);
         }
         redisUtil.deleteData(refreshToken);
         return createTokenResponse(Long.parseLong(data));

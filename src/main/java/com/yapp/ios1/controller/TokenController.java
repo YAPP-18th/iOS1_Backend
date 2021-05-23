@@ -36,7 +36,7 @@ public class TokenController {
 
     @ApiOperation(value = "토큰 재발급")
     @PostMapping("/token/refresh")
-    public ResponseEntity<ResponseDto> reissueToken(@RequestBody String refreshToken) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> reissueToken(@RequestHeader String refreshToken) throws JsonProcessingException {
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.reissueToken(refreshToken));
         return ResponseEntity.ok().body(response);
     }
