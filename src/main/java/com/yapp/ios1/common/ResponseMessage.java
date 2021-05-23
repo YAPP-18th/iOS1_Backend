@@ -21,7 +21,7 @@ public class ResponseMessage {
     public static final String NOT_FOUND_BUCKET = "존재하지 않는 버킷입니다.";
 
     // Login
-    public static final String LOGIN_SUCCESS = "액세스 토큰 발급";
+    public static final String LOGIN_SUCCESS = "AccessToken, RefreshToken 발급합니다.";
     public static final String SOCIAL_LOGIN_ERROR = "소셜 로그인 실패입니다.";
     public static final String EXIST_EMAIL = "존재하는 이메일입니다.";
     public static final String EXIST_USER = "존재하는 회원입니다.";
@@ -31,6 +31,7 @@ public class ResponseMessage {
     public static final String BAD_SOCIAL_TYPE = "잘못된 소셜 타입입니다.";
     public static final String BAD_JWT = "잘못된 JWT 입니다.";
     public static final String BAD_USER = "잘못된 접근입니다.";
+    public static final String EXPIRED_TOKEN = "만료된 토큰입니다.";
 
     // User
     public static final String GET_PROFILE_SUCCESS = "프로필 가져오기 성공.";

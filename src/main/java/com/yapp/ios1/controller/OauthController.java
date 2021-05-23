@@ -1,16 +1,16 @@
 package com.yapp.ios1.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.yapp.ios1.dto.JwtPayload;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.login.social.AppleRequestDto;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
-import com.yapp.ios1.dto.user.login.TokenDto;
+import com.yapp.ios1.dto.jwt.TokenDto;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.OauthService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,9 +36,7 @@ public class OauthController {
                                                    @RequestBody TokenDto tokenDto) throws JsonProcessingException {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, tokenDto.getAccessToken());
 
-        String token = jwtService.createToken(new JwtPayload(checkDto.getUserId()));
-
-        ResponseDto response = ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, new TokenDto(token));
+        ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId()));
         return ResponseEntity.ok(response);
     }
 
@@ -46,9 +44,7 @@ public class OauthController {
     public ResponseEntity<ResponseDto> appleLogin(@RequestBody AppleRequestDto appleUser) throws JsonProcessingException, ParseException {
         UserCheckDto checkDto = oauthService.getAppleUser(appleUser);
 
-        String token = jwtService.createToken(new JwtPayload(checkDto.getUserId()));
-
-        ResponseDto response = ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, new TokenDto(token));
+        ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId()));
         return ResponseEntity.ok(response);
     }
 }

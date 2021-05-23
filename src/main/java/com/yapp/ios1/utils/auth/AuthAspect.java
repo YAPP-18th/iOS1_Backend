@@ -1,7 +1,7 @@
 package com.yapp.ios1.utils.auth;
 
 import com.yapp.ios1.common.ResponseMessage;
-import com.yapp.ios1.dto.JwtPayload;
+import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;

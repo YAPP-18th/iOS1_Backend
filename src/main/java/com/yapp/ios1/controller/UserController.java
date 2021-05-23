@@ -1,7 +1,6 @@
 package com.yapp.ios1.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.yapp.ios1.dto.JwtPayload;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.UserDto;
@@ -9,7 +8,6 @@ import com.yapp.ios1.dto.user.check.EmailCheckDto;
 import com.yapp.ios1.dto.user.check.NicknameCheckDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
-import com.yapp.ios1.dto.user.login.TokenDto;
 import com.yapp.ios1.exception.user.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
@@ -26,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 
 import static com.yapp.ios1.common.ResponseMessage.*;
@@ -34,11 +31,11 @@ import static com.yapp.ios1.common.ResponseMessage.*;
 /**
  * created by jg 2021/03/28
  */
+@Api(tags = "User")
 @RequiredArgsConstructor
 @Slf4j
 @RestController
 @RequestMapping("/api/v2/users")
-@Api(tags = "User")
 public class UserController {
 
     private final UserService userService;
@@ -104,13 +101,13 @@ public class UserController {
      * @param signInDto 로그인 정보
      */
     @ApiOperation(
-            value = "로그인"
+            value = "로그인",
+            notes = "로그인 성공 시, accessToken과 refreshToken을 발급합니다."
     )
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException {
         UserDto userDto = userService.getUser(signInDto);
-        String token = jwtService.createToken(new JwtPayload(userDto.getId()));
-        ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, new TokenDto(token));
+        ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId()));
         return ResponseEntity.ok().body(response);
     }
 
