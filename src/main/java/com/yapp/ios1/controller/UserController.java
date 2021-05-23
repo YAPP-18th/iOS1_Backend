@@ -31,11 +31,11 @@ import static com.yapp.ios1.common.ResponseMessage.*;
 /**
  * created by jg 2021/03/28
  */
+@Api(tags = "User")
 @RequiredArgsConstructor
 @Slf4j
 @RestController
 @RequestMapping("/api/v2/users")
-@Api(tags = "User")
 public class UserController {
 
     private final UserService userService;

@@ -6,10 +6,10 @@ import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
-import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.login.SignInDto;
+import com.yapp.ios1.utils.RedisUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,13 +20,17 @@ import java.security.Key;
 import java.text.ParseException;
 import java.util.Date;
 
+import static com.yapp.ios1.common.ResponseMessage.NOT_FOUND_USER;
+
 /**
  * created by jg 2021/04/11
  */
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class JwtService {
     private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final RedisUtil redisUtil;
 
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
@@ -78,10 +82,22 @@ public class JwtService {
         String accessToken = createAccessToken(jwtPayload);
         String refreshToken = createRefreshToken(jwtPayload);
 
+        redisUtil.setDataExpire(refreshToken, String.valueOf(userId), REFRESH_VALID_TIME / 1000);
+
         return TokenResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
     }
+
+    public TokenResponseDto reissueToken(String refreshToken) throws JsonProcessingException {
+        String data = redisUtil.getData(refreshToken);
+        if (data == null) {
+            throw new IllegalArgumentException(NOT_FOUND_USER);
+        }
+        redisUtil.deleteData(refreshToken);
+        return createTokenResponse(Long.parseLong(data));
+    }
+
 }
 
