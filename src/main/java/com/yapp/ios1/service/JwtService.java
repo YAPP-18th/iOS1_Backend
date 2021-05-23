@@ -19,6 +19,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.function.Function;
 
 import static com.yapp.ios1.common.ResponseMessage.NOT_FOUND_USER;
 
@@ -61,12 +62,7 @@ public class JwtService {
     }
 
     public JwtPayload getPayload(String token) throws JsonProcessingException, SignatureException, ExpiredJwtException, MalformedJwtException, UnsupportedJwtException {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
+        Claims claims = getAllClaimsFromToken(token);
         return objectMapper.readValue(claims.getSubject(), JwtPayload.class);
     }
 
@@ -77,16 +73,35 @@ public class JwtService {
         return payload.getSubject();
     }
 
+    public Date getExpirationDateFromToken(String token){
+        return getClaimFromToken(token, Claims::getExpiration);
+    }
+
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims getAllClaimsFromToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
     public TokenResponseDto createTokenResponse(Long userId) throws JsonProcessingException {
         JwtPayload jwtPayload = new JwtPayload(userId);
         String accessToken = createAccessToken(jwtPayload);
         String refreshToken = createRefreshToken(jwtPayload);
 
-        redisUtil.setDataExpire(refreshToken, String.valueOf(userId), REFRESH_VALID_TIME / 1000);
+        redisUtil.setDataExpire(refreshToken, String.valueOf(userId), REFRESH_VALID_TIME);
 
         return TokenResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .accessExpiredAt(getExpirationDateFromToken(accessToken))
+                .refreshExpiredAt(getExpirationDateFromToken(refreshToken))
                 .build();
     }
 
