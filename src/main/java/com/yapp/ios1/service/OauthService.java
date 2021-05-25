@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.social.AppleRequestDto;
+import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
 import com.yapp.ios1.dto.user.login.social.SocialType;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.exception.user.EmailNotExistException;
 import com.yapp.ios1.exception.user.UserDuplicatedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,17 +46,19 @@ public class OauthService {
     @Value("${social.url.kakao}")
     private String KAKAO_REQUEST_URL;
 
-    public UserCheckDto getSocialUser(String socialType, String accessToken) throws JsonProcessingException {
+    public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) throws JsonProcessingException {
         try {
             switch (SocialType.valueOf(socialType.toUpperCase())) {
                 case GOOGLE:
-                    return getGoogleUser(accessToken);
+                    return getGoogleUser(socialDto.getToken());
                 case KAKAO:
-                    return getKakaoUser(accessToken);
+                    return getKakaoUser(socialDto.getToken());
+                case APPLE:
+                    return getAppleUser(socialDto.getToken(), socialDto.getEmail());
                 default:
                     return null;
             }
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | ParseException e) {
             throw new IllegalArgumentException(BAD_SOCIAL_TYPE);
         }
     }
@@ -114,24 +118,23 @@ public class OauthService {
     }
 
     // 애플 로그인
-    public UserCheckDto getAppleUser(AppleRequestDto appleUser) throws ParseException {
+    public UserCheckDto getAppleUser(String identityToken, String email) throws ParseException {
 
-        if (!jwtService.getSubject(appleUser.getIdentityToken()).equals(appleUser.getUserIdentity())) {
-            throw new IllegalArgumentException(SOCIAL_LOGIN_ERROR);
-        }
-
-        String socialId = appleUser.getUserIdentity();
+        String socialId = jwtService.getSubject(identityToken);
         Optional<UserDto> optionalUser = userService.socialIdCheck(socialId);
 
         if (optionalUser.isEmpty()) {
-            if (userService.emailCheck(appleUser.getEmail()).isPresent()) { // 이메일 중복 확인
+            if (userService.emailCheck(email).isPresent()) { // 이메일 중복 확인
                 throw new UserDuplicatedException(EXIST_EMAIL);
             }
+            if (email == null) {
+                throw new EmailNotExistException(NOT_EXIST_EMAIL);
+            }
             SignUpDto signUpDto = SignUpDto.builder()
-                    .email(appleUser.getEmail())
+                    .email(email)
                     .socialType(APPLE)
                     .password(BUOK_KEY)
-                    .socialId(appleUser.getUserIdentity())
+                    .socialId(socialId)
                     .build();
             return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto))); // 회원가입
         }
