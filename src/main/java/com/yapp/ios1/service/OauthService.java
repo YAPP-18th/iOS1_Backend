@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yapp.ios1.dto.user.login.SignUpDto;
-import com.yapp.ios1.dto.user.login.social.AppleRequestDto;
 import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
 import com.yapp.ios1.dto.user.login.social.SocialType;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
