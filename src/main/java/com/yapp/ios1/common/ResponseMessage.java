@@ -24,6 +24,7 @@ public class ResponseMessage {
     public static final String LOGIN_SUCCESS = "AccessToken, RefreshToken 발급합니다.";
     public static final String SOCIAL_LOGIN_ERROR = "소셜 로그인 실패입니다.";
     public static final String EXIST_EMAIL = "존재하는 이메일입니다.";
+    public static final String NOT_EXIST_EMAIL = "이메일을 입력해주세요.";
     public static final String EXIST_USER = "존재하는 회원입니다.";
     public static final String NOT_EXIST_USER = "존재하지 않는 회원입니다.";
     public static final String SIGN_UP_SUCCESS = "회원가입 성공입니다.";
