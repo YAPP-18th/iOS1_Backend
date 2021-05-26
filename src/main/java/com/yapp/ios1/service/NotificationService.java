@@ -8,6 +8,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.yapp.ios1.common.ResponseMessage;
+import com.yapp.ios1.dto.notification.DeviceTokenDto;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.exception.notification.FirebaseNotInitException;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +39,8 @@ public class NotificationService {
     private String accountPath;
 
     private final UserMapper userMapper;
+
+    private static final NotificationDto notificationDto = new NotificationDto("제목", "메세지", LocalDateTime.now());
 
     @PostConstruct
     public void init() {
@@ -97,7 +101,6 @@ public class NotificationService {
     //@Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     @Async("asyncTask")
     public void notificationSchedule() {
-        NotificationDto notificationDto = new NotificationDto("제목", "메세지");
         alarmLogBatchInsert(notificationDto);
         sendPushNotification(notificationDto);
     }
@@ -109,7 +112,6 @@ public class NotificationService {
         for (int i = 0; i < userNumber; ++i) {
             alarmBatch.add(notificationDto);
         }
-
         userMapper.insertFullAlarmLog(alarmBatch);
     }
 

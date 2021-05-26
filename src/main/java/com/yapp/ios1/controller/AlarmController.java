@@ -1,6 +1,5 @@
 package com.yapp.ios1.controller;
 
-import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,6 @@ public class AlarmController {
 
     @GetMapping("/alarm")
     public String alarmTest() {
-        NotificationDto notificationDto = new NotificationDto("제목", "메세지");
         notificationService.notificationSchedule();
         return "test";
     }

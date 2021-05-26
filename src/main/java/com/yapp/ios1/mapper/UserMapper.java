@@ -1,5 +1,6 @@
 package com.yapp.ios1.mapper;
 
+import com.yapp.ios1.dto.notification.DeviceTokenDto;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.ProfileResultDto;
