@@ -10,6 +10,8 @@ import com.google.firebase.messaging.Message;
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
+import com.yapp.ios1.dto.notification.response.NotificationFollowLogDto;
+import com.yapp.ios1.dto.notification.response.NotificationWholeLogDto;
 import com.yapp.ios1.exception.notification.FirebaseNotInitException;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.UserMapper;
@@ -28,6 +30,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * created by jg 2021/05/02
@@ -100,8 +103,12 @@ public class NotificationService {
         }
     }
 
-    public void getAlarmLog(Long userId) {
-        alarmMapper.getAlarmLog(userId);
+    public List<Object> getAlarmLog(Long userId) {
+        List<NotificationFollowLogDto> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
+        List<NotificationWholeLogDto> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
+
+        return Stream.concat(followAlarmLog.stream(), commonAlarmLog.stream())
+                .collect(Collectors.toList());
     }
 
     // 초, 분, 시간, 일, 월, 요일
@@ -112,11 +119,15 @@ public class NotificationService {
         alarmMapper.insertWholeAlarmLog(pushNotificationRequest);
         sendPushNotification();
     }
-//        List<NotificationDto> alarmBatch = IntStream.range(0, findDeviceTokens().size())
-//                .mapToObj(i -> pushNotificationRequest)
-//                .collect(Collectors.toList());
-//
-//        alarmMapper.insertAlarmLogBatch(alarmBatch);
+
+    // 잠시 성능 테스트 중(머지 전 삭제예정)
+    public void test() {
+        List<NotificationDto> alarmBatch = IntStream.range(0, findDeviceTokens().size())
+                .mapToObj(i -> pushNotificationRequest)
+                .collect(Collectors.toList());
+
+        alarmMapper.insertAlarmLogBatch(alarmBatch);
+    }
 
     private List<String> findDeviceTokens() {
         // TODO 레디스에 DeviceToken 전부 넣어서 가져오도록 고도화 시키기

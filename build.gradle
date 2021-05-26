@@ -28,7 +28,6 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
     // JWT
     implementation 'javax.xml.bind:jaxb-api'

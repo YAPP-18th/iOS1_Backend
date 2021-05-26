@@ -11,9 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.yapp.ios1.dto.follow.FollowNotification.*;
-import static com.yapp.ios1.dto.follow.FriendStatus.FRIEND;
-import static com.yapp.ios1.dto.follow.FriendStatus.REQUEST;
+import static com.yapp.ios1.utils.follow.FollowNotification.*;
+import static com.yapp.ios1.utils.follow.FriendStatus.FRIEND;
+import static com.yapp.ios1.utils.follow.FriendStatus.REQUEST;
+
 
 /**
  * created by jg 2021/05/21

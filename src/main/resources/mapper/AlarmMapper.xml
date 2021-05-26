@@ -21,14 +21,28 @@
 <!--        </foreach>-->
 <!--    </insert>-->
 
-    <select id="getAlarmLog">
+    <select id="getCommonAlarmLog" resultType="com.yapp.ios1.dto.notification.response.NotificationWholeLogDto">
         SELECT DISTINCT(id) as alarmId,
                         title,
-                        message
+                        message,
+                        created_at as createdAt
         FROM alarm_log al
         WHERE al.id NOT IN
-              (SELECT id FROM alarm_delete)
-          AND (user_id = 1 OR distinguish = "ALL")
+              (SELECT alarm_id FROM alarm_delete)
+          AND (user_id = #{userId} OR distinguish = "ALL")
+        ORDER BY al.created_at ASC
+    </select>
+
+    <select id="getFollowAlarmLog" resultType="com.yapp.ios1.dto.notification.response.NotificationFollowLogDto">
+        SELECT DISTINCT (f.follower_id) as myUserId,
+               f.following_id as friendId,
+               message,
+               f.friend_status as friendStatus,
+               created_at as createdAt
+        FROM alarm_log al
+            JOIN follow f
+                ON f.follower_id = #{userId} OR f.following_id = #{userId}
+        WHERE al.user_id = #{userId}
         ORDER BY al.created_at ASC
     </select>
 </mapper>

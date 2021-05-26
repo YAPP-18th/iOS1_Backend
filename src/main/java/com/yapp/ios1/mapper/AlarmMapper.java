@@ -2,6 +2,8 @@ package com.yapp.ios1.mapper;
 
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
+import com.yapp.ios1.dto.notification.response.NotificationFollowLogDto;
+import com.yapp.ios1.dto.notification.response.NotificationWholeLogDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,5 +20,9 @@ public interface AlarmMapper {
 
     void insertWholeAlarmLog(@Param("alarm") NotificationDto notificationDto);
 
-    void getAlarmLog(Long userId);
+    List<NotificationWholeLogDto> getCommonAlarmLog(Long userId);
+
+    List<NotificationFollowLogDto> getFollowAlarmLog(Long userId);
+
+    void insertAlarmLogBatch(List<NotificationDto> list);
 }
