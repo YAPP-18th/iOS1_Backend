@@ -8,7 +8,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.yapp.ios1.common.ResponseMessage;
-import com.yapp.ios1.dto.notification.DeviceTokenDto;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.exception.notification.FirebaseNotInitException;
@@ -18,14 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * created by jg 2021/05/02
@@ -98,20 +98,20 @@ public class NotificationService {
 
     // 초, 분, 시간, 일, 월, 요일
     // 매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정
-    //@Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
+    @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     @Async("asyncTask")
     public void notificationSchedule() {
-        alarmLogBatchInsert(notificationDto);
+        alarmLogBatchInsert();
         sendPushNotification(notificationDto);
     }
 
-    private void alarmLogBatchInsert(NotificationDto notificationDto) {
+    private void alarmLogBatchInsert() {
         int userNumber = findDeviceTokens().size();
-        List<NotificationDto> alarmBatch = new ArrayList<>();
 
-        for (int i = 0; i < userNumber; ++i) {
-            alarmBatch.add(notificationDto);
-        }
+        List<NotificationDto> alarmBatch = IntStream.range(0, userNumber)
+                .mapToObj(i -> notificationDto)
+                .collect(Collectors.toList());
+
         userMapper.insertFullAlarmLog(alarmBatch);
     }
 
