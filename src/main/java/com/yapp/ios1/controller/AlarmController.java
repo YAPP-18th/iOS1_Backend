@@ -16,7 +16,6 @@ public class AlarmController {
 
     @GetMapping("/alarm")
     public String alarmTest() {
-        notificationService.notificationSchedule();
         return "test";
     }
 }

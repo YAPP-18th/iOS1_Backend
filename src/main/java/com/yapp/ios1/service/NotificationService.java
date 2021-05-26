@@ -40,7 +40,8 @@ public class NotificationService {
 
     private final UserMapper userMapper;
 
-    private static final NotificationDto notificationDto = new NotificationDto("제목", "메세지", LocalDateTime.now());
+    // 전체 알람 메세지 (팔로우 요청 메세지도 이렇게 static final 로 빼서 사용할 예정)
+    private static final NotificationDto pushNotificationRequest = new NotificationDto("제목", "메세지", LocalDateTime.now());
 
     @PostConstruct
     public void init() {
@@ -61,7 +62,7 @@ public class NotificationService {
     }
 
     @Async("asyncTask")
-    public void sendPushNotification(NotificationDto pushNotificationRequest) {
+    public void sendPushNotification() {
         List<String> deviceTokens = findDeviceTokens();
 
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()
@@ -99,17 +100,16 @@ public class NotificationService {
     // 초, 분, 시간, 일, 월, 요일
     // 매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정
     @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
-    @Async("asyncTask")
-    public void notificationSchedule() {
+    private void notificationSchedule() {
         alarmLogBatchInsert();
-        sendPushNotification(notificationDto);
+        sendPushNotification();
     }
 
     private void alarmLogBatchInsert() {
         int userNumber = findDeviceTokens().size();
 
         List<NotificationDto> alarmBatch = IntStream.range(0, userNumber)
-                .mapToObj(i -> notificationDto)
+                .mapToObj(i -> pushNotificationRequest)
                 .collect(Collectors.toList());
 
         userMapper.insertFullAlarmLog(alarmBatch);
