@@ -17,11 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,8 +58,7 @@ public class NotificationService {
 
     @Async("asyncTask")
     public void sendPushNotification(NotificationDto pushNotificationRequest) {
-        // TODO 레디스에 DeviceToken 전부 넣어서 가져오도록 고도화 시키기
-        List<String> deviceTokens = userMapper.findAllUserDeviceToken();
+        List<String> deviceTokens = findDeviceTokens();
 
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()
                 .putData("title", pushNotificationRequest.getTitle())
@@ -95,11 +94,28 @@ public class NotificationService {
 
     // 초, 분, 시간, 일, 월, 요일
     // 매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정
-    @Scheduled(cron = "30 53 20 1 * ?", zone = "Asia/Seoul")
+    //@Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     @Async("asyncTask")
     public void notificationSchedule() {
         NotificationDto notificationDto = new NotificationDto("제목", "메세지");
+        alarmLogBatchInsert(notificationDto);
         sendPushNotification(notificationDto);
+    }
+
+    private void alarmLogBatchInsert(NotificationDto notificationDto) {
+        int userNumber = findDeviceTokens().size();
+        List<NotificationDto> alarmBatch = new ArrayList<>();
+
+        for (int i = 0; i < userNumber; ++i) {
+            alarmBatch.add(notificationDto);
+        }
+
+        userMapper.insertFullAlarmLog(alarmBatch);
+    }
+
+    private List<String> findDeviceTokens() {
+        // TODO 레디스에 DeviceToken 전부 넣어서 가져오도록 고도화 시키기
+        return userMapper.findAllUserDeviceToken();
     }
 }
 

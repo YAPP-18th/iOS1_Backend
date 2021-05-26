@@ -37,7 +37,6 @@ public class FollowService {
         followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus());
         NotificationForOneDto notification = sendFollowAlarmRequest(
                 friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());
-
         alarmMapper.insertAlarmLog(notification, friendId);
     }
 
@@ -51,7 +50,6 @@ public class FollowService {
         notificationService.sendByToken(notificationDto);
         return notificationDto;
     }
-
 
     // 친구 리스트
     public List<FriendDto> getFriendList(Long userId) {
@@ -69,6 +67,5 @@ public class FollowService {
         NotificationForOneDto notification = sendFollowAlarmRequest(
                 friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
         alarmMapper.insertAlarmLog(notification, friendId);
-
     }
 }

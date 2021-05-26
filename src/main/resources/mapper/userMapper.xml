@@ -48,5 +48,10 @@
     <select id="findAllUserDeviceToken" resultType="String">
         SELECT device_token
         FROM user
-</select>
+    </select>
+
+    <insert id="insertFullAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationDto">
+        INSERT INTO alarm_log
+        VALUES
+    </insert>
 </mapper>

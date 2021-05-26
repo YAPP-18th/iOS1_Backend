@@ -7,4 +7,12 @@
         INSERT INTO alarm_log (title, message, user_id)
         VALUES (#{notification.title}, #{notification.message}, #{friendId})
     </insert>
+
+    <insert id="insertFullAlarmLog" parameterType="java.util.List">
+        INSERT INTO alarm_log (title, message, user_id)
+        VALUES
+        <foreach collection="alarmBatch" index="index" item="item" separator=",">
+            (#{item.title}, #{item.message}, #{index + 1})
+        </foreach>
+    </insert>
 </mapper>
