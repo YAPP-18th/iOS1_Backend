@@ -27,7 +27,7 @@ public interface UserMapper {
 
     Optional<ProfileResultDto> findProfileByUserId(@Param("userId") Long userId);
 
-    void updateProfile(ProfileDto profileDto);
+    void updateProfile(ProfileDto profile, Long userId);
 
     void signUp(UserDto userDto);
 
