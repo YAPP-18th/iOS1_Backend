@@ -11,6 +11,7 @@ import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.exception.notification.FirebaseNotInitException;
+import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -39,9 +41,10 @@ public class NotificationService {
     private String accountPath;
 
     private final UserMapper userMapper;
+    private final AlarmMapper alarmMapper;
 
     // 전체 알람 메세지 (팔로우 요청 메세지도 이렇게 static final 로 빼서 사용할 예정)
-    private static final NotificationDto pushNotificationRequest = new NotificationDto("제목", "메세지", LocalDateTime.now());
+    private static final NotificationDto pushNotificationRequest = new NotificationDto("제목11", "메세지11", LocalDateTime.now());
 
     @PostConstruct
     public void init() {
@@ -97,23 +100,23 @@ public class NotificationService {
         }
     }
 
+    public void getAlarmLog(Long userId) {
+        alarmMapper.getAlarmLog(userId);
+    }
+
     // 초, 분, 시간, 일, 월, 요일
     // 매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정
     @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
-    private void notificationSchedule() {
-        alarmLogBatchInsert();
+    @Transactional
+    public void notificationSchedule() {
+        alarmMapper.insertWholeAlarmLog(pushNotificationRequest);
         sendPushNotification();
     }
-
-    private void alarmLogBatchInsert() {
-        int userNumber = findDeviceTokens().size();
-
-        List<NotificationDto> alarmBatch = IntStream.range(0, userNumber)
-                .mapToObj(i -> pushNotificationRequest)
-                .collect(Collectors.toList());
-
-        userMapper.insertFullAlarmLog(alarmBatch);
-    }
+//        List<NotificationDto> alarmBatch = IntStream.range(0, findDeviceTokens().size())
+//                .mapToObj(i -> pushNotificationRequest)
+//                .collect(Collectors.toList());
+//
+//        alarmMapper.insertAlarmLogBatch(alarmBatch);
 
     private List<String> findDeviceTokens() {
         // TODO 레디스에 DeviceToken 전부 넣어서 가져오도록 고도화 시키기
