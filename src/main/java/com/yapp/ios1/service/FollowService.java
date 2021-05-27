@@ -38,7 +38,7 @@ public class FollowService {
         followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus());
         NotificationForOneDto notification = sendFollowAlarmRequest(
                 friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());
-        alarmMapper.insertAlarmLog(notification, friendId);
+        alarmMapper.insertFollowAlarmLog(notification, friendId);
     }
 
     private NotificationForOneDto sendFollowAlarmRequest(Long friendId, String title, String message) {
@@ -67,6 +67,6 @@ public class FollowService {
         followMapper.followAccept(myUserId, friendId, FRIEND.getFriendStatus());
         NotificationForOneDto notification = sendFollowAlarmRequest(
                 friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
-        alarmMapper.insertAlarmLog(notification, friendId);
+        alarmMapper.insertFollowAlarmLog(notification, friendId);
     }
 }

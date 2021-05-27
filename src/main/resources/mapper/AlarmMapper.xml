@@ -3,9 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yapp.ios1.mapper.AlarmMapper">
-    <insert id="insertAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationForOneDto">
-        INSERT INTO alarm_log (title, message, user_id)
-        VALUES (#{notification.title}, #{notification.message}, #{friendId})
+    <insert id="insertFollowAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationForOneDto">
+        INSERT INTO alarm_log (title, message, user_id, distinguish)
+        VALUES (#{notification.title}, #{notification.message}, #{friendId}, "NO")
     </insert>
 
     <insert id="insertWholeAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationDto">
@@ -21,7 +21,7 @@
         FROM alarm_log al
         WHERE al.id NOT IN
               (SELECT alarm_id FROM alarm_delete)
-          AND (user_id = #{userId} OR distinguish = "ALL")
+          AND distinguish = "ALL"
         ORDER BY al.created_at ASC
     </select>
 
