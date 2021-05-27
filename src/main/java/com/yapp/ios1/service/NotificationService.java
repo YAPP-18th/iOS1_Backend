@@ -10,8 +10,7 @@ import com.google.firebase.messaging.Message;
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
-import com.yapp.ios1.dto.notification.response.NotificationFollowLogDto;
-import com.yapp.ios1.dto.notification.response.NotificationWholeLogDto;
+import com.yapp.ios1.dto.notification.response.NotificationLogResultDto;
 import com.yapp.ios1.exception.notification.FirebaseNotInitException;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.UserMapper;
@@ -27,9 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -103,11 +102,13 @@ public class NotificationService {
         }
     }
 
-    public List<Object> getAlarmLog(Long userId) {
-        List<NotificationFollowLogDto> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
-        List<NotificationWholeLogDto> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
+    public List<NotificationLogResultDto> getAlarmLog(Long userId) {
+
+        List<NotificationLogResultDto> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
+        List<NotificationLogResultDto> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
 
         return Stream.concat(followAlarmLog.stream(), commonAlarmLog.stream())
+                .sorted(Comparator.comparing(NotificationLogResultDto::getCreatedAt))
                 .collect(Collectors.toList());
     }
 

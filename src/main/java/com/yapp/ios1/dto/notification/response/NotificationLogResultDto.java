@@ -6,9 +6,11 @@ import lombok.Getter;
  * created by jg 2021/05/26
  */
 @Getter
-public class NotificationWholeLogDto {
+public class NotificationLogResultDto {
     private Long alarmId;
-    private String title;
+    private Long myUserId;
+    private Long friendId;
     private String message;
+    private Integer friendStatus;
     private String createdAt;
 }
