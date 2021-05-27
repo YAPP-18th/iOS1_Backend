@@ -120,15 +120,6 @@ public class NotificationService {
         sendPushNotification();
     }
 
-    // 잠시 성능 테스트 중(머지 전 삭제예정)
-    public void test() {
-        List<NotificationDto> alarmBatch = IntStream.range(0, findDeviceTokens().size())
-                .mapToObj(i -> pushNotificationRequest)
-                .collect(Collectors.toList());
-
-        alarmMapper.insertAlarmLogBatch(alarmBatch);
-    }
-
     private List<String> findDeviceTokens() {
         // TODO 레디스에 DeviceToken 전부 넣어서 가져오도록 고도화 시키기
         return userMapper.findAllUserDeviceToken();
