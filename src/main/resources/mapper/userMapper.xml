@@ -48,5 +48,5 @@
     <select id="findAllUserDeviceToken" resultType="String">
         SELECT device_token
         FROM user
-</select>
+    </select>
 </mapper>

@@ -3,8 +3,40 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yapp.ios1.mapper.AlarmMapper">
-    <insert id="insertAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationForOneDto">
-        INSERT INTO alarm_log (title, message, user_id)
-        VALUES (#{notification.title}, #{notification.message}, #{friendId})
+    <insert id="insertFollowAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationForOneDto"
+            useGeneratedKeys="true" keyProperty="notification.alarmId">
+        INSERT INTO alarm_log (title, message, created_at, user_id, distinguish)
+        VALUES (#{notification.title}, #{notification.message}, #{time}, #{friendId}, "NO")
     </insert>
+
+    <insert id="insertWholeAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationDto">
+        INSERT INTO alarm_log (title, message, created_at, distinguish)
+        VALUES (#{alarm.title}, #{alarm.message}, #{alarm.localDateTime}, "ALL")
+    </insert>
+
+    <select id="getCommonAlarmLog" resultType="com.yapp.ios1.dto.notification.response.NotificationLogResultDto">
+        SELECT DISTINCT(id) as alarmId,
+                        title,
+                        message,
+                        created_at as createdAt
+        FROM alarm_log al
+        WHERE al.id NOT IN
+              (SELECT alarm_id FROM alarm_delete)
+          AND distinguish = "ALL"
+        ORDER BY al.created_at ASC
+    </select>
+
+    <select id="getFollowAlarmLog" resultType="com.yapp.ios1.dto.notification.response.NotificationLogResultDto">
+        SELECT DISTINCT(al.id) as alarmId,
+               f.follower_id as myUserId,
+               f.following_id as friendId,
+               message,
+               f.friend_status as friendStatus,
+               created_at as createdAt
+        FROM alarm_log al
+            JOIN follow f
+                ON f.alarm_id = al.id
+        WHERE al.user_id = #{userId} AND al.distinguish = "NO"
+        ORDER BY al.created_at ASC
+    </select>
 </mapper>

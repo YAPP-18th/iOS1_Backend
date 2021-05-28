@@ -1,6 +1,7 @@
 package com.yapp.ios1.mapper;
 
 import com.yapp.ios1.dto.user.result.FriendDto;
+import com.yapp.ios1.utils.follow.FriendStatus;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,7 +22,8 @@ public interface FollowMapper {
 
     void followRequest(@Param("myUserId") Long myUserId,
                        @Param("friendId") Long friendId,
-                       @Param("followRequest") int followRequest);
+                       @Param("followRequest") int followRequest,
+                       @Param("alarmId") Long alarmId);
 
     void followAccept(@Param("myUserId") Long myUserId,
                       @Param("friendId") Long friendId,

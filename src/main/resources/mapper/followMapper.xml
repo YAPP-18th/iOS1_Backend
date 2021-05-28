@@ -23,8 +23,8 @@
     </select>
 
     <insert id="followRequest">
-        INSERT INTO follow (following_id, follower_id, friend_status)
-        VALUES (#{friendId}, #{myUserId}, #{followRequest})
+        INSERT INTO follow (following_id, follower_id, friend_status, alarm_id)
+        VALUES (#{friendId}, #{myUserId}, #{followRequest}, #{alarmId})
     </insert>
 
     <update id="followAccept">

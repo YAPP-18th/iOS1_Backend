@@ -9,11 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.yapp.ios1.dto.follow.FollowNotification.*;
-import static com.yapp.ios1.dto.follow.FriendStatus.FRIEND;
-import static com.yapp.ios1.dto.follow.FriendStatus.REQUEST;
+import static com.yapp.ios1.utils.follow.FollowNotification.*;
+import static com.yapp.ios1.utils.follow.FriendStatus.FRIEND;
+import static com.yapp.ios1.utils.follow.FriendStatus.REQUEST;
+
 
 /**
  * created by jg 2021/05/21
@@ -34,24 +36,26 @@ public class FollowService {
      */
     @Transactional
     public void followRequest(Long myUserId, Long friendId) {
-        followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus());
-        NotificationForOneDto notification = sendFollowAlarmRequest(
-                friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());
-
-        alarmMapper.insertAlarmLog(notification, friendId);
+        NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());
+        alarmMapper.insertFollowAlarmLog(notificationForOne, LocalDateTime.now(), friendId);
+        followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus(), notificationForOne.getAlarmId());
+        sendFollowAlarmRequest(notificationForOne);  // 알람 보내기
     }
 
-    private NotificationForOneDto sendFollowAlarmRequest(Long friendId, String title, String message) {
-        String deviceToken = userMapper.findDeviceTokenByUserId(1L);   // Redis 에서 꺼내오는 걸로 고도화 예정 (1L 는 임시)
-        NotificationForOneDto notificationDto = NotificationForOneDto.builder()
+    private NotificationForOneDto makeSendAlarmMessage(Long friendId, String title, String message) {
+        // TODO Redis 에서 꺼내오는 걸로 고도화 예정 (1L 는 임시)
+        String deviceToken = userMapper.findDeviceTokenByUserId(1L);
+        return NotificationForOneDto.builder()
                 .title(title)
                 .message(message)
                 .deviceToken(deviceToken)
                 .build();
-        notificationService.sendByToken(notificationDto);
-        return notificationDto;
+
     }
 
+    private void sendFollowAlarmRequest(NotificationForOneDto notificationForOne) {
+        notificationService.sendByToken(notificationForOne);
+    }
 
     // 친구 리스트
     public List<FriendDto> getFriendList(Long userId) {
@@ -65,10 +69,9 @@ public class FollowService {
      */
     @Transactional
     public void followAccept(Long myUserId, Long friendId) {
+        NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
+        alarmMapper.insertFollowAlarmLog(notificationForOne, LocalDateTime.now(), friendId);
         followMapper.followAccept(myUserId, friendId, FRIEND.getFriendStatus());
-        NotificationForOneDto notification = sendFollowAlarmRequest(
-                friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
-        alarmMapper.insertAlarmLog(notification, friendId);
-
+        sendFollowAlarmRequest(notificationForOne); // 알람 보내기
     }
 }

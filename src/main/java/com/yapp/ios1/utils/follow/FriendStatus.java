@@ -1,4 +1,4 @@
-package com.yapp.ios1.dto.follow;
+package com.yapp.ios1.utils.follow;
 
 /**
  * created by jg 2021/05/21
