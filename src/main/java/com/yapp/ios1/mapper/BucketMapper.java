@@ -27,10 +27,10 @@ public interface BucketMapper {
 
     void saveTag(TagDto tag);
 
-    List<BucketDto> findByBucketStateAndCategory(@Param("bucketState") String bucketState,
-                                                 @Param("category") String category,
+    List<BucketDto> findByBucketStateAndCategory(@Param("bucketState") int bucketState,
+                                                 @Param("category") int category,
                                                  @Param("userId") Long userId,
-                                                 @Param("sort") String sort);
+                                                 @Param("sort") int sort);
 
     List<BucketDto> findByUserId(Long userId);
 

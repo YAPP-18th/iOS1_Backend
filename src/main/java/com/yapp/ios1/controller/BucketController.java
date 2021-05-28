@@ -31,17 +31,17 @@ public class BucketController {
     private final BucketService bucketService;
 
     /**
-     * @param bucketState ONGOING(진행 중), EXPECT(예정), COMPLETE(완료), ALL(전체)
-     * @INFO categoryId 10 => 전체 조회
-     * @INFO sortId = 1(작성 순), sortId = 2(가나다 순)
-     * @return BucketResultDto
+     * @INFO state 1(전체), 2(예정), 3(진행 중), 4(완료)
+     * @INFO category 1(전체), 2(여행), 3(취미), 4(소유), 5(재정), 6(건강)
+                      7(목표), 8(조직), 9(봉사), 10(기타)
+     * @INFO sortI= 1(작성 순), sortId = 2(가나다 순)
      */
     @ApiOperation(value = "홈 화면 전체 조회")
     @Auth
     @GetMapping("")
-    public ResponseEntity<ResponseDto> home(@RequestParam("bucketState") String bucketState,
-                                            @RequestParam("category") String category,
-                                            @RequestParam("sort") String sort) {
+    public ResponseEntity<ResponseDto> home(@RequestParam("state") int bucketState,
+                                            @RequestParam("category") int category,
+                                            @RequestParam("sort") int sort) {
         Long userId = UserContext.getCurrentUserId();
 
         return ResponseEntity.ok()
