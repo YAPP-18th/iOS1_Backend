@@ -35,21 +35,25 @@ public class FollowService {
      */
     @Transactional
     public void followRequest(Long myUserId, Long friendId) {
+        NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());
+        alarmMapper.insertFollowAlarmLog(notificationForOne, friendId);
         followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus());
-        NotificationForOneDto notification = sendFollowAlarmRequest(
-                friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());
-        alarmMapper.insertFollowAlarmLog(notification, friendId);
+        sendFollowAlarmRequest(notificationForOne);  // 알람 보내기
     }
 
-    private NotificationForOneDto sendFollowAlarmRequest(Long friendId, String title, String message) {
-        String deviceToken = userMapper.findDeviceTokenByUserId(1L);   // Redis 에서 꺼내오는 걸로 고도화 예정 (1L 는 임시)
-        NotificationForOneDto notificationDto = NotificationForOneDto.builder()
+    private NotificationForOneDto makeSendAlarmMessage(Long friendId, String title, String message) {
+        // TODO Redis 에서 꺼내오는 걸로 고도화 예정 (1L 는 임시)
+        String deviceToken = userMapper.findDeviceTokenByUserId(1L);
+        return NotificationForOneDto.builder()
                 .title(title)
                 .message(message)
                 .deviceToken(deviceToken)
                 .build();
-        notificationService.sendByToken(notificationDto);
-        return notificationDto;
+
+    }
+
+    private void sendFollowAlarmRequest(NotificationForOneDto notificationForOne) {
+        notificationService.sendByToken(notificationForOne);
     }
 
     // 친구 리스트
@@ -64,9 +68,9 @@ public class FollowService {
      */
     @Transactional
     public void followAccept(Long myUserId, Long friendId) {
+        NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
         followMapper.followAccept(myUserId, friendId, FRIEND.getFriendStatus());
-        NotificationForOneDto notification = sendFollowAlarmRequest(
-                friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
-        alarmMapper.insertFollowAlarmLog(notification, friendId);
+        alarmMapper.insertFollowAlarmLog(notificationForOne, friendId);
+        sendFollowAlarmRequest(notificationForOne);
     }
 }

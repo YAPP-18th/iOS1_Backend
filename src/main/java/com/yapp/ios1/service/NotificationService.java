@@ -46,7 +46,7 @@ public class NotificationService {
     private final UserMapper userMapper;
     private final AlarmMapper alarmMapper;
 
-    // 전체 알람 메세지 (팔로우 요청 메세지도 이렇게 static final 로 빼서 사용할 예정)
+    // 전체 알람 메세지 (팔로우 요청 메세지도 이렇게 static final 로 빼서 사용할 예정) => 메세지는 enum 이나 다른 클래스에서 관리할 예정
     private static final NotificationDto pushNotificationRequest = new NotificationDto("제목11", "메세지11", LocalDateTime.now());
 
     @PostConstruct
@@ -104,7 +104,6 @@ public class NotificationService {
     }
 
     public List<NotificationLogResultDto> getAlarmLog(Long userId) {
-
         List<NotificationLogResultDto> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
         List<NotificationLogResultDto> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
 

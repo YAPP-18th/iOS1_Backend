@@ -1,5 +1,6 @@
 package com.yapp.ios1.controller;
 
+import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.NotificationService;
 import com.yapp.ios1.utils.auth.Auth;
@@ -33,6 +34,6 @@ public class AlarmController {
     public ResponseEntity<ResponseDto> alarmLog() {
         Long userId = UserContext.getCurrentUserId();
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, "테스트", notificationService.getAlarmLog(userId)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_ALARM_LOG, notificationService.getAlarmLog(userId)));
     }
 }

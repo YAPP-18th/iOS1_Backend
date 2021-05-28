@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 public class NotificationForOneDto extends NotificationDto {
 
+    private Long userId;
     private String deviceToken;
 
     @Builder
