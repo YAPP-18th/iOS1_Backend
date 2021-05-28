@@ -5,6 +5,7 @@ import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.NotificationService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,9 @@ public class AlarmController {
         return "test";
     }
 
+    @ApiOperation(
+            value = "알람 로그 조회"
+    )
     @Auth
     @GetMapping("/alarm-log")
     public ResponseEntity<ResponseDto> alarmLog() {
