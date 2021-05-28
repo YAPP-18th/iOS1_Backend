@@ -3,7 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yapp.ios1.mapper.AlarmMapper">
-    <insert id="insertFollowAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationForOneDto">
+    <insert id="insertFollowAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationForOneDto"
+            useGeneratedKeys="true" keyProperty="notification.alarmId">
         INSERT INTO alarm_log (title, message, user_id, distinguish)
         VALUES (#{notification.title}, #{notification.message}, #{friendId}, "NO")
     </insert>

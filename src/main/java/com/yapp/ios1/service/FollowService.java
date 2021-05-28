@@ -37,7 +37,7 @@ public class FollowService {
     public void followRequest(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());
         alarmMapper.insertFollowAlarmLog(notificationForOne, friendId);
-        followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus());
+        followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus(), notificationForOne.getAlarmId());
         sendFollowAlarmRequest(notificationForOne);  // 알람 보내기
     }
 
@@ -69,8 +69,8 @@ public class FollowService {
     @Transactional
     public void followAccept(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
-        followMapper.followAccept(myUserId, friendId, FRIEND.getFriendStatus());
         alarmMapper.insertFollowAlarmLog(notificationForOne, friendId);
-        sendFollowAlarmRequest(notificationForOne);
+        followMapper.followAccept(myUserId, friendId, FRIEND.getFriendStatus());
+        sendFollowAlarmRequest(notificationForOne); // 알람 보내기
     }
 }

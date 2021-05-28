@@ -31,7 +31,7 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${buok.s3.dir}")
+    @Value("${buok.s3.dir.bucket}")
     private String uploadDir;
 
     public List<String> upload(MultipartFile[] multipartFileList) throws IOException {
