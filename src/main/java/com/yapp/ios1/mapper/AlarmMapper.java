@@ -24,8 +24,4 @@ public interface AlarmMapper {
     List<NotificationLogResultDto> getCommonAlarmLog(Long userId);
 
     List<NotificationLogResultDto> getFollowAlarmLog(Long userId);
-
-    void insertAlarmLogBatch(List<NotificationDto> list);
-
-    void insertAlarm(NotificationDto notificationDto);
 }
