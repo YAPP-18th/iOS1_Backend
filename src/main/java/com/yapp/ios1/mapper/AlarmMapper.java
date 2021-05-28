@@ -6,6 +6,7 @@ import com.yapp.ios1.dto.notification.response.NotificationLogResultDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -15,7 +16,8 @@ import java.util.List;
 public interface AlarmMapper {
 
     void insertFollowAlarmLog(@Param("notification") NotificationForOneDto notification,
-                        @Param("friendId") Long friendId);
+                              @Param("time") LocalDateTime localDateTime,
+                              @Param("friendId") Long friendId);
 
     void insertWholeAlarmLog(@Param("alarm") NotificationDto notificationDto);
 

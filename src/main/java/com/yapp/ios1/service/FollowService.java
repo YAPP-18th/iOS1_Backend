@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.yapp.ios1.utils.follow.FollowNotification.*;
@@ -36,7 +37,7 @@ public class FollowService {
     @Transactional
     public void followRequest(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());
-        alarmMapper.insertFollowAlarmLog(notificationForOne, friendId);
+        alarmMapper.insertFollowAlarmLog(notificationForOne, LocalDateTime.now(), friendId);
         followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus(), notificationForOne.getAlarmId());
         sendFollowAlarmRequest(notificationForOne);  // 알람 보내기
     }
@@ -69,7 +70,7 @@ public class FollowService {
     @Transactional
     public void followAccept(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
-        alarmMapper.insertFollowAlarmLog(notificationForOne, friendId);
+        alarmMapper.insertFollowAlarmLog(notificationForOne, LocalDateTime.now(), friendId);
         followMapper.followAccept(myUserId, friendId, FRIEND.getFriendStatus());
         sendFollowAlarmRequest(notificationForOne); // 알람 보내기
     }
