@@ -10,6 +10,7 @@ public class NotificationLogResultDto {
     private Long alarmId;
     private Long myUserId;
     private Long friendId;
+    private String title;
     private String message;
     private Integer friendStatus;
     private String createdAt;

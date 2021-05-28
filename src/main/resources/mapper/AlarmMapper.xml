@@ -34,8 +34,8 @@
                created_at as createdAt
         FROM alarm_log al
             JOIN follow f
-                ON f.follower_id = #{userId} OR f.following_id = #{userId}
-        WHERE al.user_id = #{userId}
+                ON f.alarm_id = al.id
+        WHERE al.user_id = #{userId} AND al.distinguish = "NO"
         ORDER BY al.created_at ASC
     </select>
 </mapper>
