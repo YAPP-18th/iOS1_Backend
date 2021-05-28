@@ -2,6 +2,7 @@ package com.yapp.ios1.advice;
 
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
+import com.yapp.ios1.exception.user.EmailNotExistException;
 import com.yapp.ios1.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.exception.user.UserDuplicatedException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
@@ -43,6 +44,12 @@ public class UserAdviceController {
     public ResponseEntity<ResponseDto> socialException() {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.SOCIAL_LOGIN_ERROR));
+    }
+
+    @ExceptionHandler(EmailNotExistException.class)
+    public ResponseEntity<ResponseDto> emailNotExistException(EmailNotExistException e) {
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     // JWT Parse 에러

@@ -31,20 +31,20 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${buok.s3.dir.bucket}")
-    private String bucketDir;
+    @Value("${buok.s3.dir}")
+    private String uploadDir;
 
     public List<String> upload(MultipartFile[] multipartFileList) throws IOException {
         List<String> imageUrlList = new ArrayList<>();
         if (multipartFileList != null) {
             for (MultipartFile multipartFile : multipartFileList) {
-                imageUrlList.add(upload(multipartFile, bucketDir));
+                imageUrlList.add(upload(multipartFile));
             }
         }
         return imageUrlList;
     }
 
-    public String upload(MultipartFile file, String dirName) throws IOException {
+    public String upload(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
 
         ObjectMetadata objMeta = new ObjectMetadata();
@@ -54,7 +54,7 @@ public class S3Service {
 
         ByteArrayInputStream byteArrayIs = new ByteArrayInputStream(bytes);
 
-        s3Client.putObject(new PutObjectRequest(bucket, dirName + fileName, byteArrayIs, objMeta)
+        s3Client.putObject(new PutObjectRequest(bucket, uploadDir + fileName, byteArrayIs, objMeta)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
         return s3Client.getUrl(bucket, fileName).toString();

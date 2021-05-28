@@ -33,9 +33,9 @@
 
     <update id="updateProfile">
         UPDATE user
-        SET nickname    = #{nickname},
-            intro       = #{intro},
-            profile_url = #{profileUrl}
+        SET nickname    = #{profile.nickname},
+            intro       = #{profile.intro},
+            profile_url = #{profile.profileUrl}
         WHERE id = #{userId};
     </update>
 

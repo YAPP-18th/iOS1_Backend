@@ -14,14 +14,9 @@ public class ProfileDto {
     private Long userId;
     private String nickname;
     private String intro;
-    @JsonIgnore
     private String profileUrl;
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public void setProfileUrl(String profileUrl) {
-        this.profileUrl = profileUrl;
     }
 }

@@ -4,7 +4,6 @@ import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.service.BucketService;
-import com.yapp.ios1.service.S3Service;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.Api;
@@ -13,18 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
-import static com.yapp.ios1.common.ResponseMessage.NOT_EXIST_IMAGE;
-import static com.yapp.ios1.common.ResponseMessage.UPLOAD_IMAGE_SUCCESS;
 
 /**
  * created by jg 2021/05/05
@@ -36,7 +29,6 @@ import static com.yapp.ios1.common.ResponseMessage.UPLOAD_IMAGE_SUCCESS;
 public class BucketController {
 
     private final BucketService bucketService;
-    private final S3Service s3Service;
 
     /**
      * @param bucketState ONGOING(진행 중), EXPECT(예정), COMPLETE(완료), ALL(전체)
@@ -55,25 +47,6 @@ public class BucketController {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,
                         bucketService.homeBucketList(bucketState, category, userId, sort)));
-    }
-
-    /**
-     * @param imageList 버킷 이미지 리스트
-     */
-    @ApiOperation(
-            value = "이미지 업로드",
-            notes = "이미지 url 배열 리턴"
-    )
-    @Auth
-    @PostMapping("/images")
-    public ResponseEntity<ResponseDto> registerBucketImageList(@RequestParam(value = "image") MultipartFile[] imageList) throws IOException {
-        if (imageList == null) {
-            ResponseEntity.ok()
-                    .body(ResponseDto.of(HttpStatus.BAD_REQUEST, NOT_EXIST_IMAGE));
-        }
-
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, UPLOAD_IMAGE_SUCCESS, s3Service.upload(imageList)));
     }
 
     /**
