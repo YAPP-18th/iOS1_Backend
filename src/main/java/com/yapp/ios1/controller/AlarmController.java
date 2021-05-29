@@ -5,6 +5,7 @@ import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.NotificationService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * created by jg 2021/05/24
  */
+@Api(tags = "Alarm")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v2")

@@ -10,4 +10,6 @@ public class ProfileResultDto {
     private String nickname;
     private String intro;
     private String profileUrl;
+    private String socialType;
+    private String socialId;
 }
