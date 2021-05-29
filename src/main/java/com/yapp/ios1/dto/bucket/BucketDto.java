@@ -12,5 +12,5 @@ public class BucketDto {
     private String startDate;
     private String endDate;
     private String bucketState;
-    private String categoryName;
+    private int categoryId;
 }
