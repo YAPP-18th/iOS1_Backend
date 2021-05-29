@@ -1,5 +1,5 @@
 version: 0.0
-os: linux    # EC2 운영체제
+os: linux
 files:
   - source:  /
     destination: /home/ec2-user/yapp
@@ -13,6 +13,6 @@ permissions:
 
 hooks:
   ApplicationStart:
-    - location: deploy.sh
+    - location: scripts/deploy.sh
       timeout: 60
       runas: ec2-user
