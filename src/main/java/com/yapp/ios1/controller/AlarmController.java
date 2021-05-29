@@ -9,9 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * created by jg 2021/05/24
@@ -40,4 +38,17 @@ public class AlarmController {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_ALARM_LOG, notificationService.getAlarmLog(userId)));
     }
+
+    @ApiOperation(
+            value = "알람 로그 삭제"
+    )
+    @Auth
+    @DeleteMapping("/alarm-log/{alarmId}")
+    public ResponseEntity<ResponseDto> deleteAlarm(@PathVariable Long alarmId) {
+        Long userId = UserContext.getCurrentUserId();
+        notificationService.deleteAlarm(userId, alarmId);
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.DELETE_ALARM_LOG));
+    }
+
 }

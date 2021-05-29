@@ -39,4 +39,8 @@
         WHERE al.user_id = #{userId} AND al.distinguish = "NO"
         ORDER BY al.created_at ASC
     </select>
+
+    <delete id="deleteAlarmLog">
+        DELETE FROM alarm_idx WHERE user_id = #{userId} AND alarm_id = #{alarmId}
+    </delete>
 </mapper>
