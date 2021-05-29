@@ -28,3 +28,4 @@ out/
 
 application.yml
 firebase.json
+email.properties
