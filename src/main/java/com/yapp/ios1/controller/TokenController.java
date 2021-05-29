@@ -16,7 +16,7 @@ import static com.yapp.ios1.common.ResponseMessage.LOGIN_SUCCESS;
 /**
  * created by jg 2021/05/05
  */
-@Api(value = "Token")
+@Api(tags = "Token")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v2")
