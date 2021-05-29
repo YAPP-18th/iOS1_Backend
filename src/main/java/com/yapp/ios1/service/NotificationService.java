@@ -124,5 +124,9 @@ public class NotificationService {
         // TODO 레디스에 DeviceToken 전부 넣어서 가져오도록 고도화 시키기
         return userMapper.findAllUserDeviceToken();
     }
+
+    public void deleteAlarm(Long userId, Long alarmId) {
+        alarmMapper.deleteAlarmLog(userId, alarmId);
+    }
 }
 

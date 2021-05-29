@@ -46,6 +46,7 @@ public class ResponseMessage {
     // Notification
     public static final String FIREBASE_INIT_ERROR = "파이어베이스 초기화 오류입니다.";
     public static final String GET_ALARM_LOG = "알람 로그 조회 성공입니다";
+    public static final String DELETE_ALARM_LOG = "알람 로그 삭제되었습니다";
 
     // Search
     public static final String NOT_FOUND_SEARCH_TYPE = "존재하지 않는 검색 조건입니다.";
