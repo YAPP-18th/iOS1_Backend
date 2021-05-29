@@ -41,6 +41,6 @@
     </select>
 
     <delete id="deleteAlarmLog">
-        DELETE FROM alarm_idx WHERE user_id = #{userId} AND alarm_id = #{alarmId}
+        DELETE FROM alarm_delete WHERE user_id = #{userId} AND alarm_id = #{alarmId}
     </delete>
 </mapper>
