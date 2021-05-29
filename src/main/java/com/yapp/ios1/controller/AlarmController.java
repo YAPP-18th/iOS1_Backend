@@ -32,7 +32,7 @@ public class AlarmController {
             value = "알람 로그 조회"
     )
     @Auth
-    @GetMapping("/alarm-log")
+    @GetMapping("/alarm")
     public ResponseEntity<ResponseDto> alarmLog() {
         Long userId = UserContext.getCurrentUserId();
         return ResponseEntity.ok()
@@ -43,7 +43,7 @@ public class AlarmController {
             value = "알람 로그 삭제"
     )
     @Auth
-    @DeleteMapping("/alarm-log/{alarmId}")
+    @DeleteMapping("/alarm/{alarmId}")
     public ResponseEntity<ResponseDto> deleteAlarm(@PathVariable Long alarmId) {
         Long userId = UserContext.getCurrentUserId();
         notificationService.deleteAlarm(userId, alarmId);
