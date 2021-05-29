@@ -108,10 +108,9 @@
     </insert>
 
     <select id="findBookmarkListByUserId" resultType="BookmarkDto">
-        SELECT b.id, b.bucket_name as bucketName, c.category_name as categoryName, b.end_date as endDate
+        SELECT b.id, b.bucket_name as bucketName, b.category_id as categoryId, b.end_date as endDate
         FROM bucket b
                  JOIN bookmark bm ON b.id = bm.bucket_id
-                 JOIN category c ON b.category_id = c.id
         WHERE b.user_id = #{userId}
         ORDER BY b.end_date DESC;
     </select>
