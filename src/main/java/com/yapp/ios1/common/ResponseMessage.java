@@ -56,4 +56,11 @@ public class ResponseMessage {
     // Follow
     public static final String FRIEND_REQUEST = "팔로우 요청 성공입니다.";
     public static final String FRIEND_ACCEPT = "팔로우 승낙 성공입니다";
+
+    // Email
+    public static final String EMAIL_SEND_SUCCESS = "이메일 전송 성공입니다.";
+    public static final String EMAIL_SEND_FAIL = "이메일 전송 실패입니다.";
+    public static final String EMAIL_AUTH_SUCCESS = "이메일 인증 성공입니다.";
+    public static final String EMAIL_AUTH_FAIL = "이메일 인증 실패입니다.";
+
 }

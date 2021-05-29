@@ -22,10 +22,10 @@ import javax.validation.Valid;
 /**
  * created by jg 2021/05/05
  */
+@Api(tags = "Bucket")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v2/buckets")
-@Api(tags = "Bucket")
 public class BucketController {
 
     private final BucketService bucketService;

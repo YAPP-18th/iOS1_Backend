@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.check.EmailCheckDto;
+import com.yapp.ios1.dto.user.check.EmailDto;
 import com.yapp.ios1.dto.user.check.NicknameCheckDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
@@ -48,7 +48,7 @@ public class UserController {
             value = "이메일 존재 여부"
     )
     @PostMapping("/email-check")
-    public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) {
+    public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailDto emailDto) {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
         if (user.isEmpty()) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
@@ -116,7 +116,7 @@ public class UserController {
     @GetMapping("")
     public ResponseEntity<ResponseDto> getProfile() {
         Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK,GET_PROFILE_SUCCESS, userService.getProfile(userId)));
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, GET_PROFILE_SUCCESS, userService.getProfile(userId)));
     }
 
     @ApiOperation(
