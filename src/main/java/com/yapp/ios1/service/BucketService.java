@@ -2,6 +2,7 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.exception.bucket.BucketNotFoundException;
+import com.yapp.ios1.exception.bucket.FailedUpdateException;
 import com.yapp.ios1.mapper.BucketMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.yapp.ios1.common.ResponseMessage.BAD_USER;
-import static com.yapp.ios1.common.ResponseMessage.NOT_FOUND_BUCKET;
+import static com.yapp.ios1.common.ResponseMessage.*;
 
 /**
  * created by jg 2021/05/05
@@ -92,6 +92,13 @@ public class BucketService {
                 }
                 bucketMapper.saveBucketAndTag(bucketId, tag.getId()); // bucket_tag 저장
             }
+        }
+    }
+
+    public void completeBucket(Long bucketId, Long userId) {
+        int complete = bucketMapper.completeBucket(bucketId, userId);
+        if (complete == 0) {
+            throw new FailedUpdateException(UPDATE_BUCKET_FAIL);
         }
     }
 
