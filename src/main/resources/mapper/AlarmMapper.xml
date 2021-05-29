@@ -41,6 +41,7 @@
     </select>
 
     <delete id="deleteAlarmLog">
-        DELETE FROM alarm_delete WHERE user_id = #{userId} AND alarm_id = #{alarmId}
+        INSERT INTO alarm_delete (user_id, alarm_id)
+        VALUES user_id = #{userId} AND alarm_id = #{alarmId}
     </delete>
 </mapper>
