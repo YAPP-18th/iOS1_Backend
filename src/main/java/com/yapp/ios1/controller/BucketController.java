@@ -43,7 +43,6 @@ public class BucketController {
                                             @RequestParam("category") int category,
                                             @RequestParam("sort") int sort) {
         Long userId = UserContext.getCurrentUserId();
-
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,
                         bucketService.homeBucketList(bucketState, category, userId, sort)));
