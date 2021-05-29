@@ -47,4 +47,6 @@ public interface BucketMapper {
     void saveBucketNameLog(Long bucketId);
 
     void saveBucketEndDateLog(Long bucketId);
+
+    int completeBucket(Long bucketId, Long userId);
 }

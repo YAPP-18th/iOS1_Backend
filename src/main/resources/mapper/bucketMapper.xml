@@ -147,4 +147,11 @@
         FROM bucket WHERE id = #{bucketId};
     </insert>
 
+    <update id="completeBucket">
+        UPDATE bucket
+        SET
+            bucket_state = 4
+        WHERE id = #{bucketId} AND user_id = #{userId};
+    </update>
+
 </mapper>

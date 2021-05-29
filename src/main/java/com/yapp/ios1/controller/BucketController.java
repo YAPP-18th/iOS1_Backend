@@ -78,4 +78,19 @@ public class BucketController {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
     }
+
+    @ApiOperation(
+            value = "버킷 완료",
+            notes = "버킷 완료 버튼 클릭할 경우 호출"
+    )
+    @Auth
+    @PutMapping("/{bucketId}/complete")
+    public ResponseEntity<ResponseDto> completeBucket(@PathVariable Long bucketId) {
+
+        bucketService.completeBucket(bucketId, UserContext.getCurrentUserId());
+
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
+    }
+
 }
