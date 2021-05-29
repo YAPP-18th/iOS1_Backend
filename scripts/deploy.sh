@@ -4,7 +4,7 @@ JAR_NAME=$(basename $BUILD_JAR)
 echo "> build 파일명: $JAR_NAME" >> /home/ec2-user/yapp/deploy.log
 
 echo "> build 파일 복사" >> /home/ec2-user/yapp/deploy.log
-DEPLOY_PATH=/home/ec2-user/yapp/
+DEPLOY_PATH=/home/ec2-user/
 cp $BUILD_JAR $DEPLOY_PATH
 
 echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ec2-user/yapp/deploy.log
