@@ -10,5 +10,5 @@ public class BookmarkDto {
     private Long id;
     private String bucketName;
     private String endDate;
-    private String categoryName;
+    private int categoryId;
 }
