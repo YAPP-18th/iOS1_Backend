@@ -24,6 +24,5 @@ public interface AlarmMapper {
     List<NotificationLogResultDto> getCommonAlarmLog(Long userId);
 
     List<NotificationLogResultDto> getFollowAlarmLog(Long userId);
-
     void deleteAlarmLog(Long userId, Long alarmId);
 }
