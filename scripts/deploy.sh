@@ -19,6 +19,7 @@ else
   sleep 5
 fi
 
+
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/yapp/deploy.log
 nohup java -jar $DEPLOY_JAR >> /home/ec2-user/yapp/deploy.log 2>/home/ec2-user/yapp/deploy_err.log &
