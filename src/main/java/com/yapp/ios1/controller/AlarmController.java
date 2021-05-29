@@ -23,13 +23,6 @@ public class AlarmController {
 
     private final NotificationService notificationService;
 
-    // 개발 용 API
-    @GetMapping("/alarm")
-    public String alarmTest() {
-        notificationService.notificationSchedule();
-        return "test";
-    }
-
     @ApiOperation(
             value = "알람 로그 조회"
     )

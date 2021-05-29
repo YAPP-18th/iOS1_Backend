@@ -27,22 +27,22 @@
     </select>
 
     <select id="findByBucketStateAndCategory" resultType="BucketDto">
-        SELECT b.id, b.bucket_name as bucketName,
-               b.start_date as startDate,
-               b.end_date as endDate,
-               b.bucket_state as bucketState,
-               c.category_name as categoryName
-        FROM bucket b JOIN category c
-        ON b.category_id = c.id
-        WHERE b.user_id = #{userId}
+        SELECT id,
+               bucket_name as bucketName,
+               start_date as startDate,
+               end_date as endDate,
+               bucket_state as bucketState,
+               category_id as categoryId
+        FROM bucket
+        WHERE user_id = #{userId}
         <choose>
             <when test="bucketState neq 1">
-                AND b.bucket_state = #{bucketState}
+                AND bucket_state = #{bucketState}
             </when>
         </choose>
         <choose>
             <when test="category neq 1">
-                AND c.id = #{category}
+                AND category_id = #{category}
             </when>
         </choose>
         <choose>
