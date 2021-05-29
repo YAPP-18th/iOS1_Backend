@@ -1,7 +1,6 @@
 package com.yapp.ios1.dto.bucket;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.yapp.ios1.utils.validation.BucketConstraint;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,8 +18,7 @@ public class BucketRequestDto {
     @JsonIgnore
     private Long userId;
     private String bucketName;
-    @BucketConstraint
-    private String state;
+    private int state;
     private int categoryId;
     private String startDate;
     private String endDate;
