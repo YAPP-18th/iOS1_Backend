@@ -61,7 +61,6 @@ dependencies {
 
     // Email
     implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
-    compile "org.springframework:spring-context-support"
 }
 
 test {
