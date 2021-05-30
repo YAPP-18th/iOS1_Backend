@@ -26,6 +26,8 @@ public class EmailConfig {
     private boolean starttls;
     @Value("${mail.smtp.starttls.required}")
     private boolean startlls_required;
+    @Value("${mail.smtp.ssl.trust")
+    private String trust;
     @Value("${mail.smtp.socketFactory.fallback}")
     private boolean fallback;
     @Value("${AdminMail.id}")
@@ -53,6 +55,7 @@ public class EmailConfig {
         pt.put("mail.smtp.starttls.required", startlls_required);
         pt.put("mail.smtp.socketFactory.fallback", fallback);
         pt.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        pt.put("mail.smtp.ssl.trust", trust);
         return pt;
     }
 }
