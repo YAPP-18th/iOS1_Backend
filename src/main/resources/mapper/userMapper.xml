@@ -49,4 +49,10 @@
         SELECT device_token
         FROM user
     </select>
+
+    <select id="findUserIdByEmail" resultType="Long">
+        SELECT id
+        FROM user
+        WHERE email = #{email}
+    </select>
 </mapper>

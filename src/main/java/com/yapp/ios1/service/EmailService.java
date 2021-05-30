@@ -2,6 +2,8 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.config.properties.BuokEmailProperties;
 import com.yapp.ios1.exception.common.BadRequestException;
+import com.yapp.ios1.exception.user.UserNotFoundException;
+import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +15,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
 
-import static com.yapp.ios1.common.ResponseMessage.EMAIL_AUTH_FAIL;
-import static com.yapp.ios1.common.ResponseMessage.EMAIL_SEND_FAIL;
+import static com.yapp.ios1.common.ResponseMessage.*;
 
 /**
  * created by ayoung 2021/05/30
@@ -27,6 +28,7 @@ public class EmailService {
     private final JavaMailSender emailSender;
     private final RedisUtil redisUtil;
     private final BuokEmailProperties emailProperties;
+    private final UserMapper userMapper;
 
     private MimeMessage createMessage(String to) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
@@ -80,6 +82,7 @@ public class EmailService {
         try {
             emailSender.send(message);
         } catch (MailException es) {
+            log.info(es.getMessage());
             throw new BadRequestException(EMAIL_SEND_FAIL);
         }
     }
@@ -88,11 +91,15 @@ public class EmailService {
         return ePw;
     }
 
-    public String verifyCode(String code) {
+    public Long verifyCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {
             throw new IllegalArgumentException(EMAIL_AUTH_FAIL);
         }
-        return email;
+        Long userId = userMapper.findUserIdByEmail(email);
+        if (userId == null) {
+            throw new UserNotFoundException(NOT_EXIST_USER);
+        }
+        return userId;
     }
 }
