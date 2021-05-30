@@ -2,6 +2,7 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.config.properties.BuokEmailProperties;
 import com.yapp.ios1.exception.common.BadRequestException;
+import com.yapp.ios1.exception.common.InternalServerException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.utils.RedisUtil;
@@ -34,7 +35,7 @@ public class EmailService {
         MimeMessage message = emailSender.createMimeMessage();
 
         String code = createCode(createKey());
-        redisUtil.setDataExpire(code, to, emailProperties.getValidTime()); // 3분
+        redisUtil.setDataExpire(code, to, emailProperties.getValidTime());
 
         String content = "";
         content += "<div align=\"center\" style=\"font-size: 15px\">";
@@ -54,7 +55,7 @@ public class EmailService {
     }
 
     // 인증코드 생성
-    public String createKey() {
+    private String createKey() {
         StringBuilder key = new StringBuilder();
         Random rnd = new Random();
         for (int i = 0; i < 7; i++) {
@@ -83,7 +84,7 @@ public class EmailService {
             emailSender.send(message);
         } catch (MailException es) {
             log.info(es.getMessage());
-            throw new BadRequestException(EMAIL_SEND_FAIL);
+            throw new InternalServerException(EMAIL_SEND_FAIL);
         }
     }
 
@@ -94,7 +95,7 @@ public class EmailService {
     public Long verifyCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {
-            throw new IllegalArgumentException(EMAIL_AUTH_FAIL);
+            throw new BadRequestException(EMAIL_AUTH_FAIL);
         }
         Long userId = userMapper.findUserIdByEmail(email);
         if (userId == null) {

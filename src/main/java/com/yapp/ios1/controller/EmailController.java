@@ -56,7 +56,7 @@ public class EmailController {
             value = "인증 코드 검증",
             notes = "인증 성공 시, 토큰을 전달합니다."
     )
-    @PostMapping("/verify") // 이메일 인증 코드 검증
+    @PostMapping("/verify")
     public ResponseEntity<ResponseDto> verifyCode(@RequestBody EmailCodeDto code) throws JsonProcessingException {
         Long userId = emailService.verifyCode(code.getCode());
         return ResponseEntity.ok()
