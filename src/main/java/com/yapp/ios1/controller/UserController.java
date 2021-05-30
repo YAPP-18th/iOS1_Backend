@@ -6,6 +6,7 @@ import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.EmailDto;
 import com.yapp.ios1.dto.user.check.NicknameCheckDto;
+import com.yapp.ios1.dto.user.login.PasswordDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.exception.user.UserDuplicatedException;
@@ -106,6 +107,19 @@ public class UserController {
     public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException {
         UserDto userDto = userService.getUser(signInDto);
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId()));
+        return ResponseEntity.ok().body(response);
+    }
+
+    @ApiOperation(
+            value = "비밀번호 재설정",
+            notes = "요청 헤더에 토큰, 요청 바디에 비밀번호 전달"
+    )
+    @Auth
+    @PutMapping("/password")
+    public ResponseEntity<ResponseDto> changePassword(@RequestBody PasswordDto passwordDto) {
+        Long userId = UserContext.getCurrentUserId();
+        userService.changePassword(userId, passwordDto.getPassword());
+        ResponseDto response = ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS);
         return ResponseEntity.ok().body(response);
     }
 

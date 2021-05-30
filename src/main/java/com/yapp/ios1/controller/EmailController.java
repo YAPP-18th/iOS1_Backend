@@ -8,6 +8,7 @@ import com.yapp.ios1.dto.user.check.EmailDto;
 import com.yapp.ios1.service.EmailService;
 import com.yapp.ios1.service.JwtService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,11 @@ public class EmailController {
     private final EmailService emailService;
     private final JwtService jwtService;
 
-    @PostMapping("/send") // 이메일 인증 코드 보내기
+    @ApiOperation(
+            value = "이메일 인증 코드 전송",
+            notes = "입력한 이메일로 인증 코드를 전송합니다."
+    )
+    @PostMapping("/send")
     public ResponseEntity<ResponseDto> emailAuth(@RequestBody EmailDto email) throws Exception {
         emailService.sendSimpleMessage(email.getEmail());
 
@@ -39,6 +44,10 @@ public class EmailController {
                 .body(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));
     }
 
+    @ApiOperation(
+            value = "인증 코드 검증",
+            notes = "인증 성공 시, 토큰을 전달합니다."
+    )
     @PostMapping("/verify") // 이메일 인증 코드 검증
     public ResponseEntity<ResponseDto> verifyCode(@RequestBody EmailCodeDto code) throws JsonProcessingException {
         Long userId = emailService.verifyCode(code.getCode());
