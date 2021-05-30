@@ -1,4 +1,4 @@
-package com.yapp.ios1.config;
+package com.yapp.ios1.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;

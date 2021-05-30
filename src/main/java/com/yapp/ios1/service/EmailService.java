@@ -1,6 +1,6 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.config.BuokEmailProperties;
+import com.yapp.ios1.config.properties.BuokEmailProperties;
 import com.yapp.ios1.exception.common.BadRequestException;
 import com.yapp.ios1.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
