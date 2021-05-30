@@ -1,10 +1,10 @@
 package com.yapp.ios1.service;
 
+import com.yapp.ios1.config.BuokEmailProperties;
 import com.yapp.ios1.exception.common.BadRequestException;
 import com.yapp.ios1.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -26,28 +26,18 @@ public class EmailService {
 
     private final JavaMailSender emailSender;
     private final RedisUtil redisUtil;
-
-    @Value("${buok.email}")
-    private String BUOK_EMAIL;
-
-    @Value("${buok.name}")
-    private String BUOK_NAME;
-
-    @Value("${email.validTime}")
-    private Long EMAIL_VALID_TIME;
-
-
+    private final BuokEmailProperties emailProperties;
 
     private MimeMessage createMessage(String to) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
         String code = createCode(createKey());
-        redisUtil.setDataExpire(code, to, EMAIL_VALID_TIME); // 3분
+        redisUtil.setDataExpire(code, to, emailProperties.getValidTime()); // 3분
 
         String content = "";
         content += "<div align=\"center\" style=\"font-size: 15px\">";
-        content += "<img src=\"https://ayo-springboot-build.s3.ap-northeast-2.amazonaws.com/bouk/buok.png\"/>";
-        content += "<br/><br/>비밀번호를 잊으셨나요?<br/>너무 걱정 마세요. 저희도 가끔 잊어버린답니다.<br/><br/>";
+        content += "<br/><img src=\"" + emailProperties.getLogoUrl() + "\"/>";
+        content += "<br/><br/><br/>비밀번호를 잊으셨나요?<br/>너무 걱정 마세요. 저희도 가끔 잊어버린답니다.<br/><br/>";
         content += "<span style=\"border: 0.5px; padding: 8px;font-size: 20px;\">" + code + "</span>";
         content += "<br/><br/>buok으로 돌아가 위 인증번호를 입력해 주세요.<br/><br/>";
         content += "혹시 비밀번호 재설정을 요청하지 않으셨거나,<br/>비밀번호를 찾으셨다면 이 이메일을 무시해 주세요.<br/><br/>";
@@ -56,7 +46,7 @@ public class EmailService {
         message.addRecipients(MimeMessage.RecipientType.TO, to);
         message.setSubject("[buok] 비밀번호를 잊으셨나요? " + code);
         message.setText(content, "utf-8", "html");
-        message.setFrom(new InternetAddress(BUOK_EMAIL, BUOK_NAME));
+        message.setFrom(new InternetAddress(emailProperties.getLink(), emailProperties.getName()));
 
         return message;
     }
