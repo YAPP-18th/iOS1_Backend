@@ -3,10 +3,12 @@ package com.yapp.ios1.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
+import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.EmailCodeDto;
 import com.yapp.ios1.dto.user.check.EmailDto;
 import com.yapp.ios1.service.EmailService;
 import com.yapp.ios1.service.JwtService;
+import com.yapp.ios1.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.yapp.ios1.common.ResponseMessage.EMAIL_AUTH_SUCCESS;
-import static com.yapp.ios1.common.ResponseMessage.EMAIL_SEND_SUCCESS;
+import java.util.Optional;
+
+import static com.yapp.ios1.common.ResponseMessage.*;
 
 /**
  * created by ayoung 2021/05/30
@@ -29,6 +32,7 @@ import static com.yapp.ios1.common.ResponseMessage.EMAIL_SEND_SUCCESS;
 @RequestMapping("/api/v2/email")
 public class EmailController {
 
+    private final UserService userService;
     private final EmailService emailService;
     private final JwtService jwtService;
 
@@ -38,6 +42,10 @@ public class EmailController {
     )
     @PostMapping("/send")
     public ResponseEntity<ResponseDto> emailAuth(@RequestBody EmailDto email) throws Exception {
+        Optional<UserDto> user = userService.emailCheck(email.getEmail());
+        if (user.isEmpty()) {
+            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
+        }
         emailService.sendSimpleMessage(email.getEmail());
 
         return ResponseEntity.ok()
