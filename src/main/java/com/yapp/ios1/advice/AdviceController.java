@@ -2,6 +2,7 @@ package com.yapp.ios1.advice;
 
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
+import com.yapp.ios1.exception.common.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.ExecutorException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,12 @@ public class AdviceController {
         log.info(e.getMessage());
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.INTERNAL_SERVER_ERROR, ResponseMessage.DATABASE_ERROR));
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ResponseDto> badRequestException(BadRequestException e) {
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
 }

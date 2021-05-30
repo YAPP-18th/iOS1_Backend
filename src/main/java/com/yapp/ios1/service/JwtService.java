@@ -22,8 +22,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.function.Function;
 
-import static com.google.firebase.database.DatabaseError.EXPIRED_TOKEN;
-import static com.yapp.ios1.common.ResponseMessage.NOT_FOUND_USER;
 
 /**
  * created by jg 2021/04/11

@@ -27,6 +27,8 @@ public interface UserMapper {
 
     Optional<ProfileResultDto> findProfileByUserId(@Param("userId") Long userId);
 
+    void changePassword(Long userId, String password);
+
     void updateProfile(ProfileDto profile, Long userId);
 
     void signUp(UserDto userDto);
@@ -34,4 +36,6 @@ public interface UserMapper {
     String findDeviceTokenByUserId(Long userId);
 
     List<String> findAllUserDeviceToken();
+
+    Long findUserIdByEmail(String email);
 }

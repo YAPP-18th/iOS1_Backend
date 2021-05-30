@@ -4,8 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.check.EmailCheckDto;
+import com.yapp.ios1.dto.user.check.EmailDto;
 import com.yapp.ios1.dto.user.check.NicknameCheckDto;
+import com.yapp.ios1.dto.user.login.PasswordDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.exception.user.UserDuplicatedException;
@@ -48,7 +49,7 @@ public class UserController {
             value = "이메일 존재 여부"
     )
     @PostMapping("/email-check")
-    public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailCheckDto emailDto) {
+    public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailDto emailDto) {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
         if (user.isEmpty()) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
@@ -110,13 +111,26 @@ public class UserController {
     }
 
     @ApiOperation(
+            value = "비밀번호 재설정",
+            notes = "요청 헤더에 토큰, 요청 바디에 비밀번호 전달"
+    )
+    @Auth
+    @PutMapping("/password")
+    public ResponseEntity<ResponseDto> changePassword(@RequestBody PasswordDto passwordDto) {
+        Long userId = UserContext.getCurrentUserId();
+        userService.changePassword(userId, passwordDto.getPassword());
+        ResponseDto response = ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @ApiOperation(
             value = "프로필 가져오기"
     )
     @Auth
     @GetMapping("")
     public ResponseEntity<ResponseDto> getProfile() {
         Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK,GET_PROFILE_SUCCESS, userService.getProfile(userId)));
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, GET_PROFILE_SUCCESS, userService.getProfile(userId)));
     }
 
     @ApiOperation(

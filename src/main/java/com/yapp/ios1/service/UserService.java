@@ -106,6 +106,12 @@ public class UserService {
         throw new PasswordNotMatchException(NOT_MATCH_PASSWORD);
     }
 
+    @Transactional
+    public void changePassword(Long userId, String password) {
+        String encodePassword = passwordEncoder.encode(password);
+        userMapper.changePassword(userId, encodePassword);
+    }
+
     // 프로필 정보 GET
     public ProfileResultDto getProfile(Long userId) {
         Optional<ProfileResultDto> optional = userMapper.findProfileByUserId(userId);

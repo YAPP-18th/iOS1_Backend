@@ -7,6 +7,6 @@ import lombok.Setter;
  * created by ayoung 2021/04/20
  */
 @Getter
-public class EmailCheckDto {
+public class EmailDto {
     private String email;
 }

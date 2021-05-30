@@ -57,7 +57,7 @@ public class S3Service {
         s3Client.putObject(new PutObjectRequest(bucket, uploadDir + fileName, byteArrayIs, objMeta)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
-        return s3Client.getUrl(bucket, fileName).toString();
+        return s3Client.getUrl(bucket, uploadDir + fileName).toString();
     }
 }
 
