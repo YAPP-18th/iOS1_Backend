@@ -52,15 +52,14 @@ public class FollowController {
                                                     @RequestParam("accept") boolean isAccept) {
         Long myUserId = UserContext.getCurrentUserId();
 
-        boolean data;
         if (isAccept) {
-            data = followService.followAccept(myUserId, friendId, alarmId);
+            followService.followAccept(myUserId, friendId, alarmId);
         } else {
-            data = followService.followNotAccept(myUserId, alarmId);
+            followService.followNotAccept(myUserId, alarmId);
         }
 
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_MESSAGE, data));
+                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_MESSAGE, isAccept));
     }
 
     @ApiOperation(
