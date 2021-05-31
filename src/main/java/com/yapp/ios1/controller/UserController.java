@@ -54,7 +54,7 @@ public class UserController {
         if (user.isEmpty()) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
         }
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER, user.get().getNickname()));
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER));
     }
 
     /**
