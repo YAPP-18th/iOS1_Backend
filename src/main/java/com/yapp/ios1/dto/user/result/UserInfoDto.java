@@ -3,7 +3,7 @@ package com.yapp.ios1.dto.user.result;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
 import com.yapp.ios1.dto.bucket.BucketDto;
-import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.dto.user.ProfileResultDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Builder
 public class UserInfoDto {
-    private UserDto user;
+    private ProfileResultDto user;
     private int friendCount;
     private int bucketCount;
     private BookmarkResultDto bookmark;
