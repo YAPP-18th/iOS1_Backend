@@ -7,7 +7,10 @@ import lombok.Getter;
  */
 @Getter
 public class ProfileResultDto {
+    private Long id;
+    private String email;
     private String nickname;
+    private String createdDate;
     private String intro;
     private String profileUrl;
     private String socialType;
