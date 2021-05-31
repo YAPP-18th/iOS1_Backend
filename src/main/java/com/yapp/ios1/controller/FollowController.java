@@ -47,9 +47,9 @@ public class FollowController {
     )
     @Auth
     @PostMapping("/{friendId}/{alarmId}")
-    public ResponseEntity<ResponseDto> followAccept(@RequestParam("accept") boolean isAccept,
-                                                    @PathVariable Long friendId,
-                                                    @PathVariable Long alarmId) {
+    public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId,
+                                                    @PathVariable Long alarmId,
+                                                    @RequestParam("accept") boolean isAccept) {
         Long myUserId = UserContext.getCurrentUserId();
 
         boolean data;
