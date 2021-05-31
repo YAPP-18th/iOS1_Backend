@@ -124,6 +124,7 @@ public class UserService {
     // 프로필 업데이트
     @Transactional
     public void updateProfile(ProfileDto profileDto, Long userId) {
+        // 닉네임 중복 확인해야함 (자기 자신 별명 제외)
         userMapper.updateProfile(profileDto, userId);
     }
 
