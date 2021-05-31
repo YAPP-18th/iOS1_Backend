@@ -28,6 +28,7 @@ public class ResponseMessage {
     public static final String EXIST_EMAIL = "존재하는 이메일입니다.";
     public static final String NOT_EXIST_EMAIL = "이메일을 입력해주세요.";
     public static final String EXIST_USER = "존재하는 회원입니다.";
+    public static final String EXIST_NICKNAME = "닉네임 중복입니다.";
     public static final String NOT_EXIST_USER = "존재하지 않는 회원입니다.";
     public static final String SIGN_UP_SUCCESS = "회원가입 성공입니다.";
     public static final String NOT_MATCH_PASSWORD = "비밀번호 오류입니다.";
