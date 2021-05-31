@@ -83,14 +83,14 @@ public class UserController {
             value = "회원가입"
     )
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpDto signUpDto) throws SQLException {
+    public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpDto signUpDto) throws SQLException, JsonProcessingException {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         if (user.isPresent()) {
             throw new UserDuplicatedException(EXIST_USER);
         }
 
-        userService.signUp(UserDto.of(signUpDto));
-        ResponseDto response = ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS);
+        Long userId = userService.signUp(UserDto.of(signUpDto));
+        ResponseDto response = ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId));
         return ResponseEntity.ok().body(response);
     }
 
