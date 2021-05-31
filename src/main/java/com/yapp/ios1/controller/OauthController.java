@@ -33,7 +33,7 @@ public class OauthController {
                                                    @RequestBody SocialLoginDto socialDto) throws JsonProcessingException {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, socialDto);
 
-        ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId()));
+        ResponseDto response = ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId()));
         return ResponseEntity.ok(response);
     }
 }
