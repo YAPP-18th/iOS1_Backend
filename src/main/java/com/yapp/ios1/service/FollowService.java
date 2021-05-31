@@ -68,7 +68,7 @@ public class FollowService {
      * @param friendId
      */
     @Transactional
-    public void followAccept(Long myUserId, Long friendId, Long alarmId) {
+    public void followAccept(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
         // 친구 요청 수락
         alarmMapper.insertFollowAlarmLog(notificationForOne, LocalDateTime.now(), friendId);

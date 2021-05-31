@@ -53,7 +53,7 @@ public class FollowController {
         Long myUserId = UserContext.getCurrentUserId();
 
         if (isAccept) {
-            followService.followAccept(myUserId, friendId, alarmId);
+            followService.followAccept(myUserId, friendId);
         } else {
             followService.followNotAccept(myUserId, alarmId);
         }
