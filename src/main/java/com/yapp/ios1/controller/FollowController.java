@@ -12,11 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,16 +43,23 @@ public class FollowController {
     }
 
     @ApiOperation(
-            value = "친구 요청 승낙"
+            value = "친구 요청 수락, 거절"
     )
     @Auth
-    @PostMapping("/accept/{friendId}")
-    public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId) {
+    @PostMapping("/{friendId}/{alarmId}")
+    public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId,
+                                                    @PathVariable Long alarmId,
+                                                    @RequestParam("accept") boolean isAccept) {
         Long myUserId = UserContext.getCurrentUserId();
 
-        followService.followAccept(myUserId, friendId);
+        if (isAccept) {
+            followService.followAccept(myUserId, friendId);
+        } else {
+            followService.followNotAccept(myUserId, alarmId);
+        }
+
         return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_ACCEPT));
+                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_MESSAGE, isAccept));
     }
 
     @ApiOperation(
