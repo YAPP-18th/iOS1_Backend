@@ -44,5 +44,4 @@ public class AdviceController {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
-
 }
