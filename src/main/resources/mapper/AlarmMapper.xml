@@ -42,6 +42,6 @@
 
     <delete id="deleteAlarmLog">
         INSERT INTO alarm_delete (user_id, alarm_id)
-        VALUES user_id = #{userId} AND alarm_id = #{alarmId}
+        VALUES (#{userId}, #{alarmId})
     </delete>
 </mapper>
