@@ -54,7 +54,7 @@ public class UserController {
         if (user.isEmpty()) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
         }
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER, user.get().getNickname()));
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER));
     }
 
     /**
@@ -83,14 +83,14 @@ public class UserController {
             value = "회원가입"
     )
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpDto signUpDto) throws SQLException {
+    public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpDto signUpDto) throws SQLException, JsonProcessingException {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         if (user.isPresent()) {
             throw new UserDuplicatedException(EXIST_USER);
         }
 
-        userService.signUp(UserDto.of(signUpDto));
-        ResponseDto response = ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS);
+        Long userId = userService.signUp(UserDto.of(signUpDto));
+        ResponseDto response = ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId));
         return ResponseEntity.ok().body(response);
     }
 

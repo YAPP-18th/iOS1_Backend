@@ -124,6 +124,7 @@ public class UserService {
     // 프로필 업데이트
     @Transactional
     public void updateProfile(ProfileDto profileDto, Long userId) {
+        // 닉네임 중복 확인해야함 (자기 자신 별명 제외)
         userMapper.updateProfile(profileDto, userId);
     }
 
@@ -144,11 +145,11 @@ public class UserService {
         return userInfo;
     }
 
-    // 사용자 정보 get
+    // 마이페이지 get
     @Transactional(readOnly = true)
     public UserInfoDto getUserInfo(Long userId) {
         // 프로필 정보
-        Optional<UserDto> optionalUser = userMapper.findByUserId(userId);
+        Optional<ProfileResultDto> optionalUser = userMapper.findProfileByUserId(userId);
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException(NOT_EXIST_USER);
         }
