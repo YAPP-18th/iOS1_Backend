@@ -83,7 +83,6 @@ public class FollowService {
      * @param alarmId
      */
     public boolean followNotAccept(Long myUserId, Long alarmId) {
-        System.out.println(myUserId + " " + alarmId);
         alarmMapper.deleteAlarmLog(myUserId, alarmId);
         return false;
     }
