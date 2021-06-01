@@ -92,4 +92,15 @@ public class BucketController {
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
     }
 
+    @ApiOperation(value = "북마크 설정",
+            notes = "북마크 설정 / 해제 합니다.")
+    @Auth
+    @PutMapping("/{id}/bookmark")
+    public ResponseEntity<ResponseDto> setBookmark(@PathVariable("id") Long bucketId, @RequestParam("state") boolean isBookmark) {
+        Long userId = UserContext.getCurrentUserId();
+        bucketService.setBookmark(bucketId, userId, isBookmark);
+        return ResponseEntity.ok()
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
+    }
+
 }
