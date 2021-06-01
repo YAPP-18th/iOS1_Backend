@@ -1,35 +1,27 @@
 #!/bin/bash
-BUILD_JAR=$(ls /home/ec2-user/yapp/build/libs/*.jar)     # jar가 위치하는 곳
-JAR_NAME=$(basename $BUILD_JAR)
-echo "> build 파일명: $JAR_NAME" >> /home/ec2-user/yapp/deploy.log
 
-echo "> build 파일 복사" >> /home/ec2-user/yapp/deploy.log
-DEPLOY_PATH=/home/ec2-user/
-cp $BUILD_JAR $DEPLOY_PATH
+CONTAINER_ID=$(docker container ls -f "name=gyunny" -q)
 
-echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ec2-user/yapp/deploy.log
-CURRENT_PID=$(pgrep -f $JAR_NAME)
+echo "> 컨테이너 ID는 무엇?? ${CONTAINER_ID}"
 
-if [ -z $CURRENT_PID ]
+if [ -z ${CONTAINER_ID} ]
 then
   echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다." >> /home/ec2-user/yapp/deploy.log
-elseㅇ
-  echo "> kill -15 $CURRENT_PID"
-  kill -15 $CURRENT_PID
+else
+  echo "> docker stop ${CONTAINER_ID}"
+  sudo docker stop ${CONTAINER_ID}
+  echo "> docker rm ${CONTAINER_ID}"
+  sudo docker rm ${CONTAINER_ID}
   sleep 5
 fi
 
-DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
-echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/yapp/deploy.log
-nohup java -jar $DEPLOY_JAR >> /home/ec2-user/yapp/deploy.log 2>/home/ec2-user/yapp/deploy_err.log &
-
-cd /home/ec2-user/yapp
-
 ACCOUNT_ID=$(echo $account_id)
 
-aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com
-docker build -t yapp .
+cd /home/ec2-user/yapp && docker build -t yapp .
+docker run --name gyunny -d -p 8080:8080 yapp
 
-docker run --name gyunny -d -p 8081:8080 yapp
-docker tag yapp:latest "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
-docker push "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
+#aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com
+#cd /home/ec2-user/yapp && docker build -t yapp .
+#
+#docker tag yapp:latest "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
+#docker push "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
