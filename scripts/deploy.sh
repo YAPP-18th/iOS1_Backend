@@ -25,6 +25,9 @@ nohup java -jar $DEPLOY_JAR >> /home/ec2-user/yapp/deploy.log 2>/home/ec2-user/y
 
 ACCOUNT_ID=$(echo $account_id)
 
+echo ">$account_id"
+echo ">$pwd"
+
 aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com
 
 docker build -t yapp .
