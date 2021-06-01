@@ -49,4 +49,10 @@ public interface BucketMapper {
     void saveBucketEndDateLog(Long bucketId);
 
     int completeBucket(Long bucketId, Long userId);
+
+    Optional<BookmarkUpdateDto> findBookmarkByBucketId(Long bucketId);
+
+    void setBookmark(Long bucketId, boolean isBookmark);
+
+
 }

@@ -137,4 +137,21 @@ public class BucketService {
     public int getBucketCountByUserId(Long userId) {
         return bucketMapper.getBucketCountByUserId(userId);
     }
+
+    // 북마크 추가
+    public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
+        Optional<BookmarkUpdateDto> optional = bucketMapper.findBookmarkByBucketId(bucketId);
+
+        if (optional.isEmpty()) {
+            throw new BucketNotFoundException(NOT_FOUND_BUCKET);
+        }
+
+        BookmarkUpdateDto bookmarkDto = optional.get();
+
+        if (!bookmarkDto.getUserId().equals(userId)) {
+            throw new IllegalArgumentException(BAD_USER);
+        }
+
+        bucketMapper.setBookmark(bucketId, isBookmark);
+    }
 }

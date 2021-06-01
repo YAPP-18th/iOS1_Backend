@@ -154,4 +154,17 @@
         WHERE id = #{bucketId} AND user_id = #{userId};
     </update>
 
+    <select id="findBookmarkByBucketId" resultType="BookmarkUpdateDto">
+        SELECT id, bookmark AS isBookmark, user_id AS userId
+        FROM bucket
+        WHERE id = #{bucketId};
+    </select>
+
+    <update id="setBookmark">
+        UPDATE bucket
+        SET
+            bookmark = #{isBookmark}
+        WHERE id = #{bucketId};
+    </update>
+
 </mapper>
