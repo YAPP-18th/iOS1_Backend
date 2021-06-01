@@ -13,7 +13,7 @@ CURRENT_PID=$(pgrep -f $JAR_NAME)
 if [ -z $CURRENT_PID ]
 then
   echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다." >> /home/ec2-user/yapp/deploy.log
-else
+elseㅇ
   echo "> kill -15 $CURRENT_PID"
   kill -15 $CURRENT_PID
   sleep 5
@@ -27,7 +27,7 @@ ACCOUNT_ID=$(echo $account_id)
 
 aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com
 
-cd .. && docker build -t yapp .
+docker build -t yapp .
 
 docker tag yapp:latest ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
 
