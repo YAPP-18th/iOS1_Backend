@@ -38,11 +38,21 @@
     </update>
 
     <update id="updateProfile">
-        UPDATE user
-        SET nickname    = #{profile.nickname},
-            intro       = #{profile.intro},
-            profile_url = #{profile.profileUrl}
-        WHERE id = #{userId};
+        UPDATE
+            user AS a
+        SET a.nickname    = #{profile.nickname},
+            a.intro       = #{profile.intro},
+            a.profile_url = #{profile.profileUrl}
+        WHERE (
+            SELECT c.nickname as nickname
+            FROM (
+                     SELECT b.nickname as nickname
+                     FROM user AS b
+                     WHERE b.id NOT IN (#{userId})
+                 ) as c
+            WHERE c.nickname IN (#{profile.nickname})
+        ) IS NULL
+          AND a.id = #{userId};
     </update>
 
     <select id="findDeviceTokenByUserId" resultType="String">

@@ -29,7 +29,7 @@ public interface UserMapper {
 
     void changePassword(Long userId, String password);
 
-    void updateProfile(ProfileDto profile, Long userId);
+    int updateProfile(ProfileDto profile, Long userId);
 
     void signUp(UserDto userDto);
 

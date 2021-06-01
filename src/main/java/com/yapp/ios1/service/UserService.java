@@ -7,6 +7,7 @@ import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
+import com.yapp.ios1.exception.common.BadRequestException;
 import com.yapp.ios1.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.FollowMapper;
@@ -124,8 +125,10 @@ public class UserService {
     // 프로필 업데이트
     @Transactional
     public void updateProfile(ProfileDto profileDto, Long userId) {
-        // 닉네임 중복 확인해야함 (자기 자신 별명 제외)
-        userMapper.updateProfile(profileDto, userId);
+        int change = userMapper.updateProfile(profileDto, userId);
+        if (change == 0) { // 닉네임 중복인 경우
+            throw new BadRequestException(EXIST_NICKNAME);
+        }
     }
 
     @Transactional(readOnly = true)
