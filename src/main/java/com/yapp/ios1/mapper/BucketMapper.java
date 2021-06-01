@@ -54,5 +54,4 @@ public interface BucketMapper {
 
     void setBookmark(Long bucketId, boolean isBookmark);
 
-
 }

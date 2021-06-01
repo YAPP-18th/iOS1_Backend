@@ -108,11 +108,10 @@
     </insert>
 
     <select id="findBookmarkListByUserId" resultType="BookmarkDto">
-        SELECT b.id, b.bucket_name as bucketName, b.category_id as categoryId, b.end_date as endDate
-        FROM bucket b
-                 JOIN bookmark bm ON b.id = bm.bucket_id
-        WHERE b.user_id = #{userId}
-        ORDER BY b.end_date DESC;
+        SELECT id, bucket_name as bucketName, category_id as categoryId, end_date as endDate
+        FROM bucket
+        WHERE user_id = #{userId} AND bookmark = true
+        ORDER BY end_date DESC;
     </select>
 
     <select id="getBucketCountByUserId" resultType="int">
