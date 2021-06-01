@@ -23,12 +23,14 @@ DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/yapp/deploy.log
 nohup java -jar $DEPLOY_JAR >> /home/ec2-user/yapp/deploy.log 2>/home/ec2-user/yapp/deploy_err.log &
 
-aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $account_id.dkr.ecr.ap-northeast-2.amazonaws.com
+ACCOUNT_ID=$(echo $account_id)
+
+aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com
 
 docker build -t yapp .
 
-docker tag yapp:latest $account_id.dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
+docker tag yapp:latest ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
 
-docker push $account_id.dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
+docker push ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
 
 
