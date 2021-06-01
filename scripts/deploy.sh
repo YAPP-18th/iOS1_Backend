@@ -27,7 +27,7 @@ ACCOUNT_ID=$(echo $account_id)
 
 aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com
 
-docker build -t yapp .
+cd .. && docker build -t yapp .
 
 docker tag yapp:latest ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
 
