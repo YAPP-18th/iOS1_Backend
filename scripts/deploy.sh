@@ -28,7 +28,6 @@ cd /home/ec2-user/yapp
 ACCOUNT_ID=$(echo $account_id)
 
 aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com
-
 docker build -t yapp .
 
 docker run --name gyunny -d -p 8081:8080 yapp
