@@ -3,6 +3,7 @@ package com.yapp.ios1.service;
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.exception.bucket.FailedUpdateException;
+import com.yapp.ios1.exception.common.BadRequestException;
 import com.yapp.ios1.mapper.BucketMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +59,7 @@ public class BucketService {
         BucketCompareDto bucketDto = optional.get();
 
         if (!bucketDto.getUserId().equals(userId)) {
-            throw new IllegalArgumentException(BAD_USER);
+            throw new BadRequestException(BAD_USER);
         }
         updateDto.setId(bucketId);
         bucketMapper.updateBucket(updateDto); // 버킷 수정
@@ -136,5 +137,22 @@ public class BucketService {
      */
     public int getBucketCountByUserId(Long userId) {
         return bucketMapper.getBucketCountByUserId(userId);
+    }
+
+    // 북마크 추가
+    public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
+        Optional<BookmarkUpdateDto> optional = bucketMapper.findBookmarkByBucketId(bucketId);
+
+        if (optional.isEmpty()) {
+            throw new BucketNotFoundException(NOT_FOUND_BUCKET);
+        }
+
+        BookmarkUpdateDto bookmarkDto = optional.get();
+
+        if (!bookmarkDto.getUserId().equals(userId)) {
+            throw new BadRequestException(BAD_USER);
+        }
+
+        bucketMapper.setBookmark(bucketId, isBookmark);
     }
 }
