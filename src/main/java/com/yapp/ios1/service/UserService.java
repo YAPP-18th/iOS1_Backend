@@ -8,7 +8,7 @@ import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
 import com.yapp.ios1.exception.common.BadRequestException;
-import com.yapp.ios1.exception.user.PasswordNotMatchException;
+import com.yapp.ios1.error.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;

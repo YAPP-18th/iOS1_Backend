@@ -9,7 +9,7 @@ import com.yapp.ios1.dto.user.check.NicknameCheckDto;
 import com.yapp.ios1.dto.user.login.PasswordDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
-import com.yapp.ios1.exception.user.UserDuplicatedException;
+import com.yapp.ios1.error.exception.user.UserDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;

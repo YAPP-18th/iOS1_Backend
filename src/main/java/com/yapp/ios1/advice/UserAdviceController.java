@@ -2,9 +2,9 @@ package com.yapp.ios1.advice;
 
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.exception.user.EmailNotExistException;
-import com.yapp.ios1.exception.user.PasswordNotMatchException;
-import com.yapp.ios1.exception.user.UserDuplicatedException;
+import com.yapp.ios1.error.exception.user.EmailNotExistException;
+import com.yapp.ios1.error.exception.user.PasswordNotMatchException;
+import com.yapp.ios1.error.exception.user.UserDuplicatedException;
 import com.yapp.ios1.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
