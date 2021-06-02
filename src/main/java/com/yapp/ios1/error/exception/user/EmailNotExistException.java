@@ -1,5 +1,6 @@
 package com.yapp.ios1.error.exception.user;
 
+import com.yapp.ios1.error.exception.ErrorCode;
 import com.yapp.ios1.error.exception.InvalidValueException;
 import lombok.Getter;
 
@@ -8,7 +9,8 @@ import lombok.Getter;
  */
 @Getter
 public class EmailNotExistException extends InvalidValueException {
+
     public EmailNotExistException(String message) {
-        super(message);
+        super(message, ErrorCode.EMAIL_NOT_FOUND);
     }
 }
