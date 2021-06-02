@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 import static com.yapp.ios1.common.ResponseMessage.LOGIN_SUCCESS;
 
 /**
@@ -38,7 +40,7 @@ public class TokenController {
 
     @ApiOperation(value = "토큰 재발급")
     @PostMapping("/token/refresh")
-    public ResponseEntity<ResponseDto> reissueToken(@RequestHeader String refreshToken) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> reissueToken(@RequestHeader String refreshToken) throws JsonProcessingException, ParseException {
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.reissueToken(refreshToken));
         return ResponseEntity.ok().body(response);
     }

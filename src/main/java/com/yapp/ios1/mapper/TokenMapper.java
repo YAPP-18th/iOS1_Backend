@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface TokenMapper {
     void updateToken(String refreshToken, Long userId);
+
+    String getTokenByUserId(Long userId);
 }

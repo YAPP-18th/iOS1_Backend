@@ -2,6 +2,7 @@ package com.yapp.ios1.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yapp.ios1.config.CacheKey;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.mapper.TokenMapper;
 import io.jsonwebtoken.Jwts;
@@ -9,6 +10,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -50,10 +52,15 @@ public class JwtIssueService {
         return createToken(payload, ACCESS_VALID_TIME);
     }
 
-    @CachePut(value = "token", key = "#payload.id")
+    @CachePut(value = CacheKey.TOKEN, key = "#payload.id")
     public String createRefreshToken(JwtPayload payload) throws JsonProcessingException {
         String refreshToken = createToken(payload, REFRESH_VALID_TIME);
         tokenMapper.updateToken(refreshToken, payload.getId());
         return refreshToken;
+    }
+
+    @Cacheable(value = CacheKey.TOKEN, key = "#userId")
+    public String getRefreshTokenByUserId(Long userId) {
+        return tokenMapper.getTokenByUserId(userId);
     }
 }

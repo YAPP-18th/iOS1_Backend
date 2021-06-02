@@ -7,7 +7,6 @@ import com.nimbusds.jwt.SignedJWT;
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
-import com.yapp.ios1.utils.RedisUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,6 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private final RedisUtil redisUtil;
 
     private final JwtIssueService jwtIssueService;
 
@@ -66,6 +64,10 @@ public class JwtService {
                 .getBody();
     }
 
+    private boolean isTokenValid(String token) {
+        return !getExpirationDateFromToken(token).before(new Date());
+    }
+
     public TokenResponseDto createTokenResponse(Long userId) throws JsonProcessingException {
         JwtPayload jwtPayload = new JwtPayload(userId);
         String accessToken = jwtIssueService.createAccessToken(jwtPayload);
@@ -79,13 +81,17 @@ public class JwtService {
                 .build();
     }
 
-    public TokenResponseDto reissueToken(String refreshToken) throws JsonProcessingException {
-        String data = redisUtil.getData(refreshToken);
-        if (data == null) {
+    public TokenResponseDto reissueToken(String refreshToken) throws JsonProcessingException, ParseException {
+        if (!isTokenValid(refreshToken)) { // 만료된 토큰인 경우
             throw new IllegalArgumentException(ResponseMessage.EXPIRED_TOKEN);
         }
-        redisUtil.deleteData(refreshToken);
-        return createTokenResponse(Long.parseLong(data));
+        // 토큰에서 userId를 꺼낸다.
+        Long userId = Long.parseLong(getSubject(refreshToken));
+        String token = jwtIssueService.getRefreshTokenByUserId(userId);
+        if (!token.equals(refreshToken)) {
+            throw new IllegalArgumentException(ResponseMessage.EXPIRED_TOKEN);
+        }
+        return createTokenResponse(userId);
     }
 
 }
