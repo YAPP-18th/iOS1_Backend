@@ -3,7 +3,7 @@ services:
   redis:
     image: redis
     container_name: redis
-  spring1:
+  spring:
     build: .
     image: yapp
     container_name: gyunny
