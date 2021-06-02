@@ -28,11 +28,10 @@ public class BucketRequestDto {
     private String bucketName;
     @Min(value = 2, message = NOT_VALID_STATE)
     @Max(value = 4, message = NOT_VALID_STATE)
-    private int state;
+    private int bucketState;
     @Min(value = 2, message = NOT_VALID_CATEGORY_ID)
     @Max(value = 10, message = NOT_VALID_CATEGORY_ID)
     private int categoryId;
-    private LocalDate startDate;
     private LocalDate endDate;
     private String content;
     private List<String> imageList;

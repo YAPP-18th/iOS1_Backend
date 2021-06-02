@@ -9,8 +9,8 @@ import lombok.Getter;
 public class BucketDto {
     private Long id;
     private String bucketName;
-    private String startDate;
+    private String createdDate;
     private String endDate;
-    private String bucketState;
+    private int bucketState;
     private int categoryId;
 }
