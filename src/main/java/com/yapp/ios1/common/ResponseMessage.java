@@ -65,4 +65,11 @@ public class ResponseMessage {
     public static final String EMAIL_AUTH_SUCCESS = "이메일 인증 성공입니다.";
     public static final String EMAIL_AUTH_FAIL = "이메일 인증 실패입니다.";
 
+    // Valid
+    public static final String NOT_VALID_BUCKET_NAME = "버킷 제목 작성 필수입니다.";
+    public static final String NOT_VALID_CATEGORY_ID = "유효한 카테고리 ID가 아닙니다.";
+    public static final String NOT_VALID_STATE = "유효한 버킷 state가 아닙니다.";
+    public static final String NOT_VALID_DATE_TIME = "날짜 형식 yyyy-MM-dd 입니다.";
+    public static final String NOT_VALID_EMAIL = "이메일 형식 제대로 입력해주세요.";
+
 }

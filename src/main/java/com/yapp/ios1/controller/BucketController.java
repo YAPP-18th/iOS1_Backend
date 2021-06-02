@@ -56,7 +56,7 @@ public class BucketController {
     )
     @Auth
     @PostMapping("")
-    public ResponseEntity<ResponseDto> registerBucket(@RequestBody BucketRequestDto bucket) throws IllegalArgumentException {
+    public ResponseEntity<ResponseDto> registerBucket(@RequestBody @Valid BucketRequestDto bucket) throws IllegalArgumentException {
         bucket.setUserId(UserContext.getCurrentUserId());
         bucketService.registerBucket(bucket);
         return ResponseEntity.ok()
