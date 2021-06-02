@@ -16,20 +16,10 @@
         WHERE id = #{bucketId}
     </select>
 
-    <select id="findByBucketState" resultType="BucketDto">
-        SELECT id, bucket_name, start_date, end_date, bucket_state, count(id) as bucketListCount
-        FROM bucket WHERE bucket_state = #{bucketState} and user_id = #{userId};
-    </select>
-
-    <select id="findByUserBucketListAll" resultType="BucketDto">
-        SELECT id, bucket_name, start_date, end_date, bucket_state, count(id) as bucketListCount,
-        FROM bucket WHERE user_id = #{userId};
-    </select>
-
     <select id="findByBucketStateAndCategory" resultType="BucketDto">
         SELECT id,
                bucket_name as bucketName,
-               start_date as startDate,
+               created_date as createdDate,
                end_date as endDate,
                bucket_state as bucketState,
                category_id as categoryId
@@ -57,7 +47,7 @@
 
     <select id="findByUserId" resultType="BucketDto">
         SELECT b.id, b.bucket_name as bucketName,
-               b.start_date as startDate,
+               b.created_date as createdDate,
                b.end_date as endDate,
                b.bucket_state as bucketState,
                c.category_name as categoryName
@@ -71,8 +61,8 @@
     </select>
 
     <insert id="registerBucket" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO bucket (bucket_name, bucket_content, start_date, end_date, bucket_state, user_id, category_id)
-        VALUES(#{bucketName}, #{content}, #{startDate}, #{endDate}, #{state}, #{userId}, #{categoryId});
+        INSERT INTO bucket (bucket_name, bucket_content, end_date, bucket_state, user_id, category_id)
+        VALUES(#{bucketName}, #{content}, #{endDate}, #{bucketState}, #{userId}, #{categoryId});
     </insert>
 
     <update id="updateBucket">
@@ -80,7 +70,7 @@
         SET bucket_name = #{bucketName},
             bucket_content = #{content},
             end_date = #{endDate},
-            bucket_state = #{state},
+            bucket_state = #{bucketState},
             category_id = #{categoryId}
         WHERE id = #{id};
     </update>

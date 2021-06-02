@@ -16,7 +16,7 @@ public class BucketCompareDto {
     private Long id;
     private Long userId;
     private String bucketName;
-    private String bucketState;
+    private int bucketState;
     private int categoryId;
     private String endDate;
     private String content;
