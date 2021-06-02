@@ -1,0 +1,11 @@
+version: "3"
+services:
+  redis:
+    image: redis
+    container_name: redis
+  spring1:
+    build: .
+    image: yapp
+    container_name: gyunny
+    ports:
+      - 8080:8080
