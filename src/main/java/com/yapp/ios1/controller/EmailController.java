@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 import static com.yapp.ios1.common.ResponseMessage.*;
@@ -41,7 +42,7 @@ public class EmailController {
             notes = "입력한 이메일로 인증 코드를 전송합니다."
     )
     @PostMapping("/send")
-    public ResponseEntity<ResponseDto> emailAuth(@RequestBody EmailDto email) throws Exception {
+    public ResponseEntity<ResponseDto> emailAuth(@RequestBody @Valid EmailDto email) throws Exception {
         Optional<UserDto> user = userService.emailCheck(email.getEmail());
         if (user.isEmpty()) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));

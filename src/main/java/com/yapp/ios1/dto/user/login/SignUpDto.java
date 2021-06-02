@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.Email;
+
+import static com.yapp.ios1.common.ResponseMessage.NOT_VALID_EMAIL;
+
 /**
  * created by ayoung 2021/04/14
  */
@@ -13,6 +17,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class SignUpDto {
+    @Email(message = NOT_VALID_EMAIL)
     private String email;
     @JsonIgnore
     private SocialType socialType;

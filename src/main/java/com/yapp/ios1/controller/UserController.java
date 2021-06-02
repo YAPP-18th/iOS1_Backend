@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ public class UserController {
             value = "이메일 존재 여부"
     )
     @PostMapping("/email-check")
-    public ResponseEntity<ResponseDto> emailCheck(@RequestBody EmailDto emailDto) {
+    public ResponseEntity<ResponseDto> emailCheck(@RequestBody @Valid EmailDto emailDto) {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
         if (user.isEmpty()) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
@@ -83,7 +84,7 @@ public class UserController {
             value = "회원가입"
     )
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDto> signUp(@RequestBody SignUpDto signUpDto) throws SQLException, JsonProcessingException {
+    public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) throws SQLException, JsonProcessingException {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         if (user.isPresent()) {
             throw new UserDuplicatedException(EXIST_USER);
@@ -104,7 +105,7 @@ public class UserController {
             notes = "로그인 성공 시, accessToken과 refreshToken을 발급합니다."
     )
     @PostMapping("/signin")
-    public ResponseEntity<ResponseDto> signIn(@RequestBody SignInDto signInDto) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) throws JsonProcessingException {
         UserDto userDto = userService.getUser(signInDto);
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId()));
         return ResponseEntity.ok().body(response);
