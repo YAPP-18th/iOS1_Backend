@@ -51,9 +51,9 @@ public class UserController {
     public ResponseEntity<ResponseDto> emailCheck(@RequestBody @Valid EmailDto emailDto) {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
         if (user.isEmpty()) {
-            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
+            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
         }
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EXIST_USER));
     }
 
     /**
@@ -66,9 +66,9 @@ public class UserController {
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) {
         Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
         if (user.isEmpty()) {
-            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
+            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
         }
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EXIST_USER));
     }
 
     /**
@@ -86,7 +86,7 @@ public class UserController {
 
         Long userId = userService.signUp(UserDto.of(signUpDto));
         ResponseDto response = ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId));
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -102,7 +102,7 @@ public class UserController {
     public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) throws JsonProcessingException {
         UserDto userDto = userService.getUser(signInDto);
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId()));
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     @ApiOperation(
@@ -115,7 +115,7 @@ public class UserController {
         Long userId = UserContext.getCurrentUserId();
         userService.changePassword(userId, passwordDto.getPassword());
         ResponseDto response = ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     @ApiOperation(value = "프로필 가져오기")
@@ -132,7 +132,7 @@ public class UserController {
     public ResponseEntity<ResponseDto> updateProfile(@RequestBody ProfileDto profile) {
         Long userId = UserContext.getCurrentUserId();
         userService.updateProfile(profile, userId);
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, UPDATE_PROFILE_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_PROFILE_SUCCESS));
     }
 
     @ApiOperation(value = "마이 페이지")
@@ -141,8 +141,7 @@ public class UserController {
     public ResponseEntity<ResponseDto> getMyInfo() {
         Long userId = UserContext.getCurrentUserId();
 
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
     }
 
     @ApiOperation(value = "사용자 페이지")
@@ -151,11 +150,9 @@ public class UserController {
     public ResponseEntity<ResponseDto> getUserInfo(@PathVariable Long userId) {
         Long currentUserId = UserContext.getCurrentUserId();
         if (currentUserId.equals(userId)) {
-            return ResponseEntity.ok()
-                    .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
+            return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
 
         }
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
     }
 }

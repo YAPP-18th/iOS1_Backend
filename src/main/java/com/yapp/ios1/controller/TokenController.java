@@ -33,6 +33,6 @@ public class TokenController {
     @PostMapping("/token/refresh")
     public ResponseEntity<ResponseDto> reissueToken(@RequestHeader String refreshToken) {
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.reissueToken(refreshToken));
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 }

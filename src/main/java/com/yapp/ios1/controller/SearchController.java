@@ -53,8 +53,7 @@ public class SearchController {
                 responseDto.setData(searchService.searchBookMark(keyword, userId));
                 break;
             default:
-                return ResponseEntity.ok().
-                        body(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.NOT_FOUND_SEARCH_TYPE));
+                return ResponseEntity.ok(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.NOT_FOUND_SEARCH_TYPE));
         }
 
         return ResponseEntity.ok(responseDto);

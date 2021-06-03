@@ -48,8 +48,7 @@ public class EmailController {
         }
         emailService.sendSimpleMessage(email.getEmail());
 
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));
     }
 
     @ApiOperation(
@@ -59,7 +58,6 @@ public class EmailController {
     @PostMapping("/verify")
     public ResponseEntity<ResponseDto> verifyCode(@RequestBody EmailCodeDto code) {
         Long userId = emailService.verifyCode(code.getCode());
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, EMAIL_AUTH_SUCCESS, jwtService.createAccessToken(new JwtPayload(userId))));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_AUTH_SUCCESS, jwtService.createAccessToken(new JwtPayload(userId))));
     }
 }
