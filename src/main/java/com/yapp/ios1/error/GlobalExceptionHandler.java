@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
      * ex) Token 잘못되었을 때
      */
     @ExceptionHandler(HttpClientErrorException.class)
-    public ResponseEntity<ErrorResponse> socialException() {
+    public ResponseEntity<ErrorResponse> socialLoginException() {
         log.error("HttpClientErrorException");
         final ErrorResponse response = ErrorResponse.of(ErrorCode.SOCIAL_LOGIN_TOKEN_ERROR);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
      * Bucket 등록할 때 LocalDate 형식 오류
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    protected ResponseEntity<ErrorResponse> test(HttpMessageNotReadableException e) {
+    protected ResponseEntity<ErrorResponse> httpMessageNotReadableException() {
         log.error("HttpMessageNotReadableException");
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_TYPE_VALUE);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
