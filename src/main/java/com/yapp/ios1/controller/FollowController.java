@@ -29,9 +29,7 @@ public class FollowController {
 
     private final FollowService followService;
 
-    @ApiOperation(
-            value = "친구 요청"
-    )
+    @ApiOperation(value = "친구 요청")
     @Auth
     @PostMapping("/request/{friendId}")
     public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
@@ -42,9 +40,7 @@ public class FollowController {
                 .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_REQUEST));
     }
 
-    @ApiOperation(
-            value = "친구 요청 수락, 거절"
-    )
+    @ApiOperation(value = "친구 요청 수락, 거절")
     @Auth
     @PostMapping("/{friendId}/{alarmId}")
     public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId,
@@ -62,9 +58,7 @@ public class FollowController {
                 .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_MESSAGE, isAccept));
     }
 
-    @ApiOperation(
-            value = "친구 리스트"
-    )
+    @ApiOperation(value = "친구 리스트")
     @ApiResponses({
             @ApiResponse(code = 200, message = "친구 목록 존재하는 경우"),
             @ApiResponse(code = 404, message = "친구 목록 존재하지 않는 경우"),

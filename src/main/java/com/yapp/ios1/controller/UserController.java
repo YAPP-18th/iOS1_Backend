@@ -46,9 +46,7 @@ public class UserController {
      *
      * @param emailDto 이메일
      */
-    @ApiOperation(
-            value = "이메일 존재 여부"
-    )
+    @ApiOperation(value = "이메일 존재 여부")
     @PostMapping("/email-check")
     public ResponseEntity<ResponseDto> emailCheck(@RequestBody @Valid EmailDto emailDto) {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
@@ -63,9 +61,7 @@ public class UserController {
      *
      * @param nicknameDto 닉네임
      */
-    @ApiOperation(
-            value = "닉네임 존재 여부"
-    )
+    @ApiOperation(value = "닉네임 존재 여부")
     @PostMapping("/nickname-check")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) {
         Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
@@ -80,9 +76,7 @@ public class UserController {
      *
      * @param signUpDto 회원가입 정보
      */
-    @ApiOperation(
-            value = "회원가입"
-    )
+    @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) throws SQLException, JsonProcessingException {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
@@ -124,9 +118,7 @@ public class UserController {
         return ResponseEntity.ok().body(response);
     }
 
-    @ApiOperation(
-            value = "프로필 가져오기"
-    )
+    @ApiOperation(value = "프로필 가져오기")
     @Auth
     @GetMapping("")
     public ResponseEntity<ResponseDto> getProfile() {
@@ -134,9 +126,7 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, GET_PROFILE_SUCCESS, userService.getProfile(userId)));
     }
 
-    @ApiOperation(
-            value = "프로필 수정"
-    )
+    @ApiOperation(value = "프로필 수정")
     @Auth
     @PutMapping("")
     public ResponseEntity<ResponseDto> updateProfile(@RequestBody ProfileDto profile) {
@@ -145,9 +135,7 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, UPDATE_PROFILE_SUCCESS));
     }
 
-    @ApiOperation(
-            value = "마이 페이지"
-    )
+    @ApiOperation(value = "마이 페이지")
     @Auth
     @GetMapping("/me")
     public ResponseEntity<ResponseDto> getMyInfo() {
@@ -157,9 +145,7 @@ public class UserController {
                 .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
     }
 
-    @ApiOperation(
-            value = "사용자 페이지"
-    )
+    @ApiOperation(value = "사용자 페이지")
     @Auth
     @GetMapping("/{userId}")
     public ResponseEntity<ResponseDto> getUserInfo(@PathVariable Long userId) {

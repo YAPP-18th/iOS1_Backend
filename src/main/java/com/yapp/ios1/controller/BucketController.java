@@ -47,9 +47,7 @@ public class BucketController {
     /**
      * @param bucket    버킷 등록 정보
      */
-    @ApiOperation(
-            value = "버킷 등록"
-    )
+    @ApiOperation(value = "버킷 등록")
     @Auth
     @PostMapping("")
     public ResponseEntity<ResponseDto> registerBucket(@RequestBody @Valid BucketRequestDto bucket) throws IllegalArgumentException {
@@ -62,9 +60,7 @@ public class BucketController {
     /**
      * 버킷 업데이트
      */
-    @ApiOperation(
-            value = "버킷 수정"
-    )
+    @ApiOperation(value = "버킷 수정")
     @Auth
     @PutMapping("/{bucketId}")
     public ResponseEntity<ResponseDto> updateBucket(@PathVariable Long bucketId, @RequestBody @Valid BucketRequestDto requestDto) {
@@ -98,5 +94,4 @@ public class BucketController {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
     }
-
 }

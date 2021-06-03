@@ -23,9 +23,7 @@ public class AlarmController {
 
     private final NotificationService notificationService;
 
-    @ApiOperation(
-            value = "알람 로그 조회"
-    )
+    @ApiOperation(value = "알람 로그 조회")
     @Auth
     @GetMapping("/alarm")
     public ResponseEntity<ResponseDto> alarmLog() {
@@ -34,9 +32,7 @@ public class AlarmController {
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_ALARM_LOG, notificationService.getAlarmLog(userId)));
     }
 
-    @ApiOperation(
-            value = "알람 로그 삭제"
-    )
+    @ApiOperation(value = "알람 로그 삭제")
     @Auth
     @DeleteMapping("/alarm/{alarmId}")
     public ResponseEntity<ResponseDto> deleteAlarm(@PathVariable Long alarmId) {
