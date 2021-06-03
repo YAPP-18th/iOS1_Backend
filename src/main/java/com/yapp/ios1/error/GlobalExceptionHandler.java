@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 소셜 로그인 에러
+     * ex) Token 잘못되었을 때
      */
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<ErrorResponse> socialException() {
@@ -63,7 +64,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * RuntimeException 하위 예외
+     * RuntimeException 하위 클래스
      */
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
@@ -73,6 +74,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
     }
 
+    /**
+     * 예상치 못한 에러 처리
+     */
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("Exception", e);
