@@ -20,36 +20,12 @@ import java.text.ParseException;
 @RestControllerAdvice
 public class UserAdviceController {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ResponseDto> userNotFoundException(UserNotFoundException e) {
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.NOT_FOUND, e.getMessage()));
-    }
-
-    // 이메일 중복 회원가입
-    @ExceptionHandler(EmailDuplicatedException.class)
-    public ResponseEntity<ResponseDto> userDuplicatedException(EmailDuplicatedException e) {
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
-    }
-
-    @ExceptionHandler(PasswordNotMatchException.class)
-    public ResponseEntity<ResponseDto> passwordNotMatchException(PasswordNotMatchException e) {
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
-    }
 
     // 소셜 로그인
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<ResponseDto> socialException() {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.SOCIAL_LOGIN_ERROR));
-    }
-
-    @ExceptionHandler(EmailNotExistException.class)
-    public ResponseEntity<ResponseDto> emailNotExistException(EmailNotExistException e) {
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     // JWT Parse 에러

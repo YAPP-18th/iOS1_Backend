@@ -20,27 +20,6 @@ import static com.yapp.ios1.common.ResponseMessage.NOT_VALID_DATE_TIME;
 @RestControllerAdvice
 public class BucketAdviceController {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ResponseDto> validationException(MethodArgumentNotValidException e) {
-        BindingResult bindingResult = e.getBindingResult();
-
-        StringBuilder builder = new StringBuilder();
-        for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            builder.append(fieldError.getRejectedValue()  + " : ");
-            builder.append(fieldError.getDefaultMessage());
-        }
-
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.BAD_REQUEST, builder.toString()));
-    }
-
-    @ExceptionHandler(BucketNotFoundException.class)
-    public ResponseEntity<ResponseDto> bucketNotFoundException(BucketNotFoundException e) {
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.NOT_FOUND, e.getMessage()));
-    }
-
-
     @ExceptionHandler(DateTimeParseException.class)
     public ResponseEntity<ResponseDto> dateTimeParseException() {
         return ResponseEntity.ok()

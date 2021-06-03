@@ -25,13 +25,6 @@ public class AdviceController {
                 .body(ResponseDto.of(HttpStatus.UNAUTHORIZED, e.getMessage()));
     }
 
-    @ExceptionHandler(SQLException.class)
-    public ResponseEntity<ResponseDto> sqlException(SQLException e) {
-        log.info(e.getMessage());
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.INTERNAL_SERVER_ERROR, ResponseMessage.DATABASE_ERROR));
-    }
-
     @ExceptionHandler(ExecutorException.class)
     public ResponseEntity<ResponseDto> executorException(ExecutorException e) {
         log.info(e.getMessage());

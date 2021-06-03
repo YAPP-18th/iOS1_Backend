@@ -2,6 +2,7 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.config.properties.BuokEmailProperties;
 import com.yapp.ios1.error.exception.common.InternalServerException;
+import com.yapp.ios1.error.exception.infra.MailSendException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.error.exception.common.BadRequestException;
@@ -87,7 +88,7 @@ public class EmailService {
             emailSender.send(message);
         } catch (MailException es) {
             log.info(es.getMessage());
-            throw new InternalServerException(EMAIL_SEND_FAIL);
+            throw new MailSendException(EMAIL_SEND_FAIL);
         }
     }
 
