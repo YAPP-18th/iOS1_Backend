@@ -25,6 +25,7 @@ public class SearchService {
         return searchMapper.searchMyBook(keyword, userId);
     }
 
+    // TODO 리팩터링
     public List<UserSearchDto> searchUser(String keyword, Long userId) {
         List<UserSearchDto> users = searchMapper.searchUser(keyword, userId);
         List<UserSearchDto> noFriendUsers = searchMapper.searchNoFriends(keyword, userId);

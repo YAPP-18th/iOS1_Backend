@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONTAINER_ID=$(docker container ls -f "name=gyunny" -q)
+CONTAINER_ID=$(docker container ls -f "name=yapp" -q)
 
 echo "> 컨테이너 ID는 무엇?? ${CONTAINER_ID}"
 
@@ -15,10 +15,8 @@ else
   sleep 5
 fi
 
-ACCOUNT_ID=$(echo $account_id)
-
 cd /home/ec2-user/yapp && docker build -t yapp .
-docker run --name gyunny -d -p 8080:8080 yapp
+docker run --name yapp -d -p 8080:8080 yapp
 
 #aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com
 #cd /home/ec2-user/yapp && docker build -t yapp .

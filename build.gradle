@@ -61,6 +61,9 @@ dependencies {
 
     // Email
     implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+
+    // ConfigurationProperties
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 test {

@@ -20,6 +20,7 @@ import static com.yapp.ios1.utils.follow.FriendStatus.REQUEST;
 /**
  * created by jg 2021/05/21
  */
+// TODO 전체 리팩터링...
 @RequiredArgsConstructor
 @Service
 public class FollowService {

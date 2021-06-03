@@ -30,8 +30,10 @@ public class SearchController {
      * type = my(마이북), user(유저), mark(북마크) 검색
      * keyword = 검색 키워드
      */
+    // TODO 리팩터링
     @ApiOperation(
-            value = "마이북, 유저, 북마크 검색"
+            value = "마이북, 유저, 북마크 검색",
+            notes = "type = my(마이북), user(유저), mark(북마크) 검색, keyword = 검색키워드"
     )
     @Auth
     @GetMapping("/search")
@@ -51,8 +53,7 @@ public class SearchController {
                 responseDto.setData(searchService.searchBookMark(keyword, userId));
                 break;
             default:
-                return ResponseEntity.ok().
-                        body(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.NOT_FOUND_SEARCH_TYPE));
+                return ResponseEntity.ok(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.NOT_FOUND_SEARCH_TYPE));
         }
 
         return ResponseEntity.ok(responseDto);

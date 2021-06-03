@@ -1,8 +1,7 @@
 package com.yapp.ios1.utils.auth;
 
-import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.jwt.JwtPayload;
-import com.yapp.ios1.exception.common.InternalServerException;
+import com.yapp.ios1.error.exception.jwt.JwtException;
 
 /**
  * created by ayoung 2021/05/01
@@ -16,6 +15,6 @@ public class UserContext {
             return UserContext.USER_CONTEXT.get().getId();
         }
 
-        throw new InternalServerException(ResponseMessage.INTERNAL_SERVER_ERROR);
+        throw new JwtException();
     }
 }

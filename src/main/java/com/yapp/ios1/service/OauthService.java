@@ -3,25 +3,23 @@ package com.yapp.ios1.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
-import com.yapp.ios1.dto.user.login.social.SocialType;
-import com.yapp.ios1.dto.user.check.UserCheckDto;
-import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.exception.user.EmailNotExistException;
-import com.yapp.ios1.exception.user.UserDuplicatedException;
+import com.yapp.ios1.error.exception.common.JsonWriteException;
+import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
+import com.yapp.ios1.error.exception.user.EmailNotExistException;
+import com.yapp.ios1.error.exception.user.SocialTypeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.ParseException;
 import java.util.Optional;
 
-import static com.yapp.ios1.common.ResponseMessage.*;
 import static com.yapp.ios1.dto.user.login.social.SocialType.*;
 
 /**
@@ -31,11 +29,7 @@ import static com.yapp.ios1.dto.user.login.social.SocialType.*;
 @Service
 public class OauthService {
 
-    private final UserService userService;
-    private final JwtService jwtService;
-    private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
-
+    // TODO Refactor: Properties 를 사용하면 없앨 수 있지 않을까 하는 ~ ?
     @Value("${social.key}")
     private String BUOK_KEY;
 
@@ -45,24 +39,25 @@ public class OauthService {
     @Value("${social.url.kakao}")
     private String KAKAO_REQUEST_URL;
 
-    public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) throws JsonProcessingException {
-        try {
-            switch (SocialType.valueOf(socialType.toUpperCase())) {
-                case GOOGLE:
-                    return getGoogleUser(socialDto.getToken());
-                case KAKAO:
-                    return getKakaoUser(socialDto.getToken());
-                case APPLE:
-                    return getAppleUser(socialDto.getToken(), socialDto.getEmail());
-                default:
-                    return null;
-            }
-        } catch (IllegalArgumentException | ParseException e) {
-            throw new IllegalArgumentException(BAD_SOCIAL_TYPE);
+    private final UserService userService;
+    private final JwtService jwtService;
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+
+    public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) {
+        switch (socialType) {
+            case "GOOGLE":
+                return getGoogleUser(socialDto.getToken());
+            case "KAKAO":
+                return getKakaoUser(socialDto.getToken());
+            case "APPLE":
+                return getAppleUser(socialDto.getToken(), socialDto.getEmail());
+            default:
+                throw new SocialTypeNotFoundException();
         }
     }
 
-    private JsonNode getProfile(String accessToken, String requestUrl) throws JsonProcessingException {
+    private JsonNode getProfile(String accessToken, String requestUrl) {
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -77,11 +72,19 @@ public class OauthService {
                 String.class
         );
 
-        return objectMapper.readTree(restResponse.getBody());
+        return writeJsonAsJsoNode(restResponse);
+    }
+
+    private JsonNode writeJsonAsJsoNode(ResponseEntity<String> restResponse) {
+        try {
+            return objectMapper.readTree(restResponse.getBody());
+        } catch (JsonProcessingException e) {
+            throw new JsonWriteException();
+        }
     }
 
     // 구글 로그인
-    private UserCheckDto getGoogleUser(String accessToken) throws JsonProcessingException, HttpClientErrorException {
+    private UserCheckDto getGoogleUser(String accessToken) {
         JsonNode profile = getProfile(accessToken, GOOGLE_REQUEST_URL);
         String userEmail = profile.get("email").textValue();
 
@@ -99,7 +102,7 @@ public class OauthService {
     }
 
     // 카카오 로그인
-    private UserCheckDto getKakaoUser(String accessToken) throws JsonProcessingException {
+    private UserCheckDto getKakaoUser(String accessToken) {
         JsonNode profile = getProfile(accessToken, KAKAO_REQUEST_URL);
         String userEmail = profile.get("kakao_account").get("email").textValue();
 
@@ -117,17 +120,17 @@ public class OauthService {
     }
 
     // 애플 로그인
-    public UserCheckDto getAppleUser(String identityToken, String email) throws ParseException {
+    public UserCheckDto getAppleUser(String identityToken, String email) {
 
         String socialId = jwtService.getSubject(identityToken);
         Optional<UserDto> optionalUser = userService.socialIdCheck(socialId);
 
         if (optionalUser.isEmpty()) {
             if (userService.emailCheck(email).isPresent()) { // 이메일 중복 확인
-                throw new UserDuplicatedException(EXIST_EMAIL);
+                throw new EmailDuplicatedException();
             }
             if (email == null) {
-                throw new EmailNotExistException(NOT_EXIST_EMAIL);
+                throw new EmailNotExistException();
             }
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(email)

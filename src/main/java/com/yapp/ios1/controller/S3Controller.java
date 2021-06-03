@@ -38,12 +38,10 @@ public class S3Controller {
     @PostMapping("/images")
     public ResponseEntity<ResponseDto> registerBucketImageList(@RequestParam(value = "image") MultipartFile[] imageList) throws IOException {
         if (imageList == null) {
-            ResponseEntity.ok()
-                    .body(ResponseDto.of(HttpStatus.BAD_REQUEST, NOT_EXIST_IMAGE));
+            ResponseEntity.ok(ResponseDto.of(HttpStatus.BAD_REQUEST, NOT_EXIST_IMAGE));
         }
 
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, UPLOAD_IMAGE_SUCCESS, s3Service.upload(imageList)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPLOAD_IMAGE_SUCCESS, s3Service.upload(imageList)));
     }
 
 }

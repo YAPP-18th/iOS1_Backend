@@ -29,22 +29,17 @@ public class FollowController {
 
     private final FollowService followService;
 
-    @ApiOperation(
-            value = "친구 요청"
-    )
+    @ApiOperation(value = "친구 요청")
     @Auth
     @PostMapping("/request/{friendId}")
     public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
         Long myUserId = UserContext.getCurrentUserId();
 
         followService.followRequest(myUserId, friendId);
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_REQUEST));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_REQUEST));
     }
 
-    @ApiOperation(
-            value = "친구 요청 수락, 거절"
-    )
+    @ApiOperation(value = "친구 요청 수락, 거절")
     @Auth
     @PostMapping("/{friendId}/{alarmId}")
     public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId,
@@ -52,19 +47,17 @@ public class FollowController {
                                                     @RequestParam("accept") boolean isAccept) {
         Long myUserId = UserContext.getCurrentUserId();
 
+        // TODO 리팩터링
         if (isAccept) {
             followService.followAccept(myUserId, friendId);
         } else {
             followService.followNotAccept(myUserId, alarmId);
         }
 
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_MESSAGE, isAccept));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_MESSAGE, isAccept));
     }
 
-    @ApiOperation(
-            value = "친구 리스트"
-    )
+    @ApiOperation(value = "친구 리스트")
     @ApiResponses({
             @ApiResponse(code = 200, message = "친구 목록 존재하는 경우"),
             @ApiResponse(code = 404, message = "친구 목록 존재하지 않는 경우"),
@@ -73,10 +66,8 @@ public class FollowController {
     public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
         List<FriendDto> friendList = followService.getFriendList(userId);
         if (friendList.size() == 0) {
-            return ResponseEntity.ok()
-                    .body(ResponseDto.of(HttpStatus.NOT_FOUND, NO_FRIEND_LIST));
+            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NO_FRIEND_LIST));
         }
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
 }

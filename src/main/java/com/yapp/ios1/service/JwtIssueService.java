@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yapp.ios1.config.CacheKey;
 import com.yapp.ios1.dto.jwt.JwtPayload;
+import com.yapp.ios1.error.exception.common.JsonWriteException;
 import com.yapp.ios1.mapper.TokenMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -37,23 +38,31 @@ public class JwtIssueService {
     @Value("${jwt.refreshToken.validTime}")
     private Long REFRESH_VALID_TIME;
 
-    private String createToken(JwtPayload payload, Long expireTime) throws JsonProcessingException {
+    private String createToken(JwtPayload payload, Long expireTime) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
         Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
         return Jwts.builder()
-                .setSubject(objectMapper.writeValueAsString(payload.getId()))
+                .setSubject(writeJsonAsString(payload))
                 .signWith(signingKey, signatureAlgorithm)
                 .setExpiration(new Date(System.currentTimeMillis() + expireTime))
                 .compact();
     }
 
-    public String createAccessToken(JwtPayload payload) throws JsonProcessingException {
+    private String writeJsonAsString(JwtPayload payload) {
+        try {
+            return objectMapper.writeValueAsString(payload.getId());
+        } catch (JsonProcessingException e) {
+            throw new JsonWriteException();
+        }
+    }
+
+    public String createAccessToken(JwtPayload payload) {
         return createToken(payload, ACCESS_VALID_TIME);
     }
 
     @CachePut(value = CacheKey.TOKEN, key = "#payload.id")
-    public String createRefreshToken(JwtPayload payload) throws JsonProcessingException {
+    public String createRefreshToken(JwtPayload payload) {
         String refreshToken = createToken(payload, REFRESH_VALID_TIME);
         tokenMapper.updateToken(refreshToken, payload.getId());
         return refreshToken;
