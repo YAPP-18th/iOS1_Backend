@@ -8,11 +8,7 @@ import com.yapp.ios1.error.exception.InvalidValueException;
  */
 public class PasswordNotMatchException extends InvalidValueException {
 
-    public PasswordNotMatchException(String value) {
-        super(value);
-    }
-
-    public PasswordNotMatchException(String value, ErrorCode errorCode) {
-        super(value, ErrorCode.LOGIN_INPUT_INVALID);
+    public PasswordNotMatchException() {
+        super(ErrorCode.EMAIL_DUPLICATION);
     }
 }

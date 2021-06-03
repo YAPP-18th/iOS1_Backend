@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class EmailNotExistException extends InvalidValueException {
 
-    public EmailNotExistException(String message) {
-        super(message, ErrorCode.EMAIL_NOT_FOUND);
+    public EmailNotExistException() {
+        super(ErrorCode.EMAIL_DUPLICATION);
     }
 }

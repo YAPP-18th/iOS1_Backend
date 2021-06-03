@@ -40,7 +40,7 @@ public class AuthAspect {
             JwtPayload payload = jwtService.getPayload(token);
 
             UserDto user = userMapper.findByUserId(payload.getId())
-                    .orElseThrow(() -> new UserNotFoundException(ResponseMessage.NOT_FOUND_USER));
+                    .orElseThrow(UserNotFoundException::new);
 
             UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
 

@@ -128,7 +128,7 @@ public class OauthService {
                 throw new EmailDuplicatedException();
             }
             if (email == null) {
-                throw new EmailNotExistException(NOT_EXIST_EMAIL);
+                throw new EmailNotExistException();
             }
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(email)

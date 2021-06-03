@@ -101,12 +101,12 @@ public class EmailService {
     public Long verifyCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {
-            throw new EmailNotExistException(EMAIL_AUTH_FAIL);
+            throw new EmailNotExistException();
         }
 
         Long userId = userMapper.findUserIdByEmail(email);
         if (userId == null) {
-            throw new UserNotFoundException(NOT_EXIST_USER);
+            throw new UserNotFoundException();
         }
         return userId;
     }

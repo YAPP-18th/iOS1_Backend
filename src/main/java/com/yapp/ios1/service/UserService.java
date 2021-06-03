@@ -98,13 +98,13 @@ public class UserService {
     public UserDto getUser(SignInDto signInDto) {
         Optional<UserDto> optional = emailCheck(signInDto.getEmail());
         if (optional.isEmpty()) {
-            throw new UserNotFoundException(NOT_EXIST_USER);
+            throw new UserNotFoundException();
         }
         UserDto user = optional.get();
         if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
             return user;
         }
-        throw new PasswordNotMatchException(NOT_MATCH_PASSWORD);
+        throw new PasswordNotMatchException();
     }
 
     @Transactional
@@ -117,7 +117,7 @@ public class UserService {
     public ProfileResultDto getProfile(Long userId) {
         Optional<ProfileResultDto> optional = userMapper.findProfileByUserId(userId);
         if (optional.isEmpty()) {
-            throw new UserNotFoundException(NOT_EXIST_USER);
+            throw new UserNotFoundException();
         }
         return optional.get();
     }
@@ -154,7 +154,7 @@ public class UserService {
         // 프로필 정보
         Optional<ProfileResultDto> optionalUser = userMapper.findProfileByUserId(userId);
         if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException(NOT_EXIST_USER);
+            throw new UserNotFoundException();
         }
 
         // 친구 수, 버킷 수
