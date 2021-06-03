@@ -2,6 +2,7 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.config.properties.BuokEmailProperties;
 import com.yapp.ios1.error.exception.common.InternalServerException;
+import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.error.exception.common.BadRequestException;
 import com.yapp.ios1.mapper.UserMapper;
@@ -90,6 +91,7 @@ public class EmailService {
         }
     }
 
+    // TODO 삭제 or 리팩터링 (의미 없는 메소드)
     public String createCode(String ePw) {
         return ePw;
     }
@@ -98,8 +100,9 @@ public class EmailService {
     public Long verifyCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {
-            throw new BadRequestException(EMAIL_AUTH_FAIL);
+            throw new EmailNotExistException(EMAIL_AUTH_FAIL);
         }
+
         Long userId = userMapper.findUserIdByEmail(email);
         if (userId == null) {
             throw new UserNotFoundException(NOT_EXIST_USER);

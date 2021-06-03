@@ -2,6 +2,7 @@ package com.yapp.ios1.error;
 
 import com.yapp.ios1.error.exception.BusinessException;
 import com.yapp.ios1.error.exception.ErrorCode;
+import com.yapp.ios1.error.exception.common.InternalServerException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +51,16 @@ public class GlobalExceptionHandler {
         log.error("handleHttpRequestMethodNotSupportedException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * 서버 내부 에러 (500 ERROR)
+     */
+    @ExceptionHandler(InternalServerException.class)
+    protected ResponseEntity<ErrorResponse> internalServerException(InternalServerException e) {
+        log.error("InternalServerException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**

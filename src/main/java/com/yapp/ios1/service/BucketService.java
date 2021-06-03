@@ -2,9 +2,8 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
-import com.yapp.ios1.error.exception.common.InternalServerException;
-import com.yapp.ios1.exception.bucket.FailedUpdateException;
 import com.yapp.ios1.error.exception.common.BadRequestException;
+import com.yapp.ios1.error.exception.common.InternalServerException;
 import com.yapp.ios1.mapper.BucketMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

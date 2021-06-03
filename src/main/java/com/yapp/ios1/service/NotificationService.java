@@ -11,7 +11,7 @@ import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.dto.notification.response.NotificationLogResultDto;
-import com.yapp.ios1.exception.notification.FirebaseNotInitException;
+import com.yapp.ios1.error.exception.infra.FirebaseInitException;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +63,7 @@ public class NotificationService {
 
         } catch (IOException e) {
             log.error("cannot initial firebase " + e.getMessage());
-            throw new FirebaseNotInitException(ResponseMessage.FIREBASE_INIT_ERROR);
+            throw new FirebaseInitException(ResponseMessage.FIREBASE_INIT_ERROR);
         }
     }
 
