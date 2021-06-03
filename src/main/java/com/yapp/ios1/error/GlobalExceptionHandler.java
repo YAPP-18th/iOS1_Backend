@@ -3,6 +3,7 @@ package com.yapp.ios1.error;
 import com.yapp.ios1.error.exception.BusinessException;
 import com.yapp.ios1.error.exception.ErrorCode;
 import com.yapp.ios1.error.exception.common.InternalServerException;
+import com.yapp.ios1.error.exception.common.SQLSyntaxErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
