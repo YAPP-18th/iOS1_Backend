@@ -3,13 +3,12 @@ package com.yapp.ios1.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
-import com.yapp.ios1.dto.user.login.social.SocialType;
-import com.yapp.ios1.dto.user.check.UserCheckDto;
-import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
+import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -19,9 +18,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
+import java.util.Locale;
 import java.util.Optional;
 
-import static com.yapp.ios1.common.ResponseMessage.*;
+import static com.yapp.ios1.common.ResponseMessage.BAD_SOCIAL_TYPE;
 import static com.yapp.ios1.dto.user.login.social.SocialType.*;
 
 /**
@@ -46,20 +46,16 @@ public class OauthService {
     private String KAKAO_REQUEST_URL;
 
     // TODO 리팩터링
-    public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) throws JsonProcessingException {
-        try {
-            switch (SocialType.valueOf(socialType.toUpperCase())) {
-                case GOOGLE:
-                    return getGoogleUser(socialDto.getToken());
-                case KAKAO:
-                    return getKakaoUser(socialDto.getToken());
-                case APPLE:
-                    return getAppleUser(socialDto.getToken(), socialDto.getEmail());
-                default:
-                    return null;
-            }
-        } catch (IllegalArgumentException | ParseException e) {
-            throw new IllegalArgumentException(BAD_SOCIAL_TYPE);
+    public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) throws JsonProcessingException, ParseException {
+        switch (socialType.toUpperCase()) {
+            case "GOOGLE":
+                return getGoogleUser(socialDto.getToken());
+            case "KAKAO":
+                return getKakaoUser(socialDto.getToken());
+            case "APPLE":
+                return getAppleUser(socialDto.getToken(), socialDto.getEmail());
+            default:
+                return null;
         }
     }
 
@@ -68,6 +64,7 @@ public class OauthService {
 
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(accessToken);
+        System.out.println("Test");
 
         HttpEntity<MultiValueMap<String, String>> profileRequest = new HttpEntity<>(headers);
 

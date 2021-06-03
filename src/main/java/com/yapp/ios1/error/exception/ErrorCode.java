@@ -23,6 +23,10 @@ public enum ErrorCode {
     USER_NOT_FOUND(400, "M003", "User is not Exist"),
     NICKNAME_EMAIL_DUPLICATION(400, "M004", "NickName is Duplication"),
     USER_NOT_AUTHENTICATION(401, "M005", "User is not Authentication"),
+    SOCIAL_LOGIN_TOKEN_ERROR(401, "M006", "Social Login is Token Error"),
+
+    // Bucket
+    BUCKET_NOT_FOUND(400, "B001", "Bucket is not Exist"),
 
     // Coupon
     COUPON_ALREADY_USE(400, "CO001", "Coupon was already used"),

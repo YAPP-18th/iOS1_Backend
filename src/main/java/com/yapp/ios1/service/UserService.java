@@ -7,7 +7,6 @@ import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
-import com.yapp.ios1.error.exception.common.BadRequestException;
 import com.yapp.ios1.error.exception.user.NickNameDuplicatedException;
 import com.yapp.ios1.error.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
@@ -23,7 +22,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.yapp.ios1.common.ResponseMessage.*;
+import static com.yapp.ios1.common.ResponseMessage.DATABASE_ERROR;
 
 /**
  * created by jg 2021/03/28
@@ -84,6 +83,7 @@ public class UserService {
      *
      * @param userDto 회원가입 정보
      */
+    @Transactional
     public Long signUp(UserDto userDto) {
         userDto.encodePassword(passwordEncoder.encode(userDto.getPassword()));
         userMapper.signUp(userDto);

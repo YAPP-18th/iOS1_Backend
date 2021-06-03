@@ -2,7 +2,6 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
-import com.yapp.ios1.error.exception.common.BadRequestException;
 import com.yapp.ios1.error.exception.common.InternalServerException;
 import com.yapp.ios1.error.exception.user.UserAuthenticationException;
 import com.yapp.ios1.mapper.BucketMapper;
@@ -14,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.yapp.ios1.common.ResponseMessage.*;
+import static com.yapp.ios1.common.ResponseMessage.UPDATE_BUCKET_FAIL;
 
 /**
  * created by jg 2021/05/05
@@ -55,7 +54,7 @@ public class BucketService {
         Optional<BucketCompareDto> optional = bucketMapper.findByBucketId(bucketId);
 
         if (optional.isEmpty()) {
-            throw new BucketNotFoundException(NOT_FOUND_BUCKET);
+            throw new BucketNotFoundException();
         }
 
         BucketCompareDto bucketDto = optional.get();
@@ -150,7 +149,7 @@ public class BucketService {
         Optional<BookmarkUpdateDto> optional = bucketMapper.findBookmarkByBucketId(bucketId);
 
         if (optional.isEmpty()) {
-            throw new BucketNotFoundException(NOT_FOUND_BUCKET);
+            throw new BucketNotFoundException();
         }
 
         BookmarkUpdateDto bookmarkDto = optional.get();

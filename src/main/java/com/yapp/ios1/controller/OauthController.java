@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 import static com.yapp.ios1.common.ResponseMessage.LOGIN_SUCCESS;
 
 /**
@@ -30,7 +32,7 @@ public class OauthController {
 
     @PostMapping("/{social_type}")
     public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") String socialType,
-                                                   @RequestBody SocialLoginDto socialDto) throws JsonProcessingException {
+                                                   @RequestBody SocialLoginDto socialDto) throws JsonProcessingException, ParseException {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, socialDto);
 
         ResponseDto response = ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId()));
