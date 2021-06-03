@@ -18,11 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.yapp.ios1.common.ResponseMessage.DATABASE_ERROR;
 
 /**
  * created by jg 2021/03/28

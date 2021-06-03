@@ -6,9 +6,6 @@ package com.yapp.ios1.common;
 public class ResponseMessage {
     private ResponseMessage() {}
 
-    public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러입니다.";
-    public static final String DATABASE_ERROR = "데이터베이스 오류입니다.";
-
     // Bucket
     public static final String GET_BUCKET_LIST = "버킷 리스트 조회 성공입니다.";
     public static final String UPLOAD_IMAGE_SUCCESS = "이미지 업로드 성공입니다.";
@@ -47,7 +44,6 @@ public class ResponseMessage {
 
     // Email
     public static final String EMAIL_SEND_SUCCESS = "이메일 전송 성공입니다.";
-    public static final String EMAIL_SEND_FAIL = "이메일 전송 실패입니다.";
     public static final String EMAIL_AUTH_SUCCESS = "이메일 인증 성공입니다.";
 
     // Valid
