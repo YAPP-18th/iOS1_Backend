@@ -7,9 +7,9 @@ import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
-import com.yapp.ios1.exception.common.BadRequestException;
-import com.yapp.ios1.exception.user.PasswordNotMatchException;
-import com.yapp.ios1.exception.user.UserNotFoundException;
+import com.yapp.ios1.error.exception.user.NickNameDuplicatedException;
+import com.yapp.ios1.error.exception.user.PasswordNotMatchException;
+import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.yapp.ios1.common.ResponseMessage.*;
 
 /**
  * created by jg 2021/03/28
@@ -70,12 +68,8 @@ public class UserService {
      * @param email    이메일
      * @param nickname 닉네임
      */
-    public Optional<UserDto> signUpCheck(String email, String nickname) throws SQLException {
-        try {
-            return userMapper.findByEmailOrNickname(email, nickname);
-        } catch (Exception e) {
-            throw new SQLException(DATABASE_ERROR);
-        }
+    public Optional<UserDto> signUpCheck(String email, String nickname) {
+        return userMapper.findByEmailOrNickname(email, nickname);
     }
 
     /**
@@ -83,6 +77,7 @@ public class UserService {
      *
      * @param userDto 회원가입 정보
      */
+    @Transactional
     public Long signUp(UserDto userDto) {
         userDto.encodePassword(passwordEncoder.encode(userDto.getPassword()));
         userMapper.signUp(userDto);
@@ -98,13 +93,13 @@ public class UserService {
     public UserDto getUser(SignInDto signInDto) {
         Optional<UserDto> optional = emailCheck(signInDto.getEmail());
         if (optional.isEmpty()) {
-            throw new UserNotFoundException(NOT_EXIST_USER);
+            throw new UserNotFoundException();
         }
         UserDto user = optional.get();
         if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
             return user;
         }
-        throw new PasswordNotMatchException(NOT_MATCH_PASSWORD);
+        throw new PasswordNotMatchException();
     }
 
     @Transactional
@@ -117,7 +112,7 @@ public class UserService {
     public ProfileResultDto getProfile(Long userId) {
         Optional<ProfileResultDto> optional = userMapper.findProfileByUserId(userId);
         if (optional.isEmpty()) {
-            throw new UserNotFoundException(NOT_EXIST_USER);
+            throw new UserNotFoundException();
         }
         return optional.get();
     }
@@ -127,7 +122,7 @@ public class UserService {
     public void updateProfile(ProfileDto profileDto, Long userId) {
         int change = userMapper.updateProfile(profileDto, userId);
         if (change == 0) { // 닉네임 중복인 경우
-            throw new BadRequestException(EXIST_NICKNAME);
+            throw new NickNameDuplicatedException();
         }
     }
 
@@ -154,7 +149,7 @@ public class UserService {
         // 프로필 정보
         Optional<ProfileResultDto> optionalUser = userMapper.findProfileByUserId(userId);
         if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException(NOT_EXIST_USER);
+            throw new UserNotFoundException();
         }
 
         // 친구 수, 버킷 수

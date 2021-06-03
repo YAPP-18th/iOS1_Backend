@@ -9,7 +9,7 @@ import com.yapp.ios1.dto.user.check.NicknameCheckDto;
 import com.yapp.ios1.dto.user.login.PasswordDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
-import com.yapp.ios1.exception.user.UserDuplicatedException;
+import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
@@ -46,16 +46,14 @@ public class UserController {
      *
      * @param emailDto 이메일
      */
-    @ApiOperation(
-            value = "이메일 존재 여부"
-    )
+    @ApiOperation(value = "이메일 존재 여부")
     @PostMapping("/email-check")
     public ResponseEntity<ResponseDto> emailCheck(@RequestBody @Valid EmailDto emailDto) {
         Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
         if (user.isEmpty()) {
-            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
+            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
         }
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EXIST_USER));
     }
 
     /**
@@ -63,16 +61,14 @@ public class UserController {
      *
      * @param nicknameDto 닉네임
      */
-    @ApiOperation(
-            value = "닉네임 존재 여부"
-    )
+    @ApiOperation(value = "닉네임 존재 여부")
     @PostMapping("/nickname-check")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) {
         Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
         if (user.isEmpty()) {
-            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
+            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
         }
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, EXIST_USER));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EXIST_USER));
     }
 
     /**
@@ -80,19 +76,17 @@ public class UserController {
      *
      * @param signUpDto 회원가입 정보
      */
-    @ApiOperation(
-            value = "회원가입"
-    )
+    @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) throws SQLException, JsonProcessingException {
+    public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         if (user.isPresent()) {
-            throw new UserDuplicatedException(EXIST_USER);
+            throw new EmailDuplicatedException();
         }
 
         Long userId = userService.signUp(UserDto.of(signUpDto));
         ResponseDto response = ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId));
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -105,10 +99,10 @@ public class UserController {
             notes = "로그인 성공 시, accessToken과 refreshToken을 발급합니다."
     )
     @PostMapping("/signin")
-    public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
         UserDto userDto = userService.getUser(signInDto);
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId()));
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     @ApiOperation(
@@ -121,12 +115,10 @@ public class UserController {
         Long userId = UserContext.getCurrentUserId();
         userService.changePassword(userId, passwordDto.getPassword());
         ResponseDto response = ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
-    @ApiOperation(
-            value = "프로필 가져오기"
-    )
+    @ApiOperation(value = "프로필 가져오기")
     @Auth
     @GetMapping("")
     public ResponseEntity<ResponseDto> getProfile() {
@@ -134,42 +126,33 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, GET_PROFILE_SUCCESS, userService.getProfile(userId)));
     }
 
-    @ApiOperation(
-            value = "프로필 수정"
-    )
+    @ApiOperation(value = "프로필 수정")
     @Auth
     @PutMapping("")
     public ResponseEntity<ResponseDto> updateProfile(@RequestBody ProfileDto profile) {
         Long userId = UserContext.getCurrentUserId();
         userService.updateProfile(profile, userId);
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, UPDATE_PROFILE_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_PROFILE_SUCCESS));
     }
 
-    @ApiOperation(
-            value = "마이 페이지"
-    )
+    @ApiOperation(value = "마이 페이지")
     @Auth
     @GetMapping("/me")
     public ResponseEntity<ResponseDto> getMyInfo() {
         Long userId = UserContext.getCurrentUserId();
 
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
     }
 
-    @ApiOperation(
-            value = "사용자 페이지"
-    )
+    @ApiOperation(value = "사용자 페이지")
     @Auth
     @GetMapping("/{userId}")
     public ResponseEntity<ResponseDto> getUserInfo(@PathVariable Long userId) {
         Long currentUserId = UserContext.getCurrentUserId();
         if (currentUserId.equals(userId)) {
-            return ResponseEntity.ok()
-                    .body(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
+            return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
 
         }
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
     }
 }

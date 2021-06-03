@@ -1,9 +1,9 @@
 package com.yapp.ios1.utils.auth;
 
-import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.exception.user.UserNotFoundException;
+import com.yapp.ios1.error.exception.jwt.JwtException;
+import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -40,13 +40,13 @@ public class AuthAspect {
             JwtPayload payload = jwtService.getPayload(token);
 
             UserDto user = userMapper.findByUserId(payload.getId())
-                    .orElseThrow(() -> new UserNotFoundException(ResponseMessage.NOT_FOUND_USER));
+                    .orElseThrow(UserNotFoundException::new);
 
             UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
 
             return pjp.proceed();
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new JwtException();
         }
     }
 }

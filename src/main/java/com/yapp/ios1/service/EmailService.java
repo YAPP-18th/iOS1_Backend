@@ -1,22 +1,19 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.config.properties.BuokEmailProperties;
-import com.yapp.ios1.exception.common.BadRequestException;
-import com.yapp.ios1.exception.common.InternalServerException;
-import com.yapp.ios1.exception.user.UserNotFoundException;
+import com.yapp.ios1.error.exception.email.EmailSendException;
+import com.yapp.ios1.error.exception.user.EmailNotExistException;
+import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
-
-import static com.yapp.ios1.common.ResponseMessage.*;
 
 /**
  * created by ayoung 2021/05/30
@@ -31,6 +28,7 @@ public class EmailService {
     private final BuokEmailProperties emailProperties;
     private final UserMapper userMapper;
 
+    // TODO 리팩터링
     private MimeMessage createMessage(String to) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
@@ -54,6 +52,7 @@ public class EmailService {
         return message;
     }
 
+    // TODO 리팩터링
     // 인증코드 생성
     private String createKey() {
         StringBuilder key = new StringBuilder();
@@ -78,28 +77,31 @@ public class EmailService {
         return key.toString();
     }
 
-    public void sendSimpleMessage(String to) throws Exception {
-        MimeMessage message = createMessage(to);
+    // TODO 매개변수 이름 변경
+    public void sendSimpleMessage(String to) {
         try {
+            MimeMessage message = createMessage(to);
             emailSender.send(message);
-        } catch (MailException es) {
-            log.info(es.getMessage());
-            throw new InternalServerException(EMAIL_SEND_FAIL);
+        } catch (Exception e) {
+            throw new EmailSendException();
         }
     }
 
+    // TODO 삭제 or 리팩터링 (의미 없는 메소드)
     public String createCode(String ePw) {
         return ePw;
     }
 
+    // TODO 리팩터링
     public Long verifyCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {
-            throw new BadRequestException(EMAIL_AUTH_FAIL);
+            throw new EmailNotExistException();
         }
+
         Long userId = userMapper.findUserIdByEmail(email);
         if (userId == null) {
-            throw new UserNotFoundException(NOT_EXIST_USER);
+            throw new UserNotFoundException();
         }
         return userId;
     }

@@ -13,10 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import javax.validation.Valid;
 
 /**
@@ -43,39 +39,33 @@ public class BucketController {
                                             @RequestParam("category") int category,
                                             @RequestParam("sort") int sort) {
         Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,
-                        bucketService.homeBucketList(bucketState, category, userId, sort)));
+
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,
+                bucketService.homeBucketList(bucketState, category, userId, sort)));
     }
 
     /**
      * @param bucket    버킷 등록 정보
      */
-    @ApiOperation(
-            value = "버킷 등록"
-    )
+    @ApiOperation(value = "버킷 등록")
     @Auth
     @PostMapping("")
-    public ResponseEntity<ResponseDto> registerBucket(@RequestBody @Valid BucketRequestDto bucket) throws IllegalArgumentException {
+    public ResponseEntity<ResponseDto> registerBucket(@RequestBody @Valid BucketRequestDto bucket) {
         bucket.setUserId(UserContext.getCurrentUserId());
         bucketService.registerBucket(bucket);
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.REGISTER_BUCKET_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.REGISTER_BUCKET_SUCCESS));
     }
 
     /**
      * 버킷 업데이트
      */
-    @ApiOperation(
-            value = "버킷 수정"
-    )
+    @ApiOperation(value = "버킷 수정")
     @Auth
     @PutMapping("/{bucketId}")
     public ResponseEntity<ResponseDto> updateBucket(@PathVariable Long bucketId, @RequestBody @Valid BucketRequestDto requestDto) {
         bucketService.updateBucket(bucketId, requestDto, UserContext.getCurrentUserId());
 
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
     }
 
     @ApiOperation(
@@ -88,19 +78,18 @@ public class BucketController {
 
         bucketService.completeBucket(bucketId, UserContext.getCurrentUserId());
 
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
     }
 
-    @ApiOperation(value = "북마크 설정",
-            notes = "북마크 설정 / 해제 합니다.")
+    @ApiOperation(
+            value = "북마크 설정",
+            notes = "북마크 설정 / 해제 합니다."
+    )
     @Auth
     @PutMapping("/{id}/bookmark")
     public ResponseEntity<ResponseDto> setBookmark(@PathVariable("id") Long bucketId, @RequestParam("state") boolean isBookmark) {
         Long userId = UserContext.getCurrentUserId();
         bucketService.setBookmark(bucketId, userId, isBookmark);
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
     }
-
 }

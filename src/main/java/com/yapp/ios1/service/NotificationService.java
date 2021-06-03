@@ -7,11 +7,9 @@ import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
-import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.dto.notification.response.NotificationLogResultDto;
-import com.yapp.ios1.exception.notification.FirebaseNotInitException;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +43,7 @@ public class NotificationService {
     private final UserMapper userMapper;
     private final AlarmMapper alarmMapper;
 
+    // TODO 리팩터링
     // 전체 알람 메세지 (팔로우 요청 메세지도 이렇게 static final 로 빼서 사용할 예정) => 메세지는 enum 이나 다른 클래스에서 관리할 예정
     private static final NotificationDto pushNotificationRequest = new NotificationDto("제목11", "메세지11", LocalDateTime.now());
 
@@ -59,10 +58,8 @@ public class NotificationService {
                 FirebaseApp.initializeApp(options);
                 log.info("Firebase Cloud Messaging 서비스를 성공적으로 초기화하였습니다.");
             }
-
         } catch (IOException e) {
             log.error("cannot initial firebase " + e.getMessage());
-            throw new FirebaseNotInitException(ResponseMessage.FIREBASE_INIT_ERROR);
         }
     }
 
@@ -102,6 +99,7 @@ public class NotificationService {
         }
     }
 
+    // TODO 리팩터링
     public List<NotificationLogResultDto> getAlarmLog(Long userId) {
         List<NotificationLogResultDto> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
         List<NotificationLogResultDto> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
