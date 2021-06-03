@@ -8,6 +8,6 @@ import com.yapp.ios1.error.exception.ErrorCode;
  */
 public class UserNotFoundException extends EntityNotFoundException {
     public UserNotFoundException() {
-        super(ErrorCode.EMAIL_DUPLICATION);
+        super(ErrorCode.USER_NOT_FOUND);
     }
 }

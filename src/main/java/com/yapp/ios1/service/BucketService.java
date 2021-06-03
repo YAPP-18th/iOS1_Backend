@@ -4,6 +4,7 @@ import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.error.exception.common.BadRequestException;
 import com.yapp.ios1.error.exception.common.InternalServerException;
+import com.yapp.ios1.error.exception.user.UserAuthenticationException;
 import com.yapp.ios1.mapper.BucketMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +61,7 @@ public class BucketService {
         BucketCompareDto bucketDto = optional.get();
 
         if (!bucketDto.getUserId().equals(userId)) {
-            throw new BadRequestException(BAD_USER);
+            throw new UserAuthenticationException();
         }
         updateDto.setId(bucketId);
         bucketMapper.updateBucket(updateDto); // 버킷 수정
@@ -155,7 +156,7 @@ public class BucketService {
         BookmarkUpdateDto bookmarkDto = optional.get();
 
         if (!bookmarkDto.getUserId().equals(userId)) {
-            throw new BadRequestException(BAD_USER);
+            throw new UserAuthenticationException();
         }
 
         bucketMapper.setBookmark(bucketId, isBookmark);

@@ -20,6 +20,9 @@ public enum ErrorCode {
     EMAIL_NOT_FOUND(400, "M000", "Email is not Exist"),
     EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),
     LOGIN_INPUT_INVALID(400, "M002", "Login input is invalid"),
+    USER_NOT_FOUND(400, "M003", "User is not Exist"),
+    NICKNAME_EMAIL_DUPLICATION(400, "M004", "NickName is Duplication"),
+    USER_NOT_AUTHENTICATION(401, "M005", "User is not Authentication"),
 
     // Coupon
     COUPON_ALREADY_USE(400, "CO001", "Coupon was already used"),

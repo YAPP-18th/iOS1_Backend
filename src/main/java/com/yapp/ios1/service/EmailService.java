@@ -1,11 +1,9 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.config.properties.BuokEmailProperties;
-import com.yapp.ios1.error.exception.common.InternalServerException;
 import com.yapp.ios1.error.exception.infra.MailSendException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
-import com.yapp.ios1.error.exception.common.BadRequestException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
 
-import static com.yapp.ios1.common.ResponseMessage.*;
+import static com.yapp.ios1.common.ResponseMessage.EMAIL_SEND_FAIL;
 
 /**
  * created by ayoung 2021/05/30
