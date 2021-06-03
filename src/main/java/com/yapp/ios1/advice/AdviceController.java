@@ -2,7 +2,7 @@ package com.yapp.ios1.advice;
 
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.exception.common.BadRequestException;
+import com.yapp.ios1.error.exception.common.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.ExecutorException;
 import org.springframework.http.HttpStatus;

@@ -3,7 +3,7 @@ package com.yapp.ios1.service;
 import com.yapp.ios1.config.properties.BuokEmailProperties;
 import com.yapp.ios1.error.exception.common.InternalServerException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
-import com.yapp.ios1.exception.common.BadRequestException;
+import com.yapp.ios1.error.exception.common.BadRequestException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
