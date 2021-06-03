@@ -9,7 +9,6 @@ import com.yapp.ios1.service.OauthService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +31,7 @@ public class OauthController {
 
     @PostMapping("/{social_type}")
     public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") String socialType,
-                                                   @RequestBody SocialLoginDto socialDto) throws JsonProcessingException, ParseException {
+                                                   @RequestBody SocialLoginDto socialDto) throws ParseException, JsonProcessingException {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, socialDto);
 
         ResponseDto response = ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId()));

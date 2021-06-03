@@ -47,7 +47,7 @@ public class BucketService {
     // 버킷 수정
     // TODO 리팩터링
     @Transactional
-    public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) throws IllegalArgumentException {
+    public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
         Optional<BucketCompareDto> optional = bucketMapper.findByBucketId(bucketId);
 
         if (optional.isEmpty()) {

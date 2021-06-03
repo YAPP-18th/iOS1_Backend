@@ -1,6 +1,5 @@
 package com.yapp.ios1.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.user.UserDto;
@@ -58,7 +57,7 @@ public class EmailController {
             notes = "인증 성공 시, 토큰을 전달합니다."
     )
     @PostMapping("/verify")
-    public ResponseEntity<ResponseDto> verifyCode(@RequestBody EmailCodeDto code) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> verifyCode(@RequestBody EmailCodeDto code) {
         Long userId = emailService.verifyCode(code.getCode());
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, EMAIL_AUTH_SUCCESS, jwtService.createAccessToken(new JwtPayload(userId))));

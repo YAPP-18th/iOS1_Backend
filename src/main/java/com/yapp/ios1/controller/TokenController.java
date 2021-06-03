@@ -1,6 +1,5 @@
 package com.yapp.ios1.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.service.JwtService;
@@ -27,16 +26,12 @@ public class TokenController {
     @ApiOperation(value = "서버 토큰 발급 용")
     @GetMapping("/token")
     public String getToken() {
-        try {
-            return jwtService.createAccessToken(new JwtPayload(1L));
-        } catch (JsonProcessingException e) {
-            return "에러";
-        }
+        return jwtService.createAccessToken(new JwtPayload(1L));
     }
 
     @ApiOperation(value = "토큰 재발급")
     @PostMapping("/token/refresh")
-    public ResponseEntity<ResponseDto> reissueToken(@RequestHeader String refreshToken) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> reissueToken(@RequestHeader String refreshToken) {
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.reissueToken(refreshToken));
         return ResponseEntity.ok().body(response);
     }

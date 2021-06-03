@@ -7,7 +7,6 @@ import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
-import com.yapp.ios1.dto.user.login.social.SocialType;
 import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.SocialTyeNotFoundException;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
@@ -46,7 +44,7 @@ public class OauthService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) throws JsonProcessingException, ParseException {
+    public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) throws ParseException, JsonProcessingException {
         switch (socialType) {
             case "GOOGLE":
                 return getGoogleUser(socialDto.getToken());
@@ -78,7 +76,7 @@ public class OauthService {
     }
 
     // 구글 로그인
-    private UserCheckDto getGoogleUser(String accessToken) throws JsonProcessingException, HttpClientErrorException {
+    private UserCheckDto getGoogleUser(String accessToken) throws JsonProcessingException {
         JsonNode profile = getProfile(accessToken, GOOGLE_REQUEST_URL);
         String userEmail = profile.get("email").textValue();
 

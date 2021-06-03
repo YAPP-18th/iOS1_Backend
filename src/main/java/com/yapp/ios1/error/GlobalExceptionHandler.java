@@ -2,6 +2,7 @@ package com.yapp.ios1.error;
 
 import com.yapp.ios1.error.exception.BusinessException;
 import com.yapp.ios1.error.exception.ErrorCode;
+import com.yapp.ios1.error.exception.common.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,7 +78,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-        log.error("Exception");
+        log.error("Exception", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

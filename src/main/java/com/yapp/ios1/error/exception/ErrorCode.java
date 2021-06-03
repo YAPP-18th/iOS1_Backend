@@ -15,7 +15,7 @@ public enum ErrorCode {
     INVALID_TYPE_VALUE(400, "C005", " Invalid Type Value"),
     HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
     INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
-    JWT_ERROR(401, "C005", "JWT is Invalid"),
+    JSON_WRITE_ERROR(401, "C005", "JSON content that are not pure I/O problems"),
 
     // User
     EMAIL_NOT_FOUND(400, "M000", "Email is not Exist"),

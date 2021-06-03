@@ -39,6 +39,7 @@ public class BucketController {
                                             @RequestParam("category") int category,
                                             @RequestParam("sort") int sort) {
         Long userId = UserContext.getCurrentUserId();
+
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,
                         bucketService.homeBucketList(bucketState, category, userId, sort)));
@@ -50,7 +51,7 @@ public class BucketController {
     @ApiOperation(value = "버킷 등록")
     @Auth
     @PostMapping("")
-    public ResponseEntity<ResponseDto> registerBucket(@RequestBody @Valid BucketRequestDto bucket) throws IllegalArgumentException {
+    public ResponseEntity<ResponseDto> registerBucket(@RequestBody @Valid BucketRequestDto bucket) {
         bucket.setUserId(UserContext.getCurrentUserId());
         bucketService.registerBucket(bucket);
         return ResponseEntity.ok()
@@ -84,8 +85,10 @@ public class BucketController {
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
     }
 
-    @ApiOperation(value = "북마크 설정",
-            notes = "북마크 설정 / 해제 합니다.")
+    @ApiOperation(
+            value = "북마크 설정",
+            notes = "북마크 설정 / 해제 합니다."
+    )
     @Auth
     @PutMapping("/{id}/bookmark")
     public ResponseEntity<ResponseDto> setBookmark(@PathVariable("id") Long bucketId, @RequestParam("state") boolean isBookmark) {
