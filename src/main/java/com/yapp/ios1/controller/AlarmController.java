@@ -28,8 +28,7 @@ public class AlarmController {
     @GetMapping("/alarm")
     public ResponseEntity<ResponseDto> alarmLog() {
         Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_ALARM_LOG, notificationService.getAlarmLog(userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_ALARM_LOG, notificationService.getAlarmLog(userId)));
     }
 
     @ApiOperation(value = "알람 로그 삭제")
@@ -38,8 +37,7 @@ public class AlarmController {
     public ResponseEntity<ResponseDto> deleteAlarm(@PathVariable Long alarmId) {
         Long userId = UserContext.getCurrentUserId();
         notificationService.deleteAlarm(userId, alarmId);
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.DELETE_ALARM_LOG));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.DELETE_ALARM_LOG));
     }
 
 }

@@ -40,9 +40,8 @@ public class BucketController {
                                             @RequestParam("sort") int sort) {
         Long userId = UserContext.getCurrentUserId();
 
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,
-                        bucketService.homeBucketList(bucketState, category, userId, sort)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,
+                bucketService.homeBucketList(bucketState, category, userId, sort)));
     }
 
     /**
@@ -54,8 +53,7 @@ public class BucketController {
     public ResponseEntity<ResponseDto> registerBucket(@RequestBody @Valid BucketRequestDto bucket) {
         bucket.setUserId(UserContext.getCurrentUserId());
         bucketService.registerBucket(bucket);
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.REGISTER_BUCKET_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.REGISTER_BUCKET_SUCCESS));
     }
 
     /**
@@ -67,8 +65,7 @@ public class BucketController {
     public ResponseEntity<ResponseDto> updateBucket(@PathVariable Long bucketId, @RequestBody @Valid BucketRequestDto requestDto) {
         bucketService.updateBucket(bucketId, requestDto, UserContext.getCurrentUserId());
 
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
     }
 
     @ApiOperation(
@@ -81,8 +78,7 @@ public class BucketController {
 
         bucketService.completeBucket(bucketId, UserContext.getCurrentUserId());
 
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
     }
 
     @ApiOperation(
@@ -94,7 +90,6 @@ public class BucketController {
     public ResponseEntity<ResponseDto> setBookmark(@PathVariable("id") Long bucketId, @RequestParam("state") boolean isBookmark) {
         Long userId = UserContext.getCurrentUserId();
         bucketService.setBookmark(bucketId, userId, isBookmark);
-        return ResponseEntity.ok()
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));
     }
 }
