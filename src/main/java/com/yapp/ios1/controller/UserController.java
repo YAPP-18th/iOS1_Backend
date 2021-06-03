@@ -78,7 +78,7 @@ public class UserController {
      */
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         if (user.isPresent()) {
             throw new EmailDuplicatedException();
@@ -99,7 +99,7 @@ public class UserController {
             notes = "로그인 성공 시, accessToken과 refreshToken을 발급합니다."
     )
     @PostMapping("/signin")
-    public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) throws JsonProcessingException {
+    public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
         UserDto userDto = userService.getUser(signInDto);
         ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId()));
         return ResponseEntity.ok(response);
