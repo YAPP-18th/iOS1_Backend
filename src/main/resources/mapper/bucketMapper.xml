@@ -18,7 +18,7 @@
 
     <select id="findByBucketStateAndCategory" resultType="BucketDto">
         SELECT id,
-               bucket_name as bucketName,
+               bucket_nam as bucketName,
                created_date as createdDate,
                end_date as endDate,
                bucket_state as bucketState,

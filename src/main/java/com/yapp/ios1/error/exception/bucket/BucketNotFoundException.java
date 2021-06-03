@@ -8,6 +8,6 @@ import com.yapp.ios1.error.exception.ErrorCode;
  */
 public class BucketNotFoundException extends EntityNotFoundException {
     public BucketNotFoundException() {
-        super(ErrorCode.BUCKET_NOT_FOUND);
+        super(ErrorCode.ENTITY_NOT_FOUND);
     }
 }

@@ -15,6 +15,7 @@ public enum ErrorCode {
     INVALID_TYPE_VALUE(400, "C005", " Invalid Type Value"),
     HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
     INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
+    JWT_ERROR(401, "C005", "JWT is Invalid"),
 
     // User
     EMAIL_NOT_FOUND(400, "M000", "Email is not Exist"),
@@ -24,15 +25,9 @@ public enum ErrorCode {
     NICKNAME_EMAIL_DUPLICATION(400, "M004", "NickName is Duplication"),
     USER_NOT_AUTHENTICATION(401, "M005", "User is not Authentication"),
     SOCIAL_LOGIN_TOKEN_ERROR(401, "M006", "Social Login is Token Error"),
-    SOCIAL_TYPE_NOT_FOUND(400, "M007", "Social Type is not Exist"),
+    SOCIAL_TYPE_NOT_FOUND(400, "M007", "Social Type is not Exist");
 
-    // Bucket
-    BUCKET_NOT_FOUND(400, "B001", "Bucket is not Exist"),
 
-    // Coupon
-    COUPON_ALREADY_USE(400, "CO001", "Coupon was already used"),
-    COUPON_EXPIRE(400, "CO002", "Coupon was already expired")
-    ;
 
     private final String code;
     private final String message;

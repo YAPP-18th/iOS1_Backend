@@ -1,22 +1,18 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.config.properties.BuokEmailProperties;
-import com.yapp.ios1.error.exception.infra.MailSendException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
-
-import static com.yapp.ios1.common.ResponseMessage.EMAIL_SEND_FAIL;
 
 /**
  * created by ayoung 2021/05/30
@@ -83,12 +79,7 @@ public class EmailService {
     // TODO 매개변수 이름 변경
     public void sendSimpleMessage(String to) throws Exception {
         MimeMessage message = createMessage(to);
-        try {
-            emailSender.send(message);
-        } catch (MailException es) {
-            log.info(es.getMessage());
-            throw new MailSendException(EMAIL_SEND_FAIL);
-        }
+        emailSender.send(message);  // Email Send Error 발생하면 ExceptionHandler Exception 에서 500 에러 반환
     }
 
     // TODO 삭제 or 리팩터링 (의미 없는 메소드)

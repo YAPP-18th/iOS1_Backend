@@ -7,7 +7,6 @@ import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
-import com.yapp.ios1.error.exception.common.InternalServerException;
 import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.SocialTyeNotFoundException;

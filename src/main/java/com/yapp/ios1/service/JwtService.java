@@ -30,9 +30,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 @Service
 public class JwtService {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-    private final RedisUtil redisUtil;
 
+    // TODO Property 적용할 순 없을지 ~ ?
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
 
@@ -41,6 +40,9 @@ public class JwtService {
 
     @Value("${jwt.refreshToken.validTime}")
     private Long REFRESH_VALID_TIME;
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final RedisUtil redisUtil;
 
     private String createToken(JwtPayload payload, Long expireTime) throws JsonProcessingException {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
