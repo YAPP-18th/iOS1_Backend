@@ -32,6 +32,16 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Bucket 등록할 때 LocalDate 형식 오류
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    protected ResponseEntity<ErrorResponse> test(HttpMessageNotReadableException e) {
+        log.error("HttpMessageNotReadableException");
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_TYPE_VALUE);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
      * javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다.
      * HttpMessageConverter 에서 등록한 HttpMessageConverter binding 못할경우 발생
      * 주로 @RequestBody, @RequestPart 어노테이션에서 발생
@@ -62,16 +72,6 @@ public class GlobalExceptionHandler {
         log.error("HttpRequestMethodNotSupportedException");
         final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
-    }
-
-    /**
-     * Bucket 등록할 때 LocalDate 형식 오류
-     */
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    protected ResponseEntity<ErrorResponse> test(HttpMessageNotReadableException e) {
-        log.error("HttpMessageNotReadableException");
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_TYPE_VALUE);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     /**
