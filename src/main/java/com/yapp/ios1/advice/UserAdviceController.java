@@ -4,8 +4,8 @@ import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.PasswordNotMatchException;
-import com.yapp.ios1.error.exception.user.UserDuplicatedException;
-import com.yapp.ios1.exception.user.UserNotFoundException;
+import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
+import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,8 +27,8 @@ public class UserAdviceController {
     }
 
     // 이메일 중복 회원가입
-    @ExceptionHandler(UserDuplicatedException.class)
-    public ResponseEntity<ResponseDto> userDuplicatedException(UserDuplicatedException e) {
+    @ExceptionHandler(EmailDuplicatedException.class)
+    public ResponseEntity<ResponseDto> userDuplicatedException(EmailDuplicatedException e) {
         return ResponseEntity.ok()
                 .body(ResponseDto.of(HttpStatus.BAD_REQUEST, e.getMessage()));
     }

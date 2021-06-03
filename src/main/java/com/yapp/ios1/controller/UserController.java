@@ -9,7 +9,7 @@ import com.yapp.ios1.dto.user.check.NicknameCheckDto;
 import com.yapp.ios1.dto.user.login.PasswordDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
-import com.yapp.ios1.error.exception.user.UserDuplicatedException;
+import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
@@ -87,7 +87,7 @@ public class UserController {
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) throws SQLException, JsonProcessingException {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         if (user.isPresent()) {
-            throw new UserDuplicatedException(EXIST_USER);
+            throw new EmailDuplicatedException(EXIST_USER);
         }
 
         Long userId = userService.signUp(UserDto.of(signUpDto));

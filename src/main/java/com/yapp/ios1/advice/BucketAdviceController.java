@@ -1,7 +1,7 @@
 package com.yapp.ios1.advice;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.exception.bucket.BucketNotFoundException;
+import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.exception.bucket.FailedUpdateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,9 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.config.properties.BuokEmailProperties;
+import com.yapp.ios1.error.exception.common.InternalServerException;
+import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.exception.common.BadRequestException;
-import com.yapp.ios1.exception.common.InternalServerException;
-import com.yapp.ios1.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +31,7 @@ public class EmailService {
     private final BuokEmailProperties emailProperties;
     private final UserMapper userMapper;
 
+    // TODO 리팩터링
     private MimeMessage createMessage(String to) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
@@ -54,6 +55,7 @@ public class EmailService {
         return message;
     }
 
+    // TODO 리팩터링
     // 인증코드 생성
     private String createKey() {
         StringBuilder key = new StringBuilder();
@@ -92,6 +94,7 @@ public class EmailService {
         return ePw;
     }
 
+    // TODO 리팩터링
     public Long verifyCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {

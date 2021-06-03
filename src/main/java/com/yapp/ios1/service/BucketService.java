@@ -1,7 +1,7 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.*;
-import com.yapp.ios1.exception.bucket.BucketNotFoundException;
+import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.exception.bucket.FailedUpdateException;
 import com.yapp.ios1.exception.common.BadRequestException;
 import com.yapp.ios1.mapper.BucketMapper;
@@ -48,6 +48,7 @@ public class BucketService {
     }
 
     // 버킷 수정
+    // TODO 리팩터링
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) throws IllegalArgumentException {
         Optional<BucketCompareDto> optional = bucketMapper.findByBucketId(bucketId);
@@ -81,6 +82,7 @@ public class BucketService {
     }
 
     // 태그 저장
+    // TODO 리팩터링
     private void saveTagList(Long bucketId, List<String> tagList) {
         if (tagList != null) {
             for (String tagName : tagList) {
@@ -104,6 +106,7 @@ public class BucketService {
     }
 
     // 태그 수정
+    // TODO 리팩터링
     private void updateTag(Long bucketId, List<String> tagList) {
         // 태그 제거
         bucketMapper.deleteTagListByBucketId(bucketId);
@@ -119,6 +122,7 @@ public class BucketService {
     }
 
     // 이미지 url 수정
+    // TODO 리팩터링
     private void updateImageUrlList(Long bucketId, List<String> imageUrlList) {
         // 이미지 제거
         bucketMapper.deleteImageListByBucketId(bucketId);
@@ -140,6 +144,7 @@ public class BucketService {
     }
 
     // 북마크 추가
+    // TODO 리팩터링
     public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
         Optional<BookmarkUpdateDto> optional = bucketMapper.findBookmarkByBucketId(bucketId);
 

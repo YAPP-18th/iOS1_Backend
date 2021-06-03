@@ -9,7 +9,7 @@ import com.yapp.ios1.dto.user.login.social.SocialType;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
-import com.yapp.ios1.error.exception.user.UserDuplicatedException;
+import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -45,6 +45,7 @@ public class OauthService {
     @Value("${social.url.kakao}")
     private String KAKAO_REQUEST_URL;
 
+    // TODO 리팩터링
     public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) throws JsonProcessingException {
         try {
             switch (SocialType.valueOf(socialType.toUpperCase())) {
@@ -124,7 +125,7 @@ public class OauthService {
 
         if (optionalUser.isEmpty()) {
             if (userService.emailCheck(email).isPresent()) { // 이메일 중복 확인
-                throw new UserDuplicatedException(EXIST_EMAIL);
+                throw new EmailDuplicatedException(EXIST_EMAIL);
             }
             if (email == null) {
                 throw new EmailNotExistException(NOT_EXIST_EMAIL);
