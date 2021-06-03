@@ -16,6 +16,7 @@ public enum ErrorCode {
     HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
     INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
     JSON_WRITE_ERROR(401, "C005", "JSON content that are not pure I/O problems"),
+    JWT_ERROR(401, "C006", "JWT가 없거나 잘못된 값 입니다"),
 
     // User
     EMAIL_NOT_FOUND(400, "M000", "Email is not Exist"),
@@ -29,8 +30,6 @@ public enum ErrorCode {
 
     // Email
     EMAIL_SEND_ERROR(500, "P001", "Email Send Error");
-
-
 
     private final String code;
     private final String message;
