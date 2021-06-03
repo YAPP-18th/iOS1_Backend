@@ -89,8 +89,8 @@ public class GlobalExceptionHandler {
      * 예상치 못한 에러 처리
      */
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-        log.error("Exception", e);
+    protected ResponseEntity<ErrorResponse> handleException() {
+        log.error("Exception");
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
