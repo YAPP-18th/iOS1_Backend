@@ -58,7 +58,6 @@ public class NotificationService {
                 FirebaseApp.initializeApp(options);
                 log.info("Firebase Cloud Messaging 서비스를 성공적으로 초기화하였습니다.");
             }
-
         } catch (IOException e) {
             log.error("cannot initial firebase " + e.getMessage());
         }

@@ -10,11 +10,7 @@ import lombok.Getter;
 @Getter
 public class EmailDuplicatedException extends InvalidValueException {
 
-    public EmailDuplicatedException(String value) {
-        super(value);
-    }
-
-    public EmailDuplicatedException(String value, ErrorCode errorCode) {
-        super(value, ErrorCode.EMAIL_DUPLICATION);
+    public EmailDuplicatedException() {
+        super(ErrorCode.EMAIL_DUPLICATION);
     }
 }

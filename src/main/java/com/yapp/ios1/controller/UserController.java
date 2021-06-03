@@ -87,7 +87,7 @@ public class UserController {
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) throws SQLException, JsonProcessingException {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         if (user.isPresent()) {
-            throw new EmailDuplicatedException(EXIST_USER);
+            throw new EmailDuplicatedException();
         }
 
         Long userId = userService.signUp(UserDto.of(signUpDto));

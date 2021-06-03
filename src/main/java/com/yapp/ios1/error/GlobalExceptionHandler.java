@@ -2,8 +2,8 @@ package com.yapp.ios1.error;
 
 import com.yapp.ios1.error.exception.BusinessException;
 import com.yapp.ios1.error.exception.ErrorCode;
+import com.yapp.ios1.error.exception.InvalidValueException;
 import com.yapp.ios1.error.exception.common.InternalServerException;
-import com.yapp.ios1.error.exception.common.SQLSyntaxErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,21 +55,11 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 서버 내부 에러 (500 ERROR)
-     */
-    @ExceptionHandler(InternalServerException.class)
-    protected ResponseEntity<ErrorResponse> internalServerException(InternalServerException e) {
-        log.error("InternalServerException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    /**
      * RuntimeException 하위 예외
      */
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
-        log.error("handleEntityNotFoundException", e);
+        log.error("BusinessException", e);
         final ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = ErrorResponse.of(errorCode);
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
@@ -78,7 +68,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-        log.error("handleEntityNotFoundException", e);
+        log.error("Exception", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

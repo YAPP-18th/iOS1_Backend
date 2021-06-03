@@ -125,7 +125,7 @@ public class OauthService {
 
         if (optionalUser.isEmpty()) {
             if (userService.emailCheck(email).isPresent()) { // 이메일 중복 확인
-                throw new EmailDuplicatedException(EXIST_EMAIL);
+                throw new EmailDuplicatedException();
             }
             if (email == null) {
                 throw new EmailNotExistException(NOT_EXIST_EMAIL);
