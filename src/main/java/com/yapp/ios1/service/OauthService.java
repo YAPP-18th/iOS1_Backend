@@ -7,6 +7,7 @@ import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
+import com.yapp.ios1.dto.user.login.social.SocialType;
 import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.SocialTyeNotFoundException;
@@ -30,11 +31,7 @@ import static com.yapp.ios1.dto.user.login.social.SocialType.*;
 @Service
 public class OauthService {
 
-    private final UserService userService;
-    private final JwtService jwtService;
-    private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
-
+    // TODO Properties 를 사용하면 없앨 수 있지 않을까 하는 ~ ?
     @Value("${social.key}")
     private String BUOK_KEY;
 
@@ -44,9 +41,13 @@ public class OauthService {
     @Value("${social.url.kakao}")
     private String KAKAO_REQUEST_URL;
 
-    // TODO 리팩터링
+    private final UserService userService;
+    private final JwtService jwtService;
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+
     public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) throws JsonProcessingException, ParseException {
-        switch (socialType.toUpperCase()) {
+        switch (socialType) {
             case "GOOGLE":
                 return getGoogleUser(socialDto.getToken());
             case "KAKAO":
