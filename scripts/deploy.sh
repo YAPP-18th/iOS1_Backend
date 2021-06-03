@@ -15,8 +15,6 @@ else
   sleep 5
 fi
 
-ACCOUNT_ID=$(echo $account_id)
-
 cd /home/ec2-user/yapp && docker build -t yapp .
 docker run --name yapp -d -p 8080:8080 yapp
 

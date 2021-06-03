@@ -10,7 +10,7 @@ import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
 import com.yapp.ios1.error.exception.common.JsonWriteException;
 import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
-import com.yapp.ios1.error.exception.user.SocialTyeNotFoundException;
+import com.yapp.ios1.error.exception.user.SocialTypeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.ParseException;
 import java.util.Optional;
 
 import static com.yapp.ios1.dto.user.login.social.SocialType.*;
@@ -54,7 +53,7 @@ public class OauthService {
             case "APPLE":
                 return getAppleUser(socialDto.getToken(), socialDto.getEmail());
             default:
-                throw new SocialTyeNotFoundException();
+                throw new SocialTypeNotFoundException();
         }
     }
 
