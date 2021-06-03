@@ -17,7 +17,6 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
     JSON_WRITE_ERROR(401, "C005", "JSON content that are not pure I/O problems"),
 
-
     // JWT
     JWT_ERROR(401, "J001", "JWT가 없거나 잘못된 값 입니다"),
     JWT_PARSE_ERROR(401, "J002", "JWT Parse Error"),

@@ -41,7 +41,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-
     /**
      * enum type 일치하지 않아 binding 못할 경우 발생
      * 주로 @RequestParam enum으로 binding 못했을 경우 발생
@@ -62,7 +61,6 @@ public class GlobalExceptionHandler {
         final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
     }
-
 
     /**
      * RuntimeException 하위 예외
