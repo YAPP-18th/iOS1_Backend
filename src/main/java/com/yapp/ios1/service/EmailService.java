@@ -80,6 +80,7 @@ public class EmailService {
         return key.toString();
     }
 
+    // TODO 매개변수 이름 변경
     public void sendSimpleMessage(String to) throws Exception {
         MimeMessage message = createMessage(to);
         try {

@@ -2,7 +2,6 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
-import com.yapp.ios1.error.exception.common.InternalServerException;
 import com.yapp.ios1.error.exception.user.UserAuthenticationException;
 import com.yapp.ios1.mapper.BucketMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
-import static com.yapp.ios1.common.ResponseMessage.UPDATE_BUCKET_FAIL;
 
 /**
  * created by jg 2021/05/05
@@ -98,11 +95,9 @@ public class BucketService {
         }
     }
 
+    // TODO: 메소드 네이밍 변경
     public void completeBucket(Long bucketId, Long userId) {
-        int complete = bucketMapper.completeBucket(bucketId, userId);
-        if (complete == 0) {
-            throw new InternalServerException(UPDATE_BUCKET_FAIL);
-        }
+        bucketMapper.completeBucket(bucketId, userId);
     }
 
     // 태그 수정
