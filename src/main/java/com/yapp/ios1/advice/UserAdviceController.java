@@ -20,7 +20,6 @@ import java.text.ParseException;
 @RestControllerAdvice
 public class UserAdviceController {
 
-
     // JWT Parse 에러
     @ExceptionHandler(ParseException.class) 
     public ResponseEntity<ResponseDto> jwtException() {

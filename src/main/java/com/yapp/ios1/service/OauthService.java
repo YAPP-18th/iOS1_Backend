@@ -7,8 +7,10 @@ import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
+import com.yapp.ios1.error.exception.common.InternalServerException;
 import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
+import com.yapp.ios1.error.exception.user.SocialTyeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -18,10 +20,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
-import java.util.Locale;
 import java.util.Optional;
 
-import static com.yapp.ios1.common.ResponseMessage.BAD_SOCIAL_TYPE;
 import static com.yapp.ios1.dto.user.login.social.SocialType.*;
 
 /**
@@ -55,7 +55,7 @@ public class OauthService {
             case "APPLE":
                 return getAppleUser(socialDto.getToken(), socialDto.getEmail());
             default:
-                return null;
+                throw new SocialTyeNotFoundException();
         }
     }
 
@@ -64,7 +64,6 @@ public class OauthService {
 
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(accessToken);
-        System.out.println("Test");
 
         HttpEntity<MultiValueMap<String, String>> profileRequest = new HttpEntity<>(headers);
 

@@ -1,7 +1,5 @@
 package com.yapp.ios1.error.exception;
 
-import com.yapp.ios1.error.exception.ErrorCode;
-
 /**
  * created by jg 2021/06/03
  */
@@ -11,11 +9,6 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(String message) {
         super(message);
-    }
-
-    public BusinessException(String message, ErrorCode errorCode) {
-        super(message);
-        this.errorCode = errorCode;
     }
 
     public BusinessException(ErrorCode errorCode) {
