@@ -8,6 +8,7 @@ import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
 import com.yapp.ios1.error.exception.common.JsonWriteException;
+import com.yapp.ios1.error.exception.jwt.JwtParseException;
 import com.yapp.ios1.utils.RedisUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
@@ -76,11 +77,14 @@ public class JwtService {
         return objectMapper.readValue(claims.getSubject(), JwtPayload.class);
     }
 
-    public String getSubject(String identityToken) throws ParseException {
-        SignedJWT signedJWT = SignedJWT.parse(identityToken);
-        ReadOnlyJWTClaimsSet payload = signedJWT.getJWTClaimsSet();
-
-        return payload.getSubject();
+    public String getSubject(String identityToken) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(identityToken);
+            ReadOnlyJWTClaimsSet payload = signedJWT.getJWTClaimsSet();
+            return payload.getSubject();
+        } catch (ParseException e) {
+            throw new JwtParseException();
+        }
     }
 
     public Date getExpirationDateFromToken(String token){

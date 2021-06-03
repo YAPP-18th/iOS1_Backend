@@ -10,4 +10,8 @@ public class JwtException extends BusinessException {
     public JwtException() {
         super(ErrorCode.JWT_ERROR);
     }
+
+    public JwtException(ErrorCode errorCode) {
+        super(errorCode);
+    }
 }

@@ -16,7 +16,11 @@ public enum ErrorCode {
     HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
     INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
     JSON_WRITE_ERROR(401, "C005", "JSON content that are not pure I/O problems"),
-    JWT_ERROR(401, "C006", "JWT가 없거나 잘못된 값 입니다"),
+
+
+    // JWT
+    JWT_ERROR(401, "J001", "JWT가 없거나 잘못된 값 입니다"),
+    JWT_PARSE_ERROR(401, "J002", "JWT Parse Error"),
 
     // User
     EMAIL_NOT_FOUND(400, "M000", "Email is not Exist"),

@@ -1,6 +1,5 @@
 package com.yapp.ios1.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
@@ -11,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
 
 import static com.yapp.ios1.common.ResponseMessage.LOGIN_SUCCESS;
 
@@ -31,7 +28,7 @@ public class OauthController {
 
     @PostMapping("/{social_type}")
     public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") String socialType,
-                                                   @RequestBody SocialLoginDto socialDto) throws ParseException, JsonProcessingException {
+                                                   @RequestBody SocialLoginDto socialDto) {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, socialDto);
 
         ResponseDto response = ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId()));
