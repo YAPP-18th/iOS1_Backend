@@ -78,7 +78,7 @@ public class UserController {
      */
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) throws SQLException, JsonProcessingException {
+    public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) throws JsonProcessingException {
         Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         if (user.isPresent()) {
             throw new EmailDuplicatedException();

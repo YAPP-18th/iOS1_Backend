@@ -25,7 +25,10 @@ public enum ErrorCode {
     NICKNAME_EMAIL_DUPLICATION(400, "M004", "NickName is Duplication"),
     USER_NOT_AUTHENTICATION(401, "M005", "User is not Authentication"),
     SOCIAL_LOGIN_TOKEN_ERROR(401, "M006", "Social Login is Token Error"),
-    SOCIAL_TYPE_NOT_FOUND(400, "M007", "Social Type is not Exist");
+    SOCIAL_TYPE_NOT_FOUND(400, "M007", "Social Type is not Exist"),
+
+    // Email
+    EMAIL_SEND_ERROR(500, "P001", "Email Send Error");
 
 
 

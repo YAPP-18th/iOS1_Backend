@@ -22,7 +22,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.function.Function;
 
-
 /**
  * created by jg 2021/04/11
  */
@@ -31,7 +30,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    // TODO Property 적용할 순 없을지 ~ ?
+    // TODO Property 적용할 순 없을지 ~ ? + AccessToken, RefreshToken SecretKey 분리하기
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
 
@@ -115,6 +114,4 @@ public class JwtService {
         redisUtil.deleteData(refreshToken);
         return createTokenResponse(Long.parseLong(data));
     }
-
 }
-

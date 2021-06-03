@@ -70,12 +70,8 @@ public class UserService {
      * @param email    이메일
      * @param nickname 닉네임
      */
-    public Optional<UserDto> signUpCheck(String email, String nickname) throws SQLException {
-        try {
-            return userMapper.findByEmailOrNickname(email, nickname);
-        } catch (Exception e) {
-            throw new SQLException(DATABASE_ERROR);
-        }
+    public Optional<UserDto> signUpCheck(String email, String nickname) {
+        return userMapper.findByEmailOrNickname(email, nickname);
     }
 
     /**

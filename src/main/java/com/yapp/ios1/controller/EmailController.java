@@ -42,7 +42,7 @@ public class EmailController {
             notes = "입력한 이메일로 인증 코드를 전송합니다."
     )
     @PostMapping("/send")
-    public ResponseEntity<ResponseDto> emailAuth(@RequestBody @Valid EmailDto email) throws Exception {
+    public ResponseEntity<ResponseDto> emailAuth(@RequestBody @Valid EmailDto email) {
         Optional<UserDto> user = userService.emailCheck(email.getEmail());
         if (user.isEmpty()) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));

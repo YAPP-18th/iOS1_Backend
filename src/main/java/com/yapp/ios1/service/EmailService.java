@@ -1,6 +1,7 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.config.properties.BuokEmailProperties;
+import com.yapp.ios1.error.exception.email.EmailSendException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
@@ -77,9 +78,13 @@ public class EmailService {
     }
 
     // TODO 매개변수 이름 변경
-    public void sendSimpleMessage(String to) throws Exception {
-        MimeMessage message = createMessage(to);
-        emailSender.send(message);  // Email Send Error 발생하면 ExceptionHandler Exception 에서 500 에러 반환
+    public void sendSimpleMessage(String to) {
+        try {
+            MimeMessage message = createMessage(to);
+            emailSender.send(message);
+        } catch (Exception e) {
+            throw new EmailSendException();
+        }
     }
 
     // TODO 삭제 or 리팩터링 (의미 없는 메소드)
