@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 
 /**
@@ -51,9 +52,11 @@ public class UserService {
      *
      * @param nickname 닉네임
      */
-    public UserDto nicknameCheck(String nickname) {
-        return userMapper.findByNickname(nickname)
-                .orElseThrow(NickNameDuplicatedException::new);
+    public void nicknameCheck(String nickname) {
+        userMapper.findByNickname(nickname)
+                .ifPresent(userDto -> {
+                    throw new NickNameDuplicatedException();
+                });
     }
 
     /**

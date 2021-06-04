@@ -4,7 +4,6 @@ import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.EmailDto;
-import com.yapp.ios1.dto.user.check.NicknameCheckDto;
 import com.yapp.ios1.dto.user.login.PasswordDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
@@ -52,15 +51,15 @@ public class UserController {
     }
 
     /**
-     * 닉네임 확인
+     * 닉네임 중복 확인
      *
-     * @param nicknameDto 닉네임
+     * @param nickName 닉네임
      */
     @ApiOperation(value = "닉네임 존재 여부")
-    @PostMapping("/nickname-check")
-    public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) {
-        userService.nicknameCheck(nicknameDto.getNickname());
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EXIST_USER));
+    @GetMapping("/nickname-check/{nickName}")
+    public ResponseEntity<ResponseDto> nicknameCheck(@PathVariable String nickName) {
+        userService.nicknameCheck(nickName);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_NICKNAME));
     }
 
     /**
