@@ -96,10 +96,10 @@ public class UserService {
             throw new UserNotFoundException();
         }
         UserDto user = optional.get();
-        if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
-            return user;
+        if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
+            throw new PasswordNotMatchException();
         }
-        throw new PasswordNotMatchException();
+        return user;
     }
 
     @Transactional
@@ -128,6 +128,9 @@ public class UserService {
         UserInfoDto userInfo = getUserInfo(userId);
 
         Optional<Long> checkFriend = followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId);
+
+        followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId)
+                .orElseGet()
 
         if (checkFriend.isEmpty()) { // 친구 아닌 경우
             userInfo.setFriend(Boolean.FALSE);
