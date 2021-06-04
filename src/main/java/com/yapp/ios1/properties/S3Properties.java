@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "cloud.aws.s3")
 @Configuration
 public class S3Properties {
+
     private String bucketName;
     private String directoryName;
 }

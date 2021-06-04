@@ -6,6 +6,7 @@ import com.yapp.ios1.config.CacheKey;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.error.exception.common.JsonWriteException;
 import com.yapp.ios1.mapper.TokenMapper;
+import com.yapp.ios1.properties.JwtProperties;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -29,20 +30,11 @@ public class JwtIssueService {
 
     private final ObjectMapper objectMapper;
     private final TokenMapper tokenMapper;
-
-    // TODO Property 적용할 순 없을지 ~ ? + AccessToken, RefreshToken SecretKey 분리하기
-    @Value("${jwt.secretKey}")
-    private String SECRET_KEY;
-
-    @Value("${jwt.accessToken.validTime}")
-    private Long ACCESS_VALID_TIME;
-
-    @Value("${jwt.refreshToken.validTime}")
-    private Long REFRESH_VALID_TIME;
+    private final JwtProperties jwtProperties;
 
     private String createToken(JwtPayload payload, Long expireTime) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
+        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(jwtProperties.getSecretKey());
         Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
         return Jwts.builder()
                 .setSubject(writeJsonAsString(payload))
@@ -60,13 +52,13 @@ public class JwtIssueService {
     }
 
     public String createAccessToken(JwtPayload payload) {
-        return createToken(payload, ACCESS_VALID_TIME);
+        return createToken(payload, jwtProperties.getAccessToken().getValidTime());
     }
 
     @Transactional
     @CachePut(value = CacheKey.TOKEN, key = "#payload.id")
     public String createRefreshToken(JwtPayload payload) {
-        String refreshToken = createToken(payload, REFRESH_VALID_TIME);
+        String refreshToken = createToken(payload, jwtProperties.getRefreshToken().getValidTime());
         tokenMapper.updateToken(refreshToken, payload.getId());
         return refreshToken;
     }
