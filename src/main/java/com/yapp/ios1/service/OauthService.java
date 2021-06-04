@@ -77,8 +77,8 @@ public class OauthService {
         JsonNode profile = getProfile(accessToken, socialLoginProperties.getHost().getGoogle());
         String userEmail = profile.get("email").textValue();
 
-        UserDto userDto = userService.emailCheck(userEmail);
-        if (userDto == null) { // 회원가입 처리
+        Optional<UserDto> userDto = userService.emailCheck(userEmail);
+        if (userDto.isEmpty()) { // 회원가입 처리
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(userEmail)
                     .socialType(GOOGLE)
@@ -87,7 +87,7 @@ public class OauthService {
                     .build();
             return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
         }
-        return new UserCheckDto(HttpStatus.OK, userDto.getId());
+        return new UserCheckDto(HttpStatus.OK, userDto.get().getId());
     }
 
     // 카카오 로그인
@@ -95,8 +95,8 @@ public class OauthService {
         JsonNode profile = getProfile(accessToken, socialLoginProperties.getHost().getKakao());
         String userEmail = profile.get("kakao_account").get("email").textValue();
 
-        UserDto userDto = userService.emailCheck(userEmail);
-        if (userDto == null) {
+        Optional<UserDto> userDto = userService.emailCheck(userEmail);
+        if (userDto.isEmpty()) {
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(userEmail)
                     .socialType(KAKAO)
@@ -105,7 +105,7 @@ public class OauthService {
                     .build();
             return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
         }
-        return new UserCheckDto(HttpStatus.OK, userDto.getId());
+        return new UserCheckDto(HttpStatus.OK, userDto.get().getId());
     }
 
     // 애플 로그인

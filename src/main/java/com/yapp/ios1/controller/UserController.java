@@ -47,7 +47,7 @@ public class UserController {
     @PostMapping("/email-check")
     public ResponseEntity<ResponseDto> emailCheck(@RequestBody @Valid EmailDto emailDto) {
         userService.emailCheck(emailDto.getEmail());
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EXIST_USER));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_EMAIL));
     }
 
     /**

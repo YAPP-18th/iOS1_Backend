@@ -7,7 +7,7 @@ import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
-import com.yapp.ios1.error.exception.user.EmailNotExistException;
+import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.error.exception.user.NickNameDuplicatedException;
 import com.yapp.ios1.error.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
@@ -21,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
-
 
 /**
  * created by jg 2021/03/28
@@ -42,9 +40,13 @@ public class UserService {
      *
      * @param email 이메일
      */
-    public UserDto emailCheck(String email) {
-        return userMapper.findByEmail(email)
-                .orElseThrow(EmailNotExistException::new);
+    public Optional<UserDto> emailCheck(String email) {
+        Optional<UserDto> user = userMapper.findByEmail(email);
+        if (user.isPresent()) {
+            throw new EmailDuplicatedException();
+        }
+
+        return user;
     }
 
     /**
@@ -97,7 +99,8 @@ public class UserService {
      * @return UserDto 비밀번호 확인까지 완료한 UserDto
      */
     public UserDto getUser(SignInDto signInDto) {
-        UserDto user = emailCheck(signInDto.getEmail());
+        UserDto user = userMapper.findByEmail(signInDto.getEmail())
+                .orElseThrow(UserNotFoundException::new);
 
         if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
             throw new PasswordNotMatchException();
@@ -130,7 +133,7 @@ public class UserService {
     public UserInfoDto getOtherUserInfo(Long currentUserId, Long userId) {
         UserInfoDto userInfo = getUserInfo(userId);
 
-        Optional<Long> checkFriend =followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId);
+        Optional<Long> checkFriend = followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId);
 
         if (checkFriend.isEmpty()) { // 친구 아닌 경우
             userInfo.setFriend(Boolean.FALSE);
