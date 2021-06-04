@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
+import com.yapp.ios1.error.exception.jwt.JwtExpiredException;
 import com.yapp.ios1.error.exception.jwt.JwtParseException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
@@ -59,15 +59,15 @@ public class JwtService {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    private boolean isTokenValid(String token) {
-        return !getExpirationDateFromToken(token).before(new Date());
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            throw new JwtExpiredException();
+        }
     }
 
     public TokenResponseDto createTokenResponse(Long userId) {
@@ -84,14 +84,12 @@ public class JwtService {
     }
 
     public TokenResponseDto reissueToken(String refreshToken) {
-        if (!isTokenValid(refreshToken)) { // 만료된 토큰인 경우
-            throw new IllegalArgumentException(ResponseMessage.EXPIRED_TOKEN);
-        }
+        getAllClaimsFromToken(refreshToken); // 만료된 토큰 확인
         // 토큰에서 userId를 꺼낸다.
         Long userId = Long.parseLong(getSubject(refreshToken));
         String token = jwtIssueService.getRefreshTokenByUserId(userId);
         if (!token.equals(refreshToken)) {
-            throw new IllegalArgumentException(ResponseMessage.EXPIRED_TOKEN);
+            throw new JwtExpiredException();
         }
         return createTokenResponse(userId);
     }
