@@ -91,11 +91,9 @@ public class UserService {
      * @return UserDto 비밀번호 확인까지 완료한 UserDto
      */
     public UserDto getUser(SignInDto signInDto) {
-        Optional<UserDto> optional = emailCheck(signInDto.getEmail());
-        if (optional.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-        UserDto user = optional.get();
+        UserDto user = emailCheck(signInDto.getEmail())
+                .orElseThrow(UserNotFoundException::new);
+
         if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
             throw new PasswordNotMatchException();
         }
@@ -128,9 +126,6 @@ public class UserService {
         UserInfoDto userInfo = getUserInfo(userId);
 
         Optional<Long> checkFriend = followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId);
-
-        followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId)
-                .orElseGet()
 
         if (checkFriend.isEmpty()) { // 친구 아닌 경우
             userInfo.setFriend(Boolean.FALSE);
