@@ -7,9 +7,7 @@ import com.nimbusds.jwt.SignedJWT;
 import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
-import com.yapp.ios1.error.exception.common.JsonWriteException;
 import com.yapp.ios1.error.exception.jwt.JwtParseException;
-import com.yapp.ios1.utils.RedisUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
-import java.security.Key;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.function.Function;
@@ -32,46 +28,11 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-
-    // TODO Property 적용할 순 없을지 ~ ? + AccessToken, RefreshToken SecretKey 분리하기
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
 
-    @Value("${jwt.accessToken.validTime}")
-    private Long ACCESS_VALID_TIME;
-
-    @Value("${jwt.refreshToken.validTime}")
-    private Long REFRESH_VALID_TIME;
-
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private final JwtIssueService jwtIssueService;
-
-    private String createToken(JwtPayload payload, Long expireTime) {
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
-        Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
-        return Jwts.builder()
-                .setSubject(writeJsonAsString(payload))
-                .signWith(signingKey, signatureAlgorithm)
-                .setExpiration(new Date(System.currentTimeMillis() + expireTime))
-                .compact();
-    }
-
-    private String writeJsonAsString(JwtPayload payload) {
-        try {
-            return objectMapper.writeValueAsString(payload.getId());
-        } catch (JsonProcessingException e) {
-            throw new JsonWriteException();
-        }
-    }
-
-    public String createAccessToken(JwtPayload payload) {
-        return createToken(payload, ACCESS_VALID_TIME);
-    }
-
-    public String createRefreshToken(JwtPayload payload) {
-        return createToken(payload, REFRESH_VALID_TIME);
-    }
 
     public JwtPayload getPayload(String token) throws JsonProcessingException, SignatureException, ExpiredJwtException, MalformedJwtException, UnsupportedJwtException {
         Claims claims = getAllClaimsFromToken(token);
@@ -105,7 +66,6 @@ public class JwtService {
                 .getBody();
     }
 
-//<<<<<<< HEAD
     private boolean isTokenValid(String token) {
         return !getExpirationDateFromToken(token).before(new Date());
     }

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import static com.yapp.ios1.common.ResponseMessage.NOT_VALID_EMAIL;
 
@@ -21,9 +22,13 @@ public class SignUpDto {
     private String email;
     @JsonIgnore
     private SocialType socialType;
+    @NotBlank
     private String password;
+    @NotBlank
     private String nickname;
     private String intro;
     @JsonIgnore
     private String socialId;
+    @NotBlank
+    private String deviceToken;
 }

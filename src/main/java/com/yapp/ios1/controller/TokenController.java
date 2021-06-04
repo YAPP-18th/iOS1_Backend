@@ -30,7 +30,7 @@ public class TokenController {
     @ApiOperation(value = "서버 토큰 발급 용")
     @GetMapping("/token")
     public String getToken() {
-        return jwtService.createAccessToken(new JwtPayload(1L));
+        return jwtIssueService.createAccessToken(new JwtPayload(1L));
     }
 
     @ApiOperation(value = "토큰 재발급")

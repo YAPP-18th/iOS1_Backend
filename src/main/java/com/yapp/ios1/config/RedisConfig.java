@@ -34,7 +34,7 @@ public class RedisConfig {
 
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put(CacheKey.TOKEN, RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(REFRESH_VALID_TIME)));
+                .entryTtl(Duration.ofMillis(REFRESH_VALID_TIME)));
 
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory).cacheDefaults(configuration)
                 .withInitialCacheConfigurations(cacheConfigurations).build();

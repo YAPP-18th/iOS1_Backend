@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -25,10 +26,11 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Service
 public class JwtIssueService {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    private final ObjectMapper objectMapper;
     private final TokenMapper tokenMapper;
 
+    // TODO Property 적용할 순 없을지 ~ ? + AccessToken, RefreshToken SecretKey 분리하기
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
 
@@ -61,6 +63,7 @@ public class JwtIssueService {
         return createToken(payload, ACCESS_VALID_TIME);
     }
 
+    @Transactional
     @CachePut(value = CacheKey.TOKEN, key = "#payload.id")
     public String createRefreshToken(JwtPayload payload) {
         String refreshToken = createToken(payload, REFRESH_VALID_TIME);
