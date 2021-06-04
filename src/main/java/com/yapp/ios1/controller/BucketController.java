@@ -40,7 +40,6 @@ public class BucketController {
                                             @RequestParam("category") int category,
                                             @RequestParam("sort") int sort) {
         Long userId = UserContext.getCurrentUserId();
-
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_LIST,
                 bucketService.homeBucketList(bucketState, category, userId, sort)));
     }
@@ -65,7 +64,6 @@ public class BucketController {
     @PutMapping("/{bucketId}")
     public ResponseEntity<ResponseDto> updateBucket(@PathVariable Long bucketId, @RequestBody @Valid BucketRequestDto requestDto) {
         bucketService.updateBucket(bucketId, requestDto, UserContext.getCurrentUserId());
-
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
     }
 
@@ -78,7 +76,6 @@ public class BucketController {
     public ResponseEntity<ResponseDto> completeBucket(@PathVariable Long bucketId) {
 
         bucketService.completeBucket(bucketId, UserContext.getCurrentUserId());
-
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
     }
 

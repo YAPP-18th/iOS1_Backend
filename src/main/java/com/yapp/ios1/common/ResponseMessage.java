@@ -49,5 +49,4 @@ public class ResponseMessage {
     public static final String NOT_VALID_CATEGORY_ID = "유효한 카테고리 ID가 아닙니다.";
     public static final String NOT_VALID_STATE = "유효한 버킷 state가 아닙니다.";
     public static final String NOT_VALID_EMAIL = "이메일 형식 제대로 입력해주세요.";
-
 }

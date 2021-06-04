@@ -136,13 +136,8 @@ public class BucketService {
     // 북마크 추가
     // TODO 리팩터링
     public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
-        Optional<BookmarkUpdateDto> optional = bucketMapper.findBookmarkByBucketId(bucketId);
-
-        if (optional.isEmpty()) {
-            throw new BucketNotFoundException();
-        }
-
-        BookmarkUpdateDto bookmarkDto = optional.get();
+        BookmarkUpdateDto bookmarkDto = bucketMapper.findBookmarkByBucketId(bucketId)
+                .orElseThrow(BucketNotFoundException::new);
 
         if (!bookmarkDto.getUserId().equals(userId)) {
             throw new UserAuthenticationException();

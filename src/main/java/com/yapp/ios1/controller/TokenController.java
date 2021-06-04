@@ -39,7 +39,6 @@ public class TokenController {
     @ReAuth
     @PostMapping("/token/refresh")
     public ResponseEntity<ResponseDto> reissueToken() {
-        ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(UserContext.getCurrentUserId()));
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(UserContext.getCurrentUserId())));
     }
 }

@@ -117,6 +117,7 @@ public class OauthService {
                 .password(socialLoginProperties.getKey())
                 .socialId(socialId)
                 .build();
+        // TODO 리팩터링
         return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto))); // 회원가입
     }
 }
