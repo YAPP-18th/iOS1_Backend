@@ -63,6 +63,7 @@ public class FollowService {
         return followMapper.getFollowListByUserId(userId);
     }
 
+    @Transactional
     public void checkFollowStatus(boolean isAccept, Long myUserId, Long friendId, Long alarmId) {
         if (isAccept) {
             followAccept(myUserId, friendId);
@@ -76,7 +77,6 @@ public class FollowService {
      * @param myUserId
      * @param friendId
      */
-    @Transactional
     private void followAccept(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
         // 친구 요청 수락
