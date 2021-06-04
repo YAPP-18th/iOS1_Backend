@@ -144,10 +144,8 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserInfoDto getUserInfo(Long userId) {
         // 프로필 정보
-        Optional<ProfileResultDto> optionalUser = userMapper.findProfileByUserId(userId);
-        if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException();
-        }
+        ProfileResultDto profileResult = userMapper.findProfileByUserId(userId)
+                .orElseThrow(UserNotFoundException::new);
 
         // 친구 수, 버킷 수
         int friendCount = followMapper.getFollowCountByUserId(userId);
@@ -157,7 +155,7 @@ public class UserService {
         List<BookmarkDto> bookmarkList = bucketService.getBookmarkList(userId);
 
         return UserInfoDto.builder()
-                .user(optionalUser.get())
+                .user(profileResult)
                 .friendCount(friendCount)
                 .bucketCount(bucketCount)
                 .bookmark(new BookmarkResultDto(bookmarkList, bookmarkList.size()))
