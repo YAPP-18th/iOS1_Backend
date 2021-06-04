@@ -18,7 +18,7 @@ import java.util.Map;
  * created by ayoung 2021/06/03
  */
 @Configuration
-public class RedisConfig {
+public class RedisCacheConfig {
 
     @Value("${jwt.refreshToken.validTime}")
     private Long REFRESH_VALID_TIME;

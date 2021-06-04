@@ -50,7 +50,7 @@ public interface BucketMapper {
 
     int completeBucket(Long bucketId, Long userId);
 
-    Optional<BookmarkUpdateDto> findBookmarkByBucketId(Long bucketId);
+    Optional<BucketCheckDto> findUserIdByBucketId(Long bucketId);
 
     void setBookmark(Long bucketId, boolean isBookmark);
 
