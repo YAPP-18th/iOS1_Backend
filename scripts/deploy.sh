@@ -17,9 +17,3 @@ fi
 
 cd /home/ec2-user/yapp && docker build -t yapp .
 docker run --name yapp -d -e active=prod -p 8080:8080 yapp
-
-#aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com
-#cd /home/ec2-user/yapp && docker build -t yapp .
-#
-#docker tag yapp:latest "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
-#docker push "${ACCOUNT_ID}".dkr.ecr.ap-northeast-2.amazonaws.com/yapp:latest
