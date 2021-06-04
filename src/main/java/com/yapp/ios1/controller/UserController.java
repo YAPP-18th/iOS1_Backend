@@ -93,8 +93,7 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
         UserDto userDto = userService.getUser(signInDto);
-        ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId()));
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId())));
     }
 
     @ApiOperation(
@@ -106,8 +105,7 @@ public class UserController {
     public ResponseEntity<ResponseDto> changePassword(@RequestBody PasswordDto passwordDto) {
         Long userId = UserContext.getCurrentUserId();
         userService.changePassword(userId, passwordDto.getPassword());
-        ResponseDto response = ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS));
     }
 
     @ApiOperation(value = "프로필 가져오기")
@@ -132,7 +130,6 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<ResponseDto> getMyInfo() {
         Long userId = UserContext.getCurrentUserId();
-
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
     }
 
@@ -143,7 +140,6 @@ public class UserController {
         Long currentUserId = UserContext.getCurrentUserId();
         if (currentUserId.equals(userId)) {
             return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
-
         }
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
     }
