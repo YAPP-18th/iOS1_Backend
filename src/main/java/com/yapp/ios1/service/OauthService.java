@@ -129,9 +129,6 @@ public class OauthService {
             if (userService.emailCheck(email).isPresent()) { // 이메일 중복 확인
                 throw new EmailDuplicatedException();
             }
-            if (email == null) {
-                throw new EmailNotExistException();
-            }
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(email)
                     .socialType(APPLE)
