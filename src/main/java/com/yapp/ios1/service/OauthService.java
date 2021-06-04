@@ -9,17 +9,15 @@ import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
 import com.yapp.ios1.error.exception.common.JsonWriteException;
 import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
-import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.SocialTypeNotFoundException;
+import com.yapp.ios1.properties.SocialLoginProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import static com.yapp.ios1.dto.user.login.social.SocialType.*;
 
@@ -30,20 +28,11 @@ import static com.yapp.ios1.dto.user.login.social.SocialType.*;
 @Service
 public class OauthService {
 
-    // TODO Refactor: Properties 를 사용하면 없앨 수 있지 않을까 하는 ~ ?
-    @Value("${social.key}")
-    private String BUOK_KEY;
-
-    @Value("${social.url.google}")
-    private String GOOGLE_REQUEST_URL;
-
-    @Value("${social.url.kakao}")
-    private String KAKAO_REQUEST_URL;
-
     private final UserService userService;
     private final JwtService jwtService;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final SocialLoginProperties socialLoginProperties;
 
     public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) {
         switch (socialType.toUpperCase()) {
@@ -86,7 +75,7 @@ public class OauthService {
 
     // 구글 로그인
     private UserCheckDto getGoogleUser(String accessToken) {
-        JsonNode profile = getProfile(accessToken, GOOGLE_REQUEST_URL);
+        JsonNode profile = getProfile(accessToken, socialLoginProperties.getHost().getGoogle());
         String userEmail = profile.get("email").textValue();
 
         Optional<UserDto> optionalUser = userService.emailCheck(userEmail);
@@ -94,7 +83,7 @@ public class OauthService {
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(userEmail)
                     .socialType(GOOGLE)
-                    .password(BUOK_KEY)
+                    .password(socialLoginProperties.getKey())
                     .socialId(profile.get("sub").textValue())
                     .build();
             return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
@@ -104,7 +93,7 @@ public class OauthService {
 
     // 카카오 로그인
     private UserCheckDto getKakaoUser(String accessToken) {
-        JsonNode profile = getProfile(accessToken, KAKAO_REQUEST_URL);
+        JsonNode profile = getProfile(accessToken, socialLoginProperties.getHost().getKakao());
         String userEmail = profile.get("kakao_account").get("email").textValue();
 
         Optional<UserDto> optionalUser = userService.emailCheck(userEmail);
@@ -112,7 +101,7 @@ public class OauthService {
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(userEmail)
                     .socialType(KAKAO)
-                    .password(BUOK_KEY)
+                    .password(socialLoginProperties.getKey())
                     .socialId(profile.get("id").toString())
                     .build();
             return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
@@ -133,7 +122,7 @@ public class OauthService {
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(email)
                     .socialType(APPLE)
-                    .password(BUOK_KEY)
+                    .password(socialLoginProperties.getKey())
                     .socialId(socialId)
                     .build();
             return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto))); // 회원가입
