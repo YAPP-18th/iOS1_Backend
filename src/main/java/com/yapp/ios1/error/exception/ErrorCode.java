@@ -33,7 +33,10 @@ public enum ErrorCode {
     SOCIAL_TYPE_NOT_FOUND(400, "M007", "Social Type is not Exist"),
 
     // Email
-    EMAIL_SEND_ERROR(500, "P001", "Email Send Error");
+    EMAIL_SEND_ERROR(500, "P001", "Email Send Error"),
+
+    // AWS
+    AWS_S3_IO_ERROR(500, "A001", "AWS S3 File IO Error");
 
     private final String code;
     private final String message;
