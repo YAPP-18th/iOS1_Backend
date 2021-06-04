@@ -34,7 +34,7 @@ public class JwtService {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private final JwtIssueService jwtIssueService;
 
-    public JwtPayload getPayload(String token) throws JsonProcessingException, SignatureException, ExpiredJwtException, MalformedJwtException, UnsupportedJwtException {
+    public JwtPayload getPayload(String token) throws JsonProcessingException {
         Claims claims = getAllClaimsFromToken(token);
         return objectMapper.readValue(claims.getSubject(), JwtPayload.class);
     }

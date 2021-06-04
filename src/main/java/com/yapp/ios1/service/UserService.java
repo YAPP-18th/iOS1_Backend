@@ -110,11 +110,8 @@ public class UserService {
 
     // 프로필 정보 GET
     public ProfileResultDto getProfile(Long userId) {
-        Optional<ProfileResultDto> optional = userMapper.findProfileByUserId(userId);
-        if (optional.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-        return optional.get();
+        return userMapper.findProfileByUserId(userId)
+                .orElseThrow(UserNotFoundException::new);
     }
 
     // 프로필 업데이트
