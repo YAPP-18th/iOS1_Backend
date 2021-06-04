@@ -11,6 +11,6 @@ import lombok.Getter;
 public class EmailNotExistException extends InvalidValueException {
 
     public EmailNotExistException() {
-        super(ErrorCode.EMAIL_DUPLICATION);
+        super(ErrorCode.EMAIL_NOT_FOUND);
     }
 }

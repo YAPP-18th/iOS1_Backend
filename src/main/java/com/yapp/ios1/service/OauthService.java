@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import static com.yapp.ios1.dto.user.login.social.SocialType.*;
@@ -45,7 +46,7 @@ public class OauthService {
     private final ObjectMapper objectMapper;
 
     public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) {
-        switch (socialType) {
+        switch (socialType.toUpperCase()) {
             case "GOOGLE":
                 return getGoogleUser(socialDto.getToken());
             case "KAKAO":
