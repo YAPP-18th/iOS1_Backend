@@ -1,10 +1,10 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.config.properties.BuokEmailProperties;
 import com.yapp.ios1.error.exception.email.EmailSendException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
+import com.yapp.ios1.properties.EmailProperties;
 import com.yapp.ios1.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class EmailService {
 
     private final JavaMailSender emailSender;
     private final RedisUtil redisUtil;
-    private final BuokEmailProperties emailProperties;
+    private final EmailProperties emailProperties;
     private final UserMapper userMapper;
 
     // TODO 리팩터링
