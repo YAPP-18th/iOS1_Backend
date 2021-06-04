@@ -31,7 +31,6 @@ public class OauthController {
                                                    @RequestBody SocialLoginDto socialDto) {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, socialDto);
 
-        ResponseDto response = ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId()));
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId())));
     }
 }

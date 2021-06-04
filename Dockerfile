@@ -4,4 +4,4 @@ WORKDIR /root
 
 COPY ./build/libs/*.jar .
 
-CMD java -jar *.jar
+CMD java -jar -Dspring.profiles.active=${active} *.jar
