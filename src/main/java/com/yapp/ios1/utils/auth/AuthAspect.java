@@ -1,10 +1,13 @@
 package com.yapp.ios1.utils.auth;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.error.exception.jwt.JwtException;
+import com.yapp.ios1.error.exception.jwt.JwtExpiredException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
+import com.yapp.ios1.service.JwtIssueService;
 import com.yapp.ios1.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -26,21 +29,20 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class AuthAspect {
 
-    private static final String AUTHORIZATION = "token";
+    private static final String AUTHORIZATION = "accessToken";
+    private static final String REAUTHORIZATION = "refreshToken";
 
     private final JwtService jwtService;
+    private final JwtIssueService jwtIssueService;
     private final UserMapper userMapper;
     private final HttpServletRequest httpServletRequest;
 
     @Around("@annotation(Auth)")
-    public Object around(final ProceedingJoinPoint pjp) throws Throwable {
+    public Object accessToken(final ProceedingJoinPoint pjp) throws Throwable {
         try {
-            String token = httpServletRequest.getHeader(AUTHORIZATION);
-
-            JwtPayload payload = jwtService.getPayload(token);
-
-            UserDto user = userMapper.findByUserId(payload.getId())
-                    .orElseThrow(UserNotFoundException::new);
+            String accessToken = httpServletRequest.getHeader(AUTHORIZATION);
+            JwtPayload payload = jwtService.getPayload(accessToken);
+            UserDto user = findByUserId(payload.getId());
 
             UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
 
@@ -48,5 +50,31 @@ public class AuthAspect {
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
             throw new JwtException();
         }
+    }
+
+    @Around("@annotation(ReAuth)")
+    public Object refreshToken(final ProceedingJoinPoint pjp) throws Throwable {
+        try {
+            String refreshToken = httpServletRequest.getHeader(REAUTHORIZATION);
+            JwtPayload payload = jwtService.getPayload(refreshToken);
+            UserDto user = findByUserId(payload.getId());
+
+            String dbRefreshToken = jwtIssueService.getRefreshTokenByUserId(user.getId());
+
+            if (!dbRefreshToken.equals(refreshToken)) {
+                throw new JwtExpiredException();
+            }
+
+            UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
+
+            return pjp.proceed();
+        } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
+            throw new JwtException();
+        }
+    }
+
+    private UserDto findByUserId(Long userId) {
+        return userMapper.findByUserId(userId)
+                .orElseThrow(UserNotFoundException::new);
     }
 }

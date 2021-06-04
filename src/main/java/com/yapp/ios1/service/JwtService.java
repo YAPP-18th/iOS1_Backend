@@ -58,15 +58,11 @@ public class JwtService {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(jwtProperties.getSecretKey()))
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-        } catch (ExpiredJwtException e) {
-            throw new JwtExpiredException();
-        }
+        return Jwts.parserBuilder()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(jwtProperties.getSecretKey()))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public TokenResponseDto createTokenResponse(Long userId) {
@@ -80,16 +76,5 @@ public class JwtService {
                 .accessExpiredAt(getExpirationDateFromToken(accessToken))
                 .refreshExpiredAt(getExpirationDateFromToken(refreshToken))
                 .build();
-    }
-
-    public TokenResponseDto reissueToken(String refreshToken) {
-        getAllClaimsFromToken(refreshToken); // 만료된 토큰 확인
-        // 토큰에서 userId를 꺼낸다.
-        Long userId = Long.parseLong(getSubject(refreshToken));
-        String token = jwtIssueService.getRefreshTokenByUserId(userId);
-        if (!token.equals(refreshToken)) {
-            throw new JwtExpiredException();
-        }
-        return createTokenResponse(userId);
     }
 }
