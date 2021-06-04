@@ -55,13 +55,13 @@ public class UserService {
      * @param nickname 닉네임
      */
     public void nicknameCheck(String nickname) {
-        userMapper.findByNickname(nickname)
-                .ifPresent(userDto -> {
-                    throw new NickNameDuplicatedException();
-                });
+        Optional<UserDto> user = userMapper.findByNickname(nickname);
+        if (user.isPresent()) {
+            throw new NickNameDuplicatedException();
+        }
     }
 
-    /**
+        /**
      * 소셜 ID 존재하는지 확인
      *
      * @param socialId 소셜 아이디
@@ -76,8 +76,12 @@ public class UserService {
      * @param email    이메일
      * @param nickname 닉네임
      */
-    public Optional<UserDto> signUpCheck(String email, String nickname) {
-        return userMapper.findByEmailOrNickname(email, nickname);
+    public void signUpCheck(String email, String nickname) {
+        Optional<UserDto> user = userMapper.findByEmailOrNickname(email, nickname);
+        // TODO 마찬가지로 해야 하는지에 대한 의논
+        if (user.isPresent()) {
+            throw new EmailDuplicatedException();
+        }
     }
 
     /**

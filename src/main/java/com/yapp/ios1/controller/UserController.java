@@ -70,14 +70,10 @@ public class UserController {
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) {
-        Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
-        if (user.isPresent()) {
-            throw new EmailDuplicatedException();
-        }
-
+        // TODO 꼭 해야 하는가에 대한 논의
+        userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
         Long userId = userService.signUp(UserDto.of(signUpDto));
-        ResponseDto response = ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId));
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId)));
     }
 
     /**
