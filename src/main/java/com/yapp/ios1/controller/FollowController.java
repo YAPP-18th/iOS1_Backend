@@ -46,13 +46,7 @@ public class FollowController {
                                                     @PathVariable Long alarmId,
                                                     @RequestParam("accept") boolean isAccept) {
         Long myUserId = UserContext.getCurrentUserId();
-
-        // TODO 리팩터링
-        if (isAccept) {
-            followService.followAccept(myUserId, friendId);
-        } else {
-            followService.followNotAccept(myUserId, alarmId);
-        }
+        followService.checkFollowStatus(isAccept, myUserId, friendId, alarmId);
 
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_MESSAGE, isAccept));
     }

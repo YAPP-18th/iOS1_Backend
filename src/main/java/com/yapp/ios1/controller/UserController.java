@@ -108,7 +108,7 @@ public class UserController {
     @GetMapping("")
     public ResponseEntity<ResponseDto> getProfile() {
         Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, GET_PROFILE_SUCCESS, userService.getProfile(userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_PROFILE_SUCCESS, userService.getProfile(userId)));
     }
 
     @ApiOperation(value = "프로필 수정")

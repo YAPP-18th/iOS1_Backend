@@ -63,13 +63,21 @@ public class FollowService {
         return followMapper.getFollowListByUserId(userId);
     }
 
+    public void checkFollowStatus(boolean isAccept, Long myUserId, Long friendId, Long alarmId) {
+        if (isAccept) {
+            followAccept(myUserId, friendId);
+            return;
+        }
+        followNotAccept(myUserId, alarmId);
+    }
+
     /**
      * 친구 요청 승낙
      * @param myUserId
      * @param friendId
      */
     @Transactional
-    public void followAccept(Long myUserId, Long friendId) {
+    private void followAccept(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
         // 친구 요청 수락
         alarmMapper.insertFollowAlarmLog(notificationForOne, LocalDateTime.now(), friendId);
@@ -82,7 +90,7 @@ public class FollowService {
      * @param myUserId
      * @param alarmId
      */
-    public void followNotAccept(Long myUserId, Long alarmId) {
+    private void followNotAccept(Long myUserId, Long alarmId) {
         alarmMapper.deleteAlarmLog(myUserId, alarmId);
     }
 }
