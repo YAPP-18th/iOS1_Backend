@@ -43,7 +43,6 @@ public class AuthAspect {
             String accessToken = httpServletRequest.getHeader(AUTHORIZATION);
             JwtPayload payload = jwtService.getPayload(accessToken);
             UserDto user = findByUserId(payload.getId());
-
             UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
 
             return pjp.proceed();
@@ -60,13 +59,8 @@ public class AuthAspect {
             UserDto user = findByUserId(payload.getId());
 
             String dbRefreshToken = jwtIssueService.getRefreshTokenByUserId(user.getId());
-
-            if (!dbRefreshToken.equals(refreshToken)) {
-                throw new JwtExpiredException();
-            }
-
+            checkRefreshTokenExpired(dbRefreshToken, refreshToken);
             UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
-
             return pjp.proceed();
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
             throw new JwtException();
@@ -76,5 +70,11 @@ public class AuthAspect {
     private UserDto findByUserId(Long userId) {
         return userMapper.findByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
+    }
+
+    private void checkRefreshTokenExpired(String dbRefreshToken, String refreshToken) {
+        if (!dbRefreshToken.equals(refreshToken)) {
+            throw new JwtExpiredException();
+        }
     }
 }
