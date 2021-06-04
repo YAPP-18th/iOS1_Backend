@@ -19,6 +19,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import static com.yapp.ios1.dto.user.login.social.SocialType.*;
 
@@ -45,7 +46,7 @@ public class OauthService {
     private final ObjectMapper objectMapper;
 
     public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) {
-        switch (socialType) {
+        switch (socialType.toUpperCase()) {
             case "GOOGLE":
                 return getGoogleUser(socialDto.getToken());
             case "KAKAO":
@@ -121,14 +122,14 @@ public class OauthService {
 
     // 애플 로그인
     public UserCheckDto getAppleUser(String identityToken, String email) {
+        // 이메일 중복 체크
+        userService.emailCheck(email)
+                .ifPresent(userDto -> { throw new EmailDuplicatedException();});
 
         String socialId = jwtService.getSubject(identityToken);
         Optional<UserDto> optionalUser = userService.socialIdCheck(socialId);
 
         if (optionalUser.isEmpty()) {
-            if (userService.emailCheck(email).isPresent()) { // 이메일 중복 확인
-                throw new EmailDuplicatedException();
-            }
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(email)
                     .socialType(APPLE)
