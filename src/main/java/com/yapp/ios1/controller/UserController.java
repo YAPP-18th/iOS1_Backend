@@ -39,14 +39,14 @@ public class UserController {
     private final JwtService jwtService;
 
     /**
-     * 이메일 확인
+     * 이메일 중복 체크
      *
-     * @param emailDto 이메일
+     * @param email 이메일
      */
     @ApiOperation(value = "이메일 존재 여부")
-    @PostMapping("/email-check")
-    public ResponseEntity<ResponseDto> emailCheck(@RequestBody @Valid EmailDto emailDto) {
-        userService.emailCheck(emailDto.getEmail());
+    @GetMapping("/email-check")
+    public ResponseEntity<ResponseDto> emailCheck(@RequestParam String email) {
+        userService.emailCheck(email);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_EMAIL));
     }
 
@@ -56,8 +56,8 @@ public class UserController {
      * @param nickName 닉네임
      */
     @ApiOperation(value = "닉네임 존재 여부")
-    @GetMapping("/nickname-check/{nickName}")
-    public ResponseEntity<ResponseDto> nicknameCheck(@PathVariable String nickName) {
+    @GetMapping("/nickname-check")
+    public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickName) {
         userService.nicknameCheck(nickName);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_NICKNAME));
     }
