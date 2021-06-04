@@ -75,17 +75,11 @@ public class OauthService {
     // 구글 로그인
     private UserCheckDto getGoogleUser(String accessToken) {
         JsonNode profile = getProfile(accessToken, socialLoginProperties.getHost().getGoogle());
-        String userEmail = profile.get("email").textValue();
+        String email = profile.get("email").textValue();
 
-        Optional<UserDto> userDto = userService.emailCheck(userEmail);
+        Optional<UserDto> userDto = userService.emailCheck(email);
         if (userDto.isEmpty()) { // 회원가입 처리
-            SignUpDto signUpDto = SignUpDto.builder()
-                    .email(userEmail)
-                    .socialType(GOOGLE)
-                    .password(socialLoginProperties.getKey())
-                    .socialId(profile.get("sub").textValue())
-                    .build();
-            return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
+            return socialSignUp(email, profile.get("sub").textValue());
         }
         return new UserCheckDto(HttpStatus.OK, userDto.get().getId());
     }
@@ -93,17 +87,11 @@ public class OauthService {
     // 카카오 로그인
     private UserCheckDto getKakaoUser(String accessToken) {
         JsonNode profile = getProfile(accessToken, socialLoginProperties.getHost().getKakao());
-        String userEmail = profile.get("kakao_account").get("email").textValue();
+        String email = profile.get("kakao_account").get("email").textValue();
 
-        Optional<UserDto> userDto = userService.emailCheck(userEmail);
+        Optional<UserDto> userDto = userService.emailCheck(email);
         if (userDto.isEmpty()) {
-            SignUpDto signUpDto = SignUpDto.builder()
-                    .email(userEmail)
-                    .socialType(KAKAO)
-                    .password(socialLoginProperties.getKey())
-                    .socialId(profile.get("id").toString())
-                    .build();
-            return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
+            return socialSignUp(email, profile.get("id").toString());
         }
         return new UserCheckDto(HttpStatus.OK, userDto.get().getId());
     }
@@ -117,14 +105,18 @@ public class OauthService {
         Optional<UserDto> optionalUser = userService.socialIdCheck(socialId);
 
         if (optionalUser.isEmpty()) {
-            SignUpDto signUpDto = SignUpDto.builder()
-                    .email(email)
-                    .socialType(APPLE)
-                    .password(socialLoginProperties.getKey())
-                    .socialId(socialId)
-                    .build();
-            return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto))); // 회원가입
+            return socialSignUp(email, socialId);
         }
         return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId()); // 로그인
+    }
+
+    private UserCheckDto socialSignUp(String email, String socialId) {
+        SignUpDto signUpDto = SignUpDto.builder()
+                .email(email)
+                .socialType(APPLE)
+                .password(socialLoginProperties.getKey())
+                .socialId(socialId)
+                .build();
+        return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto))); // 회원가입
     }
 }
