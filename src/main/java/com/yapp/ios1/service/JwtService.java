@@ -27,7 +27,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
     private final JwtIssueService jwtIssueService;
     private final JwtProperties jwtProperties;
 
