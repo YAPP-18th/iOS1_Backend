@@ -6,9 +6,9 @@
 
     <insert id="updateToken">
         INSERT INTO token (user_id, token)
-        VALUES (#{userId}, #{refreshToken})
-        ON DUPLICATE KEY UPDATE
-        user_id = #{userId}, token = #{refreshToken};
+        VALUES (#{userId}, #{refreshToken}) ON DUPLICATE KEY
+        UPDATE
+            user_id = #{userId}, token = #{refreshToken};
     </insert>
 
     <select id="getTokenByUserId" resultType="String">
