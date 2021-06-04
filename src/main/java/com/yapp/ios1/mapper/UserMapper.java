@@ -36,6 +36,4 @@ public interface UserMapper {
     String findDeviceTokenByUserId(Long userId);
 
     List<String> findAllUserDeviceToken();
-
-    Long findUserIdByEmail(String email);
 }
