@@ -51,8 +51,9 @@ public class UserService {
      *
      * @param nickname 닉네임
      */
-    public Optional<UserDto> nicknameCheck(String nickname) {
-        return userMapper.findByNickname(nickname);
+    public UserDto nicknameCheck(String nickname) {
+        return userMapper.findByNickname(nickname)
+                .orElseThrow(NickNameDuplicatedException::new);
     }
 
     /**

@@ -59,10 +59,7 @@ public class UserController {
     @ApiOperation(value = "닉네임 존재 여부")
     @PostMapping("/nickname-check")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) {
-        Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
-        if (user.isEmpty()) {
-            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
-        }
+        userService.nicknameCheck(nicknameDto.getNickname());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EXIST_USER));
     }
 
