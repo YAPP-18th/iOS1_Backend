@@ -47,6 +47,7 @@ public class UserDto {
                 .intro(signUpDto.getIntro())
                 .socialType(signUpDto.getSocialType())
                 .socialId(signUpDto.getSocialId())
+                .deviceToken(signUpDto.getDeviceToken())
                 .build();
     }
 
