@@ -143,8 +143,8 @@
         WHERE id = #{bucketId} AND user_id = #{userId};
     </update>
 
-    <select id="findBookmarkByBucketId" resultType="BookmarkUpdateDto">
-        SELECT id, bookmark AS isBookmark, user_id AS userId
+    <select id="findUserIdByBucketId" resultType="BucketCheckDto">
+        SELECT id, user_id AS userId
         FROM bucket
         WHERE id = #{bucketId};
     </select>

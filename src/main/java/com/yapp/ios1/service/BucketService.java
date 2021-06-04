@@ -92,6 +92,7 @@ public class BucketService {
 
     // TODO: 메소드 네이밍 변경
     public void completeBucket(Long bucketId, Long userId) {
+        checkValidBucket(bucketId, userId);
         bucketMapper.completeBucket(bucketId, userId);
     }
 
@@ -136,13 +137,16 @@ public class BucketService {
     // 북마크 추가
     // TODO 리팩터링
     public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
-        BookmarkUpdateDto bookmarkDto = bucketMapper.findBookmarkByBucketId(bucketId)
+        checkValidBucket(bucketId, userId);
+        bucketMapper.setBookmark(bucketId, isBookmark);
+    }
+
+    private void checkValidBucket(Long bucketId, Long userId) {
+        BucketCheckDto checkDto = bucketMapper.findUserIdByBucketId(bucketId)
                 .orElseThrow(BucketNotFoundException::new);
 
-        if (!bookmarkDto.getUserId().equals(userId)) {
+        if (!checkDto.getUserId().equals(userId)) {
             throw new UserAuthenticationException();
         }
-
-        bucketMapper.setBookmark(bucketId, isBookmark);
     }
 }
