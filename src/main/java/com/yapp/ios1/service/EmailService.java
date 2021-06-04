@@ -27,29 +27,32 @@ public class EmailService {
     private final RedisUtil redisUtil;
     private final EmailProperties emailProperties;
     private final UserMapper userMapper;
+    private static final StringBuilder sb = new StringBuilder();
 
     // TODO 리팩터링
-    private MimeMessage createMessage(String to) throws Exception {
+    private MimeMessage createMessage(String email) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
-        String code = createCode(createKey());
-        redisUtil.setDataExpire(code, to, emailProperties.getValidTime());
+        String code = createKey();
+        redisUtil.setDataExpire(code, email, emailProperties.getValidTime());
 
-        String content = "";
-        content += "<div align=\"center\" style=\"font-size: 15px\">";
-        content += "<br/><img src=\"" + emailProperties.getLogoUrl() + "\"/>";
-        content += "<br/><br/><br/>비밀번호를 잊으셨나요?<br/>너무 걱정 마세요. 저희도 가끔 잊어버린답니다.<br/><br/>";
-        content += "<span style=\"border: 0.5px; padding: 8px;font-size: 20px;\">" + code + "</span>";
-        content += "<br/><br/>buok으로 돌아가 위 인증번호를 입력해 주세요.<br/><br/>";
-        content += "혹시 비밀번호 재설정을 요청하지 않으셨거나,<br/>비밀번호를 찾으셨다면 이 이메일을 무시해 주세요.<br/><br/>";
-        content += "그럼, 계속 저희와 함께 미래 계획을 세워나가 볼까요?";
-
-        message.addRecipients(MimeMessage.RecipientType.TO, to);
+        message.addRecipients(MimeMessage.RecipientType.TO, email);
         message.setSubject("[buok] 비밀번호를 잊으셨나요? " + code);
-        message.setText(content, "utf-8", "html");
+        message.setText(makeHtml(code), "utf-8", "html");
         message.setFrom(new InternetAddress(emailProperties.getLink(), emailProperties.getName()));
 
         return message;
+    }
+
+    private String makeHtml(String code) {
+        sb.append("<div align=\"center\" style=\"font-size: 15px\">");
+        sb.append("<br/><img src=\"" + emailProperties.getLogoUrl() + "\"/>");
+        sb.append("<br/><br/><br/>비밀번호를 잊으셨나요?<br/>너무 걱정 마세요. 저희도 가끔 잊어버린답니다.<br/><br/>");
+        sb.append("<span style=\"border: 0.5px; padding: 8px;font-size: 20px;\">" + code + "</span>");
+        sb.append("<br/><br/>buok으로 돌아가 위 인증번호를 입력해 주세요.<br/><br/>");
+        sb.append("혹시 비밀번호 재설정을 요청하지 않으셨거나,<br/>비밀번호를 찾으셨다면 이 이메일을 무시해 주세요.<br/><br/>");
+        sb.append("그럼, 계속 저희와 함께 미래 계획을 세워나가 볼까요?");
+        return sb.toString();
     }
 
     // TODO 리팩터링
@@ -78,18 +81,13 @@ public class EmailService {
     }
 
     // TODO 매개변수 이름 변경
-    public void sendSimpleMessage(String to) {
+    public void sendSimpleMessage(String email) {
         try {
-            MimeMessage message = createMessage(to);
+            MimeMessage message = createMessage(email);
             emailSender.send(message);
         } catch (Exception e) {
             throw new EmailSendException();
         }
-    }
-
-    // TODO 삭제 or 리팩터링 (의미 없는 메소드)
-    public String createCode(String ePw) {
-        return ePw;
     }
 
     // TODO 리팩터링
