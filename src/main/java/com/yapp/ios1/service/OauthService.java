@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Locale;
 import java.util.Optional;
 
 import static com.yapp.ios1.dto.user.login.social.SocialType.*;

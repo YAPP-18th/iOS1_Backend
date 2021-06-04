@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 import static com.yapp.ios1.common.ResponseMessage.LOGIN_SUCCESS;
 
 /**
@@ -30,7 +28,7 @@ public class OauthController {
 
     @PostMapping("/{social_type}")
     public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") String socialType,
-                                                   @RequestBody @Valid SocialLoginDto socialDto) {
+                                                   @RequestBody SocialLoginDto socialDto) {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, socialDto);
 
         ResponseDto response = ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId()));

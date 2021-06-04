@@ -73,7 +73,7 @@ public class BucketService {
             bucketMapper.saveBucketNameLog(bucketId);
         }
 
-        if (!updateDto.getEndDate().toString().equals(bucketDto.getEndDate())) {
+        if (!updateDto.getEndDate().equals(bucketDto.getEndDate())) {
             bucketMapper.saveBucketEndDateLog(bucketId);
         }
     }
