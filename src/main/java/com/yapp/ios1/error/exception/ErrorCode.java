@@ -20,6 +20,7 @@ public enum ErrorCode {
     // JWT
     JWT_ERROR(401, "J001", "JWT가 없거나 잘못된 값 입니다"),
     JWT_PARSE_ERROR(401, "J002", "JWT Parse Error"),
+    JWT_EXPIRED_ERROR(401, "J003", "JWT Expired Error"),
 
     // User
     EMAIL_NOT_FOUND(400, "M000", "Email is not Exist"),

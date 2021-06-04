@@ -7,6 +7,7 @@ import com.yapp.ios1.dto.user.check.EmailCodeDto;
 import com.yapp.ios1.dto.user.check.EmailDto;
 import com.yapp.ios1.service.EmailService;
 import com.yapp.ios1.service.JwtService;
+import com.yapp.ios1.service.JwtIssueService;
 import com.yapp.ios1.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +35,7 @@ public class EmailController {
 
     private final UserService userService;
     private final EmailService emailService;
-    private final JwtService jwtService;
+    private final JwtIssueService jwtIssueService;
 
     @ApiOperation(
             value = "이메일 인증 코드 전송",
@@ -58,6 +59,6 @@ public class EmailController {
     @PostMapping("/verify")
     public ResponseEntity<ResponseDto> verifyCode(@RequestBody EmailCodeDto code) {
         Long userId = emailService.verifyCode(code.getCode());
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_AUTH_SUCCESS, jwtService.createAccessToken(new JwtPayload(userId))));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_AUTH_SUCCESS, jwtIssueService.createAccessToken(new JwtPayload(userId))));
     }
 }

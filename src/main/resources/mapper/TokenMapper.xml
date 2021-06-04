@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yapp.ios1.mapper.TokenMapper">
+
+    <insert id="updateToken">
+        INSERT INTO token (user_id, token)
+        VALUES (#{userId}, #{refreshToken}) ON DUPLICATE KEY
+        UPDATE
+            user_id = #{userId}, token = #{refreshToken};
+    </insert>
+
+    <select id="getTokenByUserId" resultType="String">
+        SELECT token
+        FROM token
+        WHERE user_id = #{userId};
+    </select>
+
+</mapper>
