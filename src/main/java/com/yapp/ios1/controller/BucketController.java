@@ -27,7 +27,7 @@ public class BucketController {
     private final BucketService bucketService;
 
     /**
-     * @INFO state 1(전체), 2(예정), 3(진행 중), 4(완료)
+     * @INFO state 1(전체), 2(예정), 3(진행 중), 4(완료), 5(실패)
      * @INFO category 1(전체), 2(여행), 3(취미), 4(소유), 5(재정), 6(건강)
                       7(목표), 8(조직), 9(봉사), 10(기타)
      * @INFO sortI= 1(작성 순), sortId = 2(가나다 순)
@@ -37,7 +37,7 @@ public class BucketController {
     @GetMapping("")
     public ResponseEntity<ResponseDto> home(@RequestParam("state") int bucketState,
                                             @RequestParam("category") int category,
-                                            @RequestParam("sort") int sort) {
+                                             @RequestParam("sort") int sort) {
         Long userId = UserContext.getCurrentUserId();
 
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.GET_BUCKET_LIST,

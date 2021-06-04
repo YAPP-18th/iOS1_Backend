@@ -7,6 +7,7 @@ import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
+import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.NickNameDuplicatedException;
 import com.yapp.ios1.error.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
@@ -40,8 +41,9 @@ public class UserService {
      *
      * @param email 이메일
      */
-    public Optional<UserDto> emailCheck(String email) {
-        return userMapper.findByEmail(email);
+    public UserDto emailCheck(String email) {
+        return userMapper.findByEmail(email)
+                .orElseThrow(EmailNotExistException::new);
     }
 
     /**
@@ -91,8 +93,7 @@ public class UserService {
      * @return UserDto 비밀번호 확인까지 완료한 UserDto
      */
     public UserDto getUser(SignInDto signInDto) {
-        UserDto user = emailCheck(signInDto.getEmail())
-                .orElseThrow(UserNotFoundException::new);
+        UserDto user = emailCheck(signInDto.getEmail());
 
         if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
             throw new PasswordNotMatchException();

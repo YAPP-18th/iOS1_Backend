@@ -8,7 +8,6 @@ import com.yapp.ios1.dto.user.check.UserCheckDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
 import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
 import com.yapp.ios1.error.exception.common.JsonWriteException;
-import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.error.exception.user.SocialTypeNotFoundException;
 import com.yapp.ios1.properties.SocialLoginProperties;
 import lombok.RequiredArgsConstructor;
@@ -78,8 +77,8 @@ public class OauthService {
         JsonNode profile = getProfile(accessToken, socialLoginProperties.getHost().getGoogle());
         String userEmail = profile.get("email").textValue();
 
-        Optional<UserDto> optionalUser = userService.emailCheck(userEmail);
-        if (optionalUser.isEmpty()) { // 회원가입 처리
+        UserDto userDto = userService.emailCheck(userEmail);
+        if (userDto == null) { // 회원가입 처리
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(userEmail)
                     .socialType(GOOGLE)
@@ -88,7 +87,7 @@ public class OauthService {
                     .build();
             return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
         }
-        return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId());
+        return new UserCheckDto(HttpStatus.OK, userDto.getId());
     }
 
     // 카카오 로그인
@@ -96,8 +95,8 @@ public class OauthService {
         JsonNode profile = getProfile(accessToken, socialLoginProperties.getHost().getKakao());
         String userEmail = profile.get("kakao_account").get("email").textValue();
 
-        Optional<UserDto> optionalUser = userService.emailCheck(userEmail);
-        if (optionalUser.isEmpty()) {
+        UserDto userDto = userService.emailCheck(userEmail);
+        if (userDto == null) {
             SignUpDto signUpDto = SignUpDto.builder()
                     .email(userEmail)
                     .socialType(KAKAO)
@@ -106,14 +105,13 @@ public class OauthService {
                     .build();
             return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
         }
-        return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId());
+        return new UserCheckDto(HttpStatus.OK, userDto.getId());
     }
 
     // 애플 로그인
     public UserCheckDto getAppleUser(String identityToken, String email) {
         // 이메일 중복 체크
-        userService.emailCheck(email)
-                .ifPresent(userDto -> { throw new EmailDuplicatedException();});
+        userService.emailCheck(email);
 
         String socialId = jwtService.getSubject(identityToken);
         Optional<UserDto> optionalUser = userService.socialIdCheck(socialId);

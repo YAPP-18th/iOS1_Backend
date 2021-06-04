@@ -19,8 +19,6 @@ public class ResponseMessage {
     public static final String NOT_EXIST_USER = "존재하지 않는 회원입니다.";
     public static final String SIGN_UP_SUCCESS = "회원가입 성공입니다.";
     public static final String CHANGE_PASSWORD_SUCCESS = "비밀번호 재설정 성공입니다.";
-    public static final String BAD_JWT = "잘못된 JWT 입니다.";
-    public static final String EXPIRED_TOKEN = "만료된 토큰입니다.";
 
     // User
     public static final String GET_PROFILE_SUCCESS = "프로필 가져오기 성공입니다.";

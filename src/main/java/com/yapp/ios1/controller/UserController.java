@@ -1,6 +1,5 @@
 package com.yapp.ios1.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.UserDto;
@@ -23,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
 import java.util.Optional;
 
 import static com.yapp.ios1.common.ResponseMessage.*;
@@ -49,10 +47,7 @@ public class UserController {
     @ApiOperation(value = "이메일 존재 여부")
     @PostMapping("/email-check")
     public ResponseEntity<ResponseDto> emailCheck(@RequestBody @Valid EmailDto emailDto) {
-        Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
-        if (user.isEmpty()) {
-            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
-        }
+        userService.emailCheck(emailDto.getEmail());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EXIST_USER));
     }
 

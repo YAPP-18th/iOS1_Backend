@@ -43,10 +43,7 @@ public class EmailController {
     )
     @PostMapping("/send")
     public ResponseEntity<ResponseDto> emailAuth(@RequestBody @Valid EmailDto email) {
-        Optional<UserDto> user = userService.emailCheck(email.getEmail());
-        if (user.isEmpty()) {
-            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
-        }
+        userService.emailCheck(email.getEmail());
         emailService.sendSimpleMessage(email.getEmail());
 
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));
