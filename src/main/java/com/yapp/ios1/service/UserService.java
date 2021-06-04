@@ -125,7 +125,7 @@ public class UserService {
     public UserInfoDto getOtherUserInfo(Long currentUserId, Long userId) {
         UserInfoDto userInfo = getUserInfo(userId);
 
-        Optional<Long> checkFriend = followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId);
+        Optional<Long> checkFriend =followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId);
 
         if (checkFriend.isEmpty()) { // 친구 아닌 경우
             userInfo.setFriend(Boolean.FALSE);

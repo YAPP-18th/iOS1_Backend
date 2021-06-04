@@ -6,15 +6,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * created by ayoung 2021/05/30
+ * created by jg 2021/06/04
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "buok.email")
+@ConfigurationProperties(prefix = "cloud.aws.s3")
 @Configuration
-public class EmailProperties {
-    private String name;
-    private String link;
-    private String logoUrl;
-    private Long validTime;
+public class S3Properties {
+    private String bucketName;
+    private String directoryName;
 }

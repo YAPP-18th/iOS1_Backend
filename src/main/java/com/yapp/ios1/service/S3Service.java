@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
+import com.yapp.ios1.properties.S3Properties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,12 +28,7 @@ import java.util.List;
 public class S3Service {
 
     private final AmazonS3Client s3Client;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
-
-    @Value("${buok.s3.dir}")
-    private String uploadDir;
+    private final S3Properties s3Properties;
 
     public List<String> upload(MultipartFile[] multipartFileList) throws IOException {
         List<String> imageUrlList = new ArrayList<>();
@@ -54,10 +50,10 @@ public class S3Service {
 
         ByteArrayInputStream byteArrayIs = new ByteArrayInputStream(bytes);
 
-        s3Client.putObject(new PutObjectRequest(bucket, uploadDir + fileName, byteArrayIs, objMeta)
+        s3Client.putObject(new PutObjectRequest(s3Properties.getBucketName(), s3Properties.getDirectoryName() + fileName, byteArrayIs, objMeta)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
-        return s3Client.getUrl(bucket, uploadDir + fileName).toString();
+        return s3Client.getUrl(s3Properties.getBucketName(), s3Properties.getDirectoryName() + fileName).toString();
     }
 }
 
