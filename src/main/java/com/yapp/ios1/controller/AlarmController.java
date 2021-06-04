@@ -39,5 +39,4 @@ public class AlarmController {
         notificationService.deleteAlarm(userId, alarmId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.DELETE_ALARM_LOG));
     }
-
 }

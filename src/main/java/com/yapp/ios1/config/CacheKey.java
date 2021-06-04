@@ -5,6 +5,5 @@ package com.yapp.ios1.config;
  */
 public class CacheKey {
 
-    public static final int DEFAULT_EXPIRE_SEC = 60; // 1 minutes
     public static final String TOKEN = "token";
 }
