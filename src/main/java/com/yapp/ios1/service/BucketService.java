@@ -48,13 +48,8 @@ public class BucketService {
     // TODO 리팩터링
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
-        Optional<BucketCompareDto> optional = bucketMapper.findByBucketId(bucketId);
-
-        if (optional.isEmpty()) {
-            throw new BucketNotFoundException();
-        }
-
-        BucketCompareDto bucketDto = optional.get();
+        BucketCompareDto bucketDto = bucketMapper.findByBucketId(bucketId)
+                .orElseThrow(BucketNotFoundException::new);
 
         if (!bucketDto.getUserId().equals(userId)) {
             throw new UserAuthenticationException();
