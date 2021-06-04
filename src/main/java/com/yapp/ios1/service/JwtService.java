@@ -8,6 +8,7 @@ import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
 import com.yapp.ios1.error.exception.jwt.JwtExpiredException;
 import com.yapp.ios1.error.exception.jwt.JwtParseException;
+import com.yapp.ios1.properties.JwtProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +29,9 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secretKey}")
-    private String SECRET_KEY;
-
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private final JwtIssueService jwtIssueService;
+    private final JwtProperties jwtProperties;
 
     public JwtPayload getPayload(String token) throws JsonProcessingException {
         Claims claims = getAllClaimsFromToken(token);
@@ -61,7 +60,7 @@ public class JwtService {
     private Claims getAllClaimsFromToken(String token) {
         try {
             return Jwts.parserBuilder()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+                    .setSigningKey(DatatypeConverter.parseBase64Binary(jwtProperties.getSecretKey()))
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
