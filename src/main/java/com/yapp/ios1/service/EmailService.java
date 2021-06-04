@@ -29,18 +29,12 @@ public class EmailService {
     private final UserMapper userMapper;
     private static final StringBuilder sb = new StringBuilder();
 
-    // TODO 리팩터링
-    private MimeMessage createMessage(String email) throws Exception {
+    private MimeMessage createMessage(String email, String code) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
-
-        String code = createKey();
-        redisUtil.setDataExpire(code, email, emailProperties.getValidTime());
-
         message.addRecipients(MimeMessage.RecipientType.TO, email);
         message.setSubject("[buok] 비밀번호를 잊으셨나요? " + code);
         message.setText(makeHtml(code), "utf-8", "html");
         message.setFrom(new InternetAddress(emailProperties.getLink(), emailProperties.getName()));
-
         return message;
     }
 
@@ -83,7 +77,9 @@ public class EmailService {
     // TODO 매개변수 이름 변경
     public void sendSimpleMessage(String email) {
         try {
-            MimeMessage message = createMessage(email);
+            String code = createKey();
+            redisUtil.setDataExpire(code, email, emailProperties.getValidTime());
+            MimeMessage message = createMessage(email, code);
             emailSender.send(message);
         } catch (Exception e) {
             throw new EmailSendException();
