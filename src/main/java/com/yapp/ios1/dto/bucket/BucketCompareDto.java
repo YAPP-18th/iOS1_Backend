@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -18,6 +19,6 @@ public class BucketCompareDto {
     private String bucketName;
     private int bucketState;
     private int categoryId;
-    private String endDate;
+    private LocalDate endDate;
     private String content;
 }

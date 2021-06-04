@@ -86,8 +86,8 @@ public class BucketController {
             notes = "북마크 설정 / 해제 합니다."
     )
     @Auth
-    @PutMapping("/{id}/bookmark")
-    public ResponseEntity<ResponseDto> setBookmark(@PathVariable("id") Long bucketId, @RequestParam("state") boolean isBookmark) {
+    @PutMapping("/{bucketId}/bookmark")
+    public ResponseEntity<ResponseDto> setBookmark(@PathVariable("bucketId") Long bucketId, @RequestParam("state") boolean isBookmark) {
         Long userId = UserContext.getCurrentUserId();
         bucketService.setBookmark(bucketId, userId, isBookmark);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.UPDATE_BUCKET_SUCCESS));

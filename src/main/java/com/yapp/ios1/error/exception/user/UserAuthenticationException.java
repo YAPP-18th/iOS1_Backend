@@ -9,6 +9,6 @@ import com.yapp.ios1.error.exception.InvalidValueException;
 public class UserAuthenticationException extends InvalidValueException {
 
     public UserAuthenticationException() {
-        super(ErrorCode.EMAIL_DUPLICATION);
+        super(ErrorCode.USER_NOT_AUTHENTICATION);
     }
 }

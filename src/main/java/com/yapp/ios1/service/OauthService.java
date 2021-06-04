@@ -45,7 +45,7 @@ public class OauthService {
     private final ObjectMapper objectMapper;
 
     public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) {
-        switch (socialType) {
+        switch (socialType.toUpperCase()) {
             case "GOOGLE":
                 return getGoogleUser(socialDto.getToken());
             case "KAKAO":
