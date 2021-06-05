@@ -44,16 +44,15 @@ public class UserController {
 
     @ApiOperation(value = "닉네임 존재 여부")
     @GetMapping("/nickname-check")
-    public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickName) {
-        userService.nicknameCheck(nickName);
+    public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickname) {
+        userService.nicknameCheck(nickname);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_NICKNAME));
     }
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) {
-        Long userId = userService.signUp(UserDto.of(signUpDto));
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, userService.signUp(UserDto.of(signUpDto))));
     }
 
     @ApiOperation(value = "로그인")

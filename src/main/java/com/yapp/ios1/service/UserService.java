@@ -2,6 +2,7 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
+import com.yapp.ios1.dto.jwt.TokenResponseDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
@@ -34,6 +35,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final FollowMapper followMapper;
+    private final JwtService jwtService;
 
     public Optional<UserDto> emailCheck(String email) {
         Optional<UserDto> user = userMapper.findByEmail(email);
@@ -56,10 +58,10 @@ public class UserService {
     }
 
     @Transactional
-    public Long signUp(UserDto userDto) {
+    public TokenResponseDto signUp(UserDto userDto) {
         userDto.encodePassword(passwordEncoder.encode(userDto.getPassword()));
         userMapper.signUp(userDto);
-        return userDto.getId();
+        return jwtService.createTokenResponse(userDto.getId());
     }
 
     public UserDto getUser(SignInDto signInDto) {

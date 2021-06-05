@@ -24,12 +24,11 @@ import static com.yapp.ios1.common.ResponseMessage.LOGIN_SUCCESS;
 public class OauthController {
 
     private final OauthService oauthService;
-    private final JwtService jwtService;
 
     @PostMapping("/{social_type}")
     public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") String socialType,
                                                    @RequestBody SocialLoginDto socialDto) {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, socialDto);
-        return ResponseEntity.ok(ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId())));
+        return ResponseEntity.ok(ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, checkDto.getTokenDto()));
     }
 }

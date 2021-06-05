@@ -1,5 +1,6 @@
 package com.yapp.ios1.dto.user.check;
 
+import com.yapp.ios1.dto.jwt.TokenResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -11,5 +12,5 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class UserCheckDto {
     private HttpStatus status;
-    private Long userId;
+    private TokenResponseDto tokenDto;
 }
