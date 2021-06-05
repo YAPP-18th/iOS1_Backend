@@ -40,7 +40,7 @@ public class EmailController {
             notes = "입력한 이메일로 인증 코드를 전송합니다."
     )
     @PostMapping("/send")
-    public ResponseEntity<ResponseDto> emailAuth(@RequestBody @Valid EmailDto email) {
+    public ResponseEntity<ResponseDto> sendEmail(@RequestBody @Valid EmailDto email) {
         userService.emailCheck(email.getEmail());
         emailService.sendEmailMessage(email.getEmail());
 

@@ -50,7 +50,7 @@ public class EmailService {
         sb.append("그럼, 계속 저희와 함께 미래 계획을 세워나가 볼까요?");
         return sb.toString();
     }
-    ㄹ
+
     // 인증코드 생성
     private String createKey() {
         StringBuilder key = new StringBuilder();
