@@ -18,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * created by ayoung 2021/03/29
@@ -32,18 +33,17 @@ public class S3Service {
     private final AmazonS3Client s3Client;
     private final S3Properties s3Properties;
 
-    public List<String> upload(MultipartFile[] multipartFileList) {
+    public List<String> upload(MultipartFile[] multipartFileList, Long userId) {
         List<String> imageUrlList = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFileList) {
-            imageUrlList.add(upload(multipartFile));
+            imageUrlList.add(upload(multipartFile, userId));
         }
         return imageUrlList;
     }
 
-    public String upload(MultipartFile file) {
+    public String upload(MultipartFile file, Long userId) {
         try {
-            String fileName = file.getOriginalFilename();
-
+            String fileName = userId + "-" + UUID.randomUUID() + "-" + file.getOriginalFilename();
             ObjectMetadata objMeta = new ObjectMetadata();
 
             byte[] bytes = IOUtils.toByteArray(file.getInputStream());
@@ -51,10 +51,10 @@ public class S3Service {
 
             ByteArrayInputStream byteArrayIs = new ByteArrayInputStream(bytes);
 
-            s3Client.putObject(new PutObjectRequest(s3Properties.getBucketName(), s3Properties.getDirectoryName() + fileName, byteArrayIs, objMeta)
+            s3Client.putObject(new PutObjectRequest(s3Properties.getBucket(), s3Properties.getDir() + fileName, byteArrayIs, objMeta)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
 
-            return s3Client.getUrl(s3Properties.getBucketName(), s3Properties.getDirectoryName() + fileName).toString();
+            return s3Client.getUrl(s3Properties.getBucket(), s3Properties.getDir() + fileName).toString();
         } catch (IOException e) {
             throw new S3FileIOException();
         }

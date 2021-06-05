@@ -3,6 +3,7 @@ package com.yapp.ios1.controller;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.S3Service;
 import com.yapp.ios1.utils.auth.Auth;
+import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class S3Controller {
             return ResponseEntity.ok(ResponseDto.of(HttpStatus.BAD_REQUEST, NOT_EXIST_IMAGE));
         }
 
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPLOAD_IMAGE_SUCCESS, s3Service.upload(imageList)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPLOAD_IMAGE_SUCCESS, s3Service.upload(imageList, UserContext.getCurrentUserId())));
     }
 
 }

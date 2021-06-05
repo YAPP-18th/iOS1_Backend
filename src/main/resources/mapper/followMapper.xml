@@ -16,8 +16,8 @@
         WHERE following_id = #{userId};
     </select>
 
-    <select id="isFriendByCurrentUserIdAndUserId" resultType="Long">
-        SELECT id
+    <select id="isFriendByMyUserIdAndOtherUserId" resultType="int">
+        SELECT count(id)
         FROM follow
         WHERE following_id = #{currentUserId} AND follower_id = #{userId};
     </select>

@@ -120,17 +120,17 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserInfoDto getOtherUserInfo(Long currentUserId, Long userId) {
-        UserInfoDto userInfo = getUserInfo(userId);
+    public UserInfoDto getOtherUserInfo(Long myUserId, Long otherUserId) {
+        UserInfoDto userInfo = getUserInfo(otherUserId);
 
-        Optional<Long> checkFriend = followMapper.isFriendByCurrentUserIdAndUserId(currentUserId, userId);
+        int checkFriend = followMapper.isFriendByMyUserIdAndOtherUserId(myUserId, otherUserId);
 
-        if (checkFriend.isEmpty()) { // 친구 아닌 경우
+        if (checkFriend == 0) {
             userInfo.setFriend(Boolean.FALSE);
             return userInfo;
         }
 
-        userInfo.setBucket(bucketService.getUserBucketList(userId));
+        userInfo.setBucket(bucketService.getUserBucketList(otherUserId));
         userInfo.setFriend(Boolean.TRUE);
 
         return userInfo;
