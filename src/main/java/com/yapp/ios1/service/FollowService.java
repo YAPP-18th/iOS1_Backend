@@ -29,7 +29,6 @@ public class FollowService {
     private final AlarmMapper alarmMapper;
     private final UserMapper userMapper;
 
-    // 팔로우 신청, 알람 로그 저장, 알람 보내기
     @Transactional
     public void followRequest(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());

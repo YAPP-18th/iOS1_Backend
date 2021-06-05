@@ -30,7 +30,6 @@ public class OauthController {
     public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") String socialType,
                                                    @RequestBody SocialLoginDto socialDto) {
         UserCheckDto checkDto = oauthService.getSocialUser(socialType, socialDto);
-
         return ResponseEntity.ok(ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, jwtService.createTokenResponse(checkDto.getUserId())));
     }
 }

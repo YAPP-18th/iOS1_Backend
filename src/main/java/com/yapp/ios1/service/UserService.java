@@ -1,5 +1,6 @@
 package com.yapp.ios1.service;
 
+import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
 import com.yapp.ios1.dto.user.ProfileDto;
@@ -15,12 +16,16 @@ import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.yapp.ios1.common.ResponseMessage.GET_MY_INFO;
 
 /**
  * created by jg 2021/03/28
@@ -51,7 +56,7 @@ public class UserService {
         }
     }
 
-    public Optional<UserDto> socialIdCheck(String socialId) {
+    public Optional<UserDto> findBySocialId(String socialId) {
         return userMapper.findBySocialId(socialId);
     }
 
@@ -78,7 +83,6 @@ public class UserService {
         userMapper.changePassword(userId, encodePassword);
     }
 
-    // 프로필 정보 GET
     public ProfileResultDto getProfile(Long userId) {
         return userMapper.findProfileByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
@@ -88,7 +92,7 @@ public class UserService {
     @Transactional
     public void updateProfile(ProfileDto profileDto, Long userId) {
         int change = userMapper.updateProfile(profileDto, userId);
-        if (change == 0) { // 닉네임 중복인 경우
+        if (change == 0) {
             throw new NickNameDuplicatedException();
         }
     }
@@ -110,7 +114,6 @@ public class UserService {
         return userInfo;
     }
 
-    // 마이페이지 get
     @Transactional(readOnly = true)
     public UserInfoDto getUserInfo(Long userId) {
         ProfileResultDto profileResult = userMapper.findProfileByUserId(userId)
