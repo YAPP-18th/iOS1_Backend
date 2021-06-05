@@ -3,11 +3,11 @@ package com.yapp.ios1.controller.dto.bucket;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,9 +32,13 @@ public class BucketRequestDto {
     @Min(value = 2, message = NOT_VALID_CATEGORY_ID)
     @Max(value = 10, message = NOT_VALID_CATEGORY_ID)
     private int categoryId;
+    @NotNull
     private LocalDate endDate;
+    @NotNull
     private String content;
+    @NotNull
     private List<String> imageList;
+    @NotNull
     private List<String> tagList;
 
     public void setUserId(Long userId) {

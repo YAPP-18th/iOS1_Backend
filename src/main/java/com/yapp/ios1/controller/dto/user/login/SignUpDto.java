@@ -1,7 +1,6 @@
 package com.yapp.ios1.controller.dto.user.login;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.yapp.ios1.dto.user.social.SocialType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class SignUpDto {
     @Email(message = NOT_VALID_EMAIL)
     private String email;
     @JsonIgnore
-    private SocialType socialType;
+    private String socialType;
     @NotBlank
     private String password;
     @NotBlank

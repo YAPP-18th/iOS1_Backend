@@ -53,8 +53,8 @@ public class UserService {
         }
     }
 
-    public Optional<UserDto> findBySocialId(String socialId) {
-        return userMapper.findBySocialId(socialId);
+    public Optional<UserDto> findBySocialIdAndSocialType(String socialId, String socialType) {
+        return userMapper.findBySocialIdAndSocialType(socialId, socialType);
     }
 
     @Transactional

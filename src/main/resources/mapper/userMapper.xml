@@ -26,10 +26,11 @@
         WHERE nickname = #{nickname};
     </select>
 
-    <select id="findBySocialId" resultType="UserDto">
+    <select id="findBySocialIdAndSocialType" resultType="UserDto">
         SELECT *
         FROM user
-        WHERE social_id = #{socialId};
+        WHERE social_id = #{socialId}
+          AND social_type = #{socialType};
     </select>
 
     <select id="findProfileByUserId" resultType="ProfileResultDto">
