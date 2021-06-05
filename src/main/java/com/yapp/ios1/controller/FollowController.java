@@ -53,16 +53,11 @@ public class FollowController {
 
     @ApiOperation(value = "친구 리스트")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "친구 목록 존재하는 경우"),
-            @ApiResponse(code = 404, message = "친구 목록 존재하지 않는 경우"),
+            @ApiResponse(code = 200, message = "친구 목록 존재하는 경우")
     })
     @GetMapping("/users/{userId}/friends")
     public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
         List<FriendDto> friendList = followService.getFriendList(userId);
-        // TODO 꼭 이렇게 나눠야 하는지 의문
-        if (friendList.size() == 0) {
-            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NO_FRIEND_LIST));
-        }
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
 }
