@@ -50,8 +50,7 @@ public class EmailService {
         sb.append("그럼, 계속 저희와 함께 미래 계획을 세워나가 볼까요?");
         return sb.toString();
     }
-
-    // TODO 리팩터링
+    ㄹ
     // 인증코드 생성
     private String createKey() {
         StringBuilder key = new StringBuilder();
@@ -76,8 +75,7 @@ public class EmailService {
         return key.toString();
     }
 
-    // TODO 매개변수 이름 변경
-    public void sendSimpleMessage(String email) {
+    public void sendEmailMessage(String email) {
         try {
             String code = createKey();
             redisUtil.setDataExpire(code, email, emailProperties.getValidTime());
@@ -88,7 +86,6 @@ public class EmailService {
         }
     }
 
-    // TODO 리팩터링
     public Long verifyCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {

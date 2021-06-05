@@ -42,7 +42,7 @@ public class EmailController {
     @PostMapping("/send")
     public ResponseEntity<ResponseDto> emailAuth(@RequestBody @Valid EmailDto email) {
         userService.emailCheck(email.getEmail());
-        emailService.sendSimpleMessage(email.getEmail());
+        emailService.sendEmailMessage(email.getEmail());
 
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));
     }

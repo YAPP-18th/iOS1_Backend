@@ -78,7 +78,6 @@ public class UserService {
         userMapper.changePassword(userId, encodePassword);
     }
 
-    // 프로필 정보 GET
     public ProfileResultDto getProfile(Long userId) {
         return userMapper.findProfileByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
@@ -88,7 +87,7 @@ public class UserService {
     @Transactional
     public void updateProfile(ProfileDto profileDto, Long userId) {
         int change = userMapper.updateProfile(profileDto, userId);
-        if (change == 0) { // 닉네임 중복인 경우
+        if (change == 0) {
             throw new NickNameDuplicatedException();
         }
     }

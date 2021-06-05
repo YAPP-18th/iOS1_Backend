@@ -22,7 +22,7 @@ public class BucketService {
 
     private final BucketMapper bucketMapper;
 
-    public BucketResultDto homeBucketList(int bucketState, int category, Long userId, int sort) {
+    public BucketResultDto getHomeBucketList(int bucketState, int category, Long userId, int sort) {
         List<BucketDto> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
         return new BucketResultDto(
                 buckets,
