@@ -34,7 +34,6 @@ public class FollowController {
     @PostMapping("/request/{friendId}")
     public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
         Long myUserId = UserContext.getCurrentUserId();
-
         followService.followRequest(myUserId, friendId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_REQUEST));
     }

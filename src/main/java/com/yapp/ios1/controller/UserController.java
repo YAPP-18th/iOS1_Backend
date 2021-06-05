@@ -128,9 +128,6 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<ResponseDto> getUserInfo(@PathVariable Long userId) {
         Long currentUserId = UserContext.getCurrentUserId();
-        if (currentUserId.equals(userId)) {
-            return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
-        }
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
     }
 }

@@ -43,7 +43,6 @@ public class EmailController {
     public ResponseEntity<ResponseDto> sendEmail(@RequestBody @Valid EmailDto email) {
         userService.emailCheck(email.getEmail());
         emailService.sendEmailMessage(email.getEmail());
-
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));
     }
 
