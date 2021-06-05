@@ -35,11 +35,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final FollowMapper followMapper;
 
-    /**
-     * 이메일 존재하는지 확인
-     *
-     * @param email 이메일
-     */
     public Optional<UserDto> emailCheck(String email) {
         Optional<UserDto> user = userMapper.findByEmail(email);
         if (user.isPresent()) {
@@ -49,11 +44,6 @@ public class UserService {
         return user;
     }
 
-    /**
-     * 닉네임 존재하는지 확인
-     *
-     * @param nickname 닉네임
-     */
     public void nicknameCheck(String nickname) {
         Optional<UserDto> user = userMapper.findByNickname(nickname);
         if (user.isPresent()) {
@@ -61,20 +51,10 @@ public class UserService {
         }
     }
 
-        /**
-     * 소셜 ID 존재하는지 확인
-     *
-     * @param socialId 소셜 아이디
-     */
     public Optional<UserDto> socialIdCheck(String socialId) {
         return userMapper.findBySocialId(socialId);
     }
 
-    /**
-     * 회원가입
-     *
-     * @param userDto 회원가입 정보
-     */
     @Transactional
     public Long signUp(UserDto userDto) {
         userDto.encodePassword(passwordEncoder.encode(userDto.getPassword()));
@@ -82,12 +62,6 @@ public class UserService {
         return userDto.getId();
     }
 
-    /**
-     * 이메일, 비밀번호 확인
-     *
-     * @param signInDto 로그인 정보
-     * @return UserDto 비밀번호 확인까지 완료한 UserDto
-     */
     public UserDto getUser(SignInDto signInDto) {
         UserDto user = userMapper.findByEmail(signInDto.getEmail())
                 .orElseThrow(UserNotFoundException::new);
@@ -139,7 +113,6 @@ public class UserService {
     // 마이페이지 get
     @Transactional(readOnly = true)
     public UserInfoDto getUserInfo(Long userId) {
-        // 프로필 정보
         ProfileResultDto profileResult = userMapper.findProfileByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
 
@@ -147,7 +120,7 @@ public class UserService {
         int friendCount = followMapper.getFollowCountByUserId(userId);
         int bucketCount = bucketService.getBucketCountByUserId(userId);
 
-        // 북마크 수, 북마크
+        // 북마크 수
         List<BookmarkDto> bookmarkList = bucketService.getBookmarkList(userId);
 
         return UserInfoDto.builder()
