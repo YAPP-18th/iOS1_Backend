@@ -79,4 +79,10 @@
         SELECT device_token
         FROM user
     </select>
+
+    <delete id="deleteUser">
+        DELETE
+        FROM user
+        WHERE id = #{userId};
+    </delete>
 </mapper>

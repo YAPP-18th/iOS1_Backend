@@ -34,4 +34,6 @@ public interface UserMapper {
     String findDeviceTokenByUserId(Long userId);
 
     List<String> findAllUserDeviceToken();
+
+    void deleteUser(Long userId);
 }

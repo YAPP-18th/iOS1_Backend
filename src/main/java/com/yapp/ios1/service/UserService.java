@@ -37,13 +37,11 @@ public class UserService {
     private final FollowMapper followMapper;
     private final JwtService jwtService;
 
-    public Optional<UserDto> emailCheck(String email) {
+    public void emailCheck(String email) {
         Optional<UserDto> user = userMapper.findByEmail(email);
         if (user.isPresent()) {
             throw new EmailDuplicatedException();
         }
-
-        return user;
     }
 
     public void nicknameCheck(String nickname) {
@@ -129,5 +127,10 @@ public class UserService {
                 .bucketCount(bucketCount)
                 .bookmark(new BookmarkResultDto(bookmarkList, bookmarkList.size()))
                 .build();
+    }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        userMapper.deleteUser(userId);
     }
 }
