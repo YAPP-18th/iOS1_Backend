@@ -56,7 +56,7 @@ public class UserService {
         }
     }
 
-    public Optional<UserDto> socialIdCheck(String socialId) {
+    public Optional<UserDto> findBySocialId(String socialId) {
         return userMapper.findBySocialId(socialId);
     }
 

@@ -77,7 +77,7 @@ public class OauthService {
         String email = profile.get("email").textValue();
 
         Optional<UserDto> userDto = userService.emailCheck(email);
-        if (userDto.isEmpty()) { // 회원가입 처리
+        if (userDto.isEmpty()) {
             return socialSignUp(email, profile.get("sub").textValue());
         }
         return new UserCheckDto(HttpStatus.OK, userDto.get().getId());
@@ -98,12 +98,12 @@ public class OauthService {
         userService.emailCheck(email);
 
         String socialId = jwtService.getSubject(identityToken);
-        Optional<UserDto> optionalUser = userService.socialIdCheck(socialId);
+        Optional<UserDto> optionalUser = userService.findBySocialId(socialId);
 
         if (optionalUser.isEmpty()) {
             return socialSignUp(email, socialId);
         }
-        return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId()); // 로그인
+        return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId());
     }
 
     private UserCheckDto socialSignUp(String email, String socialId) {
@@ -113,6 +113,6 @@ public class OauthService {
                 .password(socialLoginProperties.getKey())
                 .socialId(socialId)
                 .build();
-        return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto))); // 회원가입
+        return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
     }
 }
