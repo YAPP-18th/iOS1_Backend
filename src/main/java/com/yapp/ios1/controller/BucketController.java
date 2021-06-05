@@ -45,7 +45,7 @@ public class BucketController {
     }
 
     /**
-     * @param bucket    버킷 등록 정보
+     * @param bucket  버킷 등록 정보
      */
     @ApiOperation(value = "버킷 등록")
     @Auth

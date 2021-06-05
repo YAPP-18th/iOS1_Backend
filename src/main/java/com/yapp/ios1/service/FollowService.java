@@ -20,7 +20,6 @@ import static com.yapp.ios1.utils.follow.FriendStatus.REQUEST;
 /**
  * created by jg 2021/05/21
  */
-// TODO 전체 리팩터링...
 @RequiredArgsConstructor
 @Service
 public class FollowService {
@@ -30,11 +29,7 @@ public class FollowService {
     private final AlarmMapper alarmMapper;
     private final UserMapper userMapper;
 
-    /**
-     * 팔로우 신청, 알람 로그 저장, 알람 보내기
-     * @param myUserId
-     * @param friendId
-     */
+    // 팔로우 신청, 알람 로그 저장, 알람 보내기
     @Transactional
     public void followRequest(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE.getMessage(), FOLLOW_REQUEST_MESSAGE.getMessage());
@@ -71,11 +66,6 @@ public class FollowService {
         followNotAccept(myUserId, alarmId);
     }
 
-    /**
-     * 친구 요청 승낙
-     * @param myUserId
-     * @param friendId
-     */
     private void followAccept(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE.getMessage(), FOLLOW_ACCEPT_MESSAGE.getMessage());
         // 친구 요청 수락
@@ -84,11 +74,6 @@ public class FollowService {
         sendFollowAlarmRequest(notificationForOne);  // 요청 보낸 사람에게 알람 보내기
     }
 
-    /**
-     * 친구 요청 거절
-     * @param myUserId
-     * @param alarmId
-     */
     private void followNotAccept(Long myUserId, Long alarmId) {
         alarmMapper.deleteAlarmLog(myUserId, alarmId);
     }
