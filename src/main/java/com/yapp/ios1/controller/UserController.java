@@ -66,10 +66,7 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId())));
     }
 
-    @ApiOperation(
-            value = "비밀번호 재설정",
-            notes = "요청 헤더에 토큰, 요청 바디에 비밀번호 전달"
-    )
+    @ApiOperation(value = "비밀번호 재설정")
     @Auth
     @PutMapping("/password")
     public ResponseEntity<ResponseDto> changePassword(@RequestBody PasswordDto passwordDto) {
