@@ -18,7 +18,7 @@ public interface FollowMapper {
 
     List<FriendDto> getFollowListByUserId(Long userId);
 
-    Optional<Long> isFriendByCurrentUserIdAndUserId(Long currentUserId, Long userId);
+    int isFriendByMyUserIdAndOtherUserId(Long myUserId, Long otherUserId);
 
     void followRequest(@Param("myUserId") Long myUserId,
                        @Param("friendId") Long friendId,

@@ -16,10 +16,12 @@
         WHERE following_id = #{userId};
     </select>
 
-    <select id="isFriendByCurrentUserIdAndUserId" resultType="Long">
-        SELECT id
+    <select id="isFriendByMyUserIdAndOtherUserId" resultType="int">
+        SELECT COUNT(id)
         FROM follow
-        WHERE following_id = #{currentUserId} AND follower_id = #{userId};
+        WHERE ((following_id = #{myUserId} AND follower_id = #{otherUserId}) OR
+               (following_id = #{otherUserId} AND follower_id = #{myUserId}))
+          AND friend_status = 2;
     </select>
 
     <insert id="followRequest">
