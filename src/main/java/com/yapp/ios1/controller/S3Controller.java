@@ -38,7 +38,7 @@ public class S3Controller {
     @PostMapping("/images")
     public ResponseEntity<ResponseDto> registerBucketImageList(@RequestParam(value = "image") MultipartFile[] imageList) {
         if (imageList == null) {
-            ResponseEntity.ok(ResponseDto.of(HttpStatus.BAD_REQUEST, NOT_EXIST_IMAGE));
+            return ResponseEntity.ok(ResponseDto.of(HttpStatus.BAD_REQUEST, NOT_EXIST_IMAGE));
         }
 
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPLOAD_IMAGE_SUCCESS, s3Service.upload(imageList)));
