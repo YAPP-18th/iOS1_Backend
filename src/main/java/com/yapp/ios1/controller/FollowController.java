@@ -50,9 +50,6 @@ public class FollowController {
     }
 
     @ApiOperation(value = "친구 리스트")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "친구 목록 존재하는 경우")
-    })
     @GetMapping("/users/{userId}/friends")
     public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
         List<FriendDto> friendList = followService.getFriendList(userId);

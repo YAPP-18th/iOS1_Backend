@@ -1,5 +1,6 @@
 package com.yapp.ios1.mapper;
 
+import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

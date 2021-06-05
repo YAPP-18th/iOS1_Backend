@@ -2,8 +2,8 @@ package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
-import com.yapp.ios1.dto.user.check.EmailCodeDto;
-import com.yapp.ios1.dto.user.check.EmailDto;
+import com.yapp.ios1.controller.dto.email.EmailCodeDto;
+import com.yapp.ios1.controller.dto.email.EmailDto;
 import com.yapp.ios1.service.EmailService;
 import com.yapp.ios1.service.JwtIssueService;
 import com.yapp.ios1.service.UserService;
@@ -35,10 +35,7 @@ public class EmailController {
     private final EmailService emailService;
     private final JwtIssueService jwtIssueService;
 
-    @ApiOperation(
-            value = "이메일 인증 코드 전송",
-            notes = "입력한 이메일로 인증 코드를 전송합니다."
-    )
+    @ApiOperation(value = "이메일 인증 코드 전송")
     @PostMapping("/send")
     public ResponseEntity<ResponseDto> sendEmail(@RequestBody @Valid EmailDto email) {
         userService.emailCheck(email.getEmail());
@@ -46,10 +43,7 @@ public class EmailController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));
     }
 
-    @ApiOperation(
-            value = "인증 코드 검증",
-            notes = "인증 성공 시, 토큰을 전달합니다."
-    )
+    @ApiOperation(value = "인증 코드 검증")
     @PostMapping("/verify")
     public ResponseEntity<ResponseDto> verifyCode(@RequestBody EmailCodeDto code) {
         Long userId = emailService.verifyCode(code.getCode());

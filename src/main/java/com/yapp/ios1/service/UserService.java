@@ -6,7 +6,7 @@ import com.yapp.ios1.dto.jwt.TokenResponseDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.login.SignInDto;
+import com.yapp.ios1.controller.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
 import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.error.exception.user.NickNameDuplicatedException;
