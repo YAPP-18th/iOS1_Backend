@@ -44,8 +44,7 @@ public class FollowService {
     }
 
     private NotificationForOneDto makeSendAlarmMessage(Long friendId, String title, String message) {
-        // TODO Redis 에서 꺼내오는 걸로 고도화 예정 (1L 는 임시)
-        String deviceToken = userMapper.findDeviceTokenByUserId(1L);
+        String deviceToken = userMapper.findDeviceTokenByUserId(friendId);
         return NotificationForOneDto.builder()
                 .title(title)
                 .message(message)

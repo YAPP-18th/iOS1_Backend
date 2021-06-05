@@ -59,6 +59,7 @@ public class FollowController {
     @GetMapping("/users/{userId}/friends")
     public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
         List<FriendDto> friendList = followService.getFriendList(userId);
+        // TODO 꼭 이렇게 나눠야 하는지 의문
         if (friendList.size() == 0) {
             return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NO_FRIEND_LIST));
         }
