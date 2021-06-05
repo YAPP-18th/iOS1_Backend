@@ -71,20 +71,6 @@ public class UserService {
     }
 
     /**
-     * 이메일 or 닉네임 중복 확인
-     *
-     * @param email    이메일
-     * @param nickname 닉네임
-     */
-    public void signUpCheck(String email, String nickname) {
-        Optional<UserDto> user = userMapper.findByEmailOrNickname(email, nickname);
-        // TODO 마찬가지로 해야 하는지에 대한 의논
-        if (user.isPresent()) {
-            throw new EmailDuplicatedException();
-        }
-    }
-
-    /**
      * 회원가입
      *
      * @param userDto 회원가입 정보

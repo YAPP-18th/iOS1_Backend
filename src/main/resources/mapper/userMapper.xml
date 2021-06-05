@@ -20,12 +20,6 @@
         WHERE email = #{email};
     </select>
 
-    <select id="findByEmailOrNickname" resultType="UserDto">
-        SELECT *
-        FROM user
-        WHERE email = #{email} OR nickname = #{nickname} LIMIT 1;
-    </select>
-
     <select id="findByNickname" resultType="UserDto">
         SELECT *
         FROM user
