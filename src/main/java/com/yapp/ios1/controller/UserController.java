@@ -56,10 +56,7 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId)));
     }
 
-    @ApiOperation(
-            value = "로그인",
-            notes = "로그인 성공 시, accessToken과 refreshToken을 발급합니다."
-    )
+    @ApiOperation(value = "로그인")
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
         UserDto userDto = userService.getUser(signInDto);

@@ -70,10 +70,7 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
     }
 
-    @ApiOperation(
-            value = "버킷 완료",
-            notes = "버킷 완료 버튼 클릭할 경우 호출"
-    )
+    @ApiOperation(value = "버킷 완료")
     @Auth
     @PutMapping("/{bucketId}/complete")
     public ResponseEntity<ResponseDto> completeBucket(@PathVariable Long bucketId) {
@@ -81,10 +78,7 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
     }
 
-    @ApiOperation(
-            value = "북마크 설정",
-            notes = "북마크 설정 / 해제 합니다."
-    )
+    @ApiOperation(value = "북마크 설정 or 해제")
     @Auth
     @PutMapping("/{bucketId}/bookmark")
     public ResponseEntity<ResponseDto> setBookmark(@PathVariable("bucketId") Long bucketId, @RequestParam("state") boolean isBookmark) {
