@@ -19,8 +19,6 @@ import java.util.UUID;
 
 /**
  * created by ayoung 2021/03/29
- *
- * S3 업로드
  */
 @Slf4j
 @RequiredArgsConstructor

@@ -72,19 +72,17 @@ public class OauthService {
         }
     }
 
-    // 구글 로그인
     private UserCheckDto getGoogleUser(String accessToken) {
         JsonNode profile = getProfile(accessToken, socialLoginProperties.getHost().getGoogle());
         String email = profile.get("email").textValue();
 
         Optional<UserDto> userDto = userService.emailCheck(email);
-        if (userDto.isEmpty()) { // 회원가입 처리
+        if (userDto.isEmpty()) {
             return socialSignUp(email, profile.get("sub").textValue());
         }
         return new UserCheckDto(HttpStatus.OK, userDto.get().getId());
     }
 
-    // 카카오 로그인
     private UserCheckDto getKakaoUser(String accessToken) {
         JsonNode profile = getProfile(accessToken, socialLoginProperties.getHost().getKakao());
         String email = profile.get("kakao_account").get("email").textValue();
@@ -96,18 +94,16 @@ public class OauthService {
         return new UserCheckDto(HttpStatus.OK, userDto.get().getId());
     }
 
-    // 애플 로그인
     public UserCheckDto getAppleUser(String identityToken, String email) {
-        // 이메일 중복 체크
         userService.emailCheck(email);
 
         String socialId = jwtService.getSubject(identityToken);
-        Optional<UserDto> optionalUser = userService.socialIdCheck(socialId);
+        Optional<UserDto> optionalUser = userService.findBySocialId(socialId);
 
         if (optionalUser.isEmpty()) {
             return socialSignUp(email, socialId);
         }
-        return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId()); // 로그인
+        return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId());
     }
 
     private UserCheckDto socialSignUp(String email, String socialId) {
@@ -117,7 +113,6 @@ public class OauthService {
                 .password(socialLoginProperties.getKey())
                 .socialId(socialId)
                 .build();
-        // TODO 리팩터링
-        return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto))); // 회원가입
+        return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
     }
 }

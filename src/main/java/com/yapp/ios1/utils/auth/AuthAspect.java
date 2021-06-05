@@ -1,6 +1,5 @@
 package com.yapp.ios1.utils.auth;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.error.exception.jwt.JwtException;

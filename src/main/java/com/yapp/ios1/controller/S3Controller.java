@@ -41,8 +41,6 @@ public class S3Controller {
         if (imageList == null) {
             return ResponseEntity.ok(ResponseDto.of(HttpStatus.BAD_REQUEST, NOT_EXIST_IMAGE));
         }
-
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPLOAD_IMAGE_SUCCESS, s3Service.upload(imageList, UserContext.getCurrentUserId())));
     }
-
 }

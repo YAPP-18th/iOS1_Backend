@@ -22,7 +22,7 @@ public class BucketService {
 
     private final BucketMapper bucketMapper;
 
-    public BucketResultDto homeBucketList(int bucketState, int category, Long userId, int sort) {
+    public BucketResultDto getHomeBucketList(int bucketState, int category, Long userId, int sort) {
         List<BucketDto> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
         return new BucketResultDto(
                 buckets,
@@ -34,8 +34,7 @@ public class BucketService {
         return bucketMapper.findByUserId(userId);
     }
 
-    // 버킷 등록
-    @Transactional  // GOOD
+    @Transactional
     public void registerBucket(BucketRequestDto registerDto) throws IllegalArgumentException {
         bucketMapper.registerBucket(registerDto); // bucket 저장
 
@@ -45,7 +44,6 @@ public class BucketService {
     }
 
     // 버킷 수정
-    // TODO 리팩터링 (복잡할 수 밖에 없는 API 지만 수정 해보기)
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
         BucketCompareDto bucketDto = bucketMapper.findByBucketId(bucketId)
@@ -90,14 +88,12 @@ public class BucketService {
         }
     }
 
-    // TODO: 메소드 네이밍 변경
     public void completeBucket(Long bucketId, Long userId) {
         checkValidBucket(bucketId, userId);
         bucketMapper.completeBucket(bucketId, userId);
     }
 
     // 태그 수정
-    // TODO 리팩터링 (제거 했다 계속 다시 INSERT 하는건 좋지 않아 보임)
     private void updateTag(Long bucketId, List<String> tagList) {
         // 태그 제거
         bucketMapper.deleteTagListByBucketId(bucketId);
@@ -125,17 +121,11 @@ public class BucketService {
         return bucketMapper.findBookmarkListByUserId(userId);
     }
 
-    /**
-     * 버킷 수 가져오기
-     *
-     * @param userId 사용자 id
-     */
     public int getBucketCountByUserId(Long userId) {
         return bucketMapper.getBucketCountByUserId(userId);
     }
 
     // 북마크 추가
-    // TODO 리팩터링
     public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
         checkValidBucket(bucketId, userId);
         bucketMapper.setBookmark(bucketId, isBookmark);

@@ -36,16 +36,16 @@ public class BucketController {
     @ApiOperation(value = "홈 화면 전체 조회")
     @Auth
     @GetMapping("")
-    public ResponseEntity<ResponseDto> home(@RequestParam("state") int bucketState,
-                                            @RequestParam("category") int category,
-                                            @RequestParam("sort") int sort) {
+    public ResponseEntity<ResponseDto> homeBucket(@RequestParam("state") int bucketState,
+                                                  @RequestParam("category") int category,
+                                                  @RequestParam("sort") int sort) {
         Long userId = UserContext.getCurrentUserId();
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_LIST,
-                bucketService.homeBucketList(bucketState, category, userId, sort)));
+                bucketService.getHomeBucketList(bucketState, category, userId, sort)));
     }
 
     /**
-     * @param bucket    버킷 등록 정보
+     * @param bucket  버킷 등록 정보
      */
     @ApiOperation(value = "버킷 등록")
     @Auth
@@ -74,7 +74,6 @@ public class BucketController {
     @Auth
     @PutMapping("/{bucketId}/complete")
     public ResponseEntity<ResponseDto> completeBucket(@PathVariable Long bucketId) {
-
         bucketService.completeBucket(bucketId, UserContext.getCurrentUserId());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
     }
