@@ -1,4 +1,4 @@
-package com.yapp.ios1.dto.bucket;
+package com.yapp.ios1.controller.dto.bucket;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;

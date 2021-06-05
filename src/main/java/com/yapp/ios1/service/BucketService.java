@@ -1,5 +1,6 @@
 package com.yapp.ios1.service;
 
+import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.error.exception.user.UserAuthenticationException;
@@ -28,6 +29,10 @@ public class BucketService {
                 buckets,
                 buckets.size()
         );
+    }
+
+    public void getBucketOne(Long userId, Long bucketId) {
+
     }
 
     public List<BucketDto> getUserBucketList(Long userId) {

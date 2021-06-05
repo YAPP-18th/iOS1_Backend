@@ -1,10 +1,7 @@
 package com.yapp.ios1.dto;
 
-import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.login.social.SocialType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

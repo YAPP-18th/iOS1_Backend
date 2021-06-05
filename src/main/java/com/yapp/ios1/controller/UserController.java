@@ -3,9 +3,9 @@ package com.yapp.ios1.controller;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.login.PasswordDto;
-import com.yapp.ios1.dto.user.login.SignInDto;
-import com.yapp.ios1.dto.user.login.SignUpDto;
+import com.yapp.ios1.controller.dto.user.login.PasswordDto;
+import com.yapp.ios1.controller.dto.user.login.SignInDto;
+import com.yapp.ios1.controller.dto.user.login.SignUpDto;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
@@ -35,11 +35,6 @@ public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
 
-    /**
-     * 이메일 중복 체크
-     *
-     * @param email 이메일
-     */
     @ApiOperation(value = "이메일 존재 여부")
     @GetMapping("/email-check")
     public ResponseEntity<ResponseDto> emailCheck(@RequestParam String email) {
@@ -47,11 +42,6 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_EMAIL));
     }
 
-    /**
-     * 닉네임 중복 확인
-     *
-     * @param nickname 닉네임
-     */
     @ApiOperation(value = "닉네임 존재 여부")
     @GetMapping("/nickname-check")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickname) {
@@ -59,36 +49,20 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_NICKNAME));
     }
 
-    /**
-     * 회원가입
-     *
-     * @param signUpDto 회원가입 정보
-     */
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, userService.signUp(UserDto.of(signUpDto))));
     }
 
-    /**
-     * 로그인
-     *
-     * @param signInDto 로그인 정보
-     */
-    @ApiOperation(
-            value = "로그인",
-            notes = "로그인 성공 시, accessToken과 refreshToken을 발급합니다."
-    )
+    @ApiOperation(value = "로그인")
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
         UserDto userDto = userService.getUser(signInDto);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId())));
     }
 
-    @ApiOperation(
-            value = "비밀번호 재설정",
-            notes = "요청 헤더에 토큰, 요청 바디에 비밀번호 전달"
-    )
+    @ApiOperation(value = "비밀번호 재설정")
     @Auth
     @PutMapping("/password")
     public ResponseEntity<ResponseDto> changePassword(@RequestBody PasswordDto passwordDto) {

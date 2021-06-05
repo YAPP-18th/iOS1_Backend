@@ -1,7 +1,7 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.bucket.BucketRequestDto;
+import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.service.BucketService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
@@ -44,9 +44,15 @@ public class BucketController {
                 bucketService.getHomeBucketList(bucketState, category, userId, sort)));
     }
 
-    /**
-     * @param bucket  버킷 등록 정보
-     */
+    @ApiOperation(value = "버킷 상세 조회")
+    @Auth
+    @GetMapping("/{bucketId}")
+    public ResponseEntity<ResponseDto> bucketOne(@PathVariable Long bucketId) {
+        Long userId = UserContext.getCurrentUserId();
+        bucketService.getBucketOne(userId, bucketId);
+        return null;
+    }
+
     @ApiOperation(value = "버킷 등록")
     @Auth
     @PostMapping("")
@@ -56,9 +62,6 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, REGISTER_BUCKET_SUCCESS));
     }
 
-    /**
-     * 버킷 업데이트
-     */
     @ApiOperation(value = "버킷 수정")
     @Auth
     @PutMapping("/{bucketId}")
@@ -67,10 +70,7 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
     }
 
-    @ApiOperation(
-            value = "버킷 완료",
-            notes = "버킷 완료 버튼 클릭할 경우 호출"
-    )
+    @ApiOperation(value = "버킷 완료")
     @Auth
     @PutMapping("/{bucketId}/complete")
     public ResponseEntity<ResponseDto> completeBucket(@PathVariable Long bucketId) {
@@ -78,10 +78,7 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
     }
 
-    @ApiOperation(
-            value = "북마크 설정",
-            notes = "북마크 설정 / 해제 합니다."
-    )
+    @ApiOperation(value = "북마크 설정 or 해제")
     @Auth
     @PutMapping("/{bucketId}/bookmark")
     public ResponseEntity<ResponseDto> setBookmark(@PathVariable("bucketId") Long bucketId, @RequestParam("state") boolean isBookmark) {

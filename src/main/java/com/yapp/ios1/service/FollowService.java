@@ -16,7 +16,6 @@ import static com.yapp.ios1.utils.follow.FollowNotification.*;
 import static com.yapp.ios1.utils.follow.FriendStatus.FRIEND;
 import static com.yapp.ios1.utils.follow.FriendStatus.REQUEST;
 
-
 /**
  * created by jg 2021/05/21
  */
