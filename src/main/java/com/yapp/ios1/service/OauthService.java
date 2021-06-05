@@ -13,6 +13,7 @@ import com.yapp.ios1.properties.SocialLoginProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,6 +34,7 @@ public class OauthService {
     private final ObjectMapper objectMapper;
     private final SocialLoginProperties socialLoginProperties;
 
+    @Transactional
     public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) {
         switch (socialType.toUpperCase()) {
             case "GOOGLE":
@@ -80,7 +82,7 @@ public class OauthService {
         if (userDto.isEmpty()) {
             return socialSignUp(email, profile.get("sub").textValue());
         }
-        return new UserCheckDto(HttpStatus.OK, userDto.get().getId());
+        return new UserCheckDto(HttpStatus.OK, jwtService.createTokenResponse(userDto.get().getId()));
     }
 
     private UserCheckDto getKakaoUser(String accessToken) {
@@ -91,7 +93,7 @@ public class OauthService {
         if (userDto.isEmpty()) {
             return socialSignUp(email, profile.get("id").toString());
         }
-        return new UserCheckDto(HttpStatus.OK, userDto.get().getId());
+        return new UserCheckDto(HttpStatus.OK, jwtService.createTokenResponse(userDto.get().getId()));
     }
 
     public UserCheckDto getAppleUser(String identityToken, String email) {
@@ -103,7 +105,7 @@ public class OauthService {
         if (optionalUser.isEmpty()) {
             return socialSignUp(email, socialId);
         }
-        return new UserCheckDto(HttpStatus.OK, optionalUser.get().getId());
+        return new UserCheckDto(HttpStatus.OK, jwtService.createTokenResponse(optionalUser.get().getId()));
     }
 
     private UserCheckDto socialSignUp(String email, String socialId) {

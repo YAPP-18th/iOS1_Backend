@@ -1,8 +1,8 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.bucket.BookmarkDto;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
+import com.yapp.ios1.dto.jwt.TokenResponseDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
@@ -16,16 +16,12 @@ import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
-import static com.yapp.ios1.common.ResponseMessage.GET_MY_INFO;
 
 /**
  * created by jg 2021/03/28
@@ -39,6 +35,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final FollowMapper followMapper;
+    private final JwtService jwtService;
 
     public Optional<UserDto> emailCheck(String email) {
         Optional<UserDto> user = userMapper.findByEmail(email);
@@ -61,10 +58,10 @@ public class UserService {
     }
 
     @Transactional
-    public Long signUp(UserDto userDto) {
+    public TokenResponseDto signUp(UserDto userDto) {
         userDto.encodePassword(passwordEncoder.encode(userDto.getPassword()));
         userMapper.signUp(userDto);
-        return userDto.getId();
+        return jwtService.createTokenResponse(userDto.getId());
     }
 
     public UserDto getUser(SignInDto signInDto) {

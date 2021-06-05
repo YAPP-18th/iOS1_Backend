@@ -67,8 +67,7 @@ public class UserController {
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) {
-        Long userId = userService.signUp(UserDto.of(signUpDto));
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, userService.signUp(UserDto.of(signUpDto))));
     }
 
     /**
