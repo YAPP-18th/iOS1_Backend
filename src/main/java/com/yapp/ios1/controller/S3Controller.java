@@ -28,9 +28,6 @@ public class S3Controller {
 
     private final S3Service s3Service;
 
-    /**
-     * @param imageList 이미지 리스트
-     */
     @ApiOperation(
             value = "이미지 업로드",
             notes = "이미지 url 배열 리턴"

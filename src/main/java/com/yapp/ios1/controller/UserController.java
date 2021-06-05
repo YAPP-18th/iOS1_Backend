@@ -35,11 +35,6 @@ public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
 
-    /**
-     * 이메일 중복 체크
-     *
-     * @param email 이메일
-     */
     @ApiOperation(value = "이메일 존재 여부")
     @GetMapping("/email-check")
     public ResponseEntity<ResponseDto> emailCheck(@RequestParam String email) {
@@ -47,11 +42,6 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_EMAIL));
     }
 
-    /**
-     * 닉네임 중복 확인
-     *
-     * @param nickName 닉네임
-     */
     @ApiOperation(value = "닉네임 존재 여부")
     @GetMapping("/nickname-check")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickName) {
@@ -59,11 +49,6 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_NICKNAME));
     }
 
-    /**
-     * 회원가입
-     *
-     * @param signUpDto 회원가입 정보
-     */
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) {
@@ -71,11 +56,6 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId)));
     }
 
-    /**
-     * 로그인
-     *
-     * @param signInDto 로그인 정보
-     */
     @ApiOperation(
             value = "로그인",
             notes = "로그인 성공 시, accessToken과 refreshToken을 발급합니다."

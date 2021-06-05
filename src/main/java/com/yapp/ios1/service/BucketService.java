@@ -30,6 +30,10 @@ public class BucketService {
         );
     }
 
+    public void getBucketOne(Long userId, Long bucketId) {
+        
+    }
+
     public List<BucketDto> getUserBucketList(Long userId) {
         return bucketMapper.findByUserId(userId);
     }

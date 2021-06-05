@@ -44,9 +44,15 @@ public class BucketController {
                 bucketService.getHomeBucketList(bucketState, category, userId, sort)));
     }
 
-    /**
-     * @param bucket  버킷 등록 정보
-     */
+    @ApiOperation(value = "버킷 하나 조회")
+    @Auth
+    @GetMapping("/{bucketId}")
+    public ResponseEntity<ResponseDto> bucketOne(@PathVariable Long bucketId) {
+        Long userId = UserContext.getCurrentUserId();
+        bucketService.getBucketOne(userId, bucketId);
+        return null;
+    }
+
     @ApiOperation(value = "버킷 등록")
     @Auth
     @PostMapping("")
@@ -56,9 +62,6 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, REGISTER_BUCKET_SUCCESS));
     }
 
-    /**
-     * 버킷 업데이트
-     */
     @ApiOperation(value = "버킷 수정")
     @Auth
     @PutMapping("/{bucketId}")
