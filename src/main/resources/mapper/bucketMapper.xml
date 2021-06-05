@@ -93,12 +93,16 @@
 
     <insert id="saveBucketAndTag">
         INSERT INTO bucket_tag (bucket_id, tag_id)
-        VALUES (#{bucketId}, #{tagId});
+        SELECT  #{bucketId}, t.id
+        FROM tag t
+        WHERE t.tag_name = #{tagName};
     </insert>
 
-    <insert id="saveTag" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveTag">
         INSERT INTO tag (tag_name)
-        VALUES (#{tagName});
+        VALUES (#{tagName}) ON DUPLICATE KEY
+        UPDATE
+            tag_name = #{tagName};
     </insert>
 
     <select id="findBookmarkListByUserId" resultType="BookmarkDto">
