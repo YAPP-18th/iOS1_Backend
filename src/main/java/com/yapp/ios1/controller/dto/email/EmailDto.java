@@ -1,6 +1,5 @@
-package com.yapp.ios1.dto.user.login;
+package com.yapp.ios1.controller.dto.email;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;
@@ -8,12 +7,11 @@ import javax.validation.constraints.Email;
 import static com.yapp.ios1.common.ResponseMessage.NOT_VALID_EMAIL;
 
 /**
- * created by ayoung 2021/04/15
+ * created by ayoung 2021/04/20
  */
-@AllArgsConstructor
 @Getter
-public class SignInDto {
+public class EmailDto {
     @Email(message = NOT_VALID_EMAIL)
     private String email;
-    private String password;
 }
+

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
-import com.yapp.ios1.dto.user.login.SignUpDto;
-import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
+import com.yapp.ios1.controller.dto.user.login.SignUpDto;
+import com.yapp.ios1.controller.dto.user.social.SocialLoginDto;
 import com.yapp.ios1.error.exception.common.JsonWriteException;
 import com.yapp.ios1.error.exception.user.SocialTypeNotFoundException;
 import com.yapp.ios1.properties.SocialLoginProperties;
@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
-import static com.yapp.ios1.dto.user.login.social.SocialType.*;
+import static com.yapp.ios1.dto.user.social.SocialType.*;
 
 /**
  * created by ayoung 2021/05/04

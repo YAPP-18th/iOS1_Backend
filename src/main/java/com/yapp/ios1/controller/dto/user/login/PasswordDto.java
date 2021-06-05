@@ -1,4 +1,4 @@
-package com.yapp.ios1.dto.user.login;
+package com.yapp.ios1.controller.dto.user.login;
 
 import lombok.Getter;
 

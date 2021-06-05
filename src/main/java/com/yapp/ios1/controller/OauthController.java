@@ -2,7 +2,7 @@ package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.check.UserCheckDto;
-import com.yapp.ios1.dto.user.login.social.SocialLoginDto;
+import com.yapp.ios1.controller.dto.user.social.SocialLoginDto;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.OauthService;
 import io.swagger.annotations.Api;

@@ -1,8 +1,8 @@
 package com.yapp.ios1.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.yapp.ios1.dto.user.login.SignUpDto;
-import com.yapp.ios1.dto.user.login.social.SocialType;
+import com.yapp.ios1.controller.dto.user.login.SignUpDto;
+import com.yapp.ios1.dto.user.social.SocialType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

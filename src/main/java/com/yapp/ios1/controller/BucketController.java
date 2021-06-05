@@ -1,7 +1,7 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.bucket.BucketRequestDto;
+import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.service.BucketService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
@@ -44,7 +44,7 @@ public class BucketController {
                 bucketService.getHomeBucketList(bucketState, category, userId, sort)));
     }
 
-    @ApiOperation(value = "버킷 하나 조회")
+    @ApiOperation(value = "버킷 상세 조회")
     @Auth
     @GetMapping("/{bucketId}")
     public ResponseEntity<ResponseDto> bucketOne(@PathVariable Long bucketId) {

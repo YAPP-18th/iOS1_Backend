@@ -2,8 +2,8 @@ package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
-import com.yapp.ios1.dto.user.check.EmailCodeDto;
-import com.yapp.ios1.dto.user.check.EmailDto;
+import com.yapp.ios1.controller.dto.email.EmailCodeDto;
+import com.yapp.ios1.controller.dto.email.EmailDto;
 import com.yapp.ios1.service.EmailService;
 import com.yapp.ios1.service.JwtIssueService;
 import com.yapp.ios1.service.UserService;

@@ -1,4 +1,4 @@
-package com.yapp.ios1.dto.user.check;
+package com.yapp.ios1.controller.dto.email;
 
 import lombok.Getter;
 
