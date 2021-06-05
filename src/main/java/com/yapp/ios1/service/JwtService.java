@@ -6,13 +6,12 @@ import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
-import com.yapp.ios1.error.exception.jwt.JwtExpiredException;
 import com.yapp.ios1.error.exception.jwt.JwtParseException;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.SignatureException;
+import com.yapp.ios1.properties.JwtProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
@@ -28,13 +27,11 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secretKey}")
-    private String SECRET_KEY;
-
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
     private final JwtIssueService jwtIssueService;
+    private final JwtProperties jwtProperties;
 
-    public JwtPayload getPayload(String token) throws JsonProcessingException, SignatureException, ExpiredJwtException, MalformedJwtException, UnsupportedJwtException {
+    public JwtPayload getPayload(String token) throws JsonProcessingException {
         Claims claims = getAllClaimsFromToken(token);
         return objectMapper.readValue(claims.getSubject(), JwtPayload.class);
     }
@@ -59,15 +56,11 @@ public class JwtService {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-        } catch (ExpiredJwtException e) {
-            throw new JwtExpiredException();
-        }
+        return Jwts.parserBuilder()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(jwtProperties.getSecretKey()))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public TokenResponseDto createTokenResponse(Long userId) {
@@ -81,16 +74,5 @@ public class JwtService {
                 .accessExpiredAt(getExpirationDateFromToken(accessToken))
                 .refreshExpiredAt(getExpirationDateFromToken(refreshToken))
                 .build();
-    }
-
-    public TokenResponseDto reissueToken(String refreshToken) {
-        getAllClaimsFromToken(refreshToken); // 만료된 토큰 확인
-        // 토큰에서 userId를 꺼낸다.
-        Long userId = Long.parseLong(getSubject(refreshToken));
-        String token = jwtIssueService.getRefreshTokenByUserId(userId);
-        if (!token.equals(refreshToken)) {
-            throw new JwtExpiredException();
-        }
-        return createTokenResponse(userId);
     }
 }

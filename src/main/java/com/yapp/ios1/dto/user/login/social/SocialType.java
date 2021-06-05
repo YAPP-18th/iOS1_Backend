@@ -6,3 +6,4 @@ package com.yapp.ios1.dto.user.login.social;
 public enum SocialType {
     KAKAO, GOOGLE, APPLE
 }
+

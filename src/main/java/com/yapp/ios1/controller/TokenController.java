@@ -4,6 +4,8 @@ import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.JwtIssueService;
+import com.yapp.ios1.utils.auth.ReAuth;
+import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +36,9 @@ public class TokenController {
     }
 
     @ApiOperation(value = "토큰 재발급")
+    @ReAuth
     @PostMapping("/token/refresh")
-    public ResponseEntity<ResponseDto> reissueToken(@RequestHeader String refreshToken) {
-        ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.reissueToken(refreshToken));
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ResponseDto> reissueToken() {
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(UserContext.getCurrentUserId())));
     }
 }

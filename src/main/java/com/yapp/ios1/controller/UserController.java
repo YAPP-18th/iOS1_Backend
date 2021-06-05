@@ -1,15 +1,11 @@
 package com.yapp.ios1.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.check.EmailDto;
-import com.yapp.ios1.dto.user.check.NicknameCheckDto;
 import com.yapp.ios1.dto.user.login.PasswordDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.login.SignUpDto;
-import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
@@ -23,8 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
-import java.util.Optional;
 
 import static com.yapp.ios1.common.ResponseMessage.*;
 
@@ -42,33 +36,27 @@ public class UserController {
     private final JwtService jwtService;
 
     /**
-     * 이메일 확인
+     * 이메일 중복 체크
      *
-     * @param emailDto 이메일
+     * @param email 이메일
      */
     @ApiOperation(value = "이메일 존재 여부")
-    @PostMapping("/email-check")
-    public ResponseEntity<ResponseDto> emailCheck(@RequestBody @Valid EmailDto emailDto) {
-        Optional<UserDto> user = userService.emailCheck(emailDto.getEmail());
-        if (user.isEmpty()) {
-            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
-        }
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EXIST_USER));
+    @GetMapping("/email-check")
+    public ResponseEntity<ResponseDto> emailCheck(@RequestParam String email) {
+        userService.emailCheck(email);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_EMAIL));
     }
 
     /**
-     * 닉네임 확인
+     * 닉네임 중복 확인
      *
-     * @param nicknameDto 닉네임
+     * @param nickName 닉네임
      */
     @ApiOperation(value = "닉네임 존재 여부")
-    @PostMapping("/nickname-check")
-    public ResponseEntity<ResponseDto> nicknameCheck(@RequestBody NicknameCheckDto nicknameDto) {
-        Optional<UserDto> user = userService.nicknameCheck(nicknameDto.getNickname());
-        if (user.isEmpty()) {
-            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
-        }
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EXIST_USER));
+    @GetMapping("/nickname-check")
+    public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickName) {
+        userService.nicknameCheck(nickName);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_NICKNAME));
     }
 
     /**
@@ -79,14 +67,8 @@ public class UserController {
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) {
-        Optional<UserDto> user = userService.signUpCheck(signUpDto.getEmail(), signUpDto.getNickname());
-        if (user.isPresent()) {
-            throw new EmailDuplicatedException();
-        }
-
         Long userId = userService.signUp(UserDto.of(signUpDto));
-        ResponseDto response = ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId));
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, jwtService.createTokenResponse(userId)));
     }
 
     /**
@@ -101,8 +83,7 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
         UserDto userDto = userService.getUser(signInDto);
-        ResponseDto response = ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId()));
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId())));
     }
 
     @ApiOperation(
@@ -114,8 +95,7 @@ public class UserController {
     public ResponseEntity<ResponseDto> changePassword(@RequestBody PasswordDto passwordDto) {
         Long userId = UserContext.getCurrentUserId();
         userService.changePassword(userId, passwordDto.getPassword());
-        ResponseDto response = ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS));
     }
 
     @ApiOperation(value = "프로필 가져오기")
@@ -123,7 +103,7 @@ public class UserController {
     @GetMapping("")
     public ResponseEntity<ResponseDto> getProfile() {
         Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, GET_PROFILE_SUCCESS, userService.getProfile(userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_PROFILE_SUCCESS, userService.getProfile(userId)));
     }
 
     @ApiOperation(value = "프로필 수정")
@@ -140,7 +120,6 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<ResponseDto> getMyInfo() {
         Long userId = UserContext.getCurrentUserId();
-
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
     }
 
@@ -151,7 +130,6 @@ public class UserController {
         Long currentUserId = UserContext.getCurrentUserId();
         if (currentUserId.equals(userId)) {
             return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userService.getUserInfo(userId)));
-
         }
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
     }

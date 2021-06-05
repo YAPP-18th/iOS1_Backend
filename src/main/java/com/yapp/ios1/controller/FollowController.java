@@ -46,28 +46,17 @@ public class FollowController {
                                                     @PathVariable Long alarmId,
                                                     @RequestParam("accept") boolean isAccept) {
         Long myUserId = UserContext.getCurrentUserId();
-
-        // TODO 리팩터링
-        if (isAccept) {
-            followService.followAccept(myUserId, friendId);
-        } else {
-            followService.followNotAccept(myUserId, alarmId);
-        }
-
+        followService.checkFollowStatus(isAccept, myUserId, friendId, alarmId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_MESSAGE, isAccept));
     }
 
     @ApiOperation(value = "친구 리스트")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "친구 목록 존재하는 경우"),
-            @ApiResponse(code = 404, message = "친구 목록 존재하지 않는 경우"),
+            @ApiResponse(code = 200, message = "친구 목록 존재하는 경우")
     })
     @GetMapping("/users/{userId}/friends")
     public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
         List<FriendDto> friendList = followService.getFriendList(userId);
-        if (friendList.size() == 0) {
-            return ResponseEntity.ok(ResponseDto.of(HttpStatus.NOT_FOUND, NO_FRIEND_LIST));
-        }
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
 }

@@ -15,12 +15,10 @@ public class ResponseMessage {
 
     // Login
     public static final String LOGIN_SUCCESS = "AccessToken, RefreshToken 발급합니다.";
-    public static final String EXIST_USER = "존재하는 회원입니다.";
-    public static final String NOT_EXIST_USER = "존재하지 않는 회원입니다.";
     public static final String SIGN_UP_SUCCESS = "회원가입 성공입니다.";
     public static final String CHANGE_PASSWORD_SUCCESS = "비밀번호 재설정 성공입니다.";
-    public static final String BAD_JWT = "잘못된 JWT 입니다.";
-    public static final String EXPIRED_TOKEN = "만료된 토큰입니다.";
+    public static final String POSSIBLE_NICKNAME = "사용가능한 닉네임 입니다.";
+    public static final String POSSIBLE_EMAIL = "사용가능한 이메일 입니다.";
 
     // User
     public static final String GET_PROFILE_SUCCESS = "프로필 가져오기 성공입니다.";
@@ -51,5 +49,4 @@ public class ResponseMessage {
     public static final String NOT_VALID_CATEGORY_ID = "유효한 카테고리 ID가 아닙니다.";
     public static final String NOT_VALID_STATE = "유효한 버킷 state가 아닙니다.";
     public static final String NOT_VALID_EMAIL = "이메일 형식 제대로 입력해주세요.";
-
 }

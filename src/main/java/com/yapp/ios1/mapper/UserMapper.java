@@ -23,8 +23,6 @@ public interface UserMapper {
 
     Optional<UserDto> findBySocialId(@Param("socialId") String socialId);
 
-    Optional<UserDto> findByEmailOrNickname(@Param("email") String email, @Param("nickname") String nickname);
-
     Optional<ProfileResultDto> findProfileByUserId(@Param("userId") Long userId);
 
     void changePassword(Long userId, String password);
@@ -36,6 +34,4 @@ public interface UserMapper {
     String findDeviceTokenByUserId(Long userId);
 
     List<String> findAllUserDeviceToken();
-
-    Long findUserIdByEmail(String email);
 }

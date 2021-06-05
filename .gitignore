@@ -27,4 +27,7 @@ out/
 !**/src/test/**/out/
 
 application.yml
+application-local.yml
+application-dev.yml
+application-prod.yml
 firebase.json

@@ -86,26 +86,35 @@
     </insert>
 
     <select id="findByTagName" resultType="TagDto">
-        SELECT * FROM tag WHERE tag_name = #{tagName};
+        SELECT *
+        FROM tag
+        WHERE tag_name = #{tagName};
     </select>
 
     <insert id="saveBucketAndTag">
-        INSERT INTO bucket_tag (bucket_id, tag_id) VALUES (#{bucketId}, #{tagId});
+        INSERT INTO bucket_tag (bucket_id, tag_id)
+        VALUES (#{bucketId}, #{tagId});
     </insert>
 
     <insert id="saveTag" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO tag (tag_name) VALUES (#{tagName});
+        INSERT INTO tag (tag_name)
+        VALUES (#{tagName});
     </insert>
 
     <select id="findBookmarkListByUserId" resultType="BookmarkDto">
-        SELECT id, bucket_name as bucketName, category_id as categoryId, end_date as endDate
+        SELECT id,
+               bucket_name as bucketName,
+               category_id as categoryId,
+               end_date as endDate
         FROM bucket
         WHERE user_id = #{userId} AND bookmark = true
         ORDER BY end_date DESC;
     </select>
 
     <select id="getBucketCountByUserId" resultType="int">
-        SELECT count(*) FROM bucket WHERE user_id = #{userId};
+        SELECT count(*)
+        FROM bucket
+        WHERE user_id = #{userId};
     </select>
 
     <delete id="deleteTagListByBucketId">

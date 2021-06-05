@@ -2,11 +2,9 @@ package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
-import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.check.EmailCodeDto;
 import com.yapp.ios1.dto.user.check.EmailDto;
 import com.yapp.ios1.service.EmailService;
-import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.JwtIssueService;
 import com.yapp.ios1.service.UserService;
 import io.swagger.annotations.Api;
@@ -20,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
-import static com.yapp.ios1.common.ResponseMessage.*;
+import static com.yapp.ios1.common.ResponseMessage.EMAIL_AUTH_SUCCESS;
+import static com.yapp.ios1.common.ResponseMessage.EMAIL_SEND_SUCCESS;
 
 /**
  * created by ayoung 2021/05/30
@@ -43,10 +41,7 @@ public class EmailController {
     )
     @PostMapping("/send")
     public ResponseEntity<ResponseDto> emailAuth(@RequestBody @Valid EmailDto email) {
-        Optional<UserDto> user = userService.emailCheck(email.getEmail());
-        if (user.isEmpty()) {
-            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.NOT_FOUND, NOT_EXIST_USER));
-        }
+        userService.emailCheck(email.getEmail());
         emailService.sendSimpleMessage(email.getEmail());
 
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));

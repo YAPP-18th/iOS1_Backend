@@ -1,7 +1,6 @@
 package com.yapp.ios1.dto.user.check;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.Email;
 
@@ -15,3 +14,4 @@ public class EmailDto {
     @Email(message = NOT_VALID_EMAIL)
     private String email;
 }
+

@@ -31,9 +31,13 @@ public enum ErrorCode {
     USER_NOT_AUTHENTICATION(401, "M005", "User is not Authentication"),
     SOCIAL_LOGIN_TOKEN_ERROR(401, "M006", "Social Login is Token Error"),
     SOCIAL_TYPE_NOT_FOUND(400, "M007", "Social Type is not Exist"),
+    PASSWORD_MISMATCH_ERROR(400, "M008", "Password MisMatch Error"),
 
     // Email
-    EMAIL_SEND_ERROR(500, "P001", "Email Send Error");
+    EMAIL_SEND_ERROR(500, "P001", "Email Send Error"),
+
+    // AWS
+    AWS_S3_IO_ERROR(500, "A001", "AWS S3 File IO Error");
 
     private final String code;
     private final String message;

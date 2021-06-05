@@ -35,7 +35,7 @@ public class BucketService {
     }
 
     // 버킷 등록
-    @Transactional
+    @Transactional  // GOOD
     public void registerBucket(BucketRequestDto registerDto) throws IllegalArgumentException {
         bucketMapper.registerBucket(registerDto); // bucket 저장
 
@@ -45,16 +45,11 @@ public class BucketService {
     }
 
     // 버킷 수정
-    // TODO 리팩터링
+    // TODO 리팩터링 (복잡할 수 밖에 없는 API 지만 수정 해보기)
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
-        Optional<BucketCompareDto> optional = bucketMapper.findByBucketId(bucketId);
-
-        if (optional.isEmpty()) {
-            throw new BucketNotFoundException();
-        }
-
-        BucketCompareDto bucketDto = optional.get();
+        BucketCompareDto bucketDto = bucketMapper.findByBucketId(bucketId)
+                .orElseThrow(BucketNotFoundException::new);
 
         if (!bucketDto.getUserId().equals(userId)) {
             throw new UserAuthenticationException();
@@ -79,7 +74,7 @@ public class BucketService {
     }
 
     // 태그 저장
-    // TODO 리팩터링
+    // TODO 리팩터링 (수정 필수)
     private void saveTagList(Long bucketId, List<String> tagList) {
         if (tagList != null) {
             for (String tagName : tagList) {
@@ -102,7 +97,7 @@ public class BucketService {
     }
 
     // 태그 수정
-    // TODO 리팩터링
+    // TODO 리팩터링 (제거 했다 계속 다시 INSERT 하는건 좋지 않아 보임)
     private void updateTag(Long bucketId, List<String> tagList) {
         // 태그 제거
         bucketMapper.deleteTagListByBucketId(bucketId);
@@ -147,17 +142,11 @@ public class BucketService {
     }
 
     private void checkValidBucket(Long bucketId, Long userId) {
-        Optional<BucketCheckDto> optional = bucketMapper.findUserIdByBucketId(bucketId);
-
-        if (optional.isEmpty()) {
-            throw new BucketNotFoundException();
-        }
-
-        BucketCheckDto checkDto = optional.get();
+        BucketCheckDto checkDto = bucketMapper.findUserIdByBucketId(bucketId)
+                .orElseThrow(BucketNotFoundException::new);
 
         if (!checkDto.getUserId().equals(userId)) {
             throw new UserAuthenticationException();
         }
-
     }
 }

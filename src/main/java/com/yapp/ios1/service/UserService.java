@@ -7,6 +7,7 @@ import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
+import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
 import com.yapp.ios1.error.exception.user.NickNameDuplicatedException;
 import com.yapp.ios1.error.exception.user.PasswordNotMatchException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
@@ -20,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
 
 /**
  * created by jg 2021/03/28
@@ -41,7 +41,12 @@ public class UserService {
      * @param email 이메일
      */
     public Optional<UserDto> emailCheck(String email) {
-        return userMapper.findByEmail(email);
+        Optional<UserDto> user = userMapper.findByEmail(email);
+        if (user.isPresent()) {
+            throw new EmailDuplicatedException();
+        }
+
+        return user;
     }
 
     /**
@@ -49,27 +54,20 @@ public class UserService {
      *
      * @param nickname 닉네임
      */
-    public Optional<UserDto> nicknameCheck(String nickname) {
-        return userMapper.findByNickname(nickname);
+    public void nicknameCheck(String nickname) {
+        Optional<UserDto> user = userMapper.findByNickname(nickname);
+        if (user.isPresent()) {
+            throw new NickNameDuplicatedException();
+        }
     }
 
-    /**
+        /**
      * 소셜 ID 존재하는지 확인
      *
      * @param socialId 소셜 아이디
      */
     public Optional<UserDto> socialIdCheck(String socialId) {
         return userMapper.findBySocialId(socialId);
-    }
-
-    /**
-     * 이메일 or 닉네임 중복 확인
-     *
-     * @param email    이메일
-     * @param nickname 닉네임
-     */
-    public Optional<UserDto> signUpCheck(String email, String nickname) {
-        return userMapper.findByEmailOrNickname(email, nickname);
     }
 
     /**
@@ -91,15 +89,13 @@ public class UserService {
      * @return UserDto 비밀번호 확인까지 완료한 UserDto
      */
     public UserDto getUser(SignInDto signInDto) {
-        Optional<UserDto> optional = emailCheck(signInDto.getEmail());
-        if (optional.isEmpty()) {
-            throw new UserNotFoundException();
+        UserDto user = userMapper.findByEmail(signInDto.getEmail())
+                .orElseThrow(UserNotFoundException::new);
+
+        if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
+            throw new PasswordNotMatchException();
         }
-        UserDto user = optional.get();
-        if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
-            return user;
-        }
-        throw new PasswordNotMatchException();
+        return user;
     }
 
     @Transactional
@@ -110,11 +106,8 @@ public class UserService {
 
     // 프로필 정보 GET
     public ProfileResultDto getProfile(Long userId) {
-        Optional<ProfileResultDto> optional = userMapper.findProfileByUserId(userId);
-        if (optional.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-        return optional.get();
+        return userMapper.findProfileByUserId(userId)
+                .orElseThrow(UserNotFoundException::new);
     }
 
     // 프로필 업데이트
@@ -147,10 +140,8 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserInfoDto getUserInfo(Long userId) {
         // 프로필 정보
-        Optional<ProfileResultDto> optionalUser = userMapper.findProfileByUserId(userId);
-        if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException();
-        }
+        ProfileResultDto profileResult = userMapper.findProfileByUserId(userId)
+                .orElseThrow(UserNotFoundException::new);
 
         // 친구 수, 버킷 수
         int friendCount = followMapper.getFollowCountByUserId(userId);
@@ -160,7 +151,7 @@ public class UserService {
         List<BookmarkDto> bookmarkList = bucketService.getBookmarkList(userId);
 
         return UserInfoDto.builder()
-                .user(optionalUser.get())
+                .user(profileResult)
                 .friendCount(friendCount)
                 .bucketCount(bucketCount)
                 .bookmark(new BookmarkResultDto(bookmarkList, bookmarkList.size()))
