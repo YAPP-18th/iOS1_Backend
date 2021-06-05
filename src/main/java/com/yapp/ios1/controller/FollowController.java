@@ -47,7 +47,6 @@ public class FollowController {
                                                     @RequestParam("accept") boolean isAccept) {
         Long myUserId = UserContext.getCurrentUserId();
         followService.checkFollowStatus(isAccept, myUserId, friendId, alarmId);
-
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_MESSAGE, isAccept));
     }
 

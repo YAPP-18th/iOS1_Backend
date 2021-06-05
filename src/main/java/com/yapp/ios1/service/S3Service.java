@@ -34,10 +34,8 @@ public class S3Service {
 
     public List<String> upload(MultipartFile[] multipartFileList) {
         List<String> imageUrlList = new ArrayList<>();
-        if (multipartFileList != null) {
-            for (MultipartFile multipartFile : multipartFileList) {
-                imageUrlList.add(upload(multipartFile));
-            }
+        for (MultipartFile multipartFile : multipartFileList) {
+            imageUrlList.add(upload(multipartFile));
         }
         return imageUrlList;
     }
