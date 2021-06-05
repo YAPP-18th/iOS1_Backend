@@ -31,14 +31,6 @@ public class UserDto {
     private String deviceToken;
     private String profileUrl;
 
-    public UserDto(String email, SocialType socialType, String nickname, String password, String intro) {
-        this.email = email;
-        this.socialType = socialType;
-        this.nickname = nickname;
-        this.password = password;
-        this.intro = intro;
-    }
-
     public static UserDto of(SignUpDto signUpDto) {
         return UserDto.builder()
                 .email(signUpDto.getEmail())
