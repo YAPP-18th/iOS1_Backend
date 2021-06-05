@@ -34,8 +34,6 @@ public interface BucketMapper {
 
     List<BucketDto> findByUserId(Long userId);
 
-    int findByCategoryId(Long categoryId);
-
     List<BookmarkDto> findBookmarkListByUserId(@Param("userId") Long userId);
 
     int getBucketCountByUserId(@Param("userId") Long userId);
@@ -48,7 +46,7 @@ public interface BucketMapper {
 
     void saveBucketEndDateLog(Long bucketId);
 
-    int completeBucket(Long bucketId, Long userId);
+    void completeBucket(Long bucketId, Long userId);
 
     Optional<BucketCheckDto> findUserIdByBucketId(Long bucketId);
 
