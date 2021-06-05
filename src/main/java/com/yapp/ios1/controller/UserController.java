@@ -50,12 +50,12 @@ public class UserController {
     /**
      * 닉네임 중복 확인
      *
-     * @param nickName 닉네임
+     * @param nickname 닉네임
      */
     @ApiOperation(value = "닉네임 존재 여부")
     @GetMapping("/nickname-check")
-    public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickName) {
-        userService.nicknameCheck(nickName);
+    public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickname) {
+        userService.nicknameCheck(nickname);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_NICKNAME));
     }
 
