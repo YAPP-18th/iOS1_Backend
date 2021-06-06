@@ -60,13 +60,11 @@
                 ON bt.tag_id = t.id
             JOIN user u
                 ON b.user_id = u.id
-            JOIN bookmark bm
-                ON bm.bucket_id = b.id
             JOIN category c
                 ON b.category_id = c.id
         WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%")
               OR c.category_name LIKE CONCAT("%", #{keyword}, "%"))
-              AND u.id NOT IN (#{userId})
+              AND u.id NOT IN (#{userId}) AND b.bookmark = true
     </select>
 </mapper>
 
