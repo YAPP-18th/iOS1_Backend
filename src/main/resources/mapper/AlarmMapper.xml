@@ -3,18 +3,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yapp.ios1.mapper.AlarmMapper">
-    <insert id="insertFollowAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationForOneDto"
+    <insert id="insertFollowAlarmLog" parameterType="NotificationForOneDto"
             useGeneratedKeys="true" keyProperty="notification.alarmId">
         INSERT INTO alarm_log (title, message, created_at, user_id)
         VALUES (#{notification.title}, #{notification.message}, #{time}, #{friendId})
     </insert>
 
-    <insert id="insertWholeAlarmLog" parameterType="com.yapp.ios1.dto.notification.NotificationDto">
-        INSERT INTO alarm_log (title, message, created_at)
+    <insert id="insertWholeAlarmLog" parameterType="NotificationDto">
+        INSERT INTO whole_alarm_log (title, message, created_at)
         VALUES (#{alarm.title}, #{alarm.message}, #{alarm.localDateTime})
     </insert>
 
-    <select id="getCommonAlarmLog" resultType="com.yapp.ios1.dto.notification.response.NotificationLogResultDto">
+    <select id="getCommonAlarmLog" resultType="NotificationLogResultDto">
         SELECT DISTINCT(id)       as alarmId,
                         title,
                         message,
@@ -24,7 +24,7 @@
         ORDER BY al.created_at ASC
     </select>
 
-    <select id="getFollowAlarmLog" resultType="com.yapp.ios1.dto.notification.response.NotificationLogResultDto">
+    <select id="getFollowAlarmLog" resultType="NotificationLogResultDto">
         SELECT DISTINCT(al.id) as alarmId,
                f.follower_id   as myUserId,
                f.following_id  as friendId,
@@ -34,7 +34,7 @@
         FROM alarm_log al
             JOIN follow f
                 ON f.alarm_id = al.id
-        WHERE al.user_id = #{userId} AND al.distinguish = "NO"
+        WHERE al.user_id = #{userId}
         ORDER BY al.created_at ASC
     </select>
 
