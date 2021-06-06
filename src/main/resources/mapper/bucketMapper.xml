@@ -18,11 +18,13 @@
 
     <select id="findByBucketStateAndCategory" resultType="BucketDto">
         SELECT id,
-               bucket_name as bucketName,
-               created_date as createdDate,
-               end_date as endDate,
-               bucket_state as bucketState,
-               category_id as categoryId
+               bucket_name   as bucketName,
+               created_date  as createdDate,
+               end_date      as endDate,
+               bucket_state  as bucketState,
+               category_id   as categoryId,
+               bookmark      as isBookmark,
+               fin           as isFin
         FROM bucket
         WHERE user_id = #{userId}
         <choose>
@@ -37,10 +39,10 @@
         </choose>
         <choose>
             <when test="sort eq 1">
-                ORDER BY id
+                ORDER BY fin DESC, id ASC
             </when>
             <otherwise>
-                ORDER BY bucket_name
+                ORDER BY fin DESC, bucket_name ASC
             </otherwise>
         </choose>
     </select>
