@@ -6,6 +6,8 @@ import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.controller.dto.user.login.PasswordDto;
 import com.yapp.ios1.controller.dto.user.login.SignInDto;
 import com.yapp.ios1.controller.dto.user.login.SignUpDto;
+import com.yapp.ios1.model.user.Friend;
+import com.yapp.ios1.service.FollowService;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
@@ -19,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.List;
 
 import static com.yapp.ios1.common.ResponseMessage.*;
 
@@ -34,6 +38,7 @@ public class UserController {
 
     private final UserService userService;
     private final JwtService jwtService;
+    private final FollowService followService;
 
     @ApiOperation(value = "이메일 존재 여부")
     @GetMapping("/email-check")
@@ -102,6 +107,13 @@ public class UserController {
     public ResponseEntity<ResponseDto> getUserInfo(@PathVariable Long userId) {
         Long currentUserId = UserContext.getCurrentUserId();
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
+    }
+
+    @ApiOperation(value = "친구 리스트")
+    @GetMapping("/{userId}/friends")
+    public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
+        List<Friend> friendList = followService.getFriendList(userId);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
 
     @ApiOperation(value = "회원 탈퇴")
