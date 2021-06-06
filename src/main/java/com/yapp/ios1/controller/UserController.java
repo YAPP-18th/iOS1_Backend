@@ -58,7 +58,7 @@ public class UserController {
     @ApiOperation(value = "로그인")
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
-        UserDto userDto = userService.getUser(signInDto);
+        UserDto userDto = userService.signIn(signInDto);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId())));
     }
 

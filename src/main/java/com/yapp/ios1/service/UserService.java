@@ -69,7 +69,7 @@ public class UserService {
         return jwtService.createTokenResponse(userDto.getId());
     }
 
-    public UserDto getUser(SignInDto signInDto) {
+    public UserDto signIn(SignInDto signInDto) {
         UserDto user = userMapper.findByEmail(signInDto.getEmail())
                 .orElseThrow(UserNotFoundException::new);
 
