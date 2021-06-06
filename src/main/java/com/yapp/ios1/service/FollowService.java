@@ -2,7 +2,7 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.result.FriendDto;
+import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FollowMapper;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +50,7 @@ public class FollowService {
         notificationService.sendByToken(notificationForOne);
     }
 
-    public List<FriendDto> getFriendList(Long userId) {
+    public List<Friend> getFriendList(Long userId) {
         return followMapper.getFollowListByUserId(userId);
     }
 
