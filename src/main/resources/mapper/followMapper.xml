@@ -9,7 +9,7 @@
         WHERE following_id = #{userId};
     </select>
 
-    <select id="getFollowListByUserId" resultType="FriendDto">
+    <select id="getFollowListByUserId" resultType="Friend">
         SELECT u.id userId, u.email, u.intro, u.profile_url profileUrl
         FROM user u
                  JOIN follow f1 ON f1.following_id = u.id
