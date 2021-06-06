@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.yapp.ios1.common.AlarmMessage.WHOLE_ALARM_MESSAGE;
+import static com.yapp.ios1.common.AlarmMessage.WHOLE_ALARM_TITLE;
+
 /**
  * created by jg 2021/05/02
  */
@@ -114,11 +117,7 @@ public class NotificationService {
     }
 
     private NotificationDto makeNotification() {
-        return NotificationDto.builder()
-                .title("제목")
-                .message("메세지")
-                .localDateTime(LocalDateTime.now())
-                .build();
+        return new NotificationDto(WHOLE_ALARM_TITLE, WHOLE_ALARM_MESSAGE, LocalDateTime.now());
     }
 
     private List<String> findDeviceTokens() {

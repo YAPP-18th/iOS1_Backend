@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.yapp.ios1.common.FriendMessage.*;
+import static com.yapp.ios1.common.AlarmMessage.*;
 import static com.yapp.ios1.common.FriendStatus.FRIEND;
 import static com.yapp.ios1.common.FriendStatus.REQUEST;
 
