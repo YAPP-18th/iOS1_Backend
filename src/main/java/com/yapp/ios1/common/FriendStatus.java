@@ -1,13 +1,12 @@
-package com.yapp.ios1.utils.follow;
+package com.yapp.ios1.common;
 
 /**
  * created by jg 2021/05/21
  */
 public enum FriendStatus {
     FRIEND(1),      // 친구
-    REQUEST(2),     // 요청 중
-    NOT_FRIEND(3);  // 친구 아님
-
+    REQUEST(2)      // 요청 중
+    ;
     private final int friendStatus;
 
     FriendStatus(int friendStatus) {

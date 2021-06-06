@@ -1,5 +1,6 @@
 package com.yapp.ios1.service;
 
+import com.yapp.ios1.dto.bucket.BucketDto;
 import com.yapp.ios1.dto.search.BookMarkSearchDto;
 import com.yapp.ios1.dto.search.MyBookSearchDto;
 import com.yapp.ios1.dto.search.UserSearchDto;
@@ -21,7 +22,7 @@ public class SearchService {
 
     private final SearchMapper searchMapper;
 
-    public List<MyBookSearchDto> searchMyBook(String keyword, Long userId) {
+    public List<BucketDto> searchMyBook(String keyword, Long userId) {
         return searchMapper.searchMyBook(keyword, userId);
     }
 
@@ -33,7 +34,7 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<BookMarkSearchDto> searchBookMark(String keyword, Long userId) {
+    public List<BucketDto> searchBookMark(String keyword, Long userId) {
         return searchMapper.searchBookMark(keyword, userId);
     }
 }

@@ -8,10 +8,7 @@ import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.controller.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.result.UserInfoDto;
-import com.yapp.ios1.error.exception.user.EmailDuplicatedException;
-import com.yapp.ios1.error.exception.user.NickNameDuplicatedException;
-import com.yapp.ios1.error.exception.user.PasswordNotMatchException;
-import com.yapp.ios1.error.exception.user.UserNotFoundException;
+import com.yapp.ios1.error.exception.user.*;
 import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -37,11 +34,26 @@ public class UserService {
     private final FollowMapper followMapper;
     private final JwtService jwtService;
 
+    public String findDeviceTokenByUserId(Long userId) {
+        return userMapper.findDeviceTokenByUserId(userId)
+                .orElseThrow(DeviceTokenNotFoundException::new);
+    }
+
+    public UserDto findByUserId(Long userId) {
+        return userMapper.findByUserId(userId)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
     public void emailCheck(String email) {
         Optional<UserDto> user = userMapper.findByEmail(email);
         if (user.isPresent()) {
             throw new EmailDuplicatedException();
         }
+    }
+
+    public void checkEmailPresent(String email) {
+        userMapper.findByEmail(email)
+                .orElseThrow(EmailNotExistException::new);
     }
 
     public void nicknameCheck(String nickname) {
@@ -62,7 +74,7 @@ public class UserService {
         return jwtService.createTokenResponse(userDto.getId());
     }
 
-    public UserDto getUser(SignInDto signInDto) {
+    public UserDto signIn(SignInDto signInDto) {
         UserDto user = userMapper.findByEmail(signInDto.getEmail())
                 .orElseThrow(UserNotFoundException::new);
 

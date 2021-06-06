@@ -31,7 +31,7 @@ public interface UserMapper {
 
     void signUp(UserDto userDto);
 
-    String findDeviceTokenByUserId(Long userId);
+    Optional<String> findDeviceTokenByUserId(Long userId);
 
     List<String> findAllUserDeviceToken();
 

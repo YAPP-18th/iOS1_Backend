@@ -12,7 +12,7 @@
     <select id="getFollowListByUserId" resultType="FriendDto">
         SELECT u.id as userId, u.email, u.intro
         FROM follow f
-                 JOIN user u ON f.follower_id = u.id
+            JOIN user u ON f.follower_id = u.id
         WHERE following_id = #{userId};
     </select>
 

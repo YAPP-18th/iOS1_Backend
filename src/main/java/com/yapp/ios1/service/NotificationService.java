@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.yapp.ios1.common.AlarmMessage.WHOLE_ALARM_MESSAGE;
+import static com.yapp.ios1.common.AlarmMessage.WHOLE_ALARM_TITLE;
+
 /**
  * created by jg 2021/05/02
  */
@@ -42,9 +45,6 @@ public class NotificationService {
 
     private final UserMapper userMapper;
     private final AlarmMapper alarmMapper;
-
-    // TODO 리팩터링
-    private static final NotificationDto pushNotificationRequest = new NotificationDto("제목11", "메세지11", LocalDateTime.now());
 
     @PostConstruct
     public void init() {
@@ -65,6 +65,7 @@ public class NotificationService {
     @Async("asyncTask")
     public void sendPushNotification() {
         List<String> deviceTokens = findDeviceTokens();
+        NotificationDto pushNotificationRequest = makeNotification();
 
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()
                 .putData("title", pushNotificationRequest.getTitle())
@@ -98,7 +99,6 @@ public class NotificationService {
         }
     }
 
-    // TODO 리팩터링
     public List<NotificationLogResultDto> getAlarmLog(Long userId) {
         List<NotificationLogResultDto> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
         List<NotificationLogResultDto> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
@@ -108,13 +108,16 @@ public class NotificationService {
                 .collect(Collectors.toList());
     }
 
-    // 초, 분, 시간, 일, 월, 요일
-    // 매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정
+    // 초, 분, 시간, 일, 월, 요일 (매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정)
     @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     @Transactional
     public void notificationSchedule() {
-        alarmMapper.insertWholeAlarmLog(pushNotificationRequest);
+        alarmMapper.insertWholeAlarmLog(makeNotification());
         sendPushNotification();
+    }
+
+    private NotificationDto makeNotification() {
+        return new NotificationDto(WHOLE_ALARM_TITLE, WHOLE_ALARM_MESSAGE, LocalDateTime.now());
     }
 
     private List<String> findDeviceTokens() {

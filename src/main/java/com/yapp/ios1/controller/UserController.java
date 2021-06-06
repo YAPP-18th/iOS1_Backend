@@ -58,7 +58,7 @@ public class UserController {
     @ApiOperation(value = "로그인")
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
-        UserDto userDto = userService.getUser(signInDto);
+        UserDto userDto = userService.signIn(signInDto);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId())));
     }
 
@@ -104,7 +104,7 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
     }
 
-    @ApiOperation(value = "탈퇴")
+    @ApiOperation(value = "회원 탈퇴")
     @Auth
     @DeleteMapping("")
     public ResponseEntity<ResponseDto> deleteUser() {
