@@ -1,10 +1,11 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.user.result.FriendDto;
+import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.service.FollowService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,10 @@ import static com.yapp.ios1.common.ResponseMessage.*;
 /**
  * created by jg 2021/05/21
  */
+@Api(tags = "Follow")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("follow")
+@RequestMapping("/api/v2/follow")
 public class FollowController {
 
     private final FollowService followService;
@@ -48,7 +50,7 @@ public class FollowController {
     @ApiOperation(value = "친구 리스트")
     @GetMapping("/users/{userId}/friends")
     public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
-        List<FriendDto> friendList = followService.getFriendList(userId);
+        List<Friend> friendList = followService.getFriendList(userId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
 }

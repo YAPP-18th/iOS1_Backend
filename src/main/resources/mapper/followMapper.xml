@@ -9,11 +9,16 @@
         WHERE following_id = #{userId};
     </select>
 
-    <select id="getFollowListByUserId" resultType="FriendDto">
-        SELECT u.id as userId, u.email, u.intro
-        FROM follow f
-            JOIN user u ON f.follower_id = u.id
-        WHERE following_id = #{userId};
+    <select id="getFollowListByUserId" resultType="Friend">
+        SELECT u.id userId, u.email, u.intro, u.profile_url profileUrl
+        FROM user u
+                 JOIN follow f1 ON f1.following_id = u.id
+        WHERE (f1.follower_id = #{userId} AND f1.friend_status = 2)
+        UNION
+        SELECT u.id as userId, u.email, u.intro, u.profile_url AS profileUrl
+        FROM user u
+                 JOIN follow f2 ON f2.follower_id = u.id
+        WHERE (f2.following_id = #{userId} AND f2.friend_status = 2);
     </select>
 
     <select id="isFriendByMyUserIdAndOtherUserId" resultType="int">
