@@ -1,7 +1,6 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.service.FollowService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
@@ -45,12 +44,5 @@ public class FollowController {
         Long myUserId = UserContext.getCurrentUserId();
         followService.checkFollowStatus(isAccept, myUserId, friendId, alarmId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, FRIEND_MESSAGE, isAccept));
-    }
-
-    @ApiOperation(value = "친구 리스트")
-    @GetMapping("/users/{userId}/friends")
-    public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
-        List<Friend> friendList = followService.getFriendList(userId);
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
 }
