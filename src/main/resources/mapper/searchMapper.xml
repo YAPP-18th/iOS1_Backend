@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yapp.ios1.mapper.SearchMapper">
-    <select id="searchMyBook" resultType="BucketDto">
+    <select id="searchMyBook" resultType="Bucket">
         SELECT DISTINCT(b.id),
                b.bucket_name     as bucketName,
                b.bucket_content  as content,
@@ -47,7 +47,7 @@
           )
     </select>
 
-    <select id="searchBookMark" resultType="BucketDto">
+    <select id="searchBookMark" resultType="Bucket">
         SELECT DISTINCT (b.id),
                u.id           as userId,
                b.bucket_name  as bucketName,

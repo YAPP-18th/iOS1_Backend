@@ -2,6 +2,9 @@ package com.yapp.ios1.mapper;
 
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
+import com.yapp.ios1.model.bucket.Bucket;
+import com.yapp.ios1.model.image.Image;
+import com.yapp.ios1.model.tag.Tag;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,7 +17,7 @@ import java.util.Optional;
 @Mapper
 public interface BucketMapper {
 
-    Optional<BucketDto> findByBucketId(Long bucketId, Long userId);
+    Optional<Bucket> findByBucketId(Long bucketId, Long userId);
 
     void registerBucket(BucketRequestDto registerDto);
 
@@ -26,12 +29,12 @@ public interface BucketMapper {
 
     void saveTagList(List<String> tagList);
 
-    List<BucketDto> findByBucketStateAndCategory(@Param("bucketState") int bucketState,
-                                                 @Param("category") int category,
-                                                 @Param("userId") Long userId,
-                                                 @Param("sort") int sort);
+    List<Bucket> findByBucketStateAndCategory(@Param("bucketState") int bucketState,
+                                              @Param("category") int category,
+                                              @Param("userId") Long userId,
+                                              @Param("sort") int sort);
 
-    List<BucketDto> findByUserId(Long userId);
+    List<Bucket> findByUserId(Long userId);
 
     List<BookmarkDto> findBookmarkListByUserId(@Param("userId") Long userId);
 
@@ -51,9 +54,9 @@ public interface BucketMapper {
 
     void setBookmark(Long bucketId, Long userId, boolean isBookmark);
 
-    List<TagDto> findByBucketTagByBucketId(Long bucketId);
+    List<Tag> findByBucketTagByBucketId(Long bucketId);
 
-    List<ImagesDto> findByBucketImageByBucketId(Long bucketId, Long userId);
+    List<Image> findByBucketImageByBucketId(Long bucketId, Long userId);
 
     List<BucketTimelineDto> findByBucketTimelineByBucketId(Long bucketId, Long userId);
 

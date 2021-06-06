@@ -4,6 +4,7 @@ import lombok.Getter;
 
 /**
  * created by ayoung 2021/05/12
+ * 친구 목록 조회, 유저 검색 모델
  */
 @Getter
 public class Friend {

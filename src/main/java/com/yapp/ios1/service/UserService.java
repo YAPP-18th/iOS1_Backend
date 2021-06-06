@@ -95,7 +95,6 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
     }
 
-    // 프로필 업데이트
     @Transactional
     public void updateProfile(ProfileDto profileDto, Long userId) {
         int change = userMapper.updateProfile(profileDto, userId);

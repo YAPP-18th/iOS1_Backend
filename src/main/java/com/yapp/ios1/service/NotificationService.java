@@ -9,7 +9,7 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
-import com.yapp.ios1.dto.notification.response.NotificationLogResultDto;
+import com.yapp.ios1.model.notification.Notification;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -95,16 +95,17 @@ public class NotificationService {
             response = FirebaseMessaging.getInstance().send(message);
             log.info("send message: " + response);
         } catch (FirebaseMessagingException e) {
+            // FireBaseMessage Throw Refactor
             log.error("cannot send message by token. error info : {}", e.getMessage());
         }
     }
 
-    public List<NotificationLogResultDto> getAlarmLog(Long userId) {
-        List<NotificationLogResultDto> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
-        List<NotificationLogResultDto> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
+    public List<Notification> getAlarmLog(Long userId) {
+        List<Notification> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
+        List<Notification> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
 
         return Stream.concat(followAlarmLog.stream(), commonAlarmLog.stream())
-                .sorted(Comparator.comparing(NotificationLogResultDto::getCreatedAt))
+                .sorted(Comparator.comparing(Notification::getCreatedAt))
                 .collect(Collectors.toList());
     }
 

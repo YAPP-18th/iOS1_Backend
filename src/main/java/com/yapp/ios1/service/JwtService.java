@@ -36,16 +36,6 @@ public class JwtService {
         return objectMapper.readValue(claims.getSubject(), JwtPayload.class);
     }
 
-    public String getSubject(String identityToken) {
-        try {
-            SignedJWT signedJWT = SignedJWT.parse(identityToken);
-            ReadOnlyJWTClaimsSet payload = signedJWT.getJWTClaimsSet();
-            return payload.getSubject();
-        } catch (ParseException e) {
-            throw new JwtParseException();
-        }
-    }
-
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }

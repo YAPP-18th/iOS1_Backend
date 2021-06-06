@@ -4,6 +4,7 @@ import lombok.Getter;
 
 /**
  * created by jg 2021/05/18
+ * 분리하기
  */
 @Getter
 public class UserSearchDto {

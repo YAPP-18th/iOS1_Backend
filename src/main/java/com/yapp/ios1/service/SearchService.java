@@ -1,14 +1,11 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.dto.bucket.BucketDto;
-import com.yapp.ios1.dto.search.BookMarkSearchDto;
-import com.yapp.ios1.dto.search.MyBookSearchDto;
+import com.yapp.ios1.model.bucket.Bucket;
 import com.yapp.ios1.dto.search.UserSearchDto;
 import com.yapp.ios1.mapper.SearchMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,7 +19,7 @@ public class SearchService {
 
     private final SearchMapper searchMapper;
 
-    public List<BucketDto> searchMyBook(String keyword, Long userId) {
+    public List<Bucket> searchMyBook(String keyword, Long userId) {
         return searchMapper.searchMyBook(keyword, userId);
     }
 
@@ -34,7 +31,7 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<BucketDto> searchBookMark(String keyword, Long userId) {
+    public List<Bucket> searchBookMark(String keyword, Long userId) {
         return searchMapper.searchBookMark(keyword, userId);
     }
 }
