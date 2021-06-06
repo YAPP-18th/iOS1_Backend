@@ -14,26 +14,28 @@
         VALUES (#{alarm.title}, #{alarm.message}, #{alarm.localDateTime})
     </insert>
 
-    <select id="getCommonAlarmLog" resultType="NotificationLogResultDto">
-        SELECT DISTINCT(id)       as alarmId,
-                        title,
-                        message,
-                        created_at as createdAt
-        FROM follow_alarm_log al
-        WHERE al.id NOT IN (SELECT alarm_id FROM alarm_delete)
-        ORDER BY al.created_at ASC
+    <select id="getCommonAlarmLog" resultType="Notification">
+        SELECT id as alarmId,
+               title,
+               message,
+               created_at as createdAt
+        FROM whole_alarm_log
+        ORDER BY created_at ASC
     </select>
 
-    <select id="getFollowAlarmLog" resultType="NotificationLogResultDto">
+    <select id="getFollowAlarmLog" resultType="Notification">
         SELECT DISTINCT(al.id) as alarmId,
                f.follower_id   as myUserId,
                f.following_id  as friendId,
                message,
+               u.profile_url as profileUrl,
                f.friend_status as friendStatus,
                created_at      as createdAt
         FROM follow_alarm_log al
             JOIN follow f
                 ON f.alarm_id = al.id
+            JOIN user u
+                ON u.id = al.user_id
         WHERE al.user_id = #{userId}
         ORDER BY al.created_at ASC
     </select>
