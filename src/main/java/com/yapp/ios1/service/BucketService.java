@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * created by jg 2021/05/05
@@ -77,20 +76,9 @@ public class BucketService {
     }
 
     // 태그 저장
-    // TODO 리팩터링 (수정 필수)
     private void saveTagList(Long bucketId, List<String> tagList) {
-        if (tagList != null) {
-            for (String tagName : tagList) {
-                TagDto tag = new TagDto(tagName);
-                Optional<TagDto> optionalTag = bucketMapper.findByTagName(tag.getTagName());
-                if (optionalTag.isEmpty()) { // 태그 기존에 없는 경우, tag 저장
-                    bucketMapper.saveTag(tag);
-                } else {
-                    tag.setId(optionalTag.get().getId());
-                }
-                bucketMapper.saveBucketAndTag(bucketId, tag.getId()); // bucket_tag 저장
-            }
-        }
+        bucketMapper.saveTagList(tagList);
+        bucketMapper.saveBucketIdAndTagId(bucketId, tagList);
     }
 
     public void completeBucket(Long bucketId, Long userId) {

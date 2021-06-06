@@ -103,4 +103,12 @@ public class UserController {
         Long currentUserId = UserContext.getCurrentUserId();
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
     }
+
+    @ApiOperation(value = "탈퇴")
+    @Auth
+    @DeleteMapping("")
+    public ResponseEntity<ResponseDto> deleteUser() {
+        userService.deleteUser(UserContext.getCurrentUserId());
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, DELETE_USER_SUCCESS));
+    }
 }
