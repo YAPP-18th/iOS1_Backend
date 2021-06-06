@@ -100,7 +100,7 @@ public class BucketService {
     }
 
     public void completeBucket(Long bucketId, Long userId) {
-        checkValidBucket(bucketId, userId);
+        checkValidBucket(bucketId);
         bucketMapper.completeBucket(bucketId, userId);
     }
 
@@ -138,16 +138,17 @@ public class BucketService {
 
     // 북마크 추가
     public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
-        checkValidBucket(bucketId, userId);
-        bucketMapper.setBookmark(bucketId, isBookmark);
+        checkValidBucket(bucketId);
+        bucketMapper.setBookmark(bucketId, userId, isBookmark);
     }
 
-    private void checkValidBucket(Long bucketId, Long userId) {
-        BucketCheckDto checkDto = bucketMapper.findUserIdByBucketId(bucketId)
+    private void checkValidBucket(Long bucketId) {
+        bucketMapper.findUserIdByBucketId(bucketId)
                 .orElseThrow(BucketNotFoundException::new);
+    }
 
-        if (!checkDto.getUserId().equals(userId)) {
-            throw new UserAuthenticationException();
-        }
+    public void setBucketFile(Long bucketId, Long userId, boolean isFin) {
+        checkValidBucket(bucketId);
+        bucketMapper.setBucketFin(bucketId, userId, isFin);
     }
 }

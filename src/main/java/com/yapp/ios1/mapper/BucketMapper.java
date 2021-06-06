@@ -49,11 +49,13 @@ public interface BucketMapper {
 
     Optional<BucketCheckDto> findUserIdByBucketId(Long bucketId);
 
-    void setBookmark(Long bucketId, boolean isBookmark);
+    void setBookmark(Long bucketId, Long userId, boolean isBookmark);
 
     List<TagDto> findByBucketTagByBucketId(Long bucketId);
 
     List<ImagesDto> findByBucketImageByBucketId(Long bucketId, Long userId);
 
     List<BucketTimelineDto> findByBucketTimelineByBucketId(Long bucketId, Long userId);
+
+    void setBucketFin(Long bucketId, Long userId, boolean isFin);
 }

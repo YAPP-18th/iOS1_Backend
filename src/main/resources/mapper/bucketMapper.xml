@@ -176,7 +176,14 @@
         UPDATE bucket
         SET
             bookmark = #{isBookmark}
-        WHERE id = #{bucketId};
+        WHERE id = #{bucketId} AND user_id = #{userId}
+    </update>
+
+    <update id="setBucketFin">
+        UPDATE bucket
+        SET
+            fin = #{isFin}
+        WHERE id = #{bucketId} AND user_id = #{userId}
     </update>
 
     <select id="findByBucketTagByBucketId" resultType="TagDto">
