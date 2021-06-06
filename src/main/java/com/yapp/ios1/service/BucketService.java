@@ -30,8 +30,30 @@ public class BucketService {
         );
     }
 
-    public void getBucketOne(Long userId, Long bucketId) {
+    private BucketDto findBucketByBucketId(Long bucketId, Long userId) {
+        return bucketMapper.findByBucketId(bucketId, userId)
+                .orElseThrow(BucketNotFoundException::new);
+    }
 
+    private List<TagDto> findByBucketTagByBucketId(Long bucketId) {
+        return bucketMapper.findByBucketTagByBucketId(bucketId);
+    }
+
+    private List<ImagesDto> findByBucketImageByBucketId(Long bucketId, Long userId) {
+        return bucketMapper.findByBucketImageByBucketId(bucketId, userId);
+    }
+
+    private List<BucketTimelineDto> findByBucketTimelineByBucketId(Long bucketId, Long userId) {
+        return bucketMapper.findByBucketTimelineByBucketId(bucketId, userId);
+    }
+
+    public BucketDetailDto getBucketOne(Long bucketId, Long userId) {
+        return new BucketDetailDto(
+                findBucketByBucketId(bucketId, userId),
+                findByBucketImageByBucketId(bucketId, userId),
+                findByBucketTagByBucketId(bucketId),
+                findByBucketTimelineByBucketId(bucketId, userId)
+        );
     }
 
     public List<BucketDto> getUserBucketList(Long userId) {
@@ -50,12 +72,8 @@ public class BucketService {
     // 버킷 수정
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
-        BucketCompareDto bucketDto = bucketMapper.findByBucketId(bucketId)
-                .orElseThrow(BucketNotFoundException::new);
+        BucketDto bucketDto = findBucketByBucketId(bucketId, userId);
 
-        if (!bucketDto.getUserId().equals(userId)) {
-            throw new UserAuthenticationException();
-        }
         updateDto.setId(bucketId);
         bucketMapper.updateBucket(updateDto); // 버킷 수정
 

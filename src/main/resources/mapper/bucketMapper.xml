@@ -4,16 +4,15 @@
 
 <mapper namespace="com.yapp.ios1.mapper.BucketMapper">
 
-    <select id="findByBucketId" resultType="BucketCompareDto">
+    <select id="findByBucketId" resultType="BucketDto">
         SELECT id,
-               user_id        as userId,
                bucket_name    as bucketName,
+               created_date    as createdDate,
                end_date       as endDate,
                bucket_state   as bucketState,
-               bucket_content as content,
                category_id    as categoryId
         FROM bucket
-        WHERE id = #{bucketId}
+        WHERE id = #{bucketId} AND user_id = #{userId}
     </select>
 
     <select id="findByBucketStateAndCategory" resultType="BucketDto">
@@ -175,4 +174,29 @@
         WHERE id = #{bucketId};
     </update>
 
+    <select id="findByBucketTagByBucketId" resultType="TagDto">
+        SELECT t.id,
+               t.tag_name as tagName
+        FROM bucket_tag bt
+            JOIN tag t
+                ON t.id = bt.tag_id
+        WHERE bt.bucket_id = #{bucketId}
+    </select>
+
+    <select id="findByBucketImageByBucketId" resultType="ImagesDto">
+        SELECT i.image_url as imageUrl
+        FROM image i
+            JOIN bucket b
+                ON i.bucket_id = b.id
+        WHERE b.id = #{bucketId} AND b.user_id = #{userId}
+    </select>
+
+    <select id="findByBucketTimelineByBucketId" resultType="BucketTimelineDto">
+        SELECT bl.content,
+               bl.modified_date as modifiedDate
+        FROM bucket b
+            JOIN bucket_log bl
+                ON b.id = bl.bucket_id
+        where b.id = #{bucketId} AND b.user_id = #{userId}
+    </select>
 </mapper>
