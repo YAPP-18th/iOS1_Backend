@@ -56,7 +56,7 @@ public class FollowService {
         return followMapper.getFollowListByUserId(userId);
     }
 
-    // friendStatus = 1(친구 아님), 2(친구)
+    // friendStatus = 1(친구), 2(요청 중)
     @Transactional
     public void checkFollowStatus(boolean isAccept, Long myUserId, Long friendId, Long alarmId) {
         if (isAccept) {
@@ -68,10 +68,9 @@ public class FollowService {
 
     private void followAccept(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE);
-        // 친구 요청 수락
         alarmMapper.insertFollowAlarmLog(notificationForOne, LocalDateTime.now(), friendId);
         followMapper.followAccept(myUserId, friendId, FRIEND.getFriendStatus());
-        sendFollowAlarmRequest(notificationForOne);  // 요청 보낸 사람에게 알람 보내기
+        sendFollowAlarmRequest(notificationForOne);
     }
 
     private void followNotAccept(Long myUserId, Long alarmId) {

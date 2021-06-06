@@ -43,9 +43,6 @@ public class NotificationService {
     private final UserMapper userMapper;
     private final AlarmMapper alarmMapper;
 
-    // TODO 리팩터링
-    private static final NotificationDto pushNotificationRequest = new NotificationDto("제목11", "메세지11", LocalDateTime.now());
-
     @PostConstruct
     public void init() {
         try {
@@ -65,6 +62,7 @@ public class NotificationService {
     @Async("asyncTask")
     public void sendPushNotification() {
         List<String> deviceTokens = findDeviceTokens();
+        NotificationDto pushNotificationRequest = makeNotification();
 
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()
                 .putData("title", pushNotificationRequest.getTitle())
@@ -107,13 +105,20 @@ public class NotificationService {
                 .collect(Collectors.toList());
     }
 
-    // 초, 분, 시간, 일, 월, 요일
-    // 매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정
+    // 초, 분, 시간, 일, 월, 요일 (매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정)
     @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     @Transactional
     public void notificationSchedule() {
-        alarmMapper.insertWholeAlarmLog(pushNotificationRequest);
+        alarmMapper.insertWholeAlarmLog(makeNotification());
         sendPushNotification();
+    }
+
+    private NotificationDto makeNotification() {
+        return NotificationDto.builder()
+                .title("제목")
+                .message("메세지")
+                .localDateTime(LocalDateTime.now())
+                .build();
     }
 
     private List<String> findDeviceTokens() {

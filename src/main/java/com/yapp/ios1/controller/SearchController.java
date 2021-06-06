@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.yapp.ios1.common.ResponseMessage.NOT_FOUND_SEARCH_TYPE;
+import static com.yapp.ios1.common.ResponseMessage.SUCCESS_SEARCH;
+
 /**
  * created by jg 2021/05/17
  */
@@ -31,7 +34,7 @@ public class SearchController {
     @GetMapping("/search")
     public ResponseEntity<ResponseDto> search(@RequestParam("type") String type,
                                               @RequestParam("keyword") String keyword) {
-        ResponseDto responseDto = ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS_SEARCH);
+        ResponseDto responseDto = ResponseDto.of(HttpStatus.OK, SUCCESS_SEARCH);
         Long userId = UserContext.getCurrentUserId();
 
         switch (type) {
@@ -45,7 +48,7 @@ public class SearchController {
                 responseDto.setData(searchService.searchBookMark(keyword, userId));
                 break;
             default:
-                return ResponseEntity.ok(ResponseDto.of(HttpStatus.BAD_REQUEST, ResponseMessage.NOT_FOUND_SEARCH_TYPE));
+                return ResponseEntity.ok(ResponseDto.of(HttpStatus.BAD_REQUEST, NOT_FOUND_SEARCH_TYPE));
         }
 
         return ResponseEntity.ok(responseDto);

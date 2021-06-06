@@ -1,5 +1,6 @@
 package com.yapp.ios1.dto.notification;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ public class NotificationDto {
     private String message;
     private LocalDateTime localDateTime;
 
+    @Builder
     public NotificationDto(String title, String message, LocalDateTime localDateTime) {
         this.title = title;
         this.message = message;

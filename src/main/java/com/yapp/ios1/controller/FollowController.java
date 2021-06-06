@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.yapp.ios1.common.ResponseMessage.GET_FRIEND_LIST;
-import static com.yapp.ios1.common.ResponseMessage.NO_FRIEND_LIST;
+import static com.yapp.ios1.common.ResponseMessage.*;
 
 /**
  * created by jg 2021/05/21
@@ -35,7 +34,7 @@ public class FollowController {
     public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
         Long myUserId = UserContext.getCurrentUserId();
         followService.followRequest(myUserId, friendId);
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_REQUEST));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, FRIEND_REQUEST));
     }
 
     @ApiOperation(value = "친구 요청 수락, 거절")
@@ -46,7 +45,7 @@ public class FollowController {
                                                     @RequestParam("accept") boolean isAccept) {
         Long myUserId = UserContext.getCurrentUserId();
         followService.checkFollowStatus(isAccept, myUserId, friendId, alarmId);
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.FRIEND_MESSAGE, isAccept));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, FRIEND_MESSAGE, isAccept));
     }
 
     @ApiOperation(value = "친구 리스트")
