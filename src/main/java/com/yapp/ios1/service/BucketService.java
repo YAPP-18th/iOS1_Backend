@@ -61,7 +61,7 @@ public class BucketService {
     }
 
     @Transactional
-    public void registerBucket(BucketRequestDto registerDto) throws IllegalArgumentException {
+    public void registerBucket(BucketRequestDto registerDto) {
         bucketMapper.registerBucket(registerDto);
 
         Long bucketId = registerDto.getId();
@@ -123,7 +123,6 @@ public class BucketService {
         return bucketMapper.getBucketCountByUserId(userId);
     }
 
-    // 북마크 추가
     public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
         checkValidBucket(bucketId);
         bucketMapper.setBookmark(bucketId, userId, isBookmark);
