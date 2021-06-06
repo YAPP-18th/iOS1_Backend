@@ -11,7 +11,9 @@
                created_date    as createdDate,
                end_date        as endDate,
                bucket_state    as bucketState,
-               category_id     as categoryId
+               category_id     as categoryId,
+               bookmark        as isBookmark,
+               fin             as isFin
         FROM bucket
         WHERE id = #{bucketId} AND user_id = #{userId}
     </select>
