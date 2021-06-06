@@ -5,6 +5,7 @@ import com.yapp.ios1.dto.user.result.FriendDto;
 import com.yapp.ios1.service.FollowService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,10 @@ import static com.yapp.ios1.common.ResponseMessage.*;
 /**
  * created by jg 2021/05/21
  */
+@Api(tags = "Follow")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("follow")
+@RequestMapping("/api/v2/follow")
 public class FollowController {
 
     private final FollowService followService;
