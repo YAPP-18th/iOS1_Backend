@@ -91,18 +91,24 @@
         WHERE tag_name = #{tagName};
     </select>
 
-    <insert id="saveBucketAndTag">
+    <insert id="saveBucketIdAndTagId" parameterType="java.util.ArrayList">
         INSERT INTO bucket_tag (bucket_id, tag_id)
-        SELECT  #{bucketId}, t.id
-        FROM tag t
-        WHERE t.tag_name = #{tagName};
+        <foreach collection="tagList" item="item" separator="UNION ALL">
+            SELECT #{bucketId}, (SELECT id tag_id
+            FROM tag
+            WHERE tag_name = #{item})
+        </foreach>
     </insert>
 
-    <insert id="saveTag">
+    <insert id="saveTagList" parameterType="java.util.ArrayList">
         INSERT INTO tag (tag_name)
-        VALUES (#{tagName}) ON DUPLICATE KEY
+        VALUES
+        <foreach collection="tagList" item="item" separator=",">
+            (#{item})
+        </foreach>
+        ON DUPLICATE KEY
         UPDATE
-            tag_name = #{tagName};
+        tag_name = VALUES (tag_name)
     </insert>
 
     <select id="findBookmarkListByUserId" resultType="BookmarkDto">

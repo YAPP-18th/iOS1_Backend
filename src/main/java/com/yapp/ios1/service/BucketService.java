@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * created by jg 2021/05/05
@@ -77,12 +76,9 @@ public class BucketService {
     }
 
     // 태그 저장
-    // TODO 리팩터링 (수정 필수)
     private void saveTagList(Long bucketId, List<String> tagList) {
-        for (String tagName : tagList) {
-            bucketMapper.saveTag(tagName);
-            bucketMapper.saveBucketAndTag(bucketId, tagName); // bucket_tag 저장
-        }
+        bucketMapper.saveTagList(tagList);
+        bucketMapper.saveBucketIdAndTagId(bucketId, tagList);
     }
 
     public void completeBucket(Long bucketId, Long userId) {

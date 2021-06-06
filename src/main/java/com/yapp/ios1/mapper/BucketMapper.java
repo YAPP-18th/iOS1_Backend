@@ -22,9 +22,9 @@ public interface BucketMapper {
 
     void saveBucketImageUrlList(@Param("bucketId") Long bucketId, List<String> imageUrlList);
 
-    void saveBucketAndTag(Long bucketId, String tagName);
+    void saveBucketIdAndTagId(@Param("bucketId") Long bucketId, List<String> tagList);
 
-    void saveTag(String tagName);
+    void saveTagList(List<String> tagList);
 
     List<BucketDto> findByBucketStateAndCategory(@Param("bucketState") int bucketState,
                                                  @Param("category") int category,
