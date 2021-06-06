@@ -6,11 +6,12 @@
 
     <select id="findByBucketId" resultType="BucketDto">
         SELECT id,
-               bucket_name    as bucketName,
+               bucket_name     as bucketName,
+               bucket_content  as content,
                created_date    as createdDate,
-               end_date       as endDate,
-               bucket_state   as bucketState,
-               category_id    as categoryId
+               end_date        as endDate,
+               bucket_state    as bucketState,
+               category_id     as categoryId
         FROM bucket
         WHERE id = #{bucketId} AND user_id = #{userId}
     </select>
@@ -175,8 +176,7 @@
     </update>
 
     <select id="findByBucketTagByBucketId" resultType="TagDto">
-        SELECT t.id,
-               t.tag_name as tagName
+        SELECT t.tag_name as tagName
         FROM bucket_tag bt
             JOIN tag t
                 ON t.id = bt.tag_id
@@ -198,5 +198,6 @@
             JOIN bucket_log bl
                 ON b.id = bl.bucket_id
         where b.id = #{bucketId} AND b.user_id = #{userId}
+        ORDER BY bl.modified_date DESC
     </select>
 </mapper>

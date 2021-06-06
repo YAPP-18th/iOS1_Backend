@@ -54,12 +54,12 @@
                b.end_date as endDate,
                u.profile_url as userProfileUrl
         FROM bucket b
-            JOIN bucket_tag bt
-                ON b.id = bt.bucket_id
-            JOIN tag t
-                ON bt.tag_id = t.id
             JOIN user u
                 ON b.user_id = u.id
+            LEFT JOIN bucket_tag bt
+                ON b.id = bt.bucket_id
+            LEFT JOIN tag t
+                ON bt.tag_id = t.id
             JOIN category c
                 ON b.category_id = c.id
         WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%")
