@@ -10,6 +10,7 @@ import lombok.Getter;
 @Getter
 public class BucketDto {
     private Long id;
+    private Long userId;
     private String bucketName;
     private String content;
     private String createdDate;
@@ -18,4 +19,5 @@ public class BucketDto {
     private Integer categoryId;
     private boolean isBookmark;
     private boolean isFin;
+    private String userProfileUrl;
 }

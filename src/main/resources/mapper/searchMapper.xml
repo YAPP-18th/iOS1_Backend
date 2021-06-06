@@ -5,10 +5,13 @@
 <mapper namespace="com.yapp.ios1.mapper.SearchMapper">
     <select id="searchMyBook" resultType="BucketDto">
         SELECT DISTINCT(b.id),
-               b.bucket_name as bucketName,
-               b.created_date as createdDate,
-               b.end_date as endDate,
-               b.bucket_state as bucketState
+               b.bucket_name     as bucketName,
+               b.bucket_content  as content,
+               b.created_date    as createdDate,
+               b.end_date        as endDate,
+               b.bucket_state    as bucketState,
+               b.bookmark        as isBookmark,
+               b.fin             as isFin
         FROM bucket b
             LEFT JOIN (SELECT bt.bucket_id, t.* FROM bucket_tag bt JOIN tag t ON t.id = bt.tag_id) as t
                 ON b.id = t.bucket_id
@@ -45,12 +48,17 @@
     </select>
 
     <select id="searchBookMark" resultType="BucketDto">
-        SELECT DISTINCT (b.id) as bucketId,
-               u.id as userId,
-               b.bucket_name as bucketName,
+        SELECT DISTINCT (b.id),
+               u.id           as userId,
+               b.bucket_name  as bucketName,
+               bucket_content as content,
                b.bucket_state as bucketState,
-               b.end_date as endDate,
-               u.profile_url as userProfileUrl
+               b.created_date as createdDate,
+               b.end_date     as endDate,
+               u.profile_url  as userProfileUrl,
+               c.id           as categoryId,
+               b.bookmark     as isBookmark,
+               b.fin          as isFin
         FROM bucket b
             LEFT JOIN (SELECT bt.bucket_id, t.* FROM bucket_tag bt JOIN tag t ON t.id = bt.tag_id) as t
                 ON b.id = t.bucket_id
