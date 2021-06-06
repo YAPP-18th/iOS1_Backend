@@ -61,26 +61,22 @@ public class BucketService {
     }
 
     @Transactional
-    public void registerBucket(BucketRequestDto registerDto) throws IllegalArgumentException {
-        bucketMapper.registerBucket(registerDto); // bucket 저장
+    public void registerBucket(BucketRequestDto registerDto) {
+        bucketMapper.registerBucket(registerDto);
 
         Long bucketId = registerDto.getId();
         saveTagList(bucketId, registerDto.getTagList());
         saveImageUrlList(bucketId, registerDto.getImageList());
     }
 
-    // 버킷 수정
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
         BucketDto bucketDto = findBucketByBucketId(bucketId, userId);
 
         updateDto.setId(bucketId);
-        bucketMapper.updateBucket(updateDto); // 버킷 수정
+        bucketMapper.updateBucket(updateDto);
 
-        // 태그 수정
         updateTag(bucketId, updateDto.getTagList());
-
-        // 이미지 수정
         updateImageUrlList(bucketId, updateDto.getImageList());
 
         // 버킷 로그 저장
@@ -93,7 +89,6 @@ public class BucketService {
         }
     }
 
-    // 태그 저장
     private void saveTagList(Long bucketId, List<String> tagList) {
         bucketMapper.saveTagList(tagList);
         bucketMapper.saveBucketIdAndTagId(bucketId, tagList);
@@ -104,27 +99,19 @@ public class BucketService {
         bucketMapper.completeBucket(bucketId, userId);
     }
 
-    // 태그 수정
     private void updateTag(Long bucketId, List<String> tagList) {
-        // 태그 제거
         bucketMapper.deleteTagListByBucketId(bucketId);
-        // 태그 INSERT
         saveTagList(bucketId, tagList);
     }
 
-    // 이미지 url 저장
     private void saveImageUrlList(Long bucketId, List<String> imageUrlList) {
         if (!imageUrlList.isEmpty()) {
             bucketMapper.saveBucketImageUrlList(bucketId, imageUrlList);
         }
     }
 
-    // 이미지 url 수정
-    // TODO 리팩터링
     private void updateImageUrlList(Long bucketId, List<String> imageUrlList) {
-        // 이미지 제거
         bucketMapper.deleteImageListByBucketId(bucketId);
-        // 이미지 INSERT
         saveImageUrlList(bucketId, imageUrlList);
     }
 
@@ -136,7 +123,6 @@ public class BucketService {
         return bucketMapper.getBucketCountByUserId(userId);
     }
 
-    // 북마크 추가
     public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
         checkValidBucket(bucketId);
         bucketMapper.setBookmark(bucketId, userId, isBookmark);
