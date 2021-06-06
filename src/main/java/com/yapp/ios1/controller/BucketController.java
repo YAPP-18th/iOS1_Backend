@@ -49,8 +49,7 @@ public class BucketController {
     @GetMapping("/{bucketId}")
     public ResponseEntity<ResponseDto> bucketOne(@PathVariable Long bucketId) {
         Long userId = UserContext.getCurrentUserId();
-        bucketService.getBucketOne(userId, bucketId);
-        return null;
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_DETAIL, bucketService.getBucketOne(bucketId, userId)));
     }
 
     @ApiOperation(value = "버킷 등록")

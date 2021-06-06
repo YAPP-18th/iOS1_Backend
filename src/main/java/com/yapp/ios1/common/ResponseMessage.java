@@ -12,6 +12,7 @@ public class ResponseMessage {
     public static final String NOT_EXIST_IMAGE = "업로드할 이미지 존재하지 않습니다.";
     public static final String REGISTER_BUCKET_SUCCESS = "버킷 등록 성공입니다.";
     public static final String UPDATE_BUCKET_SUCCESS = "버킷 수정 성공입니다.";
+    public static final String GET_BUCKET_DETAIL = "버킷 상세 조회 성공입니다";
 
     // Login
     public static final String LOGIN_SUCCESS = "AccessToken, RefreshToken 발급합니다.";

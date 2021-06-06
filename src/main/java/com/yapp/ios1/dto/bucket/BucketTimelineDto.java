@@ -11,5 +11,5 @@ import java.time.LocalDate;
 public class BucketTimelineDto {
 
     private String content;
-    private LocalDate localDate;
+    private LocalDate modifiedDate;
 }

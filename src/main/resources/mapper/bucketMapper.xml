@@ -7,12 +7,12 @@
     <select id="findByBucketId" resultType="BucketDto">
         SELECT id,
                bucket_name    as bucketName,
-               create_date    as createdDate
+               created_date    as createdDate,
                end_date       as endDate,
                bucket_state   as bucketState,
                category_id    as categoryId
         FROM bucket
-        WHERE id = #{bucketId}
+        WHERE id = #{bucketId} AND user_id = #{userId}
     </select>
 
     <select id="findByBucketStateAndCategory" resultType="BucketDto">
@@ -165,7 +165,8 @@
     </update>
 
     <select id="findByBucketTagByBucketId" resultType="TagDto">
-        SELECT t.*
+        SELECT t.id,
+               t.tag_name as tagName
         FROM bucket_tag bt
             JOIN tag t
                 ON t.id = bt.tag_id
@@ -173,18 +174,19 @@
     </select>
 
     <select id="findByBucketImageByBucketId" resultType="ImagesDto">
-        SELECT i.image_url
+        SELECT i.image_url as imageUrl
         FROM image i
             JOIN bucket b
                 ON i.bucket_id = b.id
-        WHERE b.id = #{bucketId}
+        WHERE b.id = #{bucketId} AND b.user_id = #{userId}
     </select>
 
     <select id="findByBucketTimelineByBucketId" resultType="BucketTimelineDto">
-        SELECT bl.content, bl.modified_date
+        SELECT bl.content,
+               bl.modified_date as modifiedDate
         FROM bucket b
             JOIN bucket_log bl
                 ON b.id = bl.bucket_id
-        where b.id = #{bucketId};
+        where b.id = #{bucketId} AND b.user_id = #{userId}
     </select>
 </mapper>

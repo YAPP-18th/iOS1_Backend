@@ -13,7 +13,7 @@ import java.util.List;
 public class BucketDetailDto {
 
     private BucketDto bucket;
-    private List<ImagesDto> imagess;
+    private List<ImagesDto> images;
     private List<TagDto> tags;
     private List<BucketTimelineDto> bucketTimelines;
 }
