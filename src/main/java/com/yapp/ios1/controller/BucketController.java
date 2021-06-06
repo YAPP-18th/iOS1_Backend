@@ -8,6 +8,7 @@ import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,15 @@ public class BucketController {
     public ResponseEntity<ResponseDto> bucketOne(@PathVariable Long bucketId) {
         Long userId = UserContext.getCurrentUserId();
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_DETAIL, bucketService.getBucketOne(bucketId, userId)));
+    }
+
+    @ApiOperation(value = "버킷 핀 설정 or 해제")
+    @Auth
+    @PostMapping("/{bucketId}/fin")
+    public ResponseEntity<ResponseDto> registerBucketFin(@PathVariable Long bucketId, @RequestParam("state") boolean isFin) {
+        Long userId = UserContext.getCurrentUserId();
+        bucketService.setBucketFile(bucketId, userId, isFin);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, REGISTER_BUCKET_FIN_SUCCESS));
     }
 
     @ApiOperation(value = "버킷 등록")
