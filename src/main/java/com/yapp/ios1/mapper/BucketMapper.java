@@ -14,7 +14,7 @@ import java.util.Optional;
 @Mapper
 public interface BucketMapper {
 
-    Optional<BucketCompareDto> findByBucketId(Long bucketId);
+    Optional<BucketDto> findByBucketId(Long bucketId);
 
     void registerBucket(BucketRequestDto registerDto);
 
@@ -53,4 +53,9 @@ public interface BucketMapper {
 
     void setBookmark(Long bucketId, boolean isBookmark);
 
+    List<TagDto> findByBucketTagByBucketId(Long bucketId);
+
+    List<ImagesDto> findByBucketImageByBucketId(Long bucketId);
+
+    List<BucketTimelineDto> findByBucketTimelineByBucketId(Long bucketId);
 }
