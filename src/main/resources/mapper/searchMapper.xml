@@ -3,22 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yapp.ios1.mapper.SearchMapper">
-    <select id="searchMyBook" resultType="com.yapp.ios1.dto.search.MyBookSearchDto">
+    <select id="searchMyBook" resultType="BucketDto">
         SELECT DISTINCT(b.id),
                b.bucket_name as bucketName,
-               b.start_date as startDate,
+               b.created_date as createdDate,
                b.end_date as endDate,
                b.bucket_state as bucketState
         FROM bucket b
-            JOIN bucket_tag bt
-                ON b.id = bt.bucket_id
-            JOIN tag t
-                ON bt.tag_id = t.id
+            LEFT JOIN (SELECT bt.bucket_id, t.* FROM bucket_tag bt JOIN tag t ON t.id = bt.tag_id) as t
+        ON b.id = t.bucket_id
         WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%") OR t.tag_name LIKE CONCAT("%", #{keyword}, "%"))
             AND user_id = #{userId}
     </select>
 
-    <select id="searchUser" resultType="com.yapp.ios1.dto.search.UserSearchDto">
+    <select id="searchUser" resultType="UserSearchDto">
         SELECT u.id as userId,
                u.nickname,
                u.intro,
@@ -32,7 +30,7 @@
         ORDER BY friend_status DESC
     </select>
     
-    <select id="searchNoFriends" resultType="com.yapp.ios1.dto.search.UserSearchDto">
+    <select id="searchNoFriends" resultType="UserSearchDto">
         SELECT u.id as userId,
                u.nickname,
                u.intro
@@ -46,7 +44,7 @@
           )
     </select>
 
-    <select id="searchBookMark" resultType="com.yapp.ios1.dto.search.BookMarkSearchDto">
+    <select id="searchBookMark" resultType="BucketDto">
         SELECT DISTINCT (b.id) as bucketId,
                u.id as userId,
                b.bucket_name as bucketName,

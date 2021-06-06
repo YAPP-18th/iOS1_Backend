@@ -15,7 +15,7 @@ public class BucketDto {
     private String createdDate;
     private String endDate;
     private int bucketState;
-    private int categoryId;
+    private Integer categoryId;
     private boolean isBookmark;
     private boolean isFin;
 }

@@ -31,9 +31,7 @@ public class FollowService {
     @Transactional
     public void followRequest(Long myUserId, Long friendId) {
         UserDto user = userService.findByUserId(friendId);
-        System.out.println(user.getNickname());
-        NotificationForOneDto notificationForOne =
-                makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE, user.getNickname() + FOLLOW_REQUEST_MESSAGE);
+        NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE, user.getNickname() + FOLLOW_REQUEST_MESSAGE);
         alarmMapper.insertFollowAlarmLog(notificationForOne, LocalDateTime.now(), friendId);
         followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus(), notificationForOne.getAlarmId());
         sendFollowAlarmRequest(notificationForOne);
