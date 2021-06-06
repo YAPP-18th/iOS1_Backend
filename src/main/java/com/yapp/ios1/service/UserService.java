@@ -51,6 +51,11 @@ public class UserService {
         }
     }
 
+    public void checkEmailPresent(String email) {
+        userMapper.findByEmail(email)
+                .orElseThrow(EmailNotExistException::new);
+    }
+
     public void nicknameCheck(String nickname) {
         Optional<UserDto> user = userMapper.findByNickname(nickname);
         if (user.isPresent()) {

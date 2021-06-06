@@ -38,7 +38,7 @@ public class EmailController {
     @ApiOperation(value = "이메일 인증 코드 전송")
     @PostMapping("/send")
     public ResponseEntity<ResponseDto> sendEmail(@RequestBody @Valid EmailDto email) {
-        userService.emailCheck(email.getEmail());
+        userService.checkEmailPresent(email.getEmail());
         emailService.sendEmailMessage(email.getEmail());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));
     }
