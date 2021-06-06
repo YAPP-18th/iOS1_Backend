@@ -55,7 +55,7 @@ public class BucketController {
 
     @ApiOperation(value = "버킷 핀 설정 or 해제")
     @Auth
-    @PostMapping("/{bucketId}/fin")
+    @PutMapping("/{bucketId}/fin")
     public ResponseEntity<ResponseDto> registerBucketFin(@PathVariable Long bucketId, @RequestParam("state") boolean isFin) {
         Long userId = UserContext.getCurrentUserId();
         bucketService.setBucketFile(bucketId, userId, isFin);
