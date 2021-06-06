@@ -11,7 +11,7 @@
                b.bucket_state as bucketState
         FROM bucket b
             LEFT JOIN (SELECT bt.bucket_id, t.* FROM bucket_tag bt JOIN tag t ON t.id = bt.tag_id) as t
-        ON b.id = t.bucket_id
+                ON b.id = t.bucket_id
         WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%") OR t.tag_name LIKE CONCAT("%", #{keyword}, "%"))
             AND user_id = #{userId}
     </select>
@@ -52,12 +52,10 @@
                b.end_date as endDate,
                u.profile_url as userProfileUrl
         FROM bucket b
+            LEFT JOIN (SELECT bt.bucket_id, t.* FROM bucket_tag bt JOIN tag t ON t.id = bt.tag_id) as t
+                ON b.id = t.bucket_id
             JOIN user u
                 ON b.user_id = u.id
-            LEFT JOIN bucket_tag bt
-                ON b.id = bt.bucket_id
-            LEFT JOIN tag t
-                ON bt.tag_id = t.id
             JOIN category c
                 ON b.category_id = c.id
         WHERE (b.bucket_name LIKE CONCAT("%", #{keyword}, "%")
