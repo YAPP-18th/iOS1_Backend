@@ -8,6 +8,7 @@ import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.service.JwtIssueService;
 import com.yapp.ios1.service.JwtService;
+import com.yapp.ios1.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -33,7 +34,7 @@ public class AuthAspect {
 
     private final JwtService jwtService;
     private final JwtIssueService jwtIssueService;
-    private final UserMapper userMapper;
+    private final UserService userService;
     private final HttpServletRequest httpServletRequest;
 
     @Around("@annotation(Auth)")
@@ -41,9 +42,8 @@ public class AuthAspect {
         try {
             String accessToken = httpServletRequest.getHeader(AUTHORIZATION);
             JwtPayload payload = jwtService.getPayload(accessToken);
-            UserDto user = findByUserId(payload.getId());
+            UserDto user = userService.findByUserId(payload.getId());
             UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
-
             return pjp.proceed();
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
             throw new JwtException();
@@ -55,7 +55,7 @@ public class AuthAspect {
         try {
             String refreshToken = httpServletRequest.getHeader(REAUTHORIZATION);
             JwtPayload payload = jwtService.getPayload(refreshToken);
-            UserDto user = findByUserId(payload.getId());
+            UserDto user = userService.findByUserId(payload.getId());
 
             String dbRefreshToken = jwtIssueService.getRefreshTokenByUserId(user.getId());
             checkRefreshTokenExpired(dbRefreshToken, refreshToken);
@@ -64,11 +64,6 @@ public class AuthAspect {
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
             throw new JwtException();
         }
-    }
-
-    private UserDto findByUserId(Long userId) {
-        return userMapper.findByUserId(userId)
-                .orElseThrow(UserNotFoundException::new);
     }
 
     private void checkRefreshTokenExpired(String dbRefreshToken, String refreshToken) {

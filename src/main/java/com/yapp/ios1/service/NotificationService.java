@@ -98,7 +98,6 @@ public class NotificationService {
         }
     }
 
-    // TODO 리팩터링
     public List<NotificationLogResultDto> getAlarmLog(Long userId) {
         List<NotificationLogResultDto> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
         List<NotificationLogResultDto> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);

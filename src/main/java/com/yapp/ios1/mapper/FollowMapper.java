@@ -1,12 +1,10 @@
 package com.yapp.ios1.mapper;
 
 import com.yapp.ios1.dto.user.result.FriendDto;
-import com.yapp.ios1.utils.follow.FriendStatus;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * created by ayoung 2021/05/11

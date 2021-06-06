@@ -32,6 +32,7 @@ public enum ErrorCode {
     SOCIAL_LOGIN_TOKEN_ERROR(401, "M006", "Social Login is Token Error"),
     SOCIAL_TYPE_NOT_FOUND(400, "M007", "Social Type is not Exist"),
     PASSWORD_MISMATCH_ERROR(400, "M008", "Password MisMatch Error"),
+    DEVICE_TOKEN_NOT_FOUND_ERROR(400, "M008", "DeviceToken is not Exist"),
 
     // Email
     EMAIL_SEND_ERROR(500, "P001", "Email Send Error"),
