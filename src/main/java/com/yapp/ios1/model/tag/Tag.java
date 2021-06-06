@@ -1,4 +1,4 @@
-package com.yapp.ios1.dto.bucket;
+package com.yapp.ios1.model.tag;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @Getter
-public class TagDto {
+public class Tag {
 
     private Long id;
     private String tagName;
@@ -19,7 +19,7 @@ public class TagDto {
         this.id = id;
     }
 
-    public TagDto(String tagName) {
+    public Tag(String tagName) {
         this.tagName = tagName;
     }
 }

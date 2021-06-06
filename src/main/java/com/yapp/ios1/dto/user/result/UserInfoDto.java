@@ -2,7 +2,7 @@ package com.yapp.ios1.dto.user.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yapp.ios1.dto.bucket.BookmarkResultDto;
-import com.yapp.ios1.dto.bucket.BucketDto;
+import com.yapp.ios1.model.bucket.Bucket;
 import com.yapp.ios1.dto.user.ProfileResultDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,9 +22,9 @@ public class UserInfoDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isFriend;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<BucketDto> bucket;
+    private List<Bucket> bucket;
 
-    public void setBucket(List<BucketDto> bucket) {
+    public void setBucket(List<Bucket> bucket) {
         this.bucket = bucket;
     }
 

@@ -3,8 +3,10 @@ package com.yapp.ios1.service;
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
-import com.yapp.ios1.error.exception.user.UserAuthenticationException;
 import com.yapp.ios1.mapper.BucketMapper;
+import com.yapp.ios1.model.bucket.Bucket;
+import com.yapp.ios1.model.image.Image;
+import com.yapp.ios1.model.tag.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,24 +24,24 @@ public class BucketService {
 
     private final BucketMapper bucketMapper;
 
-    public BucketResultDto getHomeBucketList(int bucketState, int category, Long userId, int sort) {
-        List<BucketDto> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
-        return new BucketResultDto(
+    public BucketHomeDto getHomeBucketList(int bucketState, int category, Long userId, int sort) {
+        List<Bucket> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
+        return new BucketHomeDto(
                 buckets,
                 buckets.size()
         );
     }
 
-    private BucketDto findBucketByBucketId(Long bucketId, Long userId) {
+    private Bucket findBucketByBucketId(Long bucketId, Long userId) {
         return bucketMapper.findByBucketId(bucketId, userId)
                 .orElseThrow(BucketNotFoundException::new);
     }
 
-    private List<TagDto> findByBucketTagByBucketId(Long bucketId) {
+    private List<Tag> findByBucketTagByBucketId(Long bucketId) {
         return bucketMapper.findByBucketTagByBucketId(bucketId);
     }
 
-    private List<ImagesDto> findByBucketImageByBucketId(Long bucketId, Long userId) {
+    private List<Image> findByBucketImageByBucketId(Long bucketId, Long userId) {
         return bucketMapper.findByBucketImageByBucketId(bucketId, userId);
     }
 
@@ -56,7 +58,7 @@ public class BucketService {
         );
     }
 
-    public List<BucketDto> getUserBucketList(Long userId) {
+    public List<Bucket> getUserBucketList(Long userId) {
         return bucketMapper.findByUserId(userId);
     }
 
@@ -71,7 +73,7 @@ public class BucketService {
 
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
-        BucketDto bucketDto = findBucketByBucketId(bucketId, userId);
+        Bucket bucketDto = findBucketByBucketId(bucketId, userId);
 
         updateDto.setId(bucketId);
         bucketMapper.updateBucket(updateDto);

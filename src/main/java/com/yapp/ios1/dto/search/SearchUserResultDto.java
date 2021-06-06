@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * created by jg 2021/05/20
+ * 분리하기
  */
 @AllArgsConstructor
 @Getter

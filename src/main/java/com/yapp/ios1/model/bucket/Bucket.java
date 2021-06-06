@@ -1,12 +1,13 @@
-package com.yapp.ios1.dto.bucket;
+package com.yapp.ios1.model.bucket;
 
 import lombok.Getter;
 
 /**
  * created by jg 2021/05/05
+ * 버킷 홈, 나의버킷-북마크 검색 모델
  */
 @Getter
-public class BucketDto {
+public class Bucket {
     private Long id;
     private Long userId;
     private String bucketName;
