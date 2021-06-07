@@ -7,7 +7,7 @@ import com.yapp.ios1.dto.user.ProfileDto;
 import com.yapp.ios1.dto.user.ProfileResultDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.controller.dto.user.login.SignInDto;
-import com.yapp.ios1.dto.user.result.UserInfoDto;
+import com.yapp.ios1.dto.user.UserInfoDto;
 import com.yapp.ios1.error.exception.user.*;
 import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;

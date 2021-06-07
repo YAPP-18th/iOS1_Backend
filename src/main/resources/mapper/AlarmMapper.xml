@@ -5,31 +5,34 @@
 <mapper namespace="com.yapp.ios1.mapper.AlarmMapper">
     <insert id="insertFollowAlarmLog" parameterType="NotificationForOneDto"
             useGeneratedKeys="true" keyProperty="notification.alarmId">
-        INSERT INTO follow_alarm_log (title, message, created_at, user_id)
-        VALUES (#{notification.title}, #{notification.message}, #{time}, #{friendId})
+        INSERT INTO follow_alarm_log (title, message, alarm_status, created_at, user_id)
+        VALUES (#{notification.title}, #{notification.message}, #{alarmStatus}, #{time}, #{friendId})
     </insert>
 
     <insert id="insertWholeAlarmLog" parameterType="NotificationDto">
-        INSERT INTO whole_alarm_log (title, message, created_at)
-        VALUES (#{alarm.title}, #{alarm.message}, #{alarm.localDateTime})
+        INSERT INTO whole_alarm_log (title, message, alarm_status, created_at)
+        VALUES (#{alarm.title}, #{alarm.message}, #{alarmStatus}, #{alarm.localDateTime})
     </insert>
 
     <select id="getCommonAlarmLog" resultType="Notification">
         SELECT id as alarmId,
                title,
                message,
+               alarm_status as alarmStatus,
                created_at as createdAt
         FROM whole_alarm_log
+        where id NOT IN (SELECT alarm_id FROM whole_alarm_delete WHERE user_id = #{userId})
         ORDER BY created_at ASC
     </select>
 
     <select id="getFollowAlarmLog" resultType="Notification">
-        SELECT DISTINCT(al.id) as alarmId,
+        SELECT al.id as alarmId,
                f.follower_id   as myUserId,
                f.following_id  as friendId,
                message,
                u.profile_url as profileUrl,
                f.friend_status as friendStatus,
+               alarm_status as alarmStatus,
                created_at      as createdAt
         FROM follow_alarm_log al
             JOIN follow f
@@ -40,8 +43,25 @@
         ORDER BY al.created_at ASC
     </select>
 
-    <delete id="deleteAlarmLog">
+    <select id="findWholeAlarmByAlarmId" resultType="Notification">
+        SELECT *
+        FROM whole_alarm_log
+        WHERE id = #{alarmId}
+    </select>
+
+    <select id="findFollowAlarmByAlarmId" resultType="Notification">
+        SELECT *
+        FROM follow_alarm_log
+        WHERE id = #{alarmId}
+    </select>
+
+    <delete id="deleteFollowAlarmLog">
         DELETE FROM follow_alarm_log
         WHERE id = #{alarmId} AND user_id = #{userId}
+    </delete>
+
+    <delete id="deleteWholeAlarmLog">
+        INSERT INTO whole_alarm_delete (alarm_id, user_id)
+        VALUES (#{alarmId}, #{userId})
     </delete>
 </mapper>

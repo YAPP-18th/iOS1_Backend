@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
  */
 @Getter
 public class NotificationForOneDto extends NotificationDto {
-
     private Long alarmId;
     private String deviceToken;
 

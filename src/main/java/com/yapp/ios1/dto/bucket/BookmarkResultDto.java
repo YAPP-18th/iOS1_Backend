@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * created by ayoung 2021/05/11
+ * 북마크 Dto
  */
 @Getter
 public class BookmarkResultDto {

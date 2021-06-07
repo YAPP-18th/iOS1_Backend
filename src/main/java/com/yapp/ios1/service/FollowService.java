@@ -1,5 +1,6 @@
 package com.yapp.ios1.service;
 
+import com.yapp.ios1.common.AlarmStatus;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.dto.user.UserDto;
 import com.yapp.ios1.model.user.Friend;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.yapp.ios1.common.AlarmMessage.*;
+import static com.yapp.ios1.common.AlarmStatus.FOLLOW_ALARM;
 import static com.yapp.ios1.common.FriendStatus.FRIEND;
 import static com.yapp.ios1.common.FriendStatus.REQUEST;
 
@@ -32,7 +34,7 @@ public class FollowService {
     public void followRequest(Long myUserId, Long friendId) {
         UserDto user = userService.findByUserId(friendId);
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE, user.getNickname() + FOLLOW_REQUEST_MESSAGE);
-        alarmMapper.insertFollowAlarmLog(notificationForOne, LocalDateTime.now(), friendId);
+        alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.getAlarmStatus(), LocalDateTime.now(), friendId);   // alarm_status = 2 (친구 알람)
         followMapper.followRequest(myUserId, friendId, REQUEST.getFriendStatus(), notificationForOne.getAlarmId());
         sendFollowAlarmRequest(notificationForOne);
     }
@@ -66,12 +68,12 @@ public class FollowService {
 
     private void followAccept(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE);
-        alarmMapper.insertFollowAlarmLog(notificationForOne, LocalDateTime.now(), friendId);
+        alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.getAlarmStatus(), LocalDateTime.now(), friendId);
         followMapper.followAccept(myUserId, friendId, FRIEND.getFriendStatus());
         sendFollowAlarmRequest(notificationForOne);
     }
 
     private void followNotAccept(Long myUserId, Long alarmId) {
-        alarmMapper.deleteAlarmLog(myUserId, alarmId);
+        alarmMapper.deleteFollowAlarmLog(myUserId, alarmId);
     }
 }

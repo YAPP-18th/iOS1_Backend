@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class Tag {
-
     private Long id;
     private String tagName;
 

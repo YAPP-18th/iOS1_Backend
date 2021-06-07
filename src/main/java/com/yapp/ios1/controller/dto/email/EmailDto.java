@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import javax.validation.constraints.Email;
 
-import static com.yapp.ios1.error.exception.ErrorCode.NOT_VALID_EMAIL;
+import static com.yapp.ios1.common.ValidMessage.NOT_VALID_EMAIL;
 
 /**
  * created by ayoung 2021/04/20

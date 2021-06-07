@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "social")
 @Configuration
 public class SocialLoginProperties {
-
     private String key;
     private Host host;
 

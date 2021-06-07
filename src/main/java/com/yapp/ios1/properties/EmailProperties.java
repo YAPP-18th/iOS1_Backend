@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "buok.email")
 @Configuration
 public class EmailProperties {
-
     private String name;
     private String link;
     private String logoUrl;

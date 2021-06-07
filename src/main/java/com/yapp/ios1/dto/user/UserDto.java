@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * created by jg 2021/03/28
+ * TODO 모델로 변경?
  */
 @NoArgsConstructor
 @AllArgsConstructor

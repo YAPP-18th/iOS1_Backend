@@ -4,6 +4,7 @@ import lombok.Getter;
 
 /**
  * created by ayoung 2021/05/18
+ * TODO 클래스 이름 변경하기 + Model 로 이동?
  */
 @Getter
 public class ProfileResultDto {

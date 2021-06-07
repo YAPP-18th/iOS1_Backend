@@ -19,32 +19,19 @@
             AND user_id = #{userId}
     </select>
 
-    <select id="searchUser" resultType="UserSearchDto">
-        SELECT u.id as userId,
+    <select id="searchUser" resultType="Friend">
+        SELECT DISTINCT (u.id) as userId,
                u.nickname,
                u.intro,
                u.profile_url as profileUrl,
-               f.friend_status as friendStatus
-        FROM user u
-            JOIN follow f
-                ON u.id = f.follower_id OR f.following_id = u.id
-        WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
-          AND u.id NOT IN (#{userId})
+               IFNULL(f.friend_status, 3) as friendStatus
+        FROM (
+            SELECT * FROM user u
+            WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%")) AND u.id NOT IN (#{userId})
+            ) as u
+            LEFT OUTER JOIN follow f
+                ON (u.id = f.follower_id OR f.following_id = u.id) AND (f.follower_id = #{userId} OR f.following_id = #{userId})
         ORDER BY friend_status DESC
-    </select>
-    
-    <select id="searchNoFriends" resultType="UserSearchDto">
-        SELECT u.id as userId,
-               u.nickname,
-               u.intro
-        FROM user u
-        WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%"))
-          AND u.id NOT IN (#{userId})
-          AND u.id NOT IN (
-              SELECT u.id FROM user u
-              JOIN follow f
-              ON u.id = f.follower_id
-          )
     </select>
 
     <select id="searchBookMark" resultType="Bucket">
