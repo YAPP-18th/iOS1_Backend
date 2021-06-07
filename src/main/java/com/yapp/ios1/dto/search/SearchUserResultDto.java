@@ -1,5 +1,6 @@
 package com.yapp.ios1.dto.search;
 
+import com.yapp.ios1.model.user.Friend;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class SearchUserResultDto {
-    private List<UserSearchDto> searchs;
+    private List<Friend> searchs;
 }

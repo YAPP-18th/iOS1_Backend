@@ -24,7 +24,7 @@
     </select>
 
     <select id="getFollowAlarmLog" resultType="Notification">
-        SELECT DISTINCT(al.id) as alarmId,
+        SELECT al.id as alarmId,
                f.follower_id   as myUserId,
                f.following_id  as friendId,
                message,
