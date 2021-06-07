@@ -27,7 +27,7 @@
                IFNULL(f.friend_status, 3) as friendStatus
         FROM (
             SELECT * FROM user u
-            WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%")) AND u.id != (#{userId})
+            WHERE (u.nickname LIKE CONCAT("%", #{keyword}, "%") OR u.intro LIKE CONCAT("%", #{keyword}, "%")) AND u.id NOT IN (#{userId})
             ) as u
             LEFT OUTER JOIN follow f
                 ON (u.id = f.follower_id OR f.following_id = u.id) AND (f.follower_id = #{userId} OR f.following_id = #{userId})
