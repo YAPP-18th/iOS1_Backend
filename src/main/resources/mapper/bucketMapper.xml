@@ -79,6 +79,12 @@
         WHERE id = #{id};
     </update>
 
+    <update id="updateBucketState">
+        UPDATE bucket
+        SET bucket_state = #{bucketStateId}
+        WHERE id = #{bucketId} AND user_id = #{userId}
+    </update>
+
     <insert id="saveBucketImageUrlList" parameterType="java.util.ArrayList">
         <if test="imageUrlList.size != 0">
             INSERT INTO image (bucket_id, image_url)

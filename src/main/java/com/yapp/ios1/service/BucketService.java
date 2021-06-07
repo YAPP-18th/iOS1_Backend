@@ -3,6 +3,7 @@ package com.yapp.ios1.service;
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
+import com.yapp.ios1.error.exception.bucket.bucketStateIdInvalidException;
 import com.yapp.ios1.mapper.BucketMapper;
 import com.yapp.ios1.model.bucket.Bookmark;
 import com.yapp.ios1.model.bucket.Bucket;
@@ -137,8 +138,19 @@ public class BucketService {
         bucketMapper.setBucketFin(bucketId, isFin);
     }
 
-    private void checkValidBucket(Long bucketId, Long userId) {
+    public void checkValidBucket(Long bucketId, Long userId) {
         bucketMapper.findByBucketIdAndUserId(bucketId, userId)
                 .orElseThrow(BucketNotFoundException::new);
+    }
+
+    public void checkValidBucketStateId(int bucketStateId) {
+        if (bucketStateId < 1 || bucketStateId > 5) {
+            throw new bucketStateIdInvalidException();
+        }
+    }
+
+    @Transactional
+    public void updateBucketState(Long userId, Long bucketId, int bucketStateId) {
+        bucketMapper.updateBucketState(bucketId, userId, bucketStateId);
     }
 }
