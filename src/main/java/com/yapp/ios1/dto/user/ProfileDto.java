@@ -6,6 +6,7 @@ import lombok.Getter;
 
 /**
  * created by ayoung 2021/05/18
+ * TODO 모델로 이동?
  */
 @AllArgsConstructor
 @Getter

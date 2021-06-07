@@ -5,6 +5,7 @@ import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.mapper.BucketMapper;
 import com.yapp.ios1.model.bucket.Bucket;
+import com.yapp.ios1.model.bucket.BucketTimeline;
 import com.yapp.ios1.model.image.Image;
 import com.yapp.ios1.model.tag.Tag;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class BucketService {
         return bucketMapper.findByBucketImageByBucketId(bucketId, userId);
     }
 
-    private List<Bucket.BucketTimelineDto> findByBucketTimelineByBucketId(Long bucketId, Long userId) {
+    private List<BucketTimeline> findByBucketTimelineByBucketId(Long bucketId, Long userId) {
         return bucketMapper.findByBucketTimelineByBucketId(bucketId, userId);
     }
 

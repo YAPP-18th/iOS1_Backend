@@ -3,6 +3,7 @@ package com.yapp.ios1.mapper;
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.model.bucket.Bucket;
+import com.yapp.ios1.model.bucket.BucketTimeline;
 import com.yapp.ios1.model.image.Image;
 import com.yapp.ios1.model.tag.Tag;
 import org.apache.ibatis.annotations.Mapper;
@@ -58,7 +59,7 @@ public interface BucketMapper {
 
     List<Image> findByBucketImageByBucketId(Long bucketId, Long userId);
 
-    List<Bucket.BucketTimelineDto> findByBucketTimelineByBucketId(Long bucketId, Long userId);
+    List<BucketTimeline> findByBucketTimelineByBucketId(Long bucketId, Long userId);
 
     void setBucketFin(Long bucketId, Long userId, boolean isFin);
 }

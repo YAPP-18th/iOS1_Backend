@@ -21,14 +21,4 @@ public class Bucket {
     private boolean isBookmark;
     private boolean isFin;
     private String userProfileUrl;
-
-    /**
-     * created by jg 2021/06/06
-     */
-    @Getter
-    public static class BucketTimelineDto {
-
-        private String content;
-        private LocalDate modifiedDate;
-    }
 }

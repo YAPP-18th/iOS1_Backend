@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * created by jg 2021/05/09
+ * 홈 화면 Dto
  */
 @Getter
 public class BucketHomeDto {

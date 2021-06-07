@@ -1,7 +1,7 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.user.check.UserCheckDto;
+import com.yapp.ios1.dto.user.UserCheckDto;
 import com.yapp.ios1.controller.dto.user.social.SocialLoginDto;
 import com.yapp.ios1.controller.dto.user.social.SocialType;
 import com.yapp.ios1.service.OauthService;

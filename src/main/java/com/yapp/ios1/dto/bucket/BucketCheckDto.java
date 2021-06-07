@@ -4,7 +4,6 @@ import lombok.Getter;
 
 /**
  * created by ayoung 2021/06/04
- *
  **/
 @Getter
 public class BucketCheckDto {
