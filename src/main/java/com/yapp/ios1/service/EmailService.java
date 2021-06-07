@@ -1,6 +1,6 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.error.exception.email.EmailSendException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -92,7 +91,7 @@ public class EmailService {
             throw new EmailNotExistException();
         }
 
-        UserDto user = userMapper.findByEmail(email)
+        User user = userMapper.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);
 
         return user.getId();

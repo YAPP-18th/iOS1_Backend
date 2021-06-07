@@ -15,7 +15,7 @@ public class ResponseDtoTest {
     public void responseTest() {
 
 //        //given
-//        UserDto userDto = new UserDto("ayong703@gmail.com", SocialType.GOOGLE, "문아영","test", "test");
+//        User userDto = new User("ayong703@gmail.com", SocialType.GOOGLE, "문아영","test", "test");
 //
 //        //when
 //        ResponseDto res1 = ResponseDto.of(HttpStatus.OK, "응답 테스트 메세지1", userDto);

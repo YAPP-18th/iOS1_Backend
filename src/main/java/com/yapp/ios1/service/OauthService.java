@@ -1,7 +1,7 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.dto.user.UserDto;
-import com.yapp.ios1.dto.user.UserCheckDto;
+import com.yapp.ios1.model.user.User;
+import com.yapp.ios1.dto.user.UserStatusDto;
 import com.yapp.ios1.controller.dto.user.login.SignUpDto;
 import com.yapp.ios1.controller.dto.user.social.SocialLoginDto;
 import com.yapp.ios1.properties.SocialLoginProperties;
@@ -24,26 +24,26 @@ public class OauthService {
     private final SocialLoginProperties socialLoginProperties;
 
     @Transactional
-    public UserCheckDto getSocialUser(String socialType, SocialLoginDto socialDto) {
+    public UserStatusDto getSocialUser(String socialType, SocialLoginDto socialDto) {
         String socialId = socialDto.getSocialId();
         String email = socialDto.getEmail();
 
-        Optional<UserDto> optionalUser = userService.findBySocialIdAndSocialType(socialId, socialType);
+        Optional<User> optionalUser = userService.findBySocialIdAndSocialType(socialId, socialType);
 
         if (optionalUser.isEmpty()) {
             userService.emailCheck(email);
             return socialSignUp(socialId, email, socialType);
         }
-        return new UserCheckDto(HttpStatus.OK, jwtService.createTokenResponse(optionalUser.get().getId()));
+        return new UserStatusDto(HttpStatus.OK, jwtService.createTokenResponse(optionalUser.get().getId()));
     }
 
-    private UserCheckDto socialSignUp(String socialId, String email, String socialType) {
+    private UserStatusDto socialSignUp(String socialId, String email, String socialType) {
         SignUpDto signUpDto = SignUpDto.builder()
                 .email(email)
                 .socialType(socialType)
                 .password(socialLoginProperties.getKey())
                 .socialId(socialId)
                 .build();
-        return new UserCheckDto(HttpStatus.CREATED, userService.signUp(UserDto.of(signUpDto)));
+        return new UserStatusDto(HttpStatus.CREATED, userService.signUp(User.of(signUpDto)));
     }
 }

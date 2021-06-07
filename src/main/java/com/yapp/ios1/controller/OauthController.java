@@ -1,7 +1,7 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.user.UserCheckDto;
+import com.yapp.ios1.dto.user.UserStatusDto;
 import com.yapp.ios1.controller.dto.user.social.SocialLoginDto;
 import com.yapp.ios1.controller.dto.user.social.SocialType;
 import com.yapp.ios1.service.OauthService;
@@ -30,7 +30,7 @@ public class OauthController {
     @PostMapping("/{social_type}")
     public ResponseEntity<ResponseDto> socialLogin(@PathVariable("social_type") SocialType socialType,
                                                    @RequestBody @Valid SocialLoginDto socialDto) {
-        UserCheckDto checkDto = oauthService.getSocialUser(socialType.name(), socialDto);
-        return ResponseEntity.ok(ResponseDto.of(checkDto.getStatus(), LOGIN_SUCCESS, checkDto.getTokenDto()));
+        UserStatusDto statusDto = oauthService.getSocialUser(socialType.name(), socialDto);
+        return ResponseEntity.ok(ResponseDto.of(statusDto.getStatus(), LOGIN_SUCCESS, statusDto.getTokenDto()));
     }
 }

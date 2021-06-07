@@ -1,9 +1,9 @@
 package com.yapp.ios1.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.yapp.ios1.dto.bucket.BookmarkResultDto;
+import com.yapp.ios1.dto.bucket.BookmarkListDto;
 import com.yapp.ios1.model.bucket.Bucket;
-import com.yapp.ios1.dto.user.ProfileResultDto;
+import com.yapp.ios1.model.user.Profile;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,10 +16,10 @@ import java.util.List;
 @Getter
 @Builder
 public class UserInfoDto {
-    private ProfileResultDto user;
+    private Profile user;
     private int friendCount;
     private int bucketCount;
-    private BookmarkResultDto bookmark;
+    private BookmarkListDto bookmark;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isFriend;
     @JsonInclude(JsonInclude.Include.NON_NULL)

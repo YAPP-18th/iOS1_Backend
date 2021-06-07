@@ -1,4 +1,4 @@
-package com.yapp.ios1.dto.user;
+package com.yapp.ios1.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yapp.ios1.controller.dto.user.login.SignUpDto;
@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 
 /**
  * created by jg 2021/03/28
- * TODO 모델로 변경?
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Builder
-public class UserDto {
+public class User {
     private Long id;
     private String email;
     @JsonIgnore
@@ -31,8 +30,8 @@ public class UserDto {
     private String deviceToken;
     private String profileUrl;
 
-    public static UserDto of(SignUpDto signUpDto) {
-        return UserDto.builder()
+    public static User of(SignUpDto signUpDto) {
+        return User.builder()
                 .email(signUpDto.getEmail())
                 .nickname(signUpDto.getNickname())
                 .password(signUpDto.getPassword())

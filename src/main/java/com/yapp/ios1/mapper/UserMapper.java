@@ -1,8 +1,8 @@
 package com.yapp.ios1.mapper;
 
-import com.yapp.ios1.dto.user.ProfileDto;
-import com.yapp.ios1.dto.user.ProfileResultDto;
-import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
+import com.yapp.ios1.model.user.User;
+import com.yapp.ios1.model.user.Profile;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,21 +15,21 @@ import java.util.Optional;
 @Mapper
 public interface UserMapper {
 
-    Optional<UserDto> findByUserId(@Param("userId") Long userId);
+    Optional<User> findByUserId(@Param("userId") Long userId);
 
-    Optional<UserDto> findByEmail(@Param("email") String email);
+    Optional<User> findByEmail(@Param("email") String email);
 
-    Optional<UserDto> findByNickname(@Param("nickname") String nickname);
+    Optional<User> findByNickname(@Param("nickname") String nickname);
 
-    Optional<UserDto> findBySocialIdAndSocialType(String socialId, String socialType);
+    Optional<User> findBySocialIdAndSocialType(String socialId, String socialType);
 
-    Optional<ProfileResultDto> findProfileByUserId(@Param("userId") Long userId);
+    Optional<Profile> findProfileByUserId(@Param("userId") Long userId);
 
     void changePassword(Long userId, String password);
 
-    int updateProfile(ProfileDto profile, Long userId);
+    int updateProfile(ProfileUpdateDto profile, Long userId);
 
-    void signUp(UserDto userDto);
+    void signUp(User user);
 
     Optional<String> findDeviceTokenByUserId(Long userId);
 

@@ -1,5 +1,6 @@
 package com.yapp.ios1.dto.bucket;
 
+import com.yapp.ios1.model.bucket.Bookmark;
 import lombok.Getter;
 
 import java.util.List;
@@ -9,11 +10,11 @@ import java.util.List;
  * 북마크 Dto
  */
 @Getter
-public class BookmarkResultDto {
-    private List<BookmarkDto> bookmarkList;
+public class BookmarkListDto {
+    private List<Bookmark> bookmarkList;
     private int bookMarkCount;
 
-    public BookmarkResultDto(List<BookmarkDto> bookmarkList, int bookMarkCount) {
+    public BookmarkListDto(List<Bookmark> bookmarkList, int bookMarkCount) {
         this.bookmarkList = bookmarkList;
         this.bookMarkCount = bookMarkCount;
     }

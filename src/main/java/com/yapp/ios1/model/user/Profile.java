@@ -1,13 +1,13 @@
-package com.yapp.ios1.dto.user;
+package com.yapp.ios1.model.user;
 
 import lombok.Getter;
 
 /**
  * created by ayoung 2021/05/18
- * TODO 클래스 이름 변경하기 + Model 로 이동?
+ * 디바이스 토큰, 패스워드 제외한 프로필 모델
  */
 @Getter
-public class ProfileResultDto {
+public class Profile {
     private Long id;
     private String email;
     private String nickname;
