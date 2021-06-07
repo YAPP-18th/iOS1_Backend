@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "jwt")
 @Configuration
 public class JwtProperties {
-
     // TODO AccessToken, RefreshToken SecretKey 분리하기
     private String secretKey;
     private AccessToken accessToken;

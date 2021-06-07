@@ -9,7 +9,6 @@ import java.time.LocalDate;
  */
 @Getter
 public class BucketTimeline {
-
     private String content;
     private LocalDate modifiedDate;
 }
