@@ -25,13 +25,11 @@ public interface AlarmMapper {
                              @Param("alarmStatus") int alarmStatus);
 
     List<Notification> getCommonAlarmLog(Long userId);
-
     List<Notification> getFollowAlarmLog(Long userId);
-    void deleteFollowAlarmLog(Long alarmId, Long userId);
 
+    void deleteFollowAlarmLog(Long alarmId, Long userId);
     void deleteWholeAlarmLog(Long alarmId, Long userId);
 
     Optional<Notification> findWholeAlarmByAlarmId(Long alarmId);
-
     Optional<Notification> findFollowAlarmByAlarmId(Long alarmId);
 }
