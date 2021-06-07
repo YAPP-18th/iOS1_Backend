@@ -18,5 +18,5 @@ public class BucketDetailDto {
     private Bucket bucket;
     private List<Image> images;
     private List<Tag> tags;
-    private List<BucketTimelineDto> bucketTimelines;
+    private List<Bucket.BucketTimelineDto> bucketTimelines;
 }

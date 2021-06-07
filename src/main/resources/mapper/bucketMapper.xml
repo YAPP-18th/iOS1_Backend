@@ -202,7 +202,7 @@
         WHERE b.id = #{bucketId} AND b.user_id = #{userId}
     </select>
 
-    <select id="findByBucketTimelineByBucketId" resultType="BucketTimelineDto">
+    <select id="findByBucketTimelineByBucketId" resultType="BucketTimeline">
         SELECT bl.content,
                bl.modified_date as modifiedDate
         FROM bucket b

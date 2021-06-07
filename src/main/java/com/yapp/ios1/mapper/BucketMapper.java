@@ -58,7 +58,7 @@ public interface BucketMapper {
 
     List<Image> findByBucketImageByBucketId(Long bucketId, Long userId);
 
-    List<BucketTimelineDto> findByBucketTimelineByBucketId(Long bucketId, Long userId);
+    List<Bucket.BucketTimelineDto> findByBucketTimelineByBucketId(Long bucketId, Long userId);
 
     void setBucketFin(Long bucketId, Long userId, boolean isFin);
 }

@@ -45,7 +45,7 @@ public class BucketService {
         return bucketMapper.findByBucketImageByBucketId(bucketId, userId);
     }
 
-    private List<BucketTimelineDto> findByBucketTimelineByBucketId(Long bucketId, Long userId) {
+    private List<Bucket.BucketTimelineDto> findByBucketTimelineByBucketId(Long bucketId, Long userId) {
         return bucketMapper.findByBucketTimelineByBucketId(bucketId, userId);
     }
 
