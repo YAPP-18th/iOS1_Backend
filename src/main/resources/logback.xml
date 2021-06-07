@@ -50,14 +50,10 @@
         <encoder>
             <pattern>[%date] %highlight([%level]) [%logger{10} %file:%line] %msg%n</pattern>
         </encoder>
-
     </appender>
 r
     <!-- Root with a threshold to INFO and above -->
     <root level="INFO">
-        <!-- Append to the console -->
-<!--        <appender-ref ref="STDOUT"/>-->
-        <!-- Append also to the (async) AwsLogsAppender -->
         <appender-ref ref="COLOR"/>
         <appender-ref ref="ASYNC_AWS_LOGS"/>
         <if condition='isDefined("color")'>
