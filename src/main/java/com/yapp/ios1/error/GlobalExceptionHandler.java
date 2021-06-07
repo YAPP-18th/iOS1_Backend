@@ -21,17 +21,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class GlobalExceptionHandler {
 
     /**
-     * 소셜 로그인 에러
-     * ex) Token 잘못되었을 때
-     */
-    @ExceptionHandler(HttpClientErrorException.class)
-    public ResponseEntity<ErrorResponse> socialLoginException() {
-        log.error("HttpClientErrorException");
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.SOCIAL_LOGIN_TOKEN_ERROR);
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-    }
-
-    /**
      * Bucket 등록할 때 LocalDate 형식 오류
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
