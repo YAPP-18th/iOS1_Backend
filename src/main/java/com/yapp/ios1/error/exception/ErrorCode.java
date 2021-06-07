@@ -34,6 +34,9 @@ public enum ErrorCode {
     PASSWORD_MISMATCH_ERROR(400, "M008", "Password MisMatch Error"),
     DEVICE_TOKEN_NOT_FOUND_ERROR(400, "M008", "DeviceToken is not Exist"),
 
+    // Alarm
+    ALARM_NOT_FOUND_ERROR(400, "N001", "Alarm is not Exist"),
+
     // Email
     EMAIL_SEND_ERROR(500, "P001", "Email Send Error"),
 

@@ -42,8 +42,25 @@
         ORDER BY al.created_at ASC
     </select>
 
-    <delete id="deleteAlarmLog">
+    <select id="findWholeAlarmByAlarmId" resultType="Notification">
+        SELECT *
+        FROM whole_alarm_log
+        WHERE id = #{alarmId}
+    </select>
+
+    <select id="findFollowAlarmByAlarmId" resultType="Notification">
+        SELECT *
+        FROM follow_alarm_log
+        WHERE id = #{alarmId}
+    </select>
+
+    <delete id="deleteFollowAlarmLog">
         DELETE FROM follow_alarm_log
         WHERE id = #{alarmId} AND user_id = #{userId}
+    </delete>
+
+    <delete id="deleteWholeAlarmLog">
+        INSERT INTO whole_alarm_delete (alarm_id, user_id)
+        VALUES (#{alarmId}, #{userId})
     </delete>
 </mapper>

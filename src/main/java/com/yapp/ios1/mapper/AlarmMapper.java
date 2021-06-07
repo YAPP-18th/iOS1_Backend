@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * created by jg 2021/05/21
@@ -26,5 +27,11 @@ public interface AlarmMapper {
     List<Notification> getCommonAlarmLog(Long userId);
 
     List<Notification> getFollowAlarmLog(Long userId);
-    void deleteAlarmLog(Long userId, Long alarmId);
+    void deleteFollowAlarmLog(Long alarmId, Long userId);
+
+    void deleteWholeAlarmLog(Long alarmId, Long userId);
+
+    Optional<Notification> findWholeAlarmByAlarmId(Long alarmId);
+
+    Optional<Notification> findFollowAlarmByAlarmId(Long alarmId);
 }

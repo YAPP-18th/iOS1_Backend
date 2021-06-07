@@ -10,6 +10,7 @@ import com.google.firebase.messaging.Message;
 import com.yapp.ios1.common.AlarmStatus;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
+import com.yapp.ios1.error.exception.alarm.AlarmNotFoundException;
 import com.yapp.ios1.model.notification.Notification;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.UserMapper;
@@ -127,8 +128,26 @@ public class NotificationService {
         return userMapper.findAllUserDeviceToken();
     }
 
-    public void deleteAlarm(Long userId, Long alarmId) {
-        alarmMapper.deleteAlarmLog(userId, alarmId);
+    private void checkValidWholeAlarm(Long alarmId) {
+        alarmMapper.findWholeAlarmByAlarmId(alarmId)
+                .orElseThrow(AlarmNotFoundException::new);
+    }
+
+    private void checkValidFollowAlarm(Long alarmId) {
+        alarmMapper.findFollowAlarmByAlarmId(alarmId)
+                .orElseThrow(AlarmNotFoundException::new);
+    }
+
+    @Transactional
+    public void deleteAlarm(Long alarmId, Long userId, int alarmStatus) {
+        if (alarmStatus == WHOLE_ALARM.getAlarmStatus()) {
+            checkValidWholeAlarm(alarmId);
+            alarmMapper.deleteWholeAlarmLog(alarmId, userId);
+            return;
+        }
+        // 친구 알람 삭제
+        checkValidFollowAlarm(alarmId);
+        alarmMapper.deleteFollowAlarmLog(alarmId, userId);
     }
 }
 

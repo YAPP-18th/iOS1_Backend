@@ -34,12 +34,12 @@ public class AlarmController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_ALARM_LOG, notificationService.getAlarmLog(userId)));
     }
 
-    @ApiOperation(value = "알람 로그 삭제")
+    @ApiOperation(value = "알람 로그 삭제 (alarmStatus: 1(전체 알람), 2(친구 알람))")
     @Auth
     @DeleteMapping("/alarm/{alarmId}")
-    public ResponseEntity<ResponseDto> deleteAlarm(@PathVariable Long alarmId) {
+    public ResponseEntity<ResponseDto> deleteAlarm(@PathVariable Long alarmId, @RequestParam("alarm_status") int alarmStatus) {
         Long userId = UserContext.getCurrentUserId();
-        notificationService.deleteAlarm(userId, alarmId);
+        notificationService.deleteAlarm(alarmId, userId, alarmStatus);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, DELETE_ALARM_LOG));
     }
 }

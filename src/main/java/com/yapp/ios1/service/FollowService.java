@@ -74,6 +74,6 @@ public class FollowService {
     }
 
     private void followNotAccept(Long myUserId, Long alarmId) {
-        alarmMapper.deleteAlarmLog(myUserId, alarmId);
+        alarmMapper.deleteFollowAlarmLog(myUserId, alarmId);
     }
 }
