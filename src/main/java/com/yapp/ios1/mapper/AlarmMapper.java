@@ -16,10 +16,12 @@ import java.util.List;
 public interface AlarmMapper {
 
     void insertFollowAlarmLog(@Param("notification") NotificationForOneDto notification,
+                              @Param("alarmStatus") int alarmStatus,
                               @Param("time") LocalDateTime localDateTime,
                               @Param("friendId") Long friendId);
 
-    void insertWholeAlarmLog(@Param("alarm") NotificationDto notificationDto);
+    void insertWholeAlarmLog(@Param("alarm") NotificationDto notificationDto,
+                             @Param("alarmStatus") int alarmStatus);
 
     List<Notification> getCommonAlarmLog(Long userId);
 

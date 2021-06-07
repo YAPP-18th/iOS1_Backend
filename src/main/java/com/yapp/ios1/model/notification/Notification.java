@@ -14,6 +14,7 @@ public class Notification {
     private String title;
     private String message;
     private String profileUrl;
-    private Integer friendStatus;
+    private int friendStatus;
+    private int alarmStatus;
     private String createdAt;
 }

@@ -7,6 +7,7 @@ import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
+import com.yapp.ios1.common.AlarmStatus;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.model.notification.Notification;
@@ -31,6 +32,7 @@ import java.util.stream.Stream;
 
 import static com.yapp.ios1.common.AlarmMessage.WHOLE_ALARM_MESSAGE;
 import static com.yapp.ios1.common.AlarmMessage.WHOLE_ALARM_TITLE;
+import static com.yapp.ios1.common.AlarmStatus.WHOLE_ALARM;
 
 /**
  * created by jg 2021/05/02
@@ -113,7 +115,7 @@ public class NotificationService {
     @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     @Transactional
     public void notificationSchedule() {
-        alarmMapper.insertWholeAlarmLog(makeNotification());
+        alarmMapper.insertWholeAlarmLog(makeNotification(), WHOLE_ALARM.getAlarmStatus());  // alarm_status = 1 (전체 알람)
         sendPushNotification();
     }
 
