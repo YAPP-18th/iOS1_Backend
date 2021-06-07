@@ -45,6 +45,11 @@ dependencies {
     // AWS
     compile 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
 
+    // logback
+    compile group: 'ca.pjer', name: 'logback-awslogs-appender', version: '1.4.0'
+    implementation group: 'org.codehaus.janino', name: 'janino', version: '3.0.7'
+
+
     compile "javax.xml.bind:jaxb-api"
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'

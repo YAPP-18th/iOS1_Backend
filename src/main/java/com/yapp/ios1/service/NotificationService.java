@@ -65,6 +65,10 @@ public class NotificationService {
         }
     }
 
+    private List<String> findDeviceTokens() {
+        return userMapper.findAllUserDeviceToken();
+    }
+
     @Async("asyncTask")
     public void sendPushNotification() {
         List<String> deviceTokens = findDeviceTokens();
@@ -98,7 +102,6 @@ public class NotificationService {
             response = FirebaseMessaging.getInstance().send(message);
             log.info("send message: " + response);
         } catch (FirebaseMessagingException e) {
-            // FireBaseMessage Throw Refactor
             log.error("cannot send message by token. error info : {}", e.getMessage());
         }
     }
@@ -112,30 +115,16 @@ public class NotificationService {
                 .collect(Collectors.toList());
     }
 
+    private NotificationDto makeNotification() {
+        return new NotificationDto(WHOLE_ALARM_TITLE, WHOLE_ALARM_MESSAGE, LocalDateTime.now());
+    }
+
     // 초, 분, 시간, 일, 월, 요일 (매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정)
     @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     @Transactional
     public void notificationSchedule() {
         alarmMapper.insertWholeAlarmLog(makeNotification(), WHOLE_ALARM.getAlarmStatus());  // alarm_status = 1 (전체 알람)
         sendPushNotification();
-    }
-
-    private NotificationDto makeNotification() {
-        return new NotificationDto(WHOLE_ALARM_TITLE, WHOLE_ALARM_MESSAGE, LocalDateTime.now());
-    }
-
-    private List<String> findDeviceTokens() {
-        return userMapper.findAllUserDeviceToken();
-    }
-
-    private void checkValidWholeAlarm(Long alarmId) {
-        alarmMapper.findWholeAlarmByAlarmId(alarmId)
-                .orElseThrow(AlarmNotFoundException::new);
-    }
-
-    private void checkValidFollowAlarm(Long alarmId) {
-        alarmMapper.findFollowAlarmByAlarmId(alarmId)
-                .orElseThrow(AlarmNotFoundException::new);
     }
 
     @Transactional
@@ -148,6 +137,16 @@ public class NotificationService {
         // 친구 알람 삭제
         checkValidFollowAlarm(alarmId);
         alarmMapper.deleteFollowAlarmLog(alarmId, userId);
+    }
+
+    private void checkValidWholeAlarm(Long alarmId) {
+        alarmMapper.findWholeAlarmByAlarmId(alarmId)
+                .orElseThrow(AlarmNotFoundException::new);
+    }
+
+    private void checkValidFollowAlarm(Long alarmId) {
+        alarmMapper.findFollowAlarmByAlarmId(alarmId)
+                .orElseThrow(AlarmNotFoundException::new);
     }
 }
 
