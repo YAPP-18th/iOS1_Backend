@@ -144,7 +144,8 @@ public class BucketService {
     }
 
     private void checkValidBucketStateId(int bucketStateId) {
-        if (bucketStateId < 1 || bucketStateId > 5) {
+        // TODO 매직 넘버가 나을라나?
+        if (bucketStateId <= 1 || bucketStateId > 5) {
             throw new bucketStateIdInvalidException();
         }
     }
