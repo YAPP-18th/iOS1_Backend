@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import static com.yapp.ios1.common.ValidMessage.NOT_VALID_EMAIL;
 
@@ -13,7 +14,9 @@ import static com.yapp.ios1.common.ValidMessage.NOT_VALID_EMAIL;
 @AllArgsConstructor
 @Getter
 public class SignInDto {
+    @NotBlank
     @Email(message = NOT_VALID_EMAIL)
     private String email;
+    @NotBlank
     private String password;
 }
