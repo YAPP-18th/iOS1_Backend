@@ -138,12 +138,12 @@ public class BucketService {
         bucketMapper.setBucketFin(bucketId, isFin);
     }
 
-    public void checkValidBucket(Long bucketId, Long userId) {
+    private void checkValidBucket(Long bucketId, Long userId) {
         bucketMapper.findByBucketIdAndUserId(bucketId, userId)
                 .orElseThrow(BucketNotFoundException::new);
     }
 
-    public void checkValidBucketStateId(int bucketStateId) {
+    private void checkValidBucketStateId(int bucketStateId) {
         if (bucketStateId < 1 || bucketStateId > 5) {
             throw new bucketStateIdInvalidException();
         }
@@ -151,6 +151,9 @@ public class BucketService {
 
     @Transactional
     public void updateBucketState(Long userId, Long bucketId, int bucketStateId) {
+        // TODO PathVariable Valid 체크는 Controller 에서 하면 좋을지 Service에서 하면 좋을지 고민해보기 (다른 곳도 부분 마찬가지)
+        checkValidBucketStateId(bucketStateId);
+        checkValidBucket(bucketId, userId);
         bucketMapper.updateBucketState(bucketId, userId, bucketStateId);
     }
 }

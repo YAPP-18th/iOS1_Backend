@@ -59,8 +59,6 @@ public class BucketController {
     public ResponseEntity<ResponseDto> updateBucketState(@PathVariable Long bucketId,
                                                          @PathVariable int bucketStateId) {
         Long userId = UserContext.getCurrentUserId();
-        bucketService.checkValidBucketStateId(bucketStateId);
-        bucketService.checkValidBucket(bucketId, userId);
         bucketService.updateBucketState(userId, bucketId, bucketStateId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_STATE));
     }
