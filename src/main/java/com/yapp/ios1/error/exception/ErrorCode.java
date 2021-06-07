@@ -12,10 +12,10 @@ public enum ErrorCode {
     INVALID_INPUT_VALUE(400, "C001", " Invalid Input Value"),
     METHOD_NOT_ALLOWED(405, "C002", " Invalid Input Value"),
     ENTITY_NOT_FOUND(400, "C003", " Entity Not Found"),
+    INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
     INVALID_TYPE_VALUE(400, "C005", " Invalid Type Value"),
     HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
-    INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
-    JSON_WRITE_ERROR(401, "C005", "JSON content that are not pure I/O problems"),
+    JSON_WRITE_ERROR(401, "C007", "JSON content that are not pure I/O problems"),
 
     // JWT
     JWT_ERROR(401, "J001", "JWT가 없거나 잘못된 값 입니다"),
