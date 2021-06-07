@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * created by jg 2021/06/03
  */
-@JsonFormat(shape = JsonFormat.Shape.OBJECT) // enum 에서 key-value 쌍을 사용할 때
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
 
     // Common

@@ -14,6 +14,7 @@ public class ResponseMessage {
     public static final String UPDATE_BUCKET_SUCCESS = "버킷 수정 성공입니다.";
     public static final String GET_BUCKET_DETAIL = "버킷 상세 조회 성공입니다";
     public static final String REGISTER_BUCKET_FIN_SUCCESS = "버킷 핀 등록 성공입니다";
+    public static final String UPDATE_BUCKET_STATE = "버킷 상태 변경 성공입니다";
 
     // Login
     public static final String LOGIN_SUCCESS = "AccessToken, RefreshToken 발급합니다.";

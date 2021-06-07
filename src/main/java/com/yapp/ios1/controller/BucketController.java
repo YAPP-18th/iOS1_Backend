@@ -53,6 +53,16 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_DETAIL, bucketService.getBucketOne(bucketId, userId)));
     }
 
+    @ApiOperation(value = "버킷 상태 변경")
+    @Auth
+    @PutMapping("/{bucketId}/state/{bucketStateId}")
+    public ResponseEntity<ResponseDto> updateBucketState(@PathVariable Long bucketId,
+                                                         @PathVariable int bucketStateId) {
+        Long userId = UserContext.getCurrentUserId();
+        bucketService.updateBucketState(userId, bucketId, bucketStateId);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_STATE));
+    }
+
     @ApiOperation(value = "버킷 핀 설정 or 해제")
     @Auth
     @PutMapping("/{bucketId}/fin")

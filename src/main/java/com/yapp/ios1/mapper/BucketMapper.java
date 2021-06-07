@@ -61,4 +61,6 @@ public interface BucketMapper {
     List<BucketTimeline> findByBucketTimelineByBucketId(Long bucketId, Long userId);
 
     void setBucketFin(Long bucketId, boolean isFin);
+
+    void updateBucketState(Long bucketId, Long userId, int bucketStateId);
 }

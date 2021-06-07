@@ -3,6 +3,7 @@ package com.yapp.ios1.service;
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
+import com.yapp.ios1.error.exception.bucket.bucketStateIdInvalidException;
 import com.yapp.ios1.mapper.BucketMapper;
 import com.yapp.ios1.model.bucket.Bookmark;
 import com.yapp.ios1.model.bucket.Bucket;
@@ -140,5 +141,20 @@ public class BucketService {
     private void checkValidBucket(Long bucketId, Long userId) {
         bucketMapper.findByBucketIdAndUserId(bucketId, userId)
                 .orElseThrow(BucketNotFoundException::new);
+    }
+
+    private void checkValidBucketStateId(int bucketStateId) {
+        // TODO 매직 넘버가 나을라나?
+        if (bucketStateId <= 1 || bucketStateId > 5) {
+            throw new bucketStateIdInvalidException();
+        }
+    }
+
+    @Transactional
+    public void updateBucketState(Long userId, Long bucketId, int bucketStateId) {
+        // TODO PathVariable Valid 체크는 Controller 에서 하면 좋을지 Service에서 하면 좋을지 고민해보기 (다른 곳도 부분 마찬가지)
+        checkValidBucketStateId(bucketStateId);
+        checkValidBucket(bucketId, userId);
+        bucketMapper.updateBucketState(bucketId, userId, bucketStateId);
     }
 }

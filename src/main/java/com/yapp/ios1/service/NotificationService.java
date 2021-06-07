@@ -13,6 +13,7 @@ import com.yapp.ios1.error.exception.alarm.AlarmNotFoundException;
 import com.yapp.ios1.model.notification.Notification;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.UserMapper;
+import com.yapp.ios1.properties.FirebaseProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,18 +43,16 @@ import static com.yapp.ios1.common.AlarmStatus.WHOLE_ALARM;
 @Service
 public class NotificationService {
 
-    @Value("${fcm.account.path}")
-    private String accountPath;
-
     private final UserMapper userMapper;
     private final AlarmMapper alarmMapper;
+    private final FirebaseProperties firebaseProperties;
 
     @PostConstruct
     public void init() {
         try {
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.
-                            fromStream(new ClassPathResource(accountPath).getInputStream())).build();
+                            fromStream(new ClassPathResource(firebaseProperties.getPath()).getInputStream())).build();
 
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
