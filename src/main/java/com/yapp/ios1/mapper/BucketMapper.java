@@ -2,6 +2,7 @@ package com.yapp.ios1.mapper;
 
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
+import com.yapp.ios1.model.bucket.Bookmark;
 import com.yapp.ios1.model.bucket.Bucket;
 import com.yapp.ios1.model.bucket.BucketTimeline;
 import com.yapp.ios1.model.image.Image;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Mapper
 public interface BucketMapper {
 
-    Optional<Bucket> findByBucketId(Long bucketId, Long userId);
+    Optional<Bucket> findByBucketIdAndUserId(Long bucketId, Long userId);
 
     void registerBucket(BucketRequestDto registerDto);
 
@@ -37,7 +38,7 @@ public interface BucketMapper {
 
     List<Bucket> findByUserId(Long userId);
 
-    List<BookmarkDto> findBookmarkListByUserId(@Param("userId") Long userId);
+    List<Bookmark> findBookmarkListByUserId(@Param("userId") Long userId);
 
     int getBucketCountByUserId(@Param("userId") Long userId);
 
@@ -49,11 +50,9 @@ public interface BucketMapper {
 
     void saveBucketEndDateLog(Long bucketId);
 
-    void completeBucket(Long bucketId, Long userId);
+    void completeBucket(Long bucketId);
 
-    Optional<BucketCheckDto> findUserIdByBucketId(Long bucketId);
-
-    void setBookmark(Long bucketId, Long userId, boolean isBookmark);
+    void setBookmark(Long bucketId, boolean isBookmark);
 
     List<Tag> findByBucketTagByBucketId(Long bucketId);
 
@@ -61,5 +60,5 @@ public interface BucketMapper {
 
     List<BucketTimeline> findByBucketTimelineByBucketId(Long bucketId, Long userId);
 
-    void setBucketFin(Long bucketId, Long userId, boolean isFin);
+    void setBucketFin(Long bucketId, boolean isFin);
 }

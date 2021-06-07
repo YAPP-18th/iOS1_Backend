@@ -4,6 +4,7 @@ import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.mapper.BucketMapper;
+import com.yapp.ios1.model.bucket.Bookmark;
 import com.yapp.ios1.model.bucket.Bucket;
 import com.yapp.ios1.model.bucket.BucketTimeline;
 import com.yapp.ios1.model.image.Image;
@@ -33,8 +34,8 @@ public class BucketService {
         );
     }
 
-    private Bucket findBucketByBucketId(Long bucketId, Long userId) {
-        return bucketMapper.findByBucketId(bucketId, userId)
+    private Bucket findBucketByBucketIdAndUserId(Long bucketId, Long userId) {
+        return bucketMapper.findByBucketIdAndUserId(bucketId, userId)
                 .orElseThrow(BucketNotFoundException::new);
     }
 
@@ -52,7 +53,7 @@ public class BucketService {
 
     public BucketDetailDto getBucketOne(Long bucketId, Long userId) {
         return new BucketDetailDto(
-                findBucketByBucketId(bucketId, userId),
+                findBucketByBucketIdAndUserId(bucketId, userId),
                 findByBucketImageByBucketId(bucketId, userId),
                 findByBucketTagByBucketId(bucketId),
                 findByBucketTimelineByBucketId(bucketId, userId)
@@ -74,7 +75,7 @@ public class BucketService {
 
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
-        Bucket bucketDto = findBucketByBucketId(bucketId, userId);
+        Bucket bucketDto = findBucketByBucketIdAndUserId(bucketId, userId);
 
         updateDto.setId(bucketId);
         bucketMapper.updateBucket(updateDto);
@@ -98,8 +99,8 @@ public class BucketService {
     }
 
     public void completeBucket(Long bucketId, Long userId) {
-        checkValidBucket(bucketId);
-        bucketMapper.completeBucket(bucketId, userId);
+        checkValidBucket(bucketId, userId);
+        bucketMapper.completeBucket(bucketId);
     }
 
     private void updateTag(Long bucketId, List<String> tagList) {
@@ -118,7 +119,7 @@ public class BucketService {
         saveImageUrlList(bucketId, imageUrlList);
     }
 
-    public List<BookmarkDto> getBookmarkList(Long userId) {
+    public List<Bookmark> getBookmarkList(Long userId) {
         return bucketMapper.findBookmarkListByUserId(userId);
     }
 
@@ -127,17 +128,17 @@ public class BucketService {
     }
 
     public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
-        checkValidBucket(bucketId);
-        bucketMapper.setBookmark(bucketId, userId, isBookmark);
-    }
-
-    private void checkValidBucket(Long bucketId) {
-        bucketMapper.findUserIdByBucketId(bucketId)
-                .orElseThrow(BucketNotFoundException::new);
+        checkValidBucket(bucketId, userId);
+        bucketMapper.setBookmark(bucketId, isBookmark);
     }
 
     public void setBucketFile(Long bucketId, Long userId, boolean isFin) {
-        checkValidBucket(bucketId);
-        bucketMapper.setBucketFin(bucketId, userId, isFin);
+        checkValidBucket(bucketId, userId);
+        bucketMapper.setBucketFin(bucketId, isFin);
+    }
+
+    private void checkValidBucket(Long bucketId, Long userId) {
+        bucketMapper.findByBucketIdAndUserId(bucketId, userId)
+                .orElseThrow(BucketNotFoundException::new);
     }
 }

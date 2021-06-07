@@ -1,11 +1,9 @@
 package com.yapp.ios1.utils.auth;
 
 import com.yapp.ios1.dto.jwt.JwtPayload;
-import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.error.exception.jwt.JwtException;
 import com.yapp.ios1.error.exception.jwt.JwtExpiredException;
-import com.yapp.ios1.error.exception.user.UserNotFoundException;
-import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.service.JwtIssueService;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
@@ -42,7 +40,7 @@ public class AuthAspect {
         try {
             String accessToken = httpServletRequest.getHeader(AUTHORIZATION);
             JwtPayload payload = jwtService.getPayload(accessToken);
-            UserDto user = userService.findByUserId(payload.getId());
+            User user = userService.findByUserId(payload.getId());
             UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
             return pjp.proceed();
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
@@ -55,7 +53,7 @@ public class AuthAspect {
         try {
             String refreshToken = httpServletRequest.getHeader(REAUTHORIZATION);
             JwtPayload payload = jwtService.getPayload(refreshToken);
-            UserDto user = userService.findByUserId(payload.getId());
+            User user = userService.findByUserId(payload.getId());
 
             String dbRefreshToken = jwtIssueService.getRefreshTokenByUserId(user.getId());
             checkRefreshTokenExpired(dbRefreshToken, refreshToken);

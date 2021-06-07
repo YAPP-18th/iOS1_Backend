@@ -1,8 +1,8 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.user.ProfileDto;
-import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
+import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.controller.dto.user.login.PasswordDto;
 import com.yapp.ios1.controller.dto.user.login.SignInDto;
 import com.yapp.ios1.controller.dto.user.login.SignUpDto;
@@ -57,14 +57,14 @@ public class UserController {
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) {
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, userService.signUp(UserDto.of(signUpDto))));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, userService.signUp(User.of(signUpDto))));
     }
 
     @ApiOperation(value = "로그인")
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
-        UserDto userDto = userService.signIn(signInDto);
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(userDto.getId())));
+        User user = userService.signIn(signInDto);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(user.getId())));
     }
 
     @ApiOperation(value = "비밀번호 재설정")
@@ -87,7 +87,7 @@ public class UserController {
     @ApiOperation(value = "프로필 수정")
     @Auth
     @PutMapping("")
-    public ResponseEntity<ResponseDto> updateProfile(@RequestBody ProfileDto profile) {
+    public ResponseEntity<ResponseDto> updateProfile(@RequestBody ProfileUpdateDto profile) {
         Long userId = UserContext.getCurrentUserId();
         userService.updateProfile(profile, userId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_PROFILE_SUCCESS));

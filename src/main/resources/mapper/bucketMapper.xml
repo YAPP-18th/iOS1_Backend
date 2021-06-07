@@ -4,7 +4,7 @@
 
 <mapper namespace="com.yapp.ios1.mapper.BucketMapper">
 
-    <select id="findByBucketId" resultType="Bucket">
+    <select id="findByBucketIdAndUserId" resultType="Bucket">
         SELECT id,
                bucket_name     as bucketName,
                bucket_content  as content,
@@ -115,7 +115,7 @@
         tag_name = VALUES (tag_name)
     </insert>
 
-    <select id="findBookmarkListByUserId" resultType="BookmarkDto">
+    <select id="findBookmarkListByUserId" resultType="Bookmark">
         SELECT id,
                bucket_name as bucketName,
                category_id as categoryId,
@@ -163,27 +163,21 @@
         UPDATE bucket
         SET
             bucket_state = 4
-        WHERE id = #{bucketId} AND user_id = #{userId};
-    </update>
-
-    <select id="findUserIdByBucketId" resultType="BucketCheckDto">
-        SELECT id, user_id AS userId
-        FROM bucket
         WHERE id = #{bucketId};
-    </select>
+    </update>
 
     <update id="setBookmark">
         UPDATE bucket
         SET
             bookmark = #{isBookmark}
-        WHERE id = #{bucketId} AND user_id = #{userId}
+        WHERE id = #{bucketId};
     </update>
 
     <update id="setBucketFin">
         UPDATE bucket
         SET
             fin = #{isFin}
-        WHERE id = #{bucketId} AND user_id = #{userId}
+        WHERE id = #{bucketId};
     </update>
 
     <select id="findByBucketTagByBucketId" resultType="Tag">

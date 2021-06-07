@@ -1,16 +1,16 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.dto.bucket.BookmarkDto;
-import com.yapp.ios1.dto.bucket.BookmarkResultDto;
+import com.yapp.ios1.model.user.User;
+import com.yapp.ios1.model.bucket.Bookmark;
+import com.yapp.ios1.dto.bucket.BookmarkListDto;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
-import com.yapp.ios1.dto.user.ProfileDto;
-import com.yapp.ios1.dto.user.ProfileResultDto;
-import com.yapp.ios1.dto.user.UserDto;
+import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
 import com.yapp.ios1.controller.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.UserInfoDto;
 import com.yapp.ios1.error.exception.user.*;
 import com.yapp.ios1.mapper.FollowMapper;
 import com.yapp.ios1.mapper.UserMapper;
+import com.yapp.ios1.model.user.Profile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,13 +39,13 @@ public class UserService {
                 .orElseThrow(DeviceTokenNotFoundException::new);
     }
 
-    public UserDto findByUserId(Long userId) {
+    public User findByUserId(Long userId) {
         return userMapper.findByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
     }
 
     public void emailCheck(String email) {
-        Optional<UserDto> user = userMapper.findByEmail(email);
+        Optional<User> user = userMapper.findByEmail(email);
         if (user.isPresent()) {
             throw new EmailDuplicatedException();
         }
@@ -57,25 +57,25 @@ public class UserService {
     }
 
     public void nicknameCheck(String nickname) {
-        Optional<UserDto> user = userMapper.findByNickname(nickname);
+        Optional<User> user = userMapper.findByNickname(nickname);
         if (user.isPresent()) {
             throw new NickNameDuplicatedException();
         }
     }
 
-    public Optional<UserDto> findBySocialIdAndSocialType(String socialId, String socialType) {
+    public Optional<User> findBySocialIdAndSocialType(String socialId, String socialType) {
         return userMapper.findBySocialIdAndSocialType(socialId, socialType);
     }
 
     @Transactional
-    public TokenResponseDto signUp(UserDto userDto) {
-        userDto.encodePassword(passwordEncoder.encode(userDto.getPassword()));
-        userMapper.signUp(userDto);
-        return jwtService.createTokenResponse(userDto.getId());
+    public TokenResponseDto signUp(User user) {
+        user.encodePassword(passwordEncoder.encode(user.getPassword()));
+        userMapper.signUp(user);
+        return jwtService.createTokenResponse(user.getId());
     }
 
-    public UserDto signIn(SignInDto signInDto) {
-        UserDto user = userMapper.findByEmail(signInDto.getEmail())
+    public User signIn(SignInDto signInDto) {
+        User user = userMapper.findByEmail(signInDto.getEmail())
                 .orElseThrow(UserNotFoundException::new);
 
         if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
@@ -90,14 +90,14 @@ public class UserService {
         userMapper.changePassword(userId, encodePassword);
     }
 
-    public ProfileResultDto getProfile(Long userId) {
+    public Profile getProfile(Long userId) {
         return userMapper.findProfileByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
     }
 
     @Transactional
-    public void updateProfile(ProfileDto profileDto, Long userId) {
-        int change = userMapper.updateProfile(profileDto, userId);
+    public void updateProfile(ProfileUpdateDto profileUpdateDto, Long userId) {
+        int change = userMapper.updateProfile(profileUpdateDto, userId);
         if (change == 0) {
             throw new NickNameDuplicatedException();
         }
@@ -122,7 +122,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserInfoDto getUserInfo(Long userId) {
-        ProfileResultDto profileResult = userMapper.findProfileByUserId(userId)
+        Profile profile = userMapper.findProfileByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
 
         // 친구 수, 버킷 수
@@ -130,13 +130,13 @@ public class UserService {
         int bucketCount = bucketService.getBucketCountByUserId(userId);
 
         // 북마크 수
-        List<BookmarkDto> bookmarkList = bucketService.getBookmarkList(userId);
+        List<Bookmark> bookmarkList = bucketService.getBookmarkList(userId);
 
         return UserInfoDto.builder()
-                .user(profileResult)
+                .user(profile)
                 .friendCount(friendCount)
                 .bucketCount(bucketCount)
-                .bookmark(new BookmarkResultDto(bookmarkList, bookmarkList.size()))
+                .bookmark(new BookmarkListDto(bookmarkList, bookmarkList.size()))
                 .build();
     }
 
