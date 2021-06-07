@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class BucketDetailDto {
-
     private Bucket bucket;
     private List<Image> images;
     private List<Tag> tags;
