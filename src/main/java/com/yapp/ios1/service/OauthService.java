@@ -31,7 +31,9 @@ public class OauthService {
         Optional<User> optionalUser = userService.findBySocialIdAndSocialType(socialId, socialType);
 
         if (optionalUser.isEmpty()) {
-            userService.emailCheck(email);
+            if (email != null) {
+                userService.emailCheck(email);
+            }
             return socialSignUp(socialId, email, socialType);
         }
         return new UserStatusDto(HttpStatus.OK, jwtService.createTokenResponse(optionalUser.get().getId()));

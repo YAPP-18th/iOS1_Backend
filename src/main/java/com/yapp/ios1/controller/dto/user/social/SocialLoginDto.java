@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 public class SocialLoginDto {
-    @NotNull
     @Email
     private String email;
     @NotBlank
