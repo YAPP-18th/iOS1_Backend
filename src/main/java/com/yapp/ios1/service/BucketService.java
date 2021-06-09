@@ -88,7 +88,6 @@ public class BucketService {
         updateTag(bucketId, updateDto.getTagList());
         updateImageUrlList(bucketId, updateDto.getImageList());
 
-        // 버킷 로그 저장
         if (!updateDto.getBucketName().equals(bucketDto.getBucketName())) {
             bucketMapper.saveBucketNameLog(bucketId);
         }

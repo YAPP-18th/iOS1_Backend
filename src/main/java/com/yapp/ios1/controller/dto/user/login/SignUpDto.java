@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import static com.yapp.ios1.common.ValidMessage.NOT_VALID_EMAIL;
 
@@ -17,6 +18,7 @@ import static com.yapp.ios1.common.ValidMessage.NOT_VALID_EMAIL;
 @Builder
 @Getter
 public class SignUpDto {
+    @NotBlank
     @Email(message = NOT_VALID_EMAIL)
     private String email;
     @JsonIgnore
@@ -25,6 +27,7 @@ public class SignUpDto {
     private String password;
     @NotBlank
     private String nickname;
+    @NotNull
     private String intro;
     @JsonIgnore
     private String socialId;
