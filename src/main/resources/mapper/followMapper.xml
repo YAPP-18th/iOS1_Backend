@@ -12,6 +12,7 @@
     <select id="getFollowListByUserId" resultType="Friend">
         SELECT u.id as userId,
                u.email,
+               u.nickname,
                u.intro,
                u.profile_url as profileUrl,
                f1.friend_status as friendStatus
@@ -22,6 +23,7 @@
         UNION
         SELECT u.id as userId,
                u.email,
+               u.nickname,
                u.intro,
                u.profile_url as profileUrl,
                f2.friend_status as friendStatus
