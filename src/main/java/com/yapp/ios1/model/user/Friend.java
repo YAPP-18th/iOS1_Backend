@@ -10,7 +10,7 @@ import lombok.Getter;
 public class Friend {
     private Long userId;
     private String email;
-    private String nickName;
+    private String nickname;
     private String intro;
     private String profileUrl;
     private int friendStatus;
