@@ -33,7 +33,7 @@
         WHERE (f2.following_id = #{userId} AND f2.friend_status = 2);
     </select>
 
-    <select id="isFriendByMyUserIdAndOtherUserId" resultType="int">
+    <select id="checkFriendByMyUserIdAndOtherUserId" resultType="int">
         SELECT COUNT(id)
         FROM follow
         WHERE ((following_id = #{myUserId} AND follower_id = #{otherUserId}) OR

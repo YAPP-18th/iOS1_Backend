@@ -50,7 +50,6 @@ public class EmailService {
         return sb.toString();
     }
 
-    // 인증코드 생성
     private String createKey() {
         StringBuilder key = new StringBuilder();
         Random rnd = new Random();
@@ -58,15 +57,12 @@ public class EmailService {
             int rIndex = rnd.nextInt(3);
             switch (rIndex) {
                 case 0:
-                    // a-z
                     key.append((char) (rnd.nextInt(26) + 97));
                     break;
                 case 1:
-                    // A-Z
                     key.append((char) (rnd.nextInt(26) + 65));
                     break;
                 case 2:
-                    // 0-9
                     key.append((rnd.nextInt(10)));
                     break;
             }

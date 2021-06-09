@@ -31,20 +31,19 @@ public class OauthService {
         Optional<User> optionalUser = userService.findBySocialIdAndSocialType(socialId, socialType);
 
         if (optionalUser.isEmpty()) {
-            if (email != null) {
-                userService.emailCheck(email);
-            }
-            return socialSignUp(socialId, email, socialType);
+            userService.emailCheck(email);
+            return socialSignUp(socialType, socialDto);
         }
         return new UserStatusDto(HttpStatus.OK, jwtService.createTokenResponse(optionalUser.get().getId()));
     }
 
-    private UserStatusDto socialSignUp(String socialId, String email, String socialType) {
+    private UserStatusDto socialSignUp(String socialType, SocialLoginDto socialDto) {
         SignUpDto signUpDto = SignUpDto.builder()
-                .email(email)
                 .socialType(socialType)
+                .email(socialDto.getEmail())
                 .password(socialLoginProperties.getKey())
-                .socialId(socialId)
+                .socialId(socialDto.getSocialId())
+                .deviceToken(socialDto.getDeviceToken())
                 .build();
         return new UserStatusDto(HttpStatus.CREATED, userService.signUp(User.of(signUpDto)));
     }

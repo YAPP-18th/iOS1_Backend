@@ -15,4 +15,6 @@ public class SocialLoginDto {
     private String email;
     @NotBlank
     private String socialId;
+    @NotBlank
+    private String deviceToken;
 }

@@ -107,7 +107,7 @@ public class UserService {
     public UserInfoDto getOtherUserInfo(Long myUserId, Long otherUserId) {
         UserInfoDto userInfo = getUserInfo(otherUserId);
 
-        int checkFriend = followMapper.isFriendByMyUserIdAndOtherUserId(myUserId, otherUserId);
+        int checkFriend = followMapper.checkFriendByMyUserIdAndOtherUserId(myUserId, otherUserId);
 
         if (checkFriend == 0) {
             userInfo.setFriend(Boolean.FALSE);
@@ -125,11 +125,9 @@ public class UserService {
         Profile profile = userMapper.findProfileByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
 
-        // 친구 수, 버킷 수
         int friendCount = followMapper.getFollowCountByUserId(userId);
         int bucketCount = bucketService.getBucketCountByUserId(userId);
 
-        // 북마크 수
         List<Bookmark> bookmarkList = bucketService.getBookmarkList(userId);
 
         return UserInfoDto.builder()
