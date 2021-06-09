@@ -5,6 +5,7 @@ import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.error.exception.bucket.bucketStateIdInvalidException;
 import com.yapp.ios1.mapper.BucketMapper;
+import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.model.bucket.Bookmark;
 import com.yapp.ios1.model.bucket.Bucket;
 import com.yapp.ios1.model.bucket.BucketTimeline;
@@ -26,13 +27,16 @@ import java.util.List;
 public class BucketService {
 
     private final BucketMapper bucketMapper;
+    // TODO UserService 주입하고 싶지만 UserService에서 BucketService를 주입받고 있어서 양방향 참조가 되어 할 수가 없음 (뭔가 문제가 있다는 신호?)
+    private final UserMapper userMapper;
 
     public BucketHomeDto getHomeBucketList(int bucketState, int category, Long userId, int sort) {
         List<Bucket> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
-        return new BucketHomeDto(
-                buckets,
-                buckets.size()
-        );
+
+        return BucketHomeDto.builder()
+                .buckets(buckets)
+                .bucketCount(buckets.size())
+                .build();
     }
 
     private Bucket findBucketByBucketIdAndUserId(Long bucketId, Long userId) {
@@ -152,7 +156,6 @@ public class BucketService {
 
     @Transactional
     public void updateBucketState(Long userId, Long bucketId, int bucketStateId) {
-        // TODO PathVariable Valid 체크는 Controller 에서 하면 좋을지 Service에서 하면 좋을지 고민해보기 (다른 곳도 부분 마찬가지)
         checkValidBucketStateId(bucketStateId);
         checkValidBucket(bucketId, userId);
         bucketMapper.updateBucketState(bucketId, userId, bucketStateId);

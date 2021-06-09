@@ -29,6 +29,7 @@ public class User {
     @JsonIgnore
     private String deviceToken;
     private String profileUrl;
+    private boolean isAlarmCheck;
 
     public static User of(SignUpDto signUpDto) {
         return User.builder()

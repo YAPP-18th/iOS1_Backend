@@ -19,15 +19,15 @@
     </select>
 
     <select id="findByBucketStateAndCategory" resultType="Bucket">
-        SELECT id,
-               bucket_name   as bucketName,
-               created_date  as createdDate,
-               end_date      as endDate,
-               bucket_state  as bucketState,
-               category_id   as categoryId,
-               bookmark      as isBookmark,
-               fin           as isFin
-        FROM bucket
+        SELECT b.id,
+               b.bucket_name   as bucketName,
+               b.created_date  as createdDate,
+               b.end_date      as endDate,
+               b.bucket_state  as bucketState,
+               b.category_id   as categoryId,
+               b.bookmark      as isBookmark,
+               b.fin           as isFin
+        FROM bucket b
         WHERE user_id = #{userId}
         <choose>
             <when test="bucketState neq 1">
