@@ -2,6 +2,7 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
+import com.yapp.ios1.enums.BucketStatus;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.error.exception.bucket.bucketStateIdInvalidException;
 import com.yapp.ios1.mapper.BucketMapper;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.yapp.ios1.enums.BucketStatus.*;
 
 /**
  * created by jg 2021/05/05
@@ -147,8 +150,7 @@ public class BucketService {
     }
 
     private void checkValidBucketStateId(int bucketStateId) {
-        // TODO 매직 넘버가 나을라나?
-        if (bucketStateId <= 1 || bucketStateId > 5) {
+        if (bucketStateId <= BUCKET_WHOLE.get() || bucketStateId > BUCKET_FAIL.get()) {
             throw new bucketStateIdInvalidException();
         }
     }

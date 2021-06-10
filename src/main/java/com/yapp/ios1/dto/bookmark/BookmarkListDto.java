@@ -1,4 +1,4 @@
-package com.yapp.ios1.dto.bucket;
+package com.yapp.ios1.dto.bookmark;
 
 import com.yapp.ios1.model.bookmark.Bookmark;
 import lombok.Getter;
