@@ -13,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-
-import static com.yapp.ios1.common.ResponseMessage.LOGIN_SUCCESS;
+import static com.yapp.ios1.message.ResponseMessage.LOGIN_SUCCESS;
 
 /**
  * created by jg 2021/05/05

@@ -16,7 +16,6 @@ import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.properties.FirebaseProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,9 +30,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.yapp.ios1.common.AlarmMessage.WHOLE_ALARM_MESSAGE;
-import static com.yapp.ios1.common.AlarmMessage.WHOLE_ALARM_TITLE;
-import static com.yapp.ios1.common.AlarmStatus.WHOLE_ALARM;
+import static com.yapp.ios1.message.AlarmMessage.WHOLE_ALARM_MESSAGE;
+import static com.yapp.ios1.message.AlarmMessage.WHOLE_ALARM_TITLE;
+import static com.yapp.ios1.enums.AlarmStatus.WHOLE_ALARM;
 
 /**
  * created by jg 2021/05/02

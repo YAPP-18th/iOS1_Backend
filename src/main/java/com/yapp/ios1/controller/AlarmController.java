@@ -1,6 +1,5 @@
 package com.yapp.ios1.controller;
 
-import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.NotificationService;
 import com.yapp.ios1.utils.auth.Auth;
@@ -12,8 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.yapp.ios1.common.ResponseMessage.DELETE_ALARM_LOG;
-import static com.yapp.ios1.common.ResponseMessage.GET_ALARM_LOG;
+import static com.yapp.ios1.message.ResponseMessage.DELETE_ALARM_LOG;
+import static com.yapp.ios1.message.ResponseMessage.GET_ALARM_LOG;
 
 /**
  * created by jg 2021/05/24

@@ -1,4 +1,4 @@
-package com.yapp.ios1.model.bucket;
+package com.yapp.ios1.model.bookmark;
 
 import lombok.Getter;
 

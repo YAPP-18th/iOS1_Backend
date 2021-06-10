@@ -11,8 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.yapp.ios1.common.ResponseMessage.FRIEND_MESSAGE;
-import static com.yapp.ios1.common.ResponseMessage.FRIEND_REQUEST;
+import static com.yapp.ios1.message.ResponseMessage.FRIEND_MESSAGE;
+import static com.yapp.ios1.message.ResponseMessage.FRIEND_REQUEST;
 
 /**
  * created by jg 2021/05/21
@@ -30,7 +30,7 @@ public class FollowController {
     @PostMapping("/request/{friendId}")
     public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
         Long myUserId = UserContext.getCurrentUserId();
-        followService.followRequest(myUserId, friendId);
+        followService.requestFollow(myUserId, friendId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, FRIEND_REQUEST));
     }
 

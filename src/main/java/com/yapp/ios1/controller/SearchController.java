@@ -1,6 +1,5 @@
 package com.yapp.ios1.controller;
 
-import com.yapp.ios1.common.ResponseMessage;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.SearchService;
 import com.yapp.ios1.utils.auth.Auth;
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.yapp.ios1.common.ResponseMessage.NOT_FOUND_SEARCH_TYPE;
-import static com.yapp.ios1.common.ResponseMessage.SUCCESS_SEARCH;
+import static com.yapp.ios1.message.ResponseMessage.NOT_FOUND_SEARCH_TYPE;
+import static com.yapp.ios1.message.ResponseMessage.SUCCESS_SEARCH;
 
 /**
  * created by jg 2021/05/17

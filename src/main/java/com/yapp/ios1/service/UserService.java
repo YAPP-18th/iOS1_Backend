@@ -1,7 +1,7 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.model.user.User;
-import com.yapp.ios1.model.bucket.Bookmark;
+import com.yapp.ios1.model.bookmark.Bookmark;
 import com.yapp.ios1.dto.bucket.BookmarkListDto;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
 import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;

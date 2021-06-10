@@ -9,7 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import static com.yapp.ios1.common.ValidMessage.NOT_VALID_EMAIL;
+import static com.yapp.ios1.message.ValidMessage.NOT_VALID_EMAIL;
 
 /**
  * created by ayoung 2021/04/14

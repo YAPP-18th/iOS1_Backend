@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static com.yapp.ios1.common.ResponseMessage.EMAIL_AUTH_SUCCESS;
-import static com.yapp.ios1.common.ResponseMessage.EMAIL_SEND_SUCCESS;
+import static com.yapp.ios1.message.ResponseMessage.EMAIL_AUTH_SUCCESS;
+import static com.yapp.ios1.message.ResponseMessage.EMAIL_SEND_SUCCESS;
 
 /**
  * created by ayoung 2021/05/30
@@ -38,6 +38,7 @@ public class EmailController {
     @ApiOperation(value = "이메일 인증 코드 전송")
     @PostMapping("/send")
     public ResponseEntity<ResponseDto> sendEmail(@RequestBody @Valid EmailDto email) {
+        // TODO 체크를 어디서 하는게 좋은가
         userService.checkEmailPresent(email.getEmail());
         emailService.sendEmailMessage(email.getEmail());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));

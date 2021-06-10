@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.yapp.ios1.common.ValidMessage.*;
+import static com.yapp.ios1.message.ValidMessage.*;
 
 /**
  * created by ayoung 2021/05/08

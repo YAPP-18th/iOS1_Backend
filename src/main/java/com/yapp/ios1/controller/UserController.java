@@ -24,7 +24,7 @@ import javax.validation.Valid;
 
 import java.util.List;
 
-import static com.yapp.ios1.common.ResponseMessage.*;
+import static com.yapp.ios1.message.ResponseMessage.*;
 
 /**
  * created by jg 2021/03/28

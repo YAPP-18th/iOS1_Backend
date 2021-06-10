@@ -6,7 +6,7 @@ import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.error.exception.bucket.bucketStateIdInvalidException;
 import com.yapp.ios1.mapper.BucketMapper;
 import com.yapp.ios1.mapper.UserMapper;
-import com.yapp.ios1.model.bucket.Bookmark;
+import com.yapp.ios1.model.bookmark.Bookmark;
 import com.yapp.ios1.model.bucket.Bucket;
 import com.yapp.ios1.model.bucket.BucketTimeline;
 import com.yapp.ios1.model.image.Image;

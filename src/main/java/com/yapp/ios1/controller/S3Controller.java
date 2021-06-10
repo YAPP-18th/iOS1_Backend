@@ -12,10 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
-import static com.yapp.ios1.common.ResponseMessage.NOT_EXIST_IMAGE;
-import static com.yapp.ios1.common.ResponseMessage.UPLOAD_IMAGE_SUCCESS;
+import static com.yapp.ios1.message.ResponseMessage.NOT_EXIST_IMAGE;
+import static com.yapp.ios1.message.ResponseMessage.UPLOAD_IMAGE_SUCCESS;
 
 /**
  * created by ayoung 2021/03/29
