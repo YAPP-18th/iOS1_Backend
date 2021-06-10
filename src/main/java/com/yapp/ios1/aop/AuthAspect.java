@@ -1,4 +1,4 @@
-package com.yapp.ios1.utils.auth;
+package com.yapp.ios1.aop;
 
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.model.user.User;
@@ -35,7 +35,7 @@ public class AuthAspect {
     private final UserService userService;
     private final HttpServletRequest httpServletRequest;
 
-    @Around("@annotation(Auth)")
+    @Around("@annotation(com.yapp.ios1.aop.Auth)")
     public Object accessToken(final ProceedingJoinPoint pjp) throws Throwable {
         try {
             String accessToken = httpServletRequest.getHeader(AUTHORIZATION);
@@ -48,7 +48,7 @@ public class AuthAspect {
         }
     }
 
-    @Around("@annotation(ReAuth)")
+    @Around("@annotation(com.yapp.ios1.aop.ReAuth)")
     public Object refreshToken(final ProceedingJoinPoint pjp) throws Throwable {
         try {
             String refreshToken = httpServletRequest.getHeader(REAUTHORIZATION);

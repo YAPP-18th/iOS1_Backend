@@ -12,12 +12,15 @@ import com.yapp.ios1.model.bucket.Bucket;
 import com.yapp.ios1.model.bucket.BucketTimeline;
 import com.yapp.ios1.model.image.Image;
 import com.yapp.ios1.model.tag.Tag;
+import com.yapp.ios1.model.user.User;
+import com.yapp.ios1.validaor.BucketValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.yapp.ios1.enums.BucketStatus.*;
 
@@ -30,11 +33,13 @@ import static com.yapp.ios1.enums.BucketStatus.*;
 public class BucketService {
 
     private final BucketMapper bucketMapper;
+    private final BucketValidator bucketValidator;
     // TODO UserService 주입하고 싶지만 UserService에서 BucketService를 주입받고 있어서 양방향 참조가 되어 할 수가 없음 (뭔가 문제가 있다는 신호?)
     private final UserMapper userMapper;
 
     public BucketHomeDto getHomeBucketList(int bucketState, int category, Long userId, int sort) {
         List<Bucket> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
+
 
         return BucketHomeDto.builder()
                 .buckets(buckets)
@@ -105,8 +110,9 @@ public class BucketService {
         bucketMapper.saveBucketIdAndTagId(bucketId, tagList);
     }
 
+    // TODO 검증 로직 Bucket AOP로 해볼지 고민해보기
     public void completeBucket(Long bucketId, Long userId) {
-        checkValidBucket(bucketId, userId);
+        bucketValidator.checkValidBucket(bucketId, userId);
         bucketMapper.completeBucket(bucketId);
     }
 
@@ -134,31 +140,21 @@ public class BucketService {
         return bucketMapper.getBucketCountByUserId(userId);
     }
 
+    // TODO 모든 버킷마다 검증하는 메소드가 들어가는데 이거를 AOP 로 빼던가 해보아도 좋을 거 같음 (얘기 해보기)
     public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
-        checkValidBucket(bucketId, userId);
+        bucketValidator.checkValidBucket(bucketId, userId);
         bucketMapper.setBookmark(bucketId, isBookmark);
     }
 
     public void setBucketFile(Long bucketId, Long userId, boolean isFin) {
-        checkValidBucket(bucketId, userId);
+        bucketValidator.checkValidBucket(bucketId, userId);
         bucketMapper.setBucketFin(bucketId, isFin);
-    }
-
-    private void checkValidBucket(Long bucketId, Long userId) {
-        bucketMapper.findByBucketIdAndUserId(bucketId, userId)
-                .orElseThrow(BucketNotFoundException::new);
-    }
-
-    private void checkValidBucketStateId(int bucketStateId) {
-        if (bucketStateId <= BUCKET_WHOLE.get() || bucketStateId > BUCKET_FAIL.get()) {
-            throw new bucketStateIdInvalidException();
-        }
     }
 
     @Transactional
     public void updateBucketState(Long userId, Long bucketId, int bucketStateId) {
-        checkValidBucketStateId(bucketStateId);
-        checkValidBucket(bucketId, userId);
+        bucketValidator.checkValidBucketStateId(bucketStateId);
+        bucketValidator.checkValidBucket(bucketId, userId);
         bucketMapper.updateBucketState(bucketId, userId, bucketStateId);
     }
 }

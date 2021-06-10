@@ -2,8 +2,8 @@ package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.FriendService;
-import com.yapp.ios1.utils.auth.Auth;
-import com.yapp.ios1.utils.auth.UserContext;
+import com.yapp.ios1.aop.Auth;
+import com.yapp.ios1.aop.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

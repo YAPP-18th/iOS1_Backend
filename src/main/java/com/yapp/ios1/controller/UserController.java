@@ -10,8 +10,9 @@ import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.service.FriendService;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
-import com.yapp.ios1.utils.auth.Auth;
-import com.yapp.ios1.utils.auth.UserContext;
+import com.yapp.ios1.aop.Auth;
+import com.yapp.ios1.aop.UserContext;
+import com.yapp.ios1.validaor.UserValidator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -37,20 +38,21 @@ import static com.yapp.ios1.message.ResponseMessage.*;
 public class UserController {
 
     private final UserService userService;
+    private final UserValidator userValidator;
     private final JwtService jwtService;
     private final FriendService followService;
 
     @ApiOperation(value = "이메일 존재 여부")
     @GetMapping("/email-check")
     public ResponseEntity<ResponseDto> emailCheck(@RequestParam String email) {
-        userService.emailCheck(email);
+        userValidator.checkEmailDuplicate(email);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_EMAIL));
     }
 
     @ApiOperation(value = "닉네임 존재 여부")
     @GetMapping("/nickname-check")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickname) {
-        userService.nicknameCheck(nickname);
+        userValidator.nicknameCheck(nickname);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_NICKNAME));
     }
 
@@ -63,7 +65,7 @@ public class UserController {
     @ApiOperation(value = "로그인")
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
-        User user = userService.checkPassword(signInDto);
+        User user = userValidator.checkPassword(signInDto);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(user.getId())));
     }
 
@@ -109,6 +111,7 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_USER_INFO, userService.getOtherUserInfo(currentUserId, userId)));
     }
 
+    // TODO User 가 지금 너무 거대해지고 Friend 모델을 사용하고 있기 때문에 FriendController로 이동하는 게 좋을 거 같음
     @ApiOperation(value = "친구 리스트")
     @GetMapping("/{userId}/friends")
     public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {

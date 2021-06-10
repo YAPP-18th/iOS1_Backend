@@ -40,6 +40,7 @@ import static com.yapp.ios1.enums.AlarmStatus.WHOLE_ALARM;
 @RequiredArgsConstructor
 @Slf4j
 @Service
+// TODO FireBaseService(알람을 보내는, 초기화 하는 코드만 존재), AlarmService(친구 요청 수락, 거절 등등) 분리해보기
 public class NotificationService {
 
     private final UserService userService;
@@ -64,7 +65,7 @@ public class NotificationService {
 
     public void sendPushNotification() {
         List<String> deviceTokens = userService.getAllDeviceToken();
-        NotificationDto pushNotificationRequest = makeNotification();
+        NotificationDto pushNotificationRequest = getWholeAlarmMessage();
 
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()
                 .putData("title", pushNotificationRequest.getTitle())
@@ -106,7 +107,7 @@ public class NotificationService {
                 .collect(Collectors.toList());
     }
 
-    private NotificationDto makeNotification() {
+    private NotificationDto getWholeAlarmMessage() {
         return new NotificationDto(WHOLE_ALARM_TITLE, WHOLE_ALARM_MESSAGE, LocalDateTime.now());
     }
 
@@ -114,7 +115,7 @@ public class NotificationService {
     @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     @Transactional
     public void notificationSchedule() {
-        alarmMapper.insertWholeAlarmLog(makeNotification(), WHOLE_ALARM.get());  // alarm_status = 1 (전체 알람)
+        alarmMapper.insertWholeAlarmLog(getWholeAlarmMessage(), WHOLE_ALARM.get());  // alarm_status = 1 (전체 알람)
         sendPushNotification();
     }
 

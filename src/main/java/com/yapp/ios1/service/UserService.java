@@ -48,25 +48,6 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
     }
 
-    public void emailCheck(String email) {
-        Optional<User> user = userMapper.findByEmail(email);
-        if (user.isPresent()) {
-            throw new EmailDuplicatedException();
-        }
-    }
-
-    public User checkEmailPresent(String email) {
-        return userMapper.findByEmail(email)
-                .orElseThrow(EmailNotExistException::new);
-    }
-
-    public void nicknameCheck(String nickname) {
-        Optional<User> user = userMapper.findByNickname(nickname);
-        if (user.isPresent()) {
-            throw new NickNameDuplicatedException();
-        }
-    }
-
     public Optional<User> findBySocialIdAndSocialType(String socialId, String socialType) {
         return userMapper.findBySocialIdAndSocialType(socialId, socialType);
     }
@@ -76,16 +57,6 @@ public class UserService {
         user.encodePassword(passwordEncoder.encode(user.getPassword()));
         userMapper.signUp(user);
         return jwtService.createTokenResponse(user.getId());
-    }
-
-    public User checkPassword(SignInDto signInDto) {
-        User user = userMapper.findByEmail(signInDto.getEmail())
-                .orElseThrow(UserNotFoundException::new);
-
-        if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
-            throw new PasswordNotMatchException();
-        }
-        return user;
     }
 
     @Transactional

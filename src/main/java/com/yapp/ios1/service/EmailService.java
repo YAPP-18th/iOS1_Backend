@@ -7,6 +7,7 @@ import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.properties.EmailProperties;
 import com.yapp.ios1.utils.RedisUtil;
+import com.yapp.ios1.validaor.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -27,8 +28,8 @@ public class EmailService {
     private final JavaMailSender emailSender;
     private final RedisUtil redisUtil;
     private final EmailProperties emailProperties;
-    private final UserService userService;
-    private static final StringBuilder sb = new StringBuilder();
+    private final UserValidator userValidator;
+    private static final StringBuilder sb = new StringBuilder();   // TODO 다시 고민
 
     private MimeMessage createMessage(String email, String code) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
@@ -87,7 +88,7 @@ public class EmailService {
             throw new EmailNotExistException();
         }
 
-        User user = userService.checkEmailPresent(email);
+        User user = userValidator.checkEmailPresent(email);
         return user.getId();
     }
 }
