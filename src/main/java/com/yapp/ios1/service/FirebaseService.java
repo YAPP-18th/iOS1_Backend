@@ -45,7 +45,6 @@ public class FirebaseService {
 
     private final UserService userService;
     private final FirebaseProperties firebaseProperties;
-    private final AlarmMapper alarmMapper;
 
     @PostConstruct
     public void init() {
@@ -98,14 +97,6 @@ public class FirebaseService {
         }
     }
 
-    // 초, 분, 시간, 일, 월, 요일 (매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정)
-    @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
-    @Transactional
-    public void notificationSchedule() {
-        alarmMapper.insertWholeAlarmLog(getWholeAlarmMessage(), WHOLE_ALARM.get());  // alarm_status = 1 (전체 알람)
-        sendPushNotification();
-    }
-
     public NotificationForOneDto makeSendAlarmMessage(Long friendId, String title, String message) {
         String deviceToken = userService.getDeviceToken(friendId);
         return NotificationForOneDto.builder()
@@ -115,7 +106,7 @@ public class FirebaseService {
                 .build();
     }
 
-    private NotificationDto getWholeAlarmMessage() {
+    public NotificationDto getWholeAlarmMessage() {
         return new NotificationDto(WHOLE_ALARM_TITLE, WHOLE_ALARM_MESSAGE, LocalDateTime.now());
     }
 }

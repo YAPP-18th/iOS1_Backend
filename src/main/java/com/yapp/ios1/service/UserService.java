@@ -31,7 +31,7 @@ public class UserService {
     private final BucketService bucketService;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final FriendMapper followMapper;
+    private final FriendMapper friendMapper;
     private final JwtService jwtService;
 
     public String getDeviceToken(Long userId) {
@@ -65,6 +65,7 @@ public class UserService {
         userMapper.changePassword(userId, encodePassword);
     }
 
+    // TODO Profile 도 User와 관련 있지만 Profile Model 이기 때문에 따로 ProfileController, ProfleService 로 관리하면 어떨까 싶음
     public Profile getProfile(Long userId) {
         return userMapper.findProfileByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
@@ -82,7 +83,7 @@ public class UserService {
     public UserInfoDto getOtherUserInfo(Long myUserId, Long otherUserId) {
         UserInfoDto userInfo = getUserInfo(otherUserId);
 
-        int checkFriend = followMapper.checkFriendByMyUserIdAndOtherUserId(myUserId, otherUserId);
+        int checkFriend = friendMapper.checkFriendByMyUserIdAndOtherUserId(myUserId, otherUserId);
 
         if (checkFriend == 0) {
             userInfo.setFriend(Boolean.FALSE);
@@ -100,7 +101,7 @@ public class UserService {
         Profile profile = userMapper.findProfileByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
 
-        int friendCount = followMapper.getFollowCountByUserId(userId);
+        int friendCount = friendMapper.getFollowCountByUserId(userId);
         int bucketCount = bucketService.getBucketCountByUserId(userId);
 
         List<Bookmark> bookmarkList = bucketService.getBookmarkList(userId);
