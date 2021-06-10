@@ -41,11 +41,11 @@ import static com.yapp.ios1.enums.AlarmStatus.WHOLE_ALARM;
 @Slf4j
 @Service
 // TODO FireBaseService(알람을 보내는, 초기화 하는 코드만 존재), AlarmService(친구 요청 수락, 거절 등등) 분리해보기
-public class NotificationService {
+public class FirebaseService {
 
     private final UserService userService;
-    private final AlarmMapper alarmMapper;
     private final FirebaseProperties firebaseProperties;
+    private final AlarmMapper alarmMapper;
 
     @PostConstruct
     public void init() {
@@ -98,19 +98,6 @@ public class NotificationService {
         }
     }
 
-    public List<Notification> getAlarmLog(Long userId) {
-        List<Notification> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
-        List<Notification> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
-
-        return Stream.concat(followAlarmLog.stream(), commonAlarmLog.stream())
-                .sorted(Comparator.comparing(Notification::getCreatedAt))
-                .collect(Collectors.toList());
-    }
-
-    private NotificationDto getWholeAlarmMessage() {
-        return new NotificationDto(WHOLE_ALARM_TITLE, WHOLE_ALARM_MESSAGE, LocalDateTime.now());
-    }
-
     // 초, 분, 시간, 일, 월, 요일 (매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정)
     @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     @Transactional
@@ -119,26 +106,17 @@ public class NotificationService {
         sendPushNotification();
     }
 
-    @Transactional
-    public void deleteAlarm(Long alarmId, Long userId, int alarmStatus) {
-        if (alarmStatus == WHOLE_ALARM.get()) {
-            checkValidWholeAlarm(alarmId);
-            alarmMapper.deleteWholeAlarmLog(alarmId, userId);
-            return;
-        }
-        // 친구 알람 삭제
-        checkValidFollowAlarm(alarmId);
-        alarmMapper.deleteFollowAlarmLog(alarmId, userId);
+    public NotificationForOneDto makeSendAlarmMessage(Long friendId, String title, String message) {
+        String deviceToken = userService.getDeviceToken(friendId);
+        return NotificationForOneDto.builder()
+                .title(title)
+                .message(message)
+                .deviceToken(deviceToken)
+                .build();
     }
 
-    private void checkValidWholeAlarm(Long alarmId) {
-        alarmMapper.findWholeAlarmByAlarmId(alarmId)
-                .orElseThrow(AlarmNotFoundException::new);
-    }
-
-    private void checkValidFollowAlarm(Long alarmId) {
-        alarmMapper.findFollowAlarmByAlarmId(alarmId)
-                .orElseThrow(AlarmNotFoundException::new);
+    private NotificationDto getWholeAlarmMessage() {
+        return new NotificationDto(WHOLE_ALARM_TITLE, WHOLE_ALARM_MESSAGE, LocalDateTime.now());
     }
 }
 

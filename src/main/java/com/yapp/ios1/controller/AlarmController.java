@@ -1,7 +1,7 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.service.NotificationService;
+import com.yapp.ios1.service.AlarmService;
 import com.yapp.ios1.aop.Auth;
 import com.yapp.ios1.aop.UserContext;
 import io.swagger.annotations.Api;
@@ -23,14 +23,14 @@ import static com.yapp.ios1.message.ResponseMessage.GET_ALARM_LOG;
 @RequestMapping("/api/v2")
 public class AlarmController {
 
-    private final NotificationService notificationService;
+    private final AlarmService alarmService;
 
     @ApiOperation(value = "알람 로그 조회")
     @Auth
     @GetMapping("/alarm")
     public ResponseEntity<ResponseDto> alarmLog() {
         Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_ALARM_LOG, notificationService.getAlarmLog(userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_ALARM_LOG, alarmService.getAlarmLog(userId)));
     }
 
     @ApiOperation(value = "알람 로그 삭제 (alarmStatus: 1(전체 알람), 2(친구 알람))")
@@ -38,7 +38,7 @@ public class AlarmController {
     @DeleteMapping("/alarm/{alarmId}")
     public ResponseEntity<ResponseDto> deleteAlarm(@PathVariable Long alarmId, @RequestParam("alarm_status") int alarmStatus) {
         Long userId = UserContext.getCurrentUserId();
-        notificationService.deleteAlarm(alarmId, userId, alarmStatus);
+        alarmService.deleteAlarm(alarmId, userId, alarmStatus);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, DELETE_ALARM_LOG));
     }
 }

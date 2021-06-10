@@ -24,7 +24,7 @@ import static com.yapp.ios1.enums.FriendStatus.REQUEST;
 @Service
 public class FriendService {
 
-    private final NotificationService notificationService;
+    private final FirebaseService firebaseService;
     private final FriendMapper followMapper;
     private final AlarmMapper alarmMapper;
     private final UserService userService;
@@ -32,23 +32,14 @@ public class FriendService {
     @Transactional
     public void requestFollow(Long myUserId, Long friendId) {
         User user = userService.getUser(friendId);
-        NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE, user.getNickname() + FOLLOW_REQUEST_MESSAGE);
+        NotificationForOneDto notificationForOne = firebaseService.makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE, user.getNickname() + FOLLOW_REQUEST_MESSAGE);
         alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);   // alarm_status = 2 (친구 알람)
         followMapper.requestFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
         sendFollowAlarmRequest(notificationForOne);
     }
 
-    private NotificationForOneDto makeSendAlarmMessage(Long friendId, String title, String message) {
-        String deviceToken = userService.getDeviceToken(friendId);
-        return NotificationForOneDto.builder()
-                .title(title)
-                .message(message)
-                .deviceToken(deviceToken)
-                .build();
-    }
-
     private void sendFollowAlarmRequest(NotificationForOneDto notificationForOne) {
-        notificationService.sendByToken(notificationForOne);
+        firebaseService.sendByToken(notificationForOne);
     }
 
     public List<Friend> getFriendList(Long userId) {
@@ -66,7 +57,7 @@ public class FriendService {
     }
 
     private void acceptFollow(Long myUserId, Long friendId) {
-        NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE);
+        NotificationForOneDto notificationForOne = firebaseService.makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE);
         alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
         followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
         sendFollowAlarmRequest(notificationForOne);
