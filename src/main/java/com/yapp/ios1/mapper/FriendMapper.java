@@ -10,7 +10,7 @@ import java.util.List;
  * created by ayoung 2021/05/11
  */
 @Mapper
-public interface FollowMapper {
+public interface FriendMapper {
 
     int getFollowCountByUserId(Long userId);
 

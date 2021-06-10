@@ -8,7 +8,7 @@ import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
 import com.yapp.ios1.controller.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.UserInfoDto;
 import com.yapp.ios1.error.exception.user.*;
-import com.yapp.ios1.mapper.FollowMapper;
+import com.yapp.ios1.mapper.FriendMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.model.user.Profile;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class UserService {
     private final BucketService bucketService;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final FollowMapper followMapper;
+    private final FriendMapper followMapper;
     private final JwtService jwtService;
 
     public String findDeviceTokenByUserId(Long userId) {

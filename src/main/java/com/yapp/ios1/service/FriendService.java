@@ -4,7 +4,7 @@ import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.mapper.AlarmMapper;
-import com.yapp.ios1.mapper.FollowMapper;
+import com.yapp.ios1.mapper.FriendMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +22,10 @@ import static com.yapp.ios1.enums.FriendStatus.REQUEST;
  */
 @RequiredArgsConstructor
 @Service
-public class FollowService {
+public class FriendService {
 
     private final NotificationService notificationService;
-    private final FollowMapper followMapper;
+    private final FriendMapper followMapper;
     private final AlarmMapper alarmMapper;
     private final UserService userService;
 

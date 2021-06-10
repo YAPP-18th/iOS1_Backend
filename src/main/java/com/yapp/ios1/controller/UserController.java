@@ -7,7 +7,7 @@ import com.yapp.ios1.controller.dto.user.login.PasswordDto;
 import com.yapp.ios1.controller.dto.user.login.SignInDto;
 import com.yapp.ios1.controller.dto.user.login.SignUpDto;
 import com.yapp.ios1.model.user.Friend;
-import com.yapp.ios1.service.FollowService;
+import com.yapp.ios1.service.FriendService;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.utils.auth.Auth;
@@ -38,7 +38,7 @@ public class UserController {
 
     private final UserService userService;
     private final JwtService jwtService;
-    private final FollowService followService;
+    private final FriendService followService;
 
     @ApiOperation(value = "이메일 존재 여부")
     @GetMapping("/email-check")

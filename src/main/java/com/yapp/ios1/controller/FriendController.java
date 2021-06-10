@@ -1,7 +1,7 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.service.FollowService;
+import com.yapp.ios1.service.FriendService;
 import com.yapp.ios1.utils.auth.Auth;
 import com.yapp.ios1.utils.auth.UserContext;
 import io.swagger.annotations.Api;
@@ -20,14 +20,14 @@ import static com.yapp.ios1.message.ResponseMessage.FRIEND_REQUEST;
 @Api(tags = "Follow")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v2/follow")
-public class FollowController {
+@RequestMapping("/api/v2/friend")
+public class FriendController {
 
-    private final FollowService followService;
+    private final FriendService followService;
 
     @ApiOperation(value = "친구 요청")
     @Auth
-    @PostMapping("/request/{friendId}")
+    @PostMapping("/{friendId}/request")
     public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
         Long myUserId = UserContext.getCurrentUserId();
         followService.requestFollow(myUserId, friendId);
