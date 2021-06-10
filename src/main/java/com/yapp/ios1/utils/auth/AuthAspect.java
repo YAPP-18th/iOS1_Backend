@@ -40,7 +40,7 @@ public class AuthAspect {
         try {
             String accessToken = httpServletRequest.getHeader(AUTHORIZATION);
             JwtPayload payload = jwtService.getPayload(accessToken);
-            User user = userService.findByUserId(payload.getId());
+            User user = userService.getUser(payload.getId());
             UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
             return pjp.proceed();
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
@@ -53,7 +53,7 @@ public class AuthAspect {
         try {
             String refreshToken = httpServletRequest.getHeader(REAUTHORIZATION);
             JwtPayload payload = jwtService.getPayload(refreshToken);
-            User user = userService.findByUserId(payload.getId());
+            User user = userService.getUser(payload.getId());
 
             String dbRefreshToken = jwtIssueService.getRefreshTokenByUserId(user.getId());
             checkRefreshTokenExpired(dbRefreshToken, refreshToken);

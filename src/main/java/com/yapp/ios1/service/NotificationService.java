@@ -63,7 +63,7 @@ public class NotificationService {
     }
 
     public void sendPushNotification() {
-        List<String> deviceTokens = userService.findDeviceToken();
+        List<String> deviceTokens = userService.getAllDeviceToken();
         NotificationDto pushNotificationRequest = makeNotification();
 
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()
@@ -114,13 +114,13 @@ public class NotificationService {
     @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     @Transactional
     public void notificationSchedule() {
-        alarmMapper.insertWholeAlarmLog(makeNotification(), WHOLE_ALARM.getAlarmStatus());  // alarm_status = 1 (전체 알람)
+        alarmMapper.insertWholeAlarmLog(makeNotification(), WHOLE_ALARM.get());  // alarm_status = 1 (전체 알람)
         sendPushNotification();
     }
 
     @Transactional
     public void deleteAlarm(Long alarmId, Long userId, int alarmStatus) {
-        if (alarmStatus == WHOLE_ALARM.getAlarmStatus()) {
+        if (alarmStatus == WHOLE_ALARM.get()) {
             checkValidWholeAlarm(alarmId);
             alarmMapper.deleteWholeAlarmLog(alarmId, userId);
             return;

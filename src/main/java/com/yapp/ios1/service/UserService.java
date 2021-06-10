@@ -34,16 +34,16 @@ public class UserService {
     private final FriendMapper followMapper;
     private final JwtService jwtService;
 
-    public String findDeviceTokenByUserId(Long userId) {
+    public String getDeviceToken(Long userId) {
         return userMapper.findDeviceTokenByUserId(userId)
                 .orElseThrow(DeviceTokenNotFoundException::new);
     }
 
-    public List<String> findDeviceToken() {
+    public List<String> getAllDeviceToken() {
         return userMapper.findAllUserDeviceToken();
     }
 
-    public User findByUserId(Long userId) {
+    public User getUser(Long userId) {
         return userMapper.findByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
     }

@@ -76,7 +76,7 @@ public class BucketController {
     @PostMapping("")
     public ResponseEntity<ResponseDto> registerBucket(@RequestBody @Valid BucketRequestDto bucket) {
         bucket.setUserId(UserContext.getCurrentUserId());
-        bucketService.registerBucket(bucket);
+        bucketService.saveBucket(bucket);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, REGISTER_BUCKET_SUCCESS));
     }
 

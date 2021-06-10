@@ -31,15 +31,15 @@ public class FriendService {
 
     @Transactional
     public void requestFollow(Long myUserId, Long friendId) {
-        User user = userService.findByUserId(friendId);
+        User user = userService.getUser(friendId);
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE, user.getNickname() + FOLLOW_REQUEST_MESSAGE);
-        alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.getAlarmStatus(), LocalDateTime.now(), friendId);   // alarm_status = 2 (친구 알람)
+        alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);   // alarm_status = 2 (친구 알람)
         followMapper.requestFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
         sendFollowAlarmRequest(notificationForOne);
     }
 
     private NotificationForOneDto makeSendAlarmMessage(Long friendId, String title, String message) {
-        String deviceToken = userService.findDeviceTokenByUserId(friendId);
+        String deviceToken = userService.getDeviceToken(friendId);
         return NotificationForOneDto.builder()
                 .title(title)
                 .message(message)
@@ -67,7 +67,7 @@ public class FriendService {
 
     private void acceptFollow(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE);
-        alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.getAlarmStatus(), LocalDateTime.now(), friendId);
+        alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
         followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
         sendFollowAlarmRequest(notificationForOne);
     }

@@ -13,7 +13,7 @@ public enum AlarmStatus {
         this.alarmStatus = alarmStatus;
     }
 
-    public int getAlarmStatus() {
+    public int get() {
         return alarmStatus;
     }
 }

@@ -42,29 +42,29 @@ public class BucketService {
                 .build();
     }
 
-    private Bucket findBucketByBucketIdAndUserId(Long bucketId, Long userId) {
+    private Bucket getBucket(Long bucketId, Long userId) {
         return bucketMapper.findByBucketIdAndUserId(bucketId, userId)
                 .orElseThrow(BucketNotFoundException::new);
     }
 
-    private List<Tag> findByBucketTagByBucketId(Long bucketId) {
+    private List<Tag> getBucketTag(Long bucketId) {
         return bucketMapper.findByBucketTagByBucketId(bucketId);
     }
 
-    private List<Image> findByBucketImageByBucketId(Long bucketId, Long userId) {
+    private List<Image> getBucketImage(Long bucketId, Long userId) {
         return bucketMapper.findByBucketImageByBucketId(bucketId, userId);
     }
 
-    private List<BucketTimeline> findByBucketTimelineByBucketId(Long bucketId, Long userId) {
+    private List<BucketTimeline> getBucketTimeline(Long bucketId, Long userId) {
         return bucketMapper.findByBucketTimelineByBucketId(bucketId, userId);
     }
 
     public BucketDetailDto getBucketOne(Long bucketId, Long userId) {
         return new BucketDetailDto(
-                findBucketByBucketIdAndUserId(bucketId, userId),
-                findByBucketImageByBucketId(bucketId, userId),
-                findByBucketTagByBucketId(bucketId),
-                findByBucketTimelineByBucketId(bucketId, userId)
+                getBucket(bucketId, userId),
+                getBucketImage(bucketId, userId),
+                getBucketTag(bucketId),
+                getBucketTimeline(bucketId, userId)
         );
     }
 
@@ -73,7 +73,7 @@ public class BucketService {
     }
 
     @Transactional
-    public void registerBucket(BucketRequestDto registerDto) {
+    public void saveBucket(BucketRequestDto registerDto) {
         bucketMapper.registerBucket(registerDto);
 
         Long bucketId = registerDto.getId();
@@ -83,7 +83,7 @@ public class BucketService {
 
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
-        Bucket bucketDto = findBucketByBucketIdAndUserId(bucketId, userId);
+        Bucket bucketDto = getBucket(bucketId, userId);
 
         updateDto.setId(bucketId);
         bucketMapper.updateBucket(updateDto);
