@@ -39,6 +39,10 @@ public class UserService {
                 .orElseThrow(DeviceTokenNotFoundException::new);
     }
 
+    public List<String> findDeviceToken() {
+        return userMapper.findAllUserDeviceToken();
+    }
+
     public User findByUserId(Long userId) {
         return userMapper.findByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);

@@ -13,7 +13,7 @@ public enum FriendStatus {
         this.friendStatus = friendStatus;
     }
 
-    public int getFriendStatus() {
+    public int get() {
         return friendStatus;
     }
 }

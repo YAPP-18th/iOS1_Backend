@@ -34,7 +34,7 @@ public class FriendService {
         User user = userService.findByUserId(friendId);
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE, user.getNickname() + FOLLOW_REQUEST_MESSAGE);
         alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.getAlarmStatus(), LocalDateTime.now(), friendId);   // alarm_status = 2 (친구 알람)
-        followMapper.requestFollow(myUserId, friendId, REQUEST.getFriendStatus(), notificationForOne.getAlarmId());
+        followMapper.requestFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
         sendFollowAlarmRequest(notificationForOne);
     }
 
@@ -68,7 +68,7 @@ public class FriendService {
     private void acceptFollow(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE);
         alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.getAlarmStatus(), LocalDateTime.now(), friendId);
-        followMapper.acceptFollow(myUserId, friendId, FRIEND.getFriendStatus());
+        followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
         sendFollowAlarmRequest(notificationForOne);
     }
 

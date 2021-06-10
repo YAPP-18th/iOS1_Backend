@@ -42,7 +42,7 @@ import static com.yapp.ios1.enums.AlarmStatus.WHOLE_ALARM;
 @Service
 public class NotificationService {
 
-    private final UserMapper userMapper;
+    private final UserService userService;
     private final AlarmMapper alarmMapper;
     private final FirebaseProperties firebaseProperties;
 
@@ -62,13 +62,8 @@ public class NotificationService {
         }
     }
 
-    private List<String> findDeviceTokens() {
-        return userMapper.findAllUserDeviceToken();
-    }
-
-    @Async("asyncTask")
     public void sendPushNotification() {
-        List<String> deviceTokens = findDeviceTokens();
+        List<String> deviceTokens = userService.findDeviceToken();
         NotificationDto pushNotificationRequest = makeNotification();
 
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()
@@ -86,7 +81,6 @@ public class NotificationService {
         }
     }
 
-    @Async("asyncTask")
     public void sendByToken(NotificationForOneDto messageInfo) {
         Message message = Message.builder()
                 .setToken(messageInfo.getDeviceToken())
