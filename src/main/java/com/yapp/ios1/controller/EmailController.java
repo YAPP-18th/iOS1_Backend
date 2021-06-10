@@ -1,12 +1,11 @@
 package com.yapp.ios1.controller;
 
-import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.controller.dto.email.EmailCodeDto;
 import com.yapp.ios1.controller.dto.email.EmailDto;
+import com.yapp.ios1.dto.ResponseDto;
+import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.service.EmailService;
 import com.yapp.ios1.service.JwtIssueService;
-import com.yapp.ios1.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -31,15 +30,12 @@ import static com.yapp.ios1.message.ResponseMessage.EMAIL_SEND_SUCCESS;
 @RequestMapping("/api/v2/email")
 public class EmailController {
 
-    private final UserService userService;
     private final EmailService emailService;
     private final JwtIssueService jwtIssueService;
 
     @ApiOperation(value = "이메일 인증 코드 전송")
     @PostMapping("/send")
     public ResponseEntity<ResponseDto> sendEmail(@RequestBody @Valid EmailDto email) {
-        // TODO 체크를 어디서 하는게 좋은가
-        userService.checkEmailPresent(email.getEmail());
         emailService.sendEmailMessage(email.getEmail());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));
     }

@@ -27,7 +27,7 @@ public class EmailService {
     private final JavaMailSender emailSender;
     private final RedisUtil redisUtil;
     private final EmailProperties emailProperties;
-    private final UserMapper userMapper;
+    private final UserService userService;
     private static final StringBuilder sb = new StringBuilder();
 
     private MimeMessage createMessage(String email, String code) throws Exception {
@@ -87,9 +87,7 @@ public class EmailService {
             throw new EmailNotExistException();
         }
 
-        User user = userMapper.findByEmail(email)
-                .orElseThrow(UserNotFoundException::new);
-
+        User user = userService.checkEmailPresent(email);
         return user.getId();
     }
 }

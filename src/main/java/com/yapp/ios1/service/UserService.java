@@ -51,8 +51,8 @@ public class UserService {
         }
     }
 
-    public void checkEmailPresent(String email) {
-        userMapper.findByEmail(email)
+    public User checkEmailPresent(String email) {
+        return userMapper.findByEmail(email)
                 .orElseThrow(EmailNotExistException::new);
     }
 
