@@ -51,7 +51,7 @@
             <pattern>[%date] %highlight([%level]) [%logger{10} %file:%line] %msg%n</pattern>
         </encoder>
     </appender>
-r
+
     <!-- Root with a threshold to INFO and above -->
     <root level="INFO">
         <appender-ref ref="COLOR"/>

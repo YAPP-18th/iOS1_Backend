@@ -33,7 +33,7 @@ public class UserService {
     private final JwtService jwtService;
     private final UserMapper userMapper;
     private final FriendMapper friendMapper;
-    private final ProfileMapper profileMapper;
+    private final ProfileService profileService;
 
     public String getDeviceToken(Long userId) {
         return userMapper.findDeviceTokenByUserId(userId)
@@ -84,8 +84,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserInfoDto getUserInfo(Long userId) {
         // TODO 모든 find 관련 로직도 Validator 처럼 다른 쪽으로 빼서 해볼까..
-        Profile profile = profileMapper.findProfileByUserId(userId)
-                .orElseThrow(UserNotFoundException::new);
+        Profile profile = profileService.getProfile(userId);
 
         int friendCount = friendMapper.getFollowCountByUserId(userId);
         int bucketCount = bucketService.getBucketCountByUserId(userId);
