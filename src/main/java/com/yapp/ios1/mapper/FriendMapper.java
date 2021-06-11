@@ -10,7 +10,7 @@ import java.util.List;
  * created by ayoung 2021/05/11
  */
 @Mapper
-public interface FollowMapper {
+public interface FriendMapper {
 
     int getFollowCountByUserId(Long userId);
 
@@ -18,12 +18,12 @@ public interface FollowMapper {
 
     int checkFriendByMyUserIdAndOtherUserId(Long myUserId, Long otherUserId);
 
-    void followRequest(@Param("myUserId") Long myUserId,
+    void requestFollow(@Param("myUserId") Long myUserId,
                        @Param("friendId") Long friendId,
                        @Param("followRequest") int followRequest,
                        @Param("alarmId") Long alarmId);
 
-    void followAccept(@Param("myUserId") Long myUserId,
+    void acceptFollow(@Param("myUserId") Long myUserId,
                       @Param("friendId") Long friendId,
                       @Param("friendStatus") int friendStatus);
 }

@@ -3,19 +3,23 @@ package com.yapp.ios1.service;
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
-import com.yapp.ios1.error.exception.bucket.bucketStateIdInvalidException;
+import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.BucketMapper;
-import com.yapp.ios1.model.bucket.Bookmark;
+import com.yapp.ios1.mapper.UserMapper;
+import com.yapp.ios1.model.bookmark.Bookmark;
 import com.yapp.ios1.model.bucket.Bucket;
 import com.yapp.ios1.model.bucket.BucketTimeline;
 import com.yapp.ios1.model.image.Image;
 import com.yapp.ios1.model.tag.Tag;
+import com.yapp.ios1.model.user.User;
+import com.yapp.ios1.validator.BucketValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * created by jg 2021/05/05
@@ -26,38 +30,41 @@ import java.util.List;
 public class BucketService {
 
     private final BucketMapper bucketMapper;
+    private final BucketValidator bucketValidator;
+    private final UserMapper userMapper;
 
     public BucketHomeDto getHomeBucketList(int bucketState, int category, Long userId, int sort) {
         List<Bucket> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
-        return new BucketHomeDto(
-                buckets,
-                buckets.size()
-        );
+        return BucketHomeDto.builder()
+                .buckets(buckets)
+                .bucketCount(buckets.size())
+                .isAlarmCheck(userMapper.alarmCheckStatus(userId))
+                .build();
     }
 
-    private Bucket findBucketByBucketIdAndUserId(Long bucketId, Long userId) {
+    private Bucket getBucket(Long bucketId, Long userId) {
         return bucketMapper.findByBucketIdAndUserId(bucketId, userId)
                 .orElseThrow(BucketNotFoundException::new);
     }
 
-    private List<Tag> findByBucketTagByBucketId(Long bucketId) {
+    private List<Tag> getBucketTag(Long bucketId) {
         return bucketMapper.findByBucketTagByBucketId(bucketId);
     }
 
-    private List<Image> findByBucketImageByBucketId(Long bucketId, Long userId) {
+    private List<Image> getBucketImage(Long bucketId, Long userId) {
         return bucketMapper.findByBucketImageByBucketId(bucketId, userId);
     }
 
-    private List<BucketTimeline> findByBucketTimelineByBucketId(Long bucketId, Long userId) {
+    private List<BucketTimeline> getBucketTimeline(Long bucketId, Long userId) {
         return bucketMapper.findByBucketTimelineByBucketId(bucketId, userId);
     }
 
     public BucketDetailDto getBucketOne(Long bucketId, Long userId) {
         return new BucketDetailDto(
-                findBucketByBucketIdAndUserId(bucketId, userId),
-                findByBucketImageByBucketId(bucketId, userId),
-                findByBucketTagByBucketId(bucketId),
-                findByBucketTimelineByBucketId(bucketId, userId)
+                getBucket(bucketId, userId),
+                getBucketImage(bucketId, userId),
+                getBucketTag(bucketId),
+                getBucketTimeline(bucketId, userId)
         );
     }
 
@@ -66,7 +73,7 @@ public class BucketService {
     }
 
     @Transactional
-    public void registerBucket(BucketRequestDto registerDto) {
+    public void saveBucket(BucketRequestDto registerDto) {
         bucketMapper.registerBucket(registerDto);
 
         Long bucketId = registerDto.getId();
@@ -76,7 +83,7 @@ public class BucketService {
 
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
-        Bucket bucketDto = findBucketByBucketIdAndUserId(bucketId, userId);
+        Bucket bucketDto = getBucket(bucketId, userId);
 
         updateDto.setId(bucketId);
         bucketMapper.updateBucket(updateDto);
@@ -98,8 +105,9 @@ public class BucketService {
         bucketMapper.saveBucketIdAndTagId(bucketId, tagList);
     }
 
+    // TODO 검증 로직 Bucket AOP로 해볼지 고민해보기
     public void completeBucket(Long bucketId, Long userId) {
-        checkValidBucket(bucketId, userId);
+        bucketValidator.checkValidBucket(bucketId, userId);
         bucketMapper.completeBucket(bucketId);
     }
 
@@ -127,33 +135,21 @@ public class BucketService {
         return bucketMapper.getBucketCountByUserId(userId);
     }
 
+    // TODO 모든 버킷마다 검증하는 메소드가 들어가는데 이거를 AOP 로 빼던가 해보아도 좋을 거 같음 (얘기 해보기)
     public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
-        checkValidBucket(bucketId, userId);
+        bucketValidator.checkValidBucket(bucketId, userId);
         bucketMapper.setBookmark(bucketId, isBookmark);
     }
 
     public void setBucketFile(Long bucketId, Long userId, boolean isFin) {
-        checkValidBucket(bucketId, userId);
+        bucketValidator.checkValidBucket(bucketId, userId);
         bucketMapper.setBucketFin(bucketId, isFin);
-    }
-
-    private void checkValidBucket(Long bucketId, Long userId) {
-        bucketMapper.findByBucketIdAndUserId(bucketId, userId)
-                .orElseThrow(BucketNotFoundException::new);
-    }
-
-    private void checkValidBucketStateId(int bucketStateId) {
-        // TODO 매직 넘버가 나을라나?
-        if (bucketStateId <= 1 || bucketStateId > 5) {
-            throw new bucketStateIdInvalidException();
-        }
     }
 
     @Transactional
     public void updateBucketState(Long userId, Long bucketId, int bucketStateId) {
-        // TODO PathVariable Valid 체크는 Controller 에서 하면 좋을지 Service에서 하면 좋을지 고민해보기 (다른 곳도 부분 마찬가지)
-        checkValidBucketStateId(bucketStateId);
-        checkValidBucket(bucketId, userId);
+        bucketValidator.checkValidBucketStateId(bucketStateId);
+        bucketValidator.checkValidBucket(bucketId, userId);
         bucketMapper.updateBucketState(bucketId, userId, bucketStateId);
     }
 }

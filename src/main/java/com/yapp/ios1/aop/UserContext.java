@@ -1,4 +1,4 @@
-package com.yapp.ios1.utils.auth;
+package com.yapp.ios1.aop;
 
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.error.exception.jwt.JwtException;

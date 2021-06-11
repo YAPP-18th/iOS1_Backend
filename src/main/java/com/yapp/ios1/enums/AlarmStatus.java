@@ -1,4 +1,4 @@
-package com.yapp.ios1.common;
+package com.yapp.ios1.enums;
 
 /**
  * created by jg 2021/06/07
@@ -13,7 +13,7 @@ public enum AlarmStatus {
         this.alarmStatus = alarmStatus;
     }
 
-    public int getAlarmStatus() {
+    public int get() {
         return alarmStatus;
     }
 }

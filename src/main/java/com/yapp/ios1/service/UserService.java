@@ -1,16 +1,16 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.model.user.User;
-import com.yapp.ios1.model.bucket.Bookmark;
-import com.yapp.ios1.dto.bucket.BookmarkListDto;
+import com.yapp.ios1.dto.bookmark.BookmarkListDto;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
-import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
-import com.yapp.ios1.controller.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.UserInfoDto;
-import com.yapp.ios1.error.exception.user.*;
-import com.yapp.ios1.mapper.FollowMapper;
+import com.yapp.ios1.error.exception.user.DeviceTokenNotFoundException;
+import com.yapp.ios1.error.exception.user.UserNotFoundException;
+import com.yapp.ios1.mapper.FriendMapper;
+import com.yapp.ios1.mapper.ProfileMapper;
 import com.yapp.ios1.mapper.UserMapper;
+import com.yapp.ios1.model.bookmark.Bookmark;
 import com.yapp.ios1.model.user.Profile;
+import com.yapp.ios1.model.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,85 +29,51 @@ import java.util.Optional;
 public class UserService {
 
     private final BucketService bucketService;
-    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final FollowMapper followMapper;
     private final JwtService jwtService;
+    private final UserMapper userMapper;
+    private final FriendMapper friendMapper;
+    private final ProfileService profileService;
 
-    public String findDeviceTokenByUserId(Long userId) {
+    public String getDeviceToken(Long userId) {
         return userMapper.findDeviceTokenByUserId(userId)
                 .orElseThrow(DeviceTokenNotFoundException::new);
     }
 
-    public User findByUserId(Long userId) {
+    public List<String> getAllDeviceToken() {
+        return userMapper.findAllUserDeviceToken();
+    }
+
+    public User getUser(Long userId) {
         return userMapper.findByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
     }
 
-    public void emailCheck(String email) {
-        Optional<User> user = userMapper.findByEmail(email);
-        if (user.isPresent()) {
-            throw new EmailDuplicatedException();
-        }
-    }
-
-    public void checkEmailPresent(String email) {
-        userMapper.findByEmail(email)
-                .orElseThrow(EmailNotExistException::new);
-    }
-
-    public void nicknameCheck(String nickname) {
-        Optional<User> user = userMapper.findByNickname(nickname);
-        if (user.isPresent()) {
-            throw new NickNameDuplicatedException();
-        }
+    // true 최신 알림 로그 확인한 상태, false 확인하지 않은 알림 로그가 존재하는 상태
+    public void updateUserAlarmReadStatus(Long userId, boolean alarmReadStatus) {
+        userMapper.updateAlarmStatus(userId, alarmReadStatus);
     }
 
     public Optional<User> findBySocialIdAndSocialType(String socialId, String socialType) {
         return userMapper.findBySocialIdAndSocialType(socialId, socialType);
     }
 
-    @Transactional
     public TokenResponseDto signUp(User user) {
         user.encodePassword(passwordEncoder.encode(user.getPassword()));
         userMapper.signUp(user);
         return jwtService.createTokenResponse(user.getId());
     }
 
-    public User signIn(SignInDto signInDto) {
-        User user = userMapper.findByEmail(signInDto.getEmail())
-                .orElseThrow(UserNotFoundException::new);
-
-        if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
-            throw new PasswordNotMatchException();
-        }
-        return user;
-    }
-
-    @Transactional
     public void changePassword(Long userId, String password) {
         String encodePassword = passwordEncoder.encode(password);
         userMapper.changePassword(userId, encodePassword);
-    }
-
-    public Profile getProfile(Long userId) {
-        return userMapper.findProfileByUserId(userId)
-                .orElseThrow(UserNotFoundException::new);
-    }
-
-    @Transactional
-    public void updateProfile(ProfileUpdateDto profileUpdateDto, Long userId) {
-        int change = userMapper.updateProfile(profileUpdateDto, userId);
-        if (change == 0) {
-            throw new NickNameDuplicatedException();
-        }
     }
 
     @Transactional(readOnly = true)
     public UserInfoDto getOtherUserInfo(Long myUserId, Long otherUserId) {
         UserInfoDto userInfo = getUserInfo(otherUserId);
 
-        int checkFriend = followMapper.checkFriendByMyUserIdAndOtherUserId(myUserId, otherUserId);
+        int checkFriend = friendMapper.checkFriendByMyUserIdAndOtherUserId(myUserId, otherUserId);
 
         if (checkFriend == 0) {
             userInfo.setFriend(Boolean.FALSE);
@@ -122,10 +88,10 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserInfoDto getUserInfo(Long userId) {
-        Profile profile = userMapper.findProfileByUserId(userId)
-                .orElseThrow(UserNotFoundException::new);
+        // TODO 모든 find 관련 로직도 Validator 처럼 다른 쪽으로 빼서 해볼까..
+        Profile profile = profileService.getProfile(userId);
 
-        int friendCount = followMapper.getFollowCountByUserId(userId);
+        int friendCount = friendMapper.getFollowCountByUserId(userId);
         int bucketCount = bucketService.getBucketCountByUserId(userId);
 
         List<Bookmark> bookmarkList = bucketService.getBookmarkList(userId);
@@ -138,7 +104,6 @@ public class UserService {
                 .build();
     }
 
-    @Transactional
     public void deleteUser(Long userId) {
         userMapper.deleteUser(userId);
     }

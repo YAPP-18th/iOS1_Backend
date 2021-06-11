@@ -16,7 +16,6 @@ import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.properties.FirebaseProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,9 +30,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.yapp.ios1.common.AlarmMessage.WHOLE_ALARM_MESSAGE;
-import static com.yapp.ios1.common.AlarmMessage.WHOLE_ALARM_TITLE;
-import static com.yapp.ios1.common.AlarmStatus.WHOLE_ALARM;
+import static com.yapp.ios1.message.AlarmMessage.WHOLE_ALARM_MESSAGE;
+import static com.yapp.ios1.message.AlarmMessage.WHOLE_ALARM_TITLE;
+import static com.yapp.ios1.enums.AlarmStatus.WHOLE_ALARM;
 
 /**
  * created by jg 2021/05/02
@@ -41,10 +40,10 @@ import static com.yapp.ios1.common.AlarmStatus.WHOLE_ALARM;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class NotificationService {
+// TODO FireBaseService(알람을 보내는, 초기화 하는 코드만 존재), AlarmService(친구 요청 수락, 거절 등등) 분리해보기
+public class FirebaseService {
 
-    private final UserMapper userMapper;
-    private final AlarmMapper alarmMapper;
+    private final UserService userService;
     private final FirebaseProperties firebaseProperties;
 
     @PostConstruct
@@ -63,14 +62,9 @@ public class NotificationService {
         }
     }
 
-    private List<String> findDeviceTokens() {
-        return userMapper.findAllUserDeviceToken();
-    }
-
-    @Async("asyncTask")
     public void sendPushNotification() {
-        List<String> deviceTokens = findDeviceTokens();
-        NotificationDto pushNotificationRequest = makeNotification();
+        List<String> deviceTokens = userService.getAllDeviceToken();
+        NotificationDto pushNotificationRequest = getWholeAlarmMessage();
 
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()
                 .putData("title", pushNotificationRequest.getTitle())
@@ -87,7 +81,6 @@ public class NotificationService {
         }
     }
 
-    @Async("asyncTask")
     public void sendByToken(NotificationForOneDto messageInfo) {
         Message message = Message.builder()
                 .setToken(messageInfo.getDeviceToken())
@@ -104,47 +97,17 @@ public class NotificationService {
         }
     }
 
-    public List<Notification> getAlarmLog(Long userId) {
-        List<Notification> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
-        List<Notification> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
-
-        return Stream.concat(followAlarmLog.stream(), commonAlarmLog.stream())
-                .sorted(Comparator.comparing(Notification::getCreatedAt))
-                .collect(Collectors.toList());
+    public NotificationForOneDto makeSendAlarmMessage(Long friendId, String title, String message) {
+        String deviceToken = userService.getDeviceToken(friendId);
+        return NotificationForOneDto.builder()
+                .title(title)
+                .message(message)
+                .deviceToken(deviceToken)
+                .build();
     }
 
-    private NotificationDto makeNotification() {
+    public NotificationDto getWholeAlarmMessage() {
         return new NotificationDto(WHOLE_ALARM_TITLE, WHOLE_ALARM_MESSAGE, LocalDateTime.now());
-    }
-
-    // 초, 분, 시간, 일, 월, 요일 (매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정)
-    @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
-    @Transactional
-    public void notificationSchedule() {
-        alarmMapper.insertWholeAlarmLog(makeNotification(), WHOLE_ALARM.getAlarmStatus());  // alarm_status = 1 (전체 알람)
-        sendPushNotification();
-    }
-
-    @Transactional
-    public void deleteAlarm(Long alarmId, Long userId, int alarmStatus) {
-        if (alarmStatus == WHOLE_ALARM.getAlarmStatus()) {
-            checkValidWholeAlarm(alarmId);
-            alarmMapper.deleteWholeAlarmLog(alarmId, userId);
-            return;
-        }
-        // 친구 알람 삭제
-        checkValidFollowAlarm(alarmId);
-        alarmMapper.deleteFollowAlarmLog(alarmId, userId);
-    }
-
-    private void checkValidWholeAlarm(Long alarmId) {
-        alarmMapper.findWholeAlarmByAlarmId(alarmId)
-                .orElseThrow(AlarmNotFoundException::new);
-    }
-
-    private void checkValidFollowAlarm(Long alarmId) {
-        alarmMapper.findFollowAlarmByAlarmId(alarmId)
-                .orElseThrow(AlarmNotFoundException::new);
     }
 }
 

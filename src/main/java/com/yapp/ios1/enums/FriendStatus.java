@@ -1,4 +1,4 @@
-package com.yapp.ios1.common;
+package com.yapp.ios1.enums;
 
 /**
  * created by jg 2021/05/21
@@ -13,7 +13,7 @@ public enum FriendStatus {
         this.friendStatus = friendStatus;
     }
 
-    public int getFriendStatus() {
+    public int get() {
         return friendStatus;
     }
 }

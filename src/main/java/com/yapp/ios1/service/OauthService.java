@@ -5,6 +5,7 @@ import com.yapp.ios1.dto.user.UserStatusDto;
 import com.yapp.ios1.controller.dto.user.login.SignUpDto;
 import com.yapp.ios1.controller.dto.user.social.SocialLoginDto;
 import com.yapp.ios1.properties.SocialLoginProperties;
+import com.yapp.ios1.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class OauthService {
 
     private final UserService userService;
+    private final UserValidator userValidator;
     private final JwtService jwtService;
     private final SocialLoginProperties socialLoginProperties;
 
@@ -33,7 +35,7 @@ public class OauthService {
         if (optionalUser.isEmpty()) {
             // TODO null 처리 다시 확인하기
             if (email != null) {
-                userService.emailCheck(email);
+                userValidator.checkEmailDuplicate(email);
             }
             return socialSignUp(socialType, socialDto);
         }

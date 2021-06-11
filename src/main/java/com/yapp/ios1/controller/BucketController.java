@@ -3,19 +3,18 @@ package com.yapp.ios1.controller;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.service.BucketService;
-import com.yapp.ios1.utils.auth.Auth;
-import com.yapp.ios1.utils.auth.UserContext;
+import com.yapp.ios1.annotation.Auth;
+import com.yapp.ios1.aop.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.yapp.ios1.common.ResponseMessage.*;
+import static com.yapp.ios1.message.ResponseMessage.*;
 
 /**
  * created by jg 2021/05/05
@@ -34,7 +33,7 @@ public class BucketController {
                       7(목표), 8(조직), 9(봉사), 10(기타)
      * @INFO sortI= 1(작성 순), sortId = 2(가나다 순)
      */
-    @ApiOperation(value = "홈 화면 전체 조회")
+    @ApiOperation(value = "홈 화면 버킷 조회")
     @Auth
     @GetMapping("")
     public ResponseEntity<ResponseDto> homeBucket(@RequestParam("state") int bucketState,
@@ -77,7 +76,7 @@ public class BucketController {
     @PostMapping("")
     public ResponseEntity<ResponseDto> registerBucket(@RequestBody @Valid BucketRequestDto bucket) {
         bucket.setUserId(UserContext.getCurrentUserId());
-        bucketService.registerBucket(bucket);
+        bucketService.saveBucket(bucket);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, REGISTER_BUCKET_SUCCESS));
     }
 

@@ -2,8 +2,8 @@ package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.S3Service;
-import com.yapp.ios1.utils.auth.Auth;
-import com.yapp.ios1.utils.auth.UserContext;
+import com.yapp.ios1.annotation.Auth;
+import com.yapp.ios1.aop.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
-import static com.yapp.ios1.common.ResponseMessage.NOT_EXIST_IMAGE;
-import static com.yapp.ios1.common.ResponseMessage.UPLOAD_IMAGE_SUCCESS;
+import static com.yapp.ios1.message.ResponseMessage.NOT_EXIST_IMAGE;
+import static com.yapp.ios1.message.ResponseMessage.UPLOAD_IMAGE_SUCCESS;
 
 /**
  * created by ayoung 2021/03/29

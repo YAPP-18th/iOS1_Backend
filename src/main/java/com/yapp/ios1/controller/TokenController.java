@@ -4,8 +4,8 @@ import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.JwtIssueService;
-import com.yapp.ios1.utils.auth.ReAuth;
-import com.yapp.ios1.utils.auth.UserContext;
+import com.yapp.ios1.annotation.ReAuth;
+import com.yapp.ios1.aop.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-
-import static com.yapp.ios1.common.ResponseMessage.LOGIN_SUCCESS;
+import static com.yapp.ios1.message.ResponseMessage.LOGIN_SUCCESS;
 
 /**
  * created by jg 2021/05/05

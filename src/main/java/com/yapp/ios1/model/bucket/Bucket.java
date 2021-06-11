@@ -21,4 +21,5 @@ public class Bucket {
     private boolean isBookmark;
     private boolean isFin;
     private String userProfileUrl;
+    private boolean isAlarmCheck;
 }

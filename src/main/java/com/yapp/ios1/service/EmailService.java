@@ -3,10 +3,9 @@ package com.yapp.ios1.service;
 import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.error.exception.email.EmailSendException;
 import com.yapp.ios1.error.exception.user.EmailNotExistException;
-import com.yapp.ios1.error.exception.user.UserNotFoundException;
-import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.properties.EmailProperties;
 import com.yapp.ios1.utils.RedisUtil;
+import com.yapp.ios1.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -27,19 +26,19 @@ public class EmailService {
     private final JavaMailSender emailSender;
     private final RedisUtil redisUtil;
     private final EmailProperties emailProperties;
-    private final UserMapper userMapper;
-    private static final StringBuilder sb = new StringBuilder();
+    private final UserValidator userValidator;
+    private static final StringBuilder sb = new StringBuilder();   // TODO 다시 고민
 
     private MimeMessage createMessage(String email, String code) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(MimeMessage.RecipientType.TO, email);
         message.setSubject("[buok] 비밀번호를 잊으셨나요? " + code);
-        message.setText(makeHtml(code), "utf-8", "html");
+        message.setText(createHtml(code), "utf-8", "html");
         message.setFrom(new InternetAddress(emailProperties.getLink(), emailProperties.getName()));
         return message;
     }
 
-    private String makeHtml(String code) {
+    private String createHtml(String code) {
         sb.append("<div align=\"center\" style=\"font-size: 15px\">");
         sb.append("<br/><img src=\"" + emailProperties.getLogoUrl() + "\"/>");
         sb.append("<br/><br/><br/>비밀번호를 잊으셨나요?<br/>너무 걱정 마세요. 저희도 가끔 잊어버린답니다.<br/><br/>");
@@ -81,15 +80,14 @@ public class EmailService {
         }
     }
 
+    // TODO 책임론 생각해보기
     public Long verifyCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {
             throw new EmailNotExistException();
         }
 
-        User user = userMapper.findByEmail(email)
-                .orElseThrow(UserNotFoundException::new);
-
+        User user = userValidator.checkEmailPresent(email);
         return user.getId();
     }
 }
