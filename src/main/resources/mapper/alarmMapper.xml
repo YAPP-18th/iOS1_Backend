@@ -9,6 +9,13 @@
         VALUES (#{notification.title}, #{notification.message}, #{alarmStatus}, #{time}, #{friendId})
     </insert>
 
+    <update id="updateFollowAlarmLog">
+        UPDATE follow_alarm_log
+        SET title = #{notification.title},
+            message = #{notification.message}
+        WHERE id = #{alarmId}
+    </update>
+
     <insert id="insertWholeAlarmLog" parameterType="NotificationDto">
         INSERT INTO whole_alarm_log (title, message, alarm_status, created_at)
         VALUES (#{alarm.title}, #{alarm.message}, #{alarmStatus}, #{alarm.localDateTime})

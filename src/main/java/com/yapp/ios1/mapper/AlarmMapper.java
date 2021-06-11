@@ -21,6 +21,9 @@ public interface AlarmMapper {
                               @Param("time") LocalDateTime localDateTime,
                               @Param("friendId") Long friendId);
 
+    void updateFollowAlarmLog(@Param("notification") NotificationForOneDto notification,
+                              @Param("alarmId") Long alarmId);
+
     void insertWholeAlarmLog(@Param("alarm") NotificationDto notificationDto,
                              @Param("alarmStatus") int alarmStatus);
 
