@@ -35,7 +35,7 @@ public class AuthAspect {
     private final UserService userService;
     private final HttpServletRequest httpServletRequest;
 
-    @Around("@annotation(Auth)")
+    @Around("@annotation(com.yapp.ios1.annotation.Auth)")
     public Object accessToken(final ProceedingJoinPoint pjp) throws Throwable {
         try {
             String accessToken = httpServletRequest.getHeader(AUTHORIZATION);
@@ -48,7 +48,7 @@ public class AuthAspect {
         }
     }
 
-    @Around("@annotation(ReAuth)")
+    @Around("@annotation(com.yapp.ios1.annotation.ReAuth)")
     public Object refreshToken(final ProceedingJoinPoint pjp) throws Throwable {
         try {
             String refreshToken = httpServletRequest.getHeader(REAUTHORIZATION);

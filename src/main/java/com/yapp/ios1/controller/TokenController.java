@@ -4,7 +4,7 @@ import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.JwtIssueService;
-import com.yapp.ios1.aop.ReAuth;
+import com.yapp.ios1.annotation.ReAuth;
 import com.yapp.ios1.aop.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

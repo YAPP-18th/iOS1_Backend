@@ -1,7 +1,6 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
 import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.controller.dto.user.login.PasswordDto;
 import com.yapp.ios1.controller.dto.user.login.SignInDto;
@@ -10,7 +9,7 @@ import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.service.FriendService;
 import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
-import com.yapp.ios1.aop.Auth;
+import com.yapp.ios1.annotation.Auth;
 import com.yapp.ios1.aop.UserContext;
 import com.yapp.ios1.validator.UserValidator;
 import io.swagger.annotations.Api;

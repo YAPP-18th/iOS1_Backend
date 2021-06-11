@@ -3,7 +3,7 @@ package com.yapp.ios1.controller;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.service.BucketService;
-import com.yapp.ios1.aop.Auth;
+import com.yapp.ios1.annotation.Auth;
 import com.yapp.ios1.aop.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,6 +1,6 @@
 package com.yapp.ios1.controller;
 
-import com.yapp.ios1.aop.Auth;
+import com.yapp.ios1.annotation.Auth;
 import com.yapp.ios1.aop.UserContext;
 import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
 import com.yapp.ios1.dto.ResponseDto;

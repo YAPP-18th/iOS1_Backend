@@ -1,4 +1,4 @@
-package com.yapp.ios1.aop;
+package com.yapp.ios1.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
