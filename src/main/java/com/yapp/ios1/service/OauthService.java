@@ -5,7 +5,7 @@ import com.yapp.ios1.dto.user.UserStatusDto;
 import com.yapp.ios1.controller.dto.user.login.SignUpDto;
 import com.yapp.ios1.controller.dto.user.social.SocialLoginDto;
 import com.yapp.ios1.properties.SocialLoginProperties;
-import com.yapp.ios1.validaor.UserValidator;
+import com.yapp.ios1.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

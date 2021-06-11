@@ -22,13 +22,14 @@ import static com.yapp.ios1.enums.FriendStatus.REQUEST;
  */
 @RequiredArgsConstructor
 @Service
-public class FriendService {
+public class FriendService {  // TODO 전체적인 리팩터링
 
     private final FirebaseService firebaseService;
     private final FriendMapper followMapper;
     private final AlarmMapper alarmMapper;
     private final UserService userService;
 
+    // TODO 리팩터링
     @Transactional
     public void requestFollow(Long myUserId, Long friendId) {
         User user = userService.getUser(friendId);
@@ -48,12 +49,12 @@ public class FriendService {
 
     // friendStatus = 1(친구), 2(요청 중)
     @Transactional
-    public void checkFollowStatus(boolean isAccept, Long myUserId, Long friendId, Long alarmId) {
+    public void checkFollowAccept(boolean isAccept, Long myUserId, Long friendId, Long alarmId) {
         if (isAccept) {
             acceptFollow(myUserId, friendId);
             return;
         }
-        followNotAccept(myUserId, alarmId);
+        noAcceptFollow(myUserId, alarmId);
     }
 
     private void acceptFollow(Long myUserId, Long friendId) {
@@ -63,7 +64,7 @@ public class FriendService {
         sendFollowAlarmRequest(notificationForOne);
     }
 
-    private void followNotAccept(Long myUserId, Long alarmId) {
+    private void noAcceptFollow(Long myUserId, Long alarmId) {
         alarmMapper.deleteFollowAlarmLog(myUserId, alarmId);
     }
 }

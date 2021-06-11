@@ -12,7 +12,7 @@ import com.yapp.ios1.service.JwtService;
 import com.yapp.ios1.service.UserService;
 import com.yapp.ios1.aop.Auth;
 import com.yapp.ios1.aop.UserContext;
-import com.yapp.ios1.validaor.UserValidator;
+import com.yapp.ios1.validator.UserValidator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +52,7 @@ public class UserController {
     @ApiOperation(value = "닉네임 존재 여부")
     @GetMapping("/nickname-check")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickname) {
-        userValidator.nicknameCheck(nickname);
+        userValidator.checkNickName(nickname);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_NICKNAME));
     }
 
@@ -76,23 +76,6 @@ public class UserController {
         Long userId = UserContext.getCurrentUserId();
         userService.changePassword(userId, passwordDto.getPassword());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS));
-    }
-
-    @ApiOperation(value = "프로필 가져오기")
-    @Auth
-    @GetMapping("")
-    public ResponseEntity<ResponseDto> getProfile() {
-        Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_PROFILE_SUCCESS, userService.getProfile(userId)));
-    }
-
-    @ApiOperation(value = "프로필 수정")
-    @Auth
-    @PutMapping("")
-    public ResponseEntity<ResponseDto> updateProfile(@RequestBody ProfileUpdateDto profile) {
-        Long userId = UserContext.getCurrentUserId();
-        userService.updateProfile(profile, userId);
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_PROFILE_SUCCESS));
     }
 
     @ApiOperation(value = "마이 페이지")

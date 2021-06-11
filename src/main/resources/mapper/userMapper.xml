@@ -33,40 +33,10 @@
           AND social_type = #{socialType};
     </select>
 
-    <select id="findProfileByUserId" resultType="Profile">
-        SELECT id,
-               email,
-               nickname,
-               intro,
-               created_date as createdDate,
-               profile_url as profileUrl,
-               social_type as socialType,
-               social_id as socialId
-        FROM user WHERE id = #{userId};
-    </select>
-
     <update id="changePassword">
         UPDATE user
         SET password = #{password}
         WHERE id = #{userId};
-    </update>
-
-    <update id="updateProfile">
-        UPDATE
-            user AS a
-        SET a.nickname    = #{profile.nickname},
-            a.intro       = #{profile.intro},
-            a.profile_url = #{profile.profileUrl}
-        WHERE (
-            SELECT c.nickname as nickname
-            FROM (
-                     SELECT b.nickname as nickname
-                     FROM user AS b
-                     WHERE b.id NOT IN (#{userId})
-                 ) as c
-            WHERE c.nickname IN (#{profile.nickname})
-        ) IS NULL
-          AND a.id = #{userId};
     </update>
 
     <select id="findDeviceTokenByUserId" resultType="String">

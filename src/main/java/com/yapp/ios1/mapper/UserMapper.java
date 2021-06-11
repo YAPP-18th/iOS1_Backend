@@ -23,11 +23,7 @@ public interface UserMapper {
 
     Optional<User> findBySocialIdAndSocialType(String socialId, String socialType);
 
-    Optional<Profile> findProfileByUserId(@Param("userId") Long userId);
-
     void changePassword(Long userId, String password);
-
-    int updateProfile(ProfileUpdateDto profile, Long userId);
 
     void signUp(User user);
 

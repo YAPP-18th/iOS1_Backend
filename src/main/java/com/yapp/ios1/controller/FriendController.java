@@ -41,7 +41,7 @@ public class FriendController {
                                                     @PathVariable Long alarmId,
                                                     @RequestParam("accept") boolean isAccept) {
         Long myUserId = UserContext.getCurrentUserId();
-        followService.checkFollowStatus(isAccept, myUserId, friendId, alarmId);
+        followService.checkFollowAccept(isAccept, myUserId, friendId, alarmId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, FRIEND_MESSAGE, isAccept));
     }
 }

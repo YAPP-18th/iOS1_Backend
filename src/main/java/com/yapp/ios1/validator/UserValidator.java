@@ -1,4 +1,4 @@
-package com.yapp.ios1.validaor;
+package com.yapp.ios1.validator;
 
 import com.yapp.ios1.controller.dto.user.login.SignInDto;
 import com.yapp.ios1.error.exception.user.*;
@@ -32,7 +32,7 @@ public class UserValidator {
                 .orElseThrow(EmailNotExistException::new);
     }
 
-    public void nicknameCheck(String nickname) {
+    public void checkNickName(String nickname) {
         Optional<User> user = userMapper.findByNickname(nickname);
         if (user.isPresent()) {
             throw new NickNameDuplicatedException();

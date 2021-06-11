@@ -1,16 +1,16 @@
 package com.yapp.ios1.service;
 
-import com.yapp.ios1.model.user.User;
-import com.yapp.ios1.model.bookmark.Bookmark;
 import com.yapp.ios1.dto.bookmark.BookmarkListDto;
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
-import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
-import com.yapp.ios1.controller.dto.user.login.SignInDto;
 import com.yapp.ios1.dto.user.UserInfoDto;
-import com.yapp.ios1.error.exception.user.*;
+import com.yapp.ios1.error.exception.user.DeviceTokenNotFoundException;
+import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.FriendMapper;
+import com.yapp.ios1.mapper.ProfileMapper;
 import com.yapp.ios1.mapper.UserMapper;
+import com.yapp.ios1.model.bookmark.Bookmark;
 import com.yapp.ios1.model.user.Profile;
+import com.yapp.ios1.model.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,10 +29,11 @@ import java.util.Optional;
 public class UserService {
 
     private final BucketService bucketService;
-    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final FriendMapper friendMapper;
     private final JwtService jwtService;
+    private final UserMapper userMapper;
+    private final FriendMapper friendMapper;
+    private final ProfileMapper profileMapper;
 
     public String getDeviceToken(Long userId) {
         return userMapper.findDeviceTokenByUserId(userId)
@@ -52,31 +53,15 @@ public class UserService {
         return userMapper.findBySocialIdAndSocialType(socialId, socialType);
     }
 
-    @Transactional
     public TokenResponseDto signUp(User user) {
         user.encodePassword(passwordEncoder.encode(user.getPassword()));
         userMapper.signUp(user);
         return jwtService.createTokenResponse(user.getId());
     }
 
-    @Transactional
     public void changePassword(Long userId, String password) {
         String encodePassword = passwordEncoder.encode(password);
         userMapper.changePassword(userId, encodePassword);
-    }
-
-    // TODO Profile 도 User와 관련 있지만 Profile Model 이기 때문에 따로 ProfileController, ProfleService 로 관리하면 어떨까 싶음
-    public Profile getProfile(Long userId) {
-        return userMapper.findProfileByUserId(userId)
-                .orElseThrow(UserNotFoundException::new);
-    }
-
-    @Transactional
-    public void updateProfile(ProfileUpdateDto profileUpdateDto, Long userId) {
-        int change = userMapper.updateProfile(profileUpdateDto, userId);
-        if (change == 0) {
-            throw new NickNameDuplicatedException();
-        }
     }
 
     @Transactional(readOnly = true)
@@ -98,7 +83,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserInfoDto getUserInfo(Long userId) {
-        Profile profile = userMapper.findProfileByUserId(userId)
+        // TODO 모든 find 관련 로직도 Validator 처럼 다른 쪽으로 빼서 해볼까..
+        Profile profile = profileMapper.findProfileByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
 
         int friendCount = friendMapper.getFollowCountByUserId(userId);
@@ -114,7 +100,6 @@ public class UserService {
                 .build();
     }
 
-    @Transactional
     public void deleteUser(Long userId) {
         userMapper.deleteUser(userId);
     }

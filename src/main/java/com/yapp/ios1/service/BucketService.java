@@ -2,9 +2,7 @@ package com.yapp.ios1.service;
 
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
-import com.yapp.ios1.enums.BucketStatus;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
-import com.yapp.ios1.error.exception.bucket.bucketStateIdInvalidException;
 import com.yapp.ios1.mapper.BucketMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.model.bookmark.Bookmark;
@@ -12,17 +10,13 @@ import com.yapp.ios1.model.bucket.Bucket;
 import com.yapp.ios1.model.bucket.BucketTimeline;
 import com.yapp.ios1.model.image.Image;
 import com.yapp.ios1.model.tag.Tag;
-import com.yapp.ios1.model.user.User;
-import com.yapp.ios1.validaor.BucketValidator;
+import com.yapp.ios1.validator.BucketValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-
-import static com.yapp.ios1.enums.BucketStatus.*;
 
 /**
  * created by jg 2021/05/05
@@ -39,8 +33,7 @@ public class BucketService {
 
     public BucketHomeDto getHomeBucketList(int bucketState, int category, Long userId, int sort) {
         List<Bucket> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
-
-
+        // TODO 유저가 알람 로그 확인했는지 안했는지 추가해야 함 (양방향 참조 문제 해결해야 넣을 수 있음)
         return BucketHomeDto.builder()
                 .buckets(buckets)
                 .bucketCount(buckets.size())

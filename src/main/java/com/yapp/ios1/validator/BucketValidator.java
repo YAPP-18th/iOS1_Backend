@@ -1,4 +1,4 @@
-package com.yapp.ios1.validaor;
+package com.yapp.ios1.validator;
 
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.error.exception.bucket.bucketStateIdInvalidException;
