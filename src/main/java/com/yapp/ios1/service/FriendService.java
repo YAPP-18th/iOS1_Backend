@@ -32,10 +32,12 @@ public class FriendService {  // TODO 전체적인 리팩터링
     // TODO 리팩터링
     @Transactional
     public void requestFollow(Long myUserId, Long friendId) {
+        // TODO 35, 36은 외부에서 주입 받는게 나은것인가..
         User user = userService.getUser(friendId);
         NotificationForOneDto notificationForOne = firebaseService.makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE, user.getNickname() + FOLLOW_REQUEST_MESSAGE);
         alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);   // alarm_status = 2 (친구 알람)
         followMapper.requestFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
+        userService.updateUserAlarmReadStatus(friendId, false);
         sendFollowAlarmRequest(notificationForOne);
     }
 
@@ -61,6 +63,7 @@ public class FriendService {  // TODO 전체적인 리팩터링
         NotificationForOneDto notificationForOne = firebaseService.makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE);
         alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
         followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
+        userService.updateUserAlarmReadStatus(friendId, false);
         sendFollowAlarmRequest(notificationForOne);
     }
 

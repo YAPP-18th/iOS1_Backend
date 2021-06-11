@@ -3,6 +3,7 @@ package com.yapp.ios1.service;
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
 import com.yapp.ios1.dto.bucket.*;
 import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
+import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.BucketMapper;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.model.bookmark.Bookmark;
@@ -10,6 +11,7 @@ import com.yapp.ios1.model.bucket.Bucket;
 import com.yapp.ios1.model.bucket.BucketTimeline;
 import com.yapp.ios1.model.image.Image;
 import com.yapp.ios1.model.tag.Tag;
+import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.validator.BucketValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * created by jg 2021/05/05
@@ -28,15 +31,14 @@ public class BucketService {
 
     private final BucketMapper bucketMapper;
     private final BucketValidator bucketValidator;
-    // TODO UserService 주입하고 싶지만 UserService에서 BucketService를 주입받고 있어서 양방향 참조가 되어 할 수가 없음 (뭔가 문제가 있다는 신호?)
     private final UserMapper userMapper;
 
     public BucketHomeDto getHomeBucketList(int bucketState, int category, Long userId, int sort) {
         List<Bucket> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
-        // TODO 유저가 알람 로그 확인했는지 안했는지 추가해야 함 (양방향 참조 문제 해결해야 넣을 수 있음)
         return BucketHomeDto.builder()
                 .buckets(buckets)
                 .bucketCount(buckets.size())
+                .isAlarmCheck(userMapper.alarmCheckStatus(userId))
                 .build();
     }
 

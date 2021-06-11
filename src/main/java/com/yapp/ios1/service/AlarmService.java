@@ -1,6 +1,7 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.mapper.AlarmMapper;
+import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.model.notification.Notification;
 import com.yapp.ios1.validator.AlarmValidator;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +23,15 @@ import static com.yapp.ios1.enums.AlarmStatus.WHOLE_ALARM;
 public class AlarmService {
 
     private final AlarmMapper alarmMapper;
+    private final UserMapper userMapper;
     private final FirebaseService firebaseService;
     private final AlarmValidator alarmValidator;
 
     public List<Notification> getAlarmLog(Long userId) {
         List<Notification> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);
         List<Notification> commonAlarmLog = alarmMapper.getCommonAlarmLog(userId);
+        // 알림 로그 읽었다는 뜻
+        userMapper.updateAlarmStatus(userId, true);
 
         return Stream.concat(followAlarmLog.stream(), commonAlarmLog.stream())
                 .sorted(Comparator.comparing(Notification::getCreatedAt))

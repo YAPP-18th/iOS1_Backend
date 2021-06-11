@@ -18,7 +18,7 @@ public class BucketValidator {
 
     private final BucketMapper bucketMapper;
 
-    // TODO Validate 책임
+    // TODO findByBucketIdAndUserId 과 checkValidBucket 이름의 관계를 다시 생각해보기..
     public void checkValidBucket(Long bucketId, Long userId) {
         bucketMapper.findByBucketIdAndUserId(bucketId, userId)
                 .orElseThrow(BucketNotFoundException::new);

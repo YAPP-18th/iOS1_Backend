@@ -80,6 +80,7 @@ public class EmailService {
         }
     }
 
+    // TODO 책임론 생각해보기
     public Long verifyCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {

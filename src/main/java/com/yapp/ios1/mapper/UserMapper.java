@@ -32,4 +32,8 @@ public interface UserMapper {
     List<String> findAllUserDeviceToken();
 
     void deleteUser(Long userId);
+
+    void updateAlarmStatus(Long userId, boolean alarmReadStatus);
+
+    boolean alarmCheckStatus(Long userId);
 }
