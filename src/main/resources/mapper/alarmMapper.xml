@@ -30,9 +30,9 @@
                f.follower_id   as myUserId,
                f.following_id  as friendId,
                message,
-               u.profile_url as profileUrl,
+               u.profile_url   as profileUrl,
                f.friend_status as friendStatus,
-               alarm_status as alarmStatus,
+               alarm_status    as alarmStatus,
                created_at      as createdAt
         FROM follow_alarm_log al
             JOIN follow f

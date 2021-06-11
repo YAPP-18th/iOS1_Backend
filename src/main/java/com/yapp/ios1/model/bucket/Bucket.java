@@ -3,6 +3,7 @@ package com.yapp.ios1.model.bucket;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * created by jg 2021/05/05
@@ -14,8 +15,8 @@ public class Bucket {
     private Long userId;
     private String bucketName;
     private String content;
-    private LocalDate createdDate;
-    private LocalDate endDate;
+    private String createdDate;
+    private String endDate;
     private int bucketState;
     private Integer categoryId;
     private boolean isBookmark;
