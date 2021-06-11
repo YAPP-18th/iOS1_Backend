@@ -44,6 +44,7 @@ public class AlarmService {
             alarmMapper.deleteWholeAlarmLog(alarmId, userId);
             return;
         }
+
         alarmValidator.checkValidFollowAlarm(alarmId);
         alarmMapper.deleteFollowAlarmLog(alarmId, userId);
     }
