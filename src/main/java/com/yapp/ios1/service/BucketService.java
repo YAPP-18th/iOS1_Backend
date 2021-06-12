@@ -136,12 +136,12 @@ public class BucketService {
     }
 
     // TODO 모든 버킷마다 검증하는 메소드가 들어가는데 이거를 AOP 로 빼던가 해보아도 좋을 거 같음 (얘기 해보기)
-    public void setBookmark(Long bucketId, Long userId, boolean isBookmark) {
+    public void saveBookmark(Long bucketId, Long userId, boolean isBookmark) {
         bucketValidator.checkValidBucket(bucketId, userId);
         bucketMapper.setBookmark(bucketId, isBookmark);
     }
 
-    public void setBucketFile(Long bucketId, Long userId, boolean isFin) {
+    public void setBucketFin(Long bucketId, Long userId, boolean isFin) {
         bucketValidator.checkValidBucket(bucketId, userId);
         bucketMapper.setBucketFin(bucketId, isFin);
     }

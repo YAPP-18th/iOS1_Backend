@@ -53,6 +53,6 @@ public class AlarmService {
     @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
     public void notificationSchedule() {
         alarmMapper.insertWholeAlarmLog(firebaseService.getWholeAlarmMessage(), WHOLE_ALARM.get());  // alarm_status = 1 (전체 알람)
-        firebaseService.sendPushNotification();
+        firebaseService.sendByTokenForMulti();
     }
 }

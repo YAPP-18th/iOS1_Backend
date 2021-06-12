@@ -80,7 +80,7 @@ public class EmailService {
         }
     }
 
-    // TODO 책임론 생각해보기
+    // TODO 책임론 생각해보기 (메소드 이름과 내부에서 하는 동작이 같은것인가?)
     public Long verifyCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {

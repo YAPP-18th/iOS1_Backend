@@ -5,6 +5,7 @@ import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FriendMapper;
+import com.yapp.ios1.utils.AlarmMessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,21 +29,21 @@ public class FriendService {  // TODO 전체적인 리팩터링
     private final FriendMapper followMapper;
     private final AlarmMapper alarmMapper;
     private final UserService userService;
+    private final AlarmMessageUtil alarmMessage;
 
     // TODO 리팩터링
     @Transactional
     public void requestFollow(Long myUserId, Long friendId) {
-        // TODO 35, 36은 외부에서 주입 받는게 나은것인가..
-        User user = userService.getUser(myUserId);
-        NotificationForOneDto notificationForOne = firebaseService.makeSendAlarmMessage(friendId, FOLLOW_REQUEST_TITLE, user.getNickname() + FOLLOW_REQUEST_MESSAGE);
-        alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);   // alarm_status = 2 (친구 알람)
+        NotificationForOneDto notificationForOne = alarmMessage.getAlarmMessage(myUserId, friendId);
+        // alarm_status = 1(전체알람), 2 (친구 알람)
+        alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
         followMapper.requestFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
         userService.updateUserAlarmReadStatus(friendId, false);
         sendFollowAlarmRequest(notificationForOne);
     }
 
     private void sendFollowAlarmRequest(NotificationForOneDto notificationForOne) {
-        firebaseService.sendByToken(notificationForOne);
+        firebaseService.sendByTokenForOne(notificationForOne);
     }
 
     public List<Friend> getFriendList(Long userId) {
@@ -61,8 +62,7 @@ public class FriendService {  // TODO 전체적인 리팩터링
 
     // TODO 리팩터링
     private void acceptFollow(Long myUserId, Long friendId, Long alarmId) {
-        User user = userService.getUser(friendId);
-        NotificationForOneDto notificationForOne = firebaseService.makeSendAlarmMessage(friendId, FOLLOW_ACCEPT_TITLE, user.getNickname() + FOLLOW_ACCEPT_MESSAGE);
+        NotificationForOneDto notificationForOne = alarmMessage.getAlarmMessage(friendId, friendId);
         alarmMapper.updateFollowAlarmLog(notificationForOne, alarmId);
         followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
         userService.updateUserAlarmReadStatus(friendId, false);

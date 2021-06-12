@@ -67,7 +67,7 @@ public class BucketController {
     @PutMapping("/{bucketId}/fin")
     public ResponseEntity<ResponseDto> registerBucketFin(@PathVariable Long bucketId, @RequestParam("state") boolean isFin) {
         Long userId = UserContext.getCurrentUserId();
-        bucketService.setBucketFile(bucketId, userId, isFin);
+        bucketService.setBucketFin(bucketId, userId, isFin);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, REGISTER_BUCKET_FIN_SUCCESS));
     }
 
@@ -101,7 +101,7 @@ public class BucketController {
     @PutMapping("/{bucketId}/bookmark")
     public ResponseEntity<ResponseDto> setBookmark(@PathVariable("bucketId") Long bucketId, @RequestParam("state") boolean isBookmark) {
         Long userId = UserContext.getCurrentUserId();
-        bucketService.setBookmark(bucketId, userId, isBookmark);
+        bucketService.saveBookmark(bucketId, userId, isBookmark);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
     }
 }

@@ -40,7 +40,6 @@ import static com.yapp.ios1.enums.AlarmStatus.WHOLE_ALARM;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-// TODO FireBaseService(알람을 보내는, 초기화 하는 코드만 존재), AlarmService(친구 요청 수락, 거절 등등) 분리해보기
 public class FirebaseService {
 
     private final UserService userService;
@@ -62,7 +61,7 @@ public class FirebaseService {
         }
     }
 
-    public void sendPushNotification() {
+    public void sendByTokenForMulti() {
         List<String> deviceTokens = userService.getAllDeviceToken();
         NotificationDto pushNotificationRequest = getWholeAlarmMessage();
 
@@ -81,7 +80,7 @@ public class FirebaseService {
         }
     }
 
-    public void sendByToken(NotificationForOneDto messageInfo) {
+    public void sendByTokenForOne(NotificationForOneDto messageInfo) {
         Message message = Message.builder()
                 .setToken(messageInfo.getDeviceToken())
                 .putData("title", messageInfo.getTitle())
@@ -95,15 +94,6 @@ public class FirebaseService {
         } catch (FirebaseMessagingException e) {
             log.error("cannot send message by token. error info : {}", e.getMessage());
         }
-    }
-
-    public NotificationForOneDto makeSendAlarmMessage(Long friendId, String title, String message) {
-        String deviceToken = userService.getDeviceToken(friendId);
-        return NotificationForOneDto.builder()
-                .title(title)
-                .message(message)
-                .deviceToken(deviceToken)
-                .build();
     }
 
     public NotificationDto getWholeAlarmMessage() {
