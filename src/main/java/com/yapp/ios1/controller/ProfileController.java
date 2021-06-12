@@ -5,6 +5,7 @@ import com.yapp.ios1.aop.UserContext;
 import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.service.ProfileService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import static com.yapp.ios1.message.ResponseMessage.UPDATE_PROFILE_SUCCESS;
 /**
  * created by jg 2021/06/11
  */
+@Api(tags = "Profile")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v2/profile")  // TODO 뭐가 좋을지 생각

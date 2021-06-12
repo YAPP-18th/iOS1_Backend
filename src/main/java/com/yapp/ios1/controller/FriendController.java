@@ -1,6 +1,7 @@
 package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
+import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.service.FriendService;
 import com.yapp.ios1.annotation.Auth;
 import com.yapp.ios1.aop.UserContext;
@@ -11,37 +12,46 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.yapp.ios1.message.ResponseMessage.FRIEND_MESSAGE;
-import static com.yapp.ios1.message.ResponseMessage.FRIEND_REQUEST;
+import java.util.List;
+
+import static com.yapp.ios1.message.ResponseMessage.*;
 
 /**
  * created by jg 2021/05/21
  */
-@Api(tags = "Follow")
+@Api(tags = "Friend")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v2/friend")
+@RequestMapping("/api/v2")
 public class FriendController {
 
-    private final FriendService followService;
+    private final FriendService friendService;
 
     @ApiOperation(value = "친구 요청")
     @Auth
-    @PostMapping("/{friendId}/request")
+    @PostMapping("/friend/{friendId}/request")
     public ResponseEntity<ResponseDto> followRequest(@PathVariable Long friendId) {
         Long myUserId = UserContext.getCurrentUserId();
-        followService.requestFollow(myUserId, friendId);
+        friendService.requestFollow(myUserId, friendId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, FRIEND_REQUEST));
     }
 
     @ApiOperation(value = "친구 요청 수락, 거절")
     @Auth
-    @PostMapping("/{friendId}/{alarmId}")
+    @PostMapping("/friend/{friendId}/{alarmId}")
     public ResponseEntity<ResponseDto> followAccept(@PathVariable Long friendId,
                                                     @PathVariable Long alarmId,
                                                     @RequestParam("accept") boolean isAccept) {
         Long myUserId = UserContext.getCurrentUserId();
-        followService.checkFollowAccept(isAccept, myUserId, friendId, alarmId);
+        friendService.checkFollowAccept(isAccept, myUserId, friendId, alarmId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, FRIEND_MESSAGE, isAccept));
     }
+
+    @ApiOperation(value = "친구 리스트")
+    @GetMapping("/users/{userId}/friends")
+    public ResponseEntity<ResponseDto> getFriendList(@PathVariable Long userId) {
+        List<Friend> friendList = friendService.getFriendList(userId);
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
+    }
+
 }

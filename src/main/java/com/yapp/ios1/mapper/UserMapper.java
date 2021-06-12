@@ -1,8 +1,6 @@
 package com.yapp.ios1.mapper;
 
-import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
 import com.yapp.ios1.model.user.User;
-import com.yapp.ios1.model.user.Profile;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
