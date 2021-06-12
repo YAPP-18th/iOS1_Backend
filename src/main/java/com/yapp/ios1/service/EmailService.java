@@ -40,9 +40,9 @@ public class EmailService {
 
     private String createHtml(String code) {
         sb.append("<div align=\"center\" style=\"font-size: 15px\">");
-        sb.append("<br/><img src=\"" + emailProperties.getLogoUrl() + "\"/>");
+        sb.append("<br/><img src=\"").append(emailProperties.getLogoUrl()).append("\"/>");
         sb.append("<br/><br/><br/>비밀번호를 잊으셨나요?<br/>너무 걱정 마세요. 저희도 가끔 잊어버린답니다.<br/><br/>");
-        sb.append("<span style=\"border: 0.5px; padding: 8px;font-size: 20px;\">" + code + "</span>");
+        sb.append("<span style=\"border: 0.5px; padding: 8px;font-size: 20px;\">").append(code).append("</span>");
         sb.append("<br/><br/>buok으로 돌아가 위 인증번호를 입력해 주세요.<br/><br/>");
         sb.append("혹시 비밀번호 재설정을 요청하지 않으셨거나,<br/>비밀번호를 찾으셨다면 이 이메일을 무시해 주세요.<br/><br/>");
         sb.append("그럼, 계속 저희와 함께 미래 계획을 세워나가 볼까요?");

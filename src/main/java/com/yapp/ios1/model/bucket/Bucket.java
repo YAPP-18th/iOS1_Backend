@@ -16,7 +16,7 @@ public class Bucket {
     private String bucketName;
     private String content;
     private String createdDate;
-    private String endDate;
+    private LocalDate endDate;
     private int bucketState;
     private Integer categoryId;
     private boolean isBookmark;

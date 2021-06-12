@@ -1,7 +1,6 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
-import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FriendMapper;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.yapp.ios1.message.AlarmMessage.*;
 import static com.yapp.ios1.enums.AlarmStatus.FOLLOW_ALARM;
 import static com.yapp.ios1.enums.FriendStatus.FRIEND;
 import static com.yapp.ios1.enums.FriendStatus.REQUEST;

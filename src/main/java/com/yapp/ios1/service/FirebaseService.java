@@ -9,30 +9,20 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
-import com.yapp.ios1.error.exception.alarm.AlarmNotFoundException;
-import com.yapp.ios1.model.notification.Notification;
-import com.yapp.ios1.mapper.AlarmMapper;
-import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.properties.FirebaseProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.yapp.ios1.message.AlarmMessage.WHOLE_ALARM_MESSAGE;
 import static com.yapp.ios1.message.AlarmMessage.WHOLE_ALARM_TITLE;
-import static com.yapp.ios1.enums.AlarmStatus.WHOLE_ALARM;
 
 /**
  * created by jg 2021/05/02
