@@ -165,13 +165,6 @@
         FROM bucket WHERE id = #{bucketId};
     </insert>
 
-    <update id="completeBucket">
-        UPDATE bucket
-        SET
-            bucket_state = 4
-        WHERE id = #{bucketId};
-    </update>
-
     <update id="setBookmark">
         UPDATE bucket
         SET

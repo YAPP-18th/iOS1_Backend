@@ -43,7 +43,7 @@ public class EmailController {
     @ApiOperation(value = "인증 코드 검증")
     @PostMapping("/verify")
     public ResponseEntity<ResponseDto> verifyCode(@RequestBody EmailCodeDto code) {
-        Long userId = emailService.verifyCode(code.getCode());
+        Long userId = emailService.getUserIdByCode(code.getCode());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_AUTH_SUCCESS, jwtIssueService.createAccessToken(new JwtPayload(userId))));
     }
 }

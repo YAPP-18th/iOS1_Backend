@@ -49,8 +49,6 @@ public interface BucketMapper {
 
     void saveBucketEndDateLog(Long bucketId);
 
-    void completeBucket(Long bucketId);
-
     void setBookmark(Long bucketId, boolean isBookmark);
 
     List<Tag> findByBucketTagByBucketId(Long bucketId);

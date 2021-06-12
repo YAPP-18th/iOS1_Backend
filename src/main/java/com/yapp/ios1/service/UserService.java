@@ -49,13 +49,13 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
     }
 
-    // true 최신 알림 로그 확인한 상태, false 확인하지 않은 알림 로그가 존재하는 상태
-    public void updateUserAlarmReadStatus(Long userId, boolean alarmReadStatus) {
-        userMapper.updateAlarmStatus(userId, alarmReadStatus);
-    }
-
     public Optional<User> findBySocialIdAndSocialType(String socialId, String socialType) {
         return userMapper.findBySocialIdAndSocialType(socialId, socialType);
+    }
+
+    // 최신 알림 로그 확인한 상태(true), 확인하지 않은 알림 로그가 존재하는 상태(false)
+    public void updateUserAlarmReadStatus(Long userId, boolean alarmReadStatus) {
+        userMapper.updateAlarmStatus(userId, alarmReadStatus);
     }
 
     public TokenResponseDto signUp(User user) {

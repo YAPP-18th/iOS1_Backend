@@ -49,9 +49,10 @@ public class BucketController {
     @GetMapping("/{bucketId}")
     public ResponseEntity<ResponseDto> bucketOne(@PathVariable Long bucketId) {
         Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_DETAIL, bucketService.getBucketOne(bucketId, userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_DETAIL, bucketService.getBucketDetail(bucketId, userId)));
     }
 
+    // bucketStateId 2(예정), 3(진행 중), 4(완료), 5(실패)
     @ApiOperation(value = "버킷 상태 변경")
     @Auth
     @PutMapping("/{bucketId}/state/{bucketStateId}")
@@ -85,14 +86,6 @@ public class BucketController {
     @PutMapping("/{bucketId}")
     public ResponseEntity<ResponseDto> updateBucket(@PathVariable Long bucketId, @RequestBody @Valid BucketRequestDto requestDto) {
         bucketService.updateBucket(bucketId, requestDto, UserContext.getCurrentUserId());
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
-    }
-
-    @ApiOperation(value = "버킷 완료")
-    @Auth
-    @PutMapping("/{bucketId}/complete")
-    public ResponseEntity<ResponseDto> completeBucket(@PathVariable Long bucketId) {
-        bucketService.completeBucket(bucketId, UserContext.getCurrentUserId());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
     }
 

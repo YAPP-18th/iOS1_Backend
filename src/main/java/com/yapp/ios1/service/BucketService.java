@@ -59,7 +59,7 @@ public class BucketService {
         return bucketMapper.findByBucketTimelineByBucketId(bucketId, userId);
     }
 
-    public BucketDetailDto getBucketOne(Long bucketId, Long userId) {
+    public BucketDetailDto getBucketDetail(Long bucketId, Long userId) {
         return new BucketDetailDto(
                 getBucket(bucketId, userId),
                 getBucketImage(bucketId, userId),
@@ -103,12 +103,6 @@ public class BucketService {
     private void saveTagList(Long bucketId, List<String> tagList) {
         bucketMapper.saveTagList(tagList);
         bucketMapper.saveBucketIdAndTagId(bucketId, tagList);
-    }
-
-    // TODO 검증 로직 Bucket AOP로 해볼지 고민해보기
-    public void completeBucket(Long bucketId, Long userId) {
-        bucketValidator.checkValidBucket(bucketId, userId);
-        bucketMapper.completeBucket(bucketId);
     }
 
     private void updateTag(Long bucketId, List<String> tagList) {
