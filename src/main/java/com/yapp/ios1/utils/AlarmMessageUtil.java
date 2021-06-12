@@ -18,12 +18,12 @@ public class AlarmMessageUtil {
 
     private final UserService userService;
 
-    public NotificationForOneDto getAlarmMessage(Long getUserId, Long sendUserId) {
+    public NotificationForOneDto getFollowAlarmMessage(Long getUserId, Long sendUserId) {
         User user = userService.getUser(getUserId);
-        return createAlarmMessage(sendUserId, FOLLOW_ACCEPT_TITLE, user.getNickname() + FOLLOW_ACCEPT_MESSAGE);
+        return createFollowAlarmMessage(sendUserId, FOLLOW_ACCEPT_TITLE, user.getNickname() + FOLLOW_ACCEPT_MESSAGE);
     }
 
-    private NotificationForOneDto createAlarmMessage(Long sendUserId, String title, String message) {
+    private NotificationForOneDto createFollowAlarmMessage(Long sendUserId, String title, String message) {
         String deviceToken = userService.getDeviceToken(sendUserId);
         return NotificationForOneDto.builder()
                 .title(title)
