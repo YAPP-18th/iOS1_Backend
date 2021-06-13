@@ -98,8 +98,10 @@ public class BucketService {
     }
 
     private void saveTagList(Long bucketId, List<String> tagList) {
-        bucketMapper.saveTagList(tagList);
-        bucketMapper.saveBucketIdAndTagId(bucketId, tagList);
+        if (!tagList.isEmpty()) {
+            bucketMapper.saveTagList(tagList);
+            bucketMapper.saveBucketIdAndTagId(bucketId, tagList);
+        }
     }
 
     private void updateTag(Long bucketId, List<String> tagList) {
