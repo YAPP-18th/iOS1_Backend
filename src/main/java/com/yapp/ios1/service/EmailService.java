@@ -1,8 +1,8 @@
 package com.yapp.ios1.service;
 
+import com.yapp.ios1.error.exception.email.EmailCodeException;
 import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.error.exception.email.EmailSendException;
-import com.yapp.ios1.error.exception.user.EmailNotExistException;
 import com.yapp.ios1.properties.EmailProperties;
 import com.yapp.ios1.utils.RedisUtil;
 import com.yapp.ios1.validator.UserValidator;
@@ -32,6 +32,7 @@ public class EmailService {
     private final SpringTemplateEngine templateEngine;
 
     public void sendEmailMessage(String email) {
+        userValidator.checkEmailPresent(email);
         try {
             String code = createCode();
             redisUtil.setDataExpire(code, email, emailProperties.getValidTime());
@@ -80,8 +81,7 @@ public class EmailService {
     public Long getUserIdByCode(String code) {
         String email = redisUtil.getData(code);
         if (email == null) {
-            // TODO 에러 변경
-            throw new EmailNotExistException();
+            throw new EmailCodeException();
         }
 
         User user = userValidator.checkEmailPresent(email);

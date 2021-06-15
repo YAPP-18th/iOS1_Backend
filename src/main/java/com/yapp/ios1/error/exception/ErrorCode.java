@@ -36,6 +36,7 @@ public enum ErrorCode {
 
     // Email
     EMAIL_SEND_ERROR(500, "P001", "Email Send Error"),
+    EMAIL_CODE_ERROR(400, "P002", "Email Code Error"),
 
     // AWS
     AWS_S3_ERROR(500, "A001", "AWS S3 Error");
