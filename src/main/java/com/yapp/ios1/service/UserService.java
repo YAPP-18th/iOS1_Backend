@@ -25,24 +25,6 @@ public class UserService {
     private final JwtService jwtService;
     private final UserMapper userMapper;
 
-    public String getDeviceToken(Long userId) {
-        return userMapper.findDeviceTokenByUserId(userId)
-                .orElseThrow(DeviceTokenNotFoundException::new);
-    }
-
-    public List<String> getAllDeviceToken() {
-        return userMapper.findAllUserDeviceToken();
-    }
-
-    public User getUser(Long userId) {
-        return userMapper.findByUserId(userId)
-                .orElseThrow(UserNotFoundException::new);
-    }
-
-    public Optional<User> findBySocialIdAndSocialType(String socialId, String socialType) {
-        return userMapper.findBySocialIdAndSocialType(socialId, socialType);
-    }
-
     // 최신 알림 로그 확인한 상태(true), 확인하지 않은 알림 로그가 존재하는 상태(false)
     public void updateUserAlarmReadStatus(Long userId, boolean alarmReadStatus) {
         userMapper.updateAlarmStatus(userId, alarmReadStatus);

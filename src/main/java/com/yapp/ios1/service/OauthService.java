@@ -21,6 +21,7 @@ import java.util.Optional;
 public class OauthService {
 
     private final UserService userService;
+    private final UserFindService userFindService;
     private final UserValidator userValidator;
     private final JwtService jwtService;
     private final SocialLoginProperties socialLoginProperties;
@@ -30,7 +31,7 @@ public class OauthService {
         String socialId = socialDto.getSocialId();
         String email = socialDto.getEmail();
 
-        Optional<User> optionalUser = userService.findBySocialIdAndSocialType(socialId, socialType);
+        Optional<User> optionalUser = userFindService.findBySocialIdAndSocialType(socialId, socialType);
 
         if (optionalUser.isEmpty()) {
             // TODO null 처리 다시 확인하기

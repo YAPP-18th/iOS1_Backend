@@ -32,7 +32,7 @@ import static com.yapp.ios1.message.AlarmMessage.WHOLE_ALARM_TITLE;
 @Service
 public class FirebaseService {
 
-    private final UserService userService;
+    private final UserFindService userFindService;
     private final FirebaseProperties firebaseProperties;
 
     @PostConstruct
@@ -52,7 +52,7 @@ public class FirebaseService {
     }
 
     public void sendByTokenForMulti() {
-        List<String> deviceTokens = userService.getAllDeviceToken();
+        List<String> deviceTokens = userFindService.getAllDeviceToken();
         NotificationDto pushNotificationRequest = getWholeAlarmMessage();
 
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()

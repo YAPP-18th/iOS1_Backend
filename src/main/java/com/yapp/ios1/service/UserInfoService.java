@@ -20,7 +20,7 @@ public class UserInfoService {
 
     private final FriendMapper friendMapper;
     private final ProfileService profileService;
-    private final BucketService bucketService;
+    private final BucketFindService bucketFindService;
 
     @Transactional(readOnly = true)
     public UserInfoDto getOtherUserInfo(Long myUserId, Long otherUserId) {
@@ -33,7 +33,7 @@ public class UserInfoService {
             return userInfo;
         }
 
-        userInfo.setBucket(bucketService.getUserBucketList(otherUserId));
+        userInfo.setBucket(bucketFindService.getUserBucketList(otherUserId));
         userInfo.setFriend(Boolean.TRUE);
 
         return userInfo;
@@ -45,9 +45,9 @@ public class UserInfoService {
         Profile profile = profileService.getProfile(userId);
 
         int friendCount = friendMapper.getFollowCountByUserId(userId);
-        int bucketCount = bucketService.getBucketCountByUserId(userId);
+        int bucketCount = bucketFindService.getBucketCountByUserId(userId);
 
-        List<Bookmark> bookmarkList = bucketService.getBookmarkList(userId);
+        List<Bookmark> bookmarkList = bucketFindService.getBookmarkList(userId);
 
         return UserInfoDto.builder()
                 .user(profile)

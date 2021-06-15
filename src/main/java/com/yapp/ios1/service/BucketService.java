@@ -26,48 +26,10 @@ import java.util.List;
 @Service
 public class BucketService {
 
+    private final BucketFindService bucketFindService;
     private final BucketMapper bucketMapper;
     private final BucketValidator bucketValidator;
     private final UserMapper userMapper;
-
-    public BucketHomeDto getHomeBucketList(int bucketState, int category, Long userId, int sort) {
-        List<Bucket> buckets = bucketMapper.findByBucketStateAndCategory(bucketState, category, userId, sort);
-        return BucketHomeDto.builder()
-                .buckets(buckets)
-                .bucketCount(buckets.size())
-                .isAlarmCheck(userMapper.alarmCheckStatus(userId))
-                .build();
-    }
-
-    private Bucket getBucket(Long bucketId, Long userId) {
-        return bucketMapper.findByBucketIdAndUserId(bucketId, userId)
-                .orElseThrow(BucketNotFoundException::new);
-    }
-
-    private List<Tag> getBucketTag(Long bucketId) {
-        return bucketMapper.findByBucketTagByBucketId(bucketId);
-    }
-
-    private List<Image> getBucketImage(Long bucketId, Long userId) {
-        return bucketMapper.findByBucketImageByBucketId(bucketId, userId);
-    }
-
-    private List<BucketTimeline> getBucketTimeline(Long bucketId, Long userId) {
-        return bucketMapper.findByBucketTimelineByBucketId(bucketId, userId);
-    }
-
-    public BucketDetailDto getBucketDetail(Long bucketId, Long userId) {
-        return new BucketDetailDto(
-                getBucket(bucketId, userId),
-                getBucketImage(bucketId, userId),
-                getBucketTag(bucketId),
-                getBucketTimeline(bucketId, userId)
-        );
-    }
-
-    public List<Bucket> getUserBucketList(Long userId) {
-        return bucketMapper.findByUserId(userId);
-    }
 
     @Transactional
     public void saveBucket(BucketRequestDto registerDto) {
@@ -80,7 +42,7 @@ public class BucketService {
 
     @Transactional
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
-        Bucket bucketDto = getBucket(bucketId, userId);
+        Bucket bucketDto = bucketFindService.getBucket(bucketId, userId);
 
         updateDto.setId(bucketId);
         bucketMapper.updateBucket(updateDto);
@@ -118,14 +80,6 @@ public class BucketService {
     private void updateImageUrlList(Long bucketId, List<String> imageUrlList) {
         bucketMapper.deleteImageListByBucketId(bucketId);
         saveImageUrlList(bucketId, imageUrlList);
-    }
-
-    public List<Bookmark> getBookmarkList(Long userId) {
-        return bucketMapper.findBookmarkListByUserId(userId);
-    }
-
-    public int getBucketCountByUserId(Long userId) {
-        return bucketMapper.getBucketCountByUserId(userId);
     }
 
     // TODO 모든 버킷마다 검증하는 메소드가 들어가는데 이거를 AOP 로 빼던가 해보아도 좋을 거 같음 (얘기 해보기)
