@@ -8,6 +8,6 @@ import com.yapp.ios1.error.exception.InvalidValueException;
  */
 public class EmailCodeException extends InvalidValueException {
     public EmailCodeException() {
-        super(ErrorCode.EMAIL_CODE_ERROR);
+        super(ErrorCode.INVALID_INPUT_VALUE);
     }
 }

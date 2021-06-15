@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <body>
-    <div align="center" style="font-size: 15px">
-        <br/><img src="https://ayo-springboot-build.s3.ap-northeast-2.amazonaws.com/buok/buok_logo.png" alt=""/>
-        <br/><br/><br/>비밀번호를 잊으셨나요?<br/>너무 걱정 마세요. 저희도 가끔 잊어버린답니다.<br/><br/>
-        <span style="padding: 8px; font-size: 20px;" th:text="${code}"></span>
-        <br/><br/>buok으로 돌아가 위 인증번호를 입력해 주세요.<br/><br/>
-        혹시 비밀번호 재설정을 요청하지 않으셨거나,<br/>비밀번호를 찾으셨다면 이 이메일을 무시해 주세요.<br/><br/>
-        그럼, 계속 저희와 함께 미래 계획을 세워나가 볼까요?
-    </div>
+<div align="center" style="font-size: 15px">
+    <img src="https://ayo-springboot-build.s3.ap-northeast-2.amazonaws.com/buok/buok_logo.png" alt="" style="margin:30px"/>
+    <p>비밀번호를 잊으셨나요?<br/>너무 걱정 마세요. 저희도 가끔 잊어버린답니다.</p>
+    <div style="margin: 25px;  font-size: 20px;" th:text="${code}">32322323</div>
+    <p style="margin-bottom: 25px;">buok으로 돌아가 위 인증번호를 입력해 주세요.</p>
+    <p style="margin-bottom: 25px;">
+        혹시 비밀번호 재설정을 요청하지 않으셨거나,<br/>
+        비밀번호를 찾으셨다면 이 이메일을 무시해 주세요.
+    </p>
+    그럼, 계속 저희와 함께 미래 계획을 세워나가 볼까요?
+</div>
 </body>
 </html>
