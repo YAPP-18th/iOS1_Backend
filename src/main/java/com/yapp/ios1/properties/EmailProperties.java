@@ -15,6 +15,5 @@ import org.springframework.context.annotation.Configuration;
 public class EmailProperties {
     private String name;
     private String link;
-    private String logoUrl;
     private Long validTime;
 }
