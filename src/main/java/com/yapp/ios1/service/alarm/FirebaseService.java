@@ -1,4 +1,4 @@
-package com.yapp.ios1.service;
+package com.yapp.ios1.service.alarm;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -10,6 +10,7 @@ import com.google.firebase.messaging.Message;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.properties.FirebaseProperties;
+import com.yapp.ios1.service.user.UserFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -32,7 +33,7 @@ import static com.yapp.ios1.message.AlarmMessage.WHOLE_ALARM_TITLE;
 @Service
 public class FirebaseService {
 
-    private final UserService userService;
+    private final UserFindService userFindService;
     private final FirebaseProperties firebaseProperties;
 
     @PostConstruct
@@ -52,7 +53,7 @@ public class FirebaseService {
     }
 
     public void sendByTokenForMulti() {
-        List<String> deviceTokens = userService.getAllDeviceToken();
+        List<String> deviceTokens = userFindService.getAllDeviceToken();
         NotificationDto pushNotificationRequest = getWholeAlarmMessage();
 
         List<Message> messages = deviceTokens.stream().map(token -> Message.builder()

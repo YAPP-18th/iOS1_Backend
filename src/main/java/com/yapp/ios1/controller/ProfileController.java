@@ -4,7 +4,7 @@ import com.yapp.ios1.annotation.Auth;
 import com.yapp.ios1.aop.UserContext;
 import com.yapp.ios1.controller.dto.user.ProfileUpdateDto;
 import com.yapp.ios1.dto.ResponseDto;
-import com.yapp.ios1.service.ProfileService;
+import com.yapp.ios1.service.user.ProfileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

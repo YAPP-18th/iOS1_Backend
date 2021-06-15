@@ -1,4 +1,4 @@
-package com.yapp.ios1.service;
+package com.yapp.ios1.service.jwt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,9 +27,9 @@ import java.util.Date;
 @Service
 public class JwtIssueService {
 
+    private final JwtProperties jwtProperties;
     private final ObjectMapper objectMapper;
     private final TokenMapper tokenMapper;
-    private final JwtProperties jwtProperties;
 
     private String createToken(JwtPayload payload, Long expireTime) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;

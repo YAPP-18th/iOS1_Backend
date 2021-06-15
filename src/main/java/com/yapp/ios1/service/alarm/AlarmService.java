@@ -1,4 +1,4 @@
-package com.yapp.ios1.service;
+package com.yapp.ios1.service.alarm;
 
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.UserMapper;
@@ -22,10 +22,10 @@ import static com.yapp.ios1.enums.AlarmStatus.WHOLE_ALARM;
 @Service
 public class AlarmService {
 
-    private final AlarmMapper alarmMapper;
-    private final UserMapper userMapper;
     private final FirebaseService firebaseService;
     private final AlarmValidator alarmValidator;
+    private final AlarmMapper alarmMapper;
+    private final UserMapper userMapper;
 
     public List<Notification> getAlarmLog(Long userId) {
         List<Notification> followAlarmLog = alarmMapper.getFollowAlarmLog(userId);

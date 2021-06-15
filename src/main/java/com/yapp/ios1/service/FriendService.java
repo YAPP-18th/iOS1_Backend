@@ -4,6 +4,8 @@ import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FriendMapper;
+import com.yapp.ios1.service.alarm.FirebaseService;
+import com.yapp.ios1.service.user.UserService;
 import com.yapp.ios1.utils.AlarmMessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

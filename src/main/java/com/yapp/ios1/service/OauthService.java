@@ -5,6 +5,9 @@ import com.yapp.ios1.dto.user.UserStatusDto;
 import com.yapp.ios1.controller.dto.user.login.SignUpDto;
 import com.yapp.ios1.controller.dto.user.social.SocialLoginDto;
 import com.yapp.ios1.properties.SocialLoginProperties;
+import com.yapp.ios1.service.jwt.JwtService;
+import com.yapp.ios1.service.user.UserFindService;
+import com.yapp.ios1.service.user.UserService;
 import com.yapp.ios1.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -21,6 +24,7 @@ import java.util.Optional;
 public class OauthService {
 
     private final UserService userService;
+    private final UserFindService userFindService;
     private final UserValidator userValidator;
     private final JwtService jwtService;
     private final SocialLoginProperties socialLoginProperties;
@@ -30,7 +34,7 @@ public class OauthService {
         String socialId = socialDto.getSocialId();
         String email = socialDto.getEmail();
 
-        Optional<User> optionalUser = userService.findBySocialIdAndSocialType(socialId, socialType);
+        Optional<User> optionalUser = userFindService.findBySocialIdAndSocialType(socialId, socialType);
 
         if (optionalUser.isEmpty()) {
             // TODO null 처리 다시 확인하기

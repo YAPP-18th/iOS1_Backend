@@ -4,9 +4,9 @@ import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.error.exception.jwt.JwtException;
 import com.yapp.ios1.error.exception.jwt.JwtExpiredException;
-import com.yapp.ios1.service.JwtIssueService;
-import com.yapp.ios1.service.JwtService;
-import com.yapp.ios1.service.UserService;
+import com.yapp.ios1.service.jwt.JwtIssueService;
+import com.yapp.ios1.service.jwt.JwtService;
+import com.yapp.ios1.service.user.UserFindService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -32,7 +32,7 @@ public class AuthAspect {
 
     private final JwtService jwtService;
     private final JwtIssueService jwtIssueService;
-    private final UserService userService;
+    private final UserFindService userFindService;
     private final HttpServletRequest httpServletRequest;
 
     @Around("@annotation(com.yapp.ios1.annotation.Auth)")
@@ -40,7 +40,7 @@ public class AuthAspect {
         try {
             String accessToken = httpServletRequest.getHeader(AUTHORIZATION);
             JwtPayload payload = jwtService.getPayload(accessToken);
-            User user = userService.getUser(payload.getId());
+            User user = userFindService.getUser(payload.getId());
             UserContext.USER_CONTEXT.set(new JwtPayload(user.getId()));
             return pjp.proceed();
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
@@ -53,7 +53,7 @@ public class AuthAspect {
         try {
             String refreshToken = httpServletRequest.getHeader(REAUTHORIZATION);
             JwtPayload payload = jwtService.getPayload(refreshToken);
-            User user = userService.getUser(payload.getId());
+            User user = userFindService.getUser(payload.getId());
 
             String dbRefreshToken = jwtIssueService.getRefreshTokenByUserId(user.getId());
             checkRefreshTokenExpired(dbRefreshToken, refreshToken);

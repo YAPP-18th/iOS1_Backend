@@ -2,7 +2,8 @@ package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
-import com.yapp.ios1.service.BucketService;
+import com.yapp.ios1.service.bucket.BucketFindService;
+import com.yapp.ios1.service.bucket.BucketService;
 import com.yapp.ios1.annotation.Auth;
 import com.yapp.ios1.aop.UserContext;
 import io.swagger.annotations.Api;
@@ -26,6 +27,7 @@ import static com.yapp.ios1.message.ResponseMessage.*;
 public class BucketController {
 
     private final BucketService bucketService;
+    private final BucketFindService bucketFindService;
 
     /**
      * @INFO state 1(전체), 2(예정), 3(진행 중), 4(완료), 5(실패)
@@ -41,7 +43,7 @@ public class BucketController {
                                                   @RequestParam("sort") int sort) {
         Long userId = UserContext.getCurrentUserId();
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_LIST,
-                bucketService.getHomeBucketList(bucketState, category, userId, sort)));
+                bucketFindService.getHomeBucketList(bucketState, category, userId, sort)));
     }
 
     @ApiOperation(value = "버킷 상세 조회")
@@ -49,7 +51,7 @@ public class BucketController {
     @GetMapping("/{bucketId}")
     public ResponseEntity<ResponseDto> bucketOne(@PathVariable Long bucketId) {
         Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_DETAIL, bucketService.getBucketDetail(bucketId, userId)));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_DETAIL, bucketFindService.getBucketDetail(bucketId, userId)));
     }
 
     // bucketStateId 2(예정), 3(진행 중), 4(완료), 5(실패)

@@ -5,7 +5,7 @@ import com.yapp.ios1.controller.dto.email.EmailDto;
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
 import com.yapp.ios1.service.EmailService;
-import com.yapp.ios1.service.JwtIssueService;
+import com.yapp.ios1.service.jwt.JwtIssueService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
