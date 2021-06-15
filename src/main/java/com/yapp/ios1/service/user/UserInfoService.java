@@ -1,10 +1,11 @@
-package com.yapp.ios1.service;
+package com.yapp.ios1.service.user;
 
 import com.yapp.ios1.dto.bookmark.BookmarkListDto;
 import com.yapp.ios1.dto.user.UserInfoDto;
 import com.yapp.ios1.mapper.FriendMapper;
 import com.yapp.ios1.model.bookmark.Bookmark;
 import com.yapp.ios1.model.user.Profile;
+import com.yapp.ios1.service.bucket.BucketFindService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

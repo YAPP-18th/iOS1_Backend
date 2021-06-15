@@ -1,17 +1,13 @@
-package com.yapp.ios1.service;
+package com.yapp.ios1.service.user;
 
 import com.yapp.ios1.dto.jwt.TokenResponseDto;
-import com.yapp.ios1.error.exception.user.DeviceTokenNotFoundException;
-import com.yapp.ios1.error.exception.user.UserNotFoundException;
 import com.yapp.ios1.mapper.UserMapper;
 import com.yapp.ios1.model.user.User;
+import com.yapp.ios1.service.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * created by jg 2021/03/28

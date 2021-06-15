@@ -1,15 +1,8 @@
-package com.yapp.ios1.service;
+package com.yapp.ios1.service.bucket;
 
 import com.yapp.ios1.controller.dto.bucket.BucketRequestDto;
-import com.yapp.ios1.dto.bucket.*;
-import com.yapp.ios1.error.exception.bucket.BucketNotFoundException;
 import com.yapp.ios1.mapper.BucketMapper;
-import com.yapp.ios1.mapper.UserMapper;
-import com.yapp.ios1.model.bookmark.Bookmark;
 import com.yapp.ios1.model.bucket.Bucket;
-import com.yapp.ios1.model.bucket.BucketTimeline;
-import com.yapp.ios1.model.image.Image;
-import com.yapp.ios1.model.tag.Tag;
 import com.yapp.ios1.validator.BucketValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

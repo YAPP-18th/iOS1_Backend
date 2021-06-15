@@ -1,4 +1,4 @@
-package com.yapp.ios1.service;
+package com.yapp.ios1.service.alarm;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -10,6 +10,7 @@ import com.google.firebase.messaging.Message;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.properties.FirebaseProperties;
+import com.yapp.ios1.service.user.UserFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;

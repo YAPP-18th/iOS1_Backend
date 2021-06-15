@@ -2,8 +2,8 @@ package com.yapp.ios1.controller;
 
 import com.yapp.ios1.dto.ResponseDto;
 import com.yapp.ios1.dto.jwt.JwtPayload;
-import com.yapp.ios1.service.JwtService;
-import com.yapp.ios1.service.JwtIssueService;
+import com.yapp.ios1.service.jwt.JwtService;
+import com.yapp.ios1.service.jwt.JwtIssueService;
 import com.yapp.ios1.annotation.ReAuth;
 import com.yapp.ios1.aop.UserContext;
 import io.swagger.annotations.Api;

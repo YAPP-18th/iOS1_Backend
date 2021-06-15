@@ -1,4 +1,4 @@
-package com.yapp.ios1.service;
+package com.yapp.ios1.service.bucket;
 
 import com.yapp.ios1.dto.bucket.BucketDetailDto;
 import com.yapp.ios1.dto.bucket.BucketHomeDto;

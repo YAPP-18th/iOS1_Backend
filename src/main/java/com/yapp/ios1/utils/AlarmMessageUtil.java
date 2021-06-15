@@ -2,8 +2,7 @@ package com.yapp.ios1.utils;
 
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.model.user.User;
-import com.yapp.ios1.service.UserFindService;
-import com.yapp.ios1.service.UserService;
+import com.yapp.ios1.service.user.UserFindService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

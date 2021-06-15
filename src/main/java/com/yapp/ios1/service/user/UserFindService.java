@@ -1,4 +1,4 @@
-package com.yapp.ios1.service;
+package com.yapp.ios1.service.user;
 
 import com.yapp.ios1.error.exception.user.DeviceTokenNotFoundException;
 import com.yapp.ios1.error.exception.user.UserNotFoundException;

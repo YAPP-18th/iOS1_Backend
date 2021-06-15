@@ -1,6 +1,7 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.mapper.UserMapper;
+import com.yapp.ios1.service.user.UserService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
