@@ -18,9 +18,9 @@ import java.util.List;
 @Service
 public class UserInfoService {
 
-    private final FriendMapper friendMapper;
     private final ProfileService profileService;
     private final BucketFindService bucketFindService;
+    private final FriendMapper friendMapper;
 
     @Transactional(readOnly = true)
     public UserInfoDto getOtherUserInfo(Long myUserId, Long otherUserId) {

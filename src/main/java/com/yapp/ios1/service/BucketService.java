@@ -27,9 +27,8 @@ import java.util.List;
 public class BucketService {
 
     private final BucketFindService bucketFindService;
-    private final BucketMapper bucketMapper;
     private final BucketValidator bucketValidator;
-    private final UserMapper userMapper;
+    private final BucketMapper bucketMapper;
 
     @Transactional
     public void saveBucket(BucketRequestDto registerDto) {

@@ -23,9 +23,9 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final ObjectMapper objectMapper;
     private final JwtIssueService jwtIssueService;
     private final JwtProperties jwtProperties;
+    private final ObjectMapper objectMapper;
 
     public JwtPayload getPayload(String token) throws JsonProcessingException {
         Claims claims = getAllClaimsFromToken(token);

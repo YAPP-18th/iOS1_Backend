@@ -27,9 +27,9 @@ import java.util.Date;
 @Service
 public class JwtIssueService {
 
+    private final JwtProperties jwtProperties;
     private final ObjectMapper objectMapper;
     private final TokenMapper tokenMapper;
-    private final JwtProperties jwtProperties;
 
     private String createToken(JwtPayload payload, Long expireTime) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
