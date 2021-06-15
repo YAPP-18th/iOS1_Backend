@@ -41,7 +41,6 @@ public class UserInfoService {
 
     @Transactional(readOnly = true)
     public UserInfoDto getUserInfo(Long userId) {
-        // TODO 모든 find 관련 로직도 Validator 처럼 다른 쪽으로 빼서 해볼까..
         Profile profile = profileService.getProfile(userId);
 
         int friendCount = friendMapper.getFollowCountByUserId(userId);
