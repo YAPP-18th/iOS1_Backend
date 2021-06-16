@@ -82,7 +82,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 | ER Diagram |
 |:---:|
-|<img src="https://user-images.githubusercontent.com/69340410/122197928-a533f880-ced3-11eb-9505-e6f5c7e129f4.png" width="90%"/>|
+|<img src="https://user-images.githubusercontent.com/69340410/122197928-a533f880-ced3-11eb-9505-e6f5c7e129f4.png" width="100%"/>|
 
 
 <br>
