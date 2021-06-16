@@ -1,8 +1,8 @@
 # Buket buok
 
-![buok](https://user-images.githubusercontent.com/45676906/122062627-8af21000-ce2a-11eb-86cf-bc67d2e97ebb.png)
-
 <div align="center">
+
+![buok](https://user-images.githubusercontent.com/45676906/122062627-8af21000-ce2a-11eb-86cf-bc67d2e97ebb.png)
 
 버킷리스트를 작성하며 나를 기록해 보세요!
 
@@ -52,7 +52,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 <br>
 
-# `Contributor`
+## Contributor
 
 - [최정균](https://github.com/wjdrbs96)
 - [문아영](https://github.com/ayoung0073)
