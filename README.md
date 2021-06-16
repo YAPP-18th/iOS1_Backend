@@ -92,11 +92,14 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 ## Contributors ✨
 
-- [최정균](https://github.com/wjdrbs96)
-- [문아영](https://github.com/ayoung0073)
-
 [기여자 목록](https://github.com/YAPP-18th/iOS1_Backend/graphs/contributors) 을 확인하여 이 프로젝트에 대해 자세히 확인할 수 있습니다.  
 
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/wjdrbs96"><img src="https://avatars0.githubusercontent.com/wjdrbs96?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gyunny</b></sub></a><br /><a href="https://github.com/YAPP-18th/iOS1_Backend/commits?author=wjdrbs96" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/ayoung0073"><img src="https://avatars3.githubusercontent.com/ayoung0073?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ayoung</b></sub></a><br /><a href="https://github.com/YAPP-18th/iOS1_Backend/commits?author=ayoung0073" title="Code">💻</a></td>
+  </tr>
+</table>
 
 <br>
 
