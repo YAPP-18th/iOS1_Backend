@@ -30,29 +30,67 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 <br>
 
+## 프로젝트 하면서 겪은 과정들
+
+**RefreshToken Redis Cache 사용하여 저장하기**
+
+> 아영(작성)
+
+<br>
+
+**FireBase Alarm Async 보내기**
+
+> 정균(작성)
+
+<br>
+
+**AOP로 중복로직 제거하기**
+
+> 정균(작성)
+
+<br>
+
+**이미지 리사이징**
+
+> 버킷리스트 앱의 특성상 이미지 업로드 양이 많기 때문에 AWS Lambda를 이용하여 이미지 리사이징 기능을 추가 <br>  
+> [Lambda로 Image Resize 하기]()
+
+<br>
+
+**Jenkins와 CodeDeploy, Docker를 이용하여 CI/CD 구현하기**
+
+> 무중단 자동화 배포 기능을 추가 <br>
+> - [Jenkins CI 설정]() 
+> - [CodeDeploy, Load-Balancer 설정]()
+
+<br>
+
+
+
+<br>
+
 ## 📐프로젝트 전체 구성도
 
-![스크린샷 2021-06-16 오전 11 22 08](https://user-images.githubusercontent.com/45676906/122148235-1f915800-ce95-11eb-83fe-be7727dd2572.png)
-
+![스크린샷 2021-06-16 오후 2 35 32](https://user-images.githubusercontent.com/45676906/122163400-1bbeff00-ceb0-11eb-8ecc-180cf128aef8.png)
 
 <br>
 
 ## 🛠 사용한 기술 스택
 
-![스크린샷 2021-06-15 오후 10 38 44](https://user-images.githubusercontent.com/45676906/122062520-731a8c00-ce2a-11eb-92f1-437a2f592c76.png)
+![TechStack](https://user-images.githubusercontent.com/45676906/122160183-6dfd2180-ceaa-11eb-8865-df08ec11d13f.png)
 
 <br>
 
 ## 📂 Database Modeling
 
-| RDB |
+| ER Diagram |
 |:---:|
-|<img src="https://user-images.githubusercontent.com/45676906/122147237-76962d80-ce93-11eb-82fd-55ec3268f6fe.png" width="70%"/>|
+|<img src="https://user-images.githubusercontent.com/45676906/122161228-4dce6200-ceac-11eb-89af-896b989272ef.png" width="90%"/>|
 
 
 <br>
 
-## Contributor
+## Contributors ✨
 
 - [최정균](https://github.com/wjdrbs96)
 - [문아영](https://github.com/ayoung0073)
