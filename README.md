@@ -53,7 +53,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 **이미지 리사이징**
 
 > 버킷리스트 앱의 특성상 이미지 업로드 양이 많기 때문에 AWS Lambda를 이용하여 이미지 리사이징 기능을 추가 <br>  
-> [Lambda로 Image Resize 하기]()
+> [Lambda로 Image Resize 하기](https://devlog-wjdrbs96.tistory.com/330?category=885022)
 
 <br>
 
@@ -62,9 +62,6 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 > 무중단 자동화 배포 기능을 추가 <br>
 > - [Jenkins CI 설정]() 
 > - [CodeDeploy, Load-Balancer 설정]()
-
-<br>
-
 
 
 <br>
@@ -92,14 +89,14 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 ## Contributors ✨
 
-[기여자 목록](https://github.com/YAPP-18th/iOS1_Backend/graphs/contributors) 을 확인하여 이 프로젝트에 대해 자세히 확인할 수 있습니다.  
-
 <table>
   <tr>
     <td align="center"><a href="https://github.com/wjdrbs96"><img src="https://avatars0.githubusercontent.com/wjdrbs96?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gyunny</b></sub></a><br /><a href="https://github.com/YAPP-18th/iOS1_Backend/commits?author=wjdrbs96" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/ayoung0073"><img src="https://avatars3.githubusercontent.com/ayoung0073?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ayoung</b></sub></a><br /><a href="https://github.com/YAPP-18th/iOS1_Backend/commits?author=ayoung0073" title="Code">💻</a></td>
   </tr>
 </table>
+
+[기여자 목록](https://github.com/YAPP-18th/iOS1_Backend/graphs/contributors) 을 확인하여 이 프로젝트에 대해 자세히 확인할 수 있습니다.
 
 <br>
 
