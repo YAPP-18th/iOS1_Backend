@@ -46,7 +46,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 **AOP로 중복로직 제거하기**
 
-> 프로젝트에서 대부분 API에서 인가 체크가 필요했는데, AOP를 적용하여 중복 로직을 제거 <br>
+> 프로젝트에서 대부분 API에서 인가 체크가 필요했는데, AOP를 적용하여 중복 로직을 제거 <br> <br>
 > [AOP를 사용하여 중복 로직 제거하기](https://devlog-wjdrbs96.tistory.com/344)
 
 <br>
@@ -62,7 +62,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 > 무중단 자동화 배포 기능을 추가 <br>
 > - [Jenkins CI 설정]() 
-> - [CodeDeploy, Load-Balancer 설정]()
+> - [CodeDeploy, Load-Balancer 설정](https://devlog-wjdrbs96.tistory.com/345)
 
 
 <br>
