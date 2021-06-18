@@ -32,15 +32,24 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 ## 프로젝트 하면서 겪은 과정들
 
-**RefreshToken Redis Cache 사용하여 저장하기**
-
-> 아영(작성)
+**AccessToken, RefreshToken 과정 정리**
+> Spring Security 없이 JWT 연동 <br>
+> - [스프링부트 환경에서 JWT 연동하기](https://velog.io/@ayoung0073/springboot-jwt-without-springsecurity)
+> - Redis Cache 적용하기
 
 <br>
 
 **FireBase Alarm Async 보내기**
 
 > 정균(작성)
+
+<br>
+
+**이메일 인증까지의 과정**
+
+> 비밀번호 재설정을 위한 이메일 전송부터 인증까지의 과정
+> - [Thymeleaf을 이용한 이메일 전송하기](https://velog.io/@ayoung0073/SpringBoot-%ED%83%80%EC%9E%84%EB%A6%AC%ED%94%84%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%A0%84%EC%86%A1)
+> - 이메일 인증
 
 <br>
 
@@ -61,7 +70,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 **Jenkins와 CodeDeploy, Docker를 이용하여 CI/CD 구현하기**
 
 > 무중단 자동화 배포 기능을 추가 <br>
-> - [Jenkins CI 설정]() 
+> - [Jenkins CI 설정](https://velog.io/@ayoung0073/jenkins-ci) 
 > - [CodeDeploy, Load-Balancer 설정](https://devlog-wjdrbs96.tistory.com/345)
 
 
