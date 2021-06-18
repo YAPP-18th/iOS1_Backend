@@ -68,7 +68,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 **Jenkins와 CodeDeploy, Docker를 이용하여 CI/CD 구현하기**
 
-> 무중단 자동화 배포 기능을 추가 <br>
+> 무중단 자동화 배포 기능을 추가 <br> <br>
 > [Jenkins CI 설정](https://velog.io/@ayoung0073/jenkins-ci)  <br>
 > [CodeDeploy, Load-Balancer 설정](https://devlog-wjdrbs96.tistory.com/345)
 
