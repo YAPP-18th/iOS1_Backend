@@ -37,6 +37,7 @@
                f.follower_id   as myUserId,
                f.following_id  as friendId,
                message,
+               al.nick_name as nickName,
                u.profile_url   as profileUrl,
                f.friend_status as friendStatus,
                alarm_status    as alarmStatus,

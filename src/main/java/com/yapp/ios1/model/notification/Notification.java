@@ -13,6 +13,7 @@ public class Notification {
     private Long friendId;
     private String title;
     private String message;
+    private String nickName;
     private String profileUrl;
     private int friendStatus;
     private int alarmStatus;
