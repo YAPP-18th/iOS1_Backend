@@ -40,8 +40,7 @@ public class FriendService {  // TODO 전체적인 리팩터링
     public void requestFollow(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_REQUEST_TITLE, FOLLOW_REQUEST_MESSAGE, friendId);
         // alarm_status = 1(전체알람), 2 (친구 알람)
-        User user = userFindService.getUser(myUserId);
-        alarmMapper.insertFollowAlarmLog(notificationForOne, user.getNickname(), FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
+        alarmMapper.insertFollowAlarmLog(notificationForOne, getNickName(myUserId), FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
         followMapper.requestFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
         userService.updateUserAlarmReadStatus(friendId, false);
         firebaseService.sendByTokenForOne(notificationForOne);
@@ -65,6 +64,7 @@ public class FriendService {  // TODO 전체적인 리팩터링
     private void acceptFollow(Long myUserId, Long friendId, Long alarmId) {
         NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE, friendId);
         alarmMapper.updateFollowAlarmLog(notificationForOne, alarmId);
+        // TODO (친구 요청 보낸 사람한테도 알림 가야 하고 그 사람 알림 로그에도 저장이 되어야 함)
         followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
         userService.updateUserAlarmReadStatus(friendId, false);
         firebaseService.sendByTokenForOne(notificationForOne);
@@ -72,5 +72,9 @@ public class FriendService {  // TODO 전체적인 리팩터링
 
     private void noAcceptFollow(Long myUserId, Long alarmId) {
         alarmMapper.deleteFollowAlarmLog(myUserId, alarmId);
+    }
+
+    private String getNickName(Long myUserId) {
+        return userFindService.getUser(myUserId).getNickname();
     }
 }
