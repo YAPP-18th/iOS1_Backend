@@ -4,7 +4,9 @@ import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FriendMapper;
+import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.service.alarm.FirebaseService;
+import com.yapp.ios1.service.user.UserFindService;
 import com.yapp.ios1.service.user.UserService;
 import com.yapp.ios1.utils.AlarmMessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,14 +31,16 @@ public class FriendService {  // TODO 전체적인 리팩터링
     private final FriendMapper followMapper;
     private final AlarmMapper alarmMapper;
     private final UserService userService;
+    private final UserFindService userFindService;
     private final AlarmMessageUtil alarmMessage;
 
     // TODO 리팩터링
     @Transactional
     public void requestFollow(Long myUserId, Long friendId) {
-        NotificationForOneDto notificationForOne = alarmMessage.getFollowAlarmMessage(myUserId, friendId);
+        NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(friendId);
         // alarm_status = 1(전체알람), 2 (친구 알람)
-        alarmMapper.insertFollowAlarmLog(notificationForOne, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
+        User user = userFindService.getUser(myUserId);
+        alarmMapper.insertFollowAlarmLog(notificationForOne, user.getNickname(), FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
         followMapper.requestFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
         userService.updateUserAlarmReadStatus(friendId, false);
         firebaseService.sendByTokenForOne(notificationForOne);
@@ -58,7 +62,7 @@ public class FriendService {  // TODO 전체적인 리팩터링
 
     // TODO 리팩터링
     private void acceptFollow(Long myUserId, Long friendId, Long alarmId) {
-        NotificationForOneDto notificationForOne = alarmMessage.getFollowAlarmMessage(friendId, friendId);
+        NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(friendId);
         alarmMapper.updateFollowAlarmLog(notificationForOne, alarmId);
         followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
         userService.updateUserAlarmReadStatus(friendId, false);
