@@ -5,9 +5,6 @@ import com.yapp.ios1.service.user.UserFindService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.yapp.ios1.message.AlarmMessage.FOLLOW_ACCEPT_MESSAGE;
-import static com.yapp.ios1.message.AlarmMessage.FOLLOW_ACCEPT_TITLE;
-
 /**
  * created by jg 2021/06/12
  */
@@ -17,11 +14,11 @@ public class AlarmMessageUtil {
 
     private final UserFindService userFindService;
 
-    public NotificationForOneDto createFollowAlarmMessage(Long sendUserId) {
+    public NotificationForOneDto createFollowAlarmMessage(String title, String message, Long sendUserId) {
         String deviceToken = userFindService.getDeviceToken(sendUserId);
         return NotificationForOneDto.builder()
-                .title(FOLLOW_ACCEPT_TITLE)
-                .message(FOLLOW_ACCEPT_MESSAGE)
+                .title(title)
+                .message(message)
                 .deviceToken(deviceToken)
                 .build();
     }

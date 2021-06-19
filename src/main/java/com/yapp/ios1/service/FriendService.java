@@ -19,6 +19,7 @@ import java.util.List;
 import static com.yapp.ios1.enums.AlarmStatus.FOLLOW_ALARM;
 import static com.yapp.ios1.enums.FriendStatus.FRIEND;
 import static com.yapp.ios1.enums.FriendStatus.REQUEST;
+import static com.yapp.ios1.message.AlarmMessage.*;
 
 /**
  * created by jg 2021/05/21
@@ -37,7 +38,7 @@ public class FriendService {  // TODO 전체적인 리팩터링
     // TODO 리팩터링
     @Transactional
     public void requestFollow(Long myUserId, Long friendId) {
-        NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(friendId);
+        NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_REQUEST_TITLE, FOLLOW_REQUEST_MESSAGE, friendId);
         // alarm_status = 1(전체알람), 2 (친구 알람)
         User user = userFindService.getUser(myUserId);
         alarmMapper.insertFollowAlarmLog(notificationForOne, user.getNickname(), FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
@@ -62,7 +63,7 @@ public class FriendService {  // TODO 전체적인 리팩터링
 
     // TODO 리팩터링
     private void acceptFollow(Long myUserId, Long friendId, Long alarmId) {
-        NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(friendId);
+        NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE, friendId);
         alarmMapper.updateFollowAlarmLog(notificationForOne, alarmId);
         followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
         userService.updateUserAlarmReadStatus(friendId, false);
