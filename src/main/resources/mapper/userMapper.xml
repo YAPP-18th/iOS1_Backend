@@ -6,8 +6,8 @@
     <insert id="signUp" useGeneratedKeys="true" keyProperty="id">
         <choose>
             <when test='email ==  ""'>
-                INSERT INTO user (email, social_type, password, nickname, intro, social_id, device_token)
-                VALUES (null, #{socialType}, #{password}, #{nickname}, #{intro}, #{socialId}, #{deviceToken})
+                INSERT INTO user (social_type, password, nickname, intro, social_id, device_token)
+                VALUES (#{socialType}, #{password}, #{nickname}, #{intro}, #{socialId}, #{deviceToken})
             </when>
             <otherwise>
                 INSERT INTO user (email, social_type, password, nickname, intro, social_id, device_token)
