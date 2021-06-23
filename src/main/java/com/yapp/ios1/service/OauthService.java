@@ -37,8 +37,7 @@ public class OauthService {
         Optional<User> optionalUser = userFindService.findBySocialIdAndSocialType(socialId, socialType);
 
         if (optionalUser.isEmpty()) {
-            // TODO null 처리 다시 확인하기
-            if (email != null) {
+            if (!email.equals("")) {
                 userValidator.checkEmailDuplicate(email);
             }
             return socialSignUp(socialType, socialDto);
