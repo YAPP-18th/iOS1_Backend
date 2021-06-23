@@ -4,8 +4,16 @@
 
 <mapper namespace="com.yapp.ios1.mapper.UserMapper">
     <insert id="signUp" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO user (email, social_type, password, nickname, intro, social_id, device_token)
-        VALUES (#{email}, #{socialType}, #{password}, #{nickname}, #{intro}, #{socialId}, #{deviceToken})
+        <choose>
+            <when test='email ==  ""'>
+                INSERT INTO user (email, social_type, password, nickname, intro, social_id, device_token)
+                VALUES (null, #{socialType}, #{password}, #{nickname}, #{intro}, #{socialId}, #{deviceToken})
+            </when>
+            <otherwise>
+                INSERT INTO user (email, social_type, password, nickname, intro, social_id, device_token)
+                VALUES (#{email}, #{socialType}, #{password}, #{nickname}, #{intro}, #{socialId}, #{deviceToken})
+            </otherwise>
+        </choose>
     </insert>
 
     <select id="findByUserId" resultType="User">

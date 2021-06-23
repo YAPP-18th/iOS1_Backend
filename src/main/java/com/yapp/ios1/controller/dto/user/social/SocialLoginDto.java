@@ -1,6 +1,7 @@
 package com.yapp.ios1.controller.dto.user.social;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 public class SocialLoginDto {
+    @NotNull
     @Email
     private String email;
     @NotBlank
