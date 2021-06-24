@@ -45,15 +45,16 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 <br>
 
+**Spring Logback으로 CloudWatch에 에러 로그 전송하기**
+
+> [Spring Error log CloudWatch로 전송하기](https://devlog-wjdrbs96.tistory.com/329)
+
+<br>
+
 **테스트 코드는 어떤 것들을 어떻게 작성했을까?**
 
 > 정균, 아영 (작성)
 
-<br>
-
-**MySQL 쿼리 실행 계획 분석, 인덱스 적용은 어떻게 했을까?**
-
-> 정균(작성)
 
 <br>
 
