@@ -19,6 +19,6 @@ public class HealthController {
 
     @GetMapping("/test")
     public String test() {
-        return "로드 밸런서~~";
+        return "발표 중 ! !";
     }
 }
