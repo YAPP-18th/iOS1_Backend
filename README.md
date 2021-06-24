@@ -34,8 +34,14 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 **AccessToken, RefreshToken 과정 정리**
 > Spring Security 없이 JWT 연동 <br> <br>
-> [스프링부트 환경에서 JWT 연동하기](https://velog.io/@ayoung0073/springboot-jwt-without-springsecurity) <br>
-> Redis Cache 적용하기
+> [스프링부트 환경에서 JWT 연동하기](https://velog.io/@ayoung0073/springboot-jwt-without-springsecurity) - [아영](https://github.com/ayoung0073) <br>
+> Redis Cache 적용하기 - [아영](https://github.com/ayoung0073)
+
+<br>
+
+**Session을 사용하지 않고 JWT를 사용한 이유는 무엇일까?**
+
+> 정균(작성)
 
 <br>
 
@@ -47,7 +53,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 **Spring Logback으로 CloudWatch에 에러 로그 전송하기**
 
-> [Spring Error log CloudWatch로 전송하기](https://devlog-wjdrbs96.tistory.com/329)
+> [Spring Error log CloudWatch로 전송하기](https://devlog-wjdrbs96.tistory.com/329) - [정균](https://github.com/wjdrbs96)
 
 <br>
 
@@ -67,30 +73,34 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 **이메일 인증까지의 과정**
 
 > 비밀번호 재설정을 위한 이메일 전송부터 인증까지의 과정 <br> <br>
-> [Thymeleaf을 이용한 이메일 전송하기](https://velog.io/@ayoung0073/SpringBoot-%ED%83%80%EC%9E%84%EB%A6%AC%ED%94%84%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%A0%84%EC%86%A1) <br>
-> [Redis 이용한 이메일 인증하기](https://velog.io/@ayoung0073/SpringBoot-%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%9D%B8%EC%A6%9D-%EA%B3%BC%EC%A0%95-Redis)
+> [Thymeleaf을 이용한 이메일 전송하기](https://velog.io/@ayoung0073/SpringBoot-%ED%83%80%EC%9E%84%EB%A6%AC%ED%94%84%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%A0%84%EC%86%A1) - [아영](https://github.com/ayoung0073) <br>
+> [Redis 이용한 이메일 인증하기](https://velog.io/@ayoung0073/SpringBoot-%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%9D%B8%EC%A6%9D-%EA%B3%BC%EC%A0%95-Redis) - [아영](https://github.com/ayoung0073)
+
+**비밀번호 단방향 암호화 과정**
+
+> 아영 (작성)
 
 <br>
 
 **AOP로 중복로직 제거하기**
 
 > 프로젝트에서 대부분 API에서 인가 체크가 필요했는데, AOP를 적용하여 중복 로직을 제거 <br> <br>
-> [AOP를 사용하여 중복 로직 제거하기](https://devlog-wjdrbs96.tistory.com/344)
+> [AOP를 사용하여 중복 로직 제거하기](https://devlog-wjdrbs96.tistory.com/344) - [정균](https://github.com/wjdrbs96)
 
 <br>
 
 **이미지 리사이징**
 
 > 버킷리스트 앱의 특성상 이미지 업로드 양이 많기 때문에 AWS Lambda를 이용하여 이미지 리사이징 기능을 추가 <br>  
-> [Lambda로 Image Resize 하기](https://devlog-wjdrbs96.tistory.com/330?category=885022)
+> [Lambda로 Image Resize 하기](https://devlog-wjdrbs96.tistory.com/330?category=885022) - [정균](https://github.com/wjdrbs96)
 
 <br>
 
 **Jenkins와 CodeDeploy, Docker를 이용하여 CI/CD 구현하기**
 
 > 무중단 자동화 배포 기능을 추가 <br> <br>
-> [Jenkins CI 설정](https://velog.io/@ayoung0073/jenkins-ci)  <br>
-> [CodeDeploy, Load-Balancer 설정](https://devlog-wjdrbs96.tistory.com/345)
+> [Jenkins CI 설정](https://velog.io/@ayoung0073/jenkins-ci) - [아영](https://github.com/ayoung0073) <br>
+> [CodeDeploy, Load-Balancer 설정](https://devlog-wjdrbs96.tistory.com/345) - [정균](https://github.com/wjdrbs96)
 
 
 <br>
