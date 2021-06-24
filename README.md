@@ -67,6 +67,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 > 비밀번호 재설정을 위한 이메일 전송부터 인증까지의 과정 <br> <br>
 > [Thymeleaf을 이용한 이메일 전송하기](https://velog.io/@ayoung0073/SpringBoot-%ED%83%80%EC%9E%84%EB%A6%AC%ED%94%84%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%A0%84%EC%86%A1) <br>
+> [Redis 이용한 이메일 인증하기](https://velog.io/@ayoung0073/SpringBoot-%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%9D%B8%EC%A6%9D-%EA%B3%BC%EC%A0%95-Redis)
 
 <br>
 
