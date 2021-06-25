@@ -52,13 +52,13 @@
     </select>
 
     <select id="findWholeAlarmByAlarmId" resultType="Notification">
-        SELECT *
+        SELECT id
         FROM whole_alarm_log
         WHERE id = #{alarmId}
     </select>
 
     <select id="findFollowAlarmByAlarmId" resultType="Notification">
-        SELECT *
+        SELECT id
         FROM follow_alarm_log
         WHERE id = #{alarmId}
     </select>

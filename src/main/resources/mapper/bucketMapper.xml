@@ -51,17 +51,18 @@
 
     <select id="findByUserId" resultType="Bucket">
         SELECT b.id, b.bucket_name as bucketName,
-               b.created_date as createdDate,
-               b.end_date as endDate,
-               b.bucket_state as bucketState,
-               c.category_name as categoryName
-        FROM bucket b JOIN category c
-                           ON b.category_id = c.id
+               b.created_date      as createdDate,
+               b.end_date          as endDate,
+               b.bucket_state      as bucketState,
+               c.category_name     as categoryName
+        FROM bucket b
+            JOIN category c
+                ON b.category_id = c.id
         WHERE b.user_id = #{userId}
     </select>
 
     <select id="findByCategoryId" resultType="int">
-        SELECT count(*) FROM category WHERE id = #{category};
+        SELECT count(id) FROM category WHERE id = #{category};
     </select>
 
     <insert id="registerBucket" useGeneratedKeys="true" keyProperty="id">
@@ -96,7 +97,8 @@
     </insert>
 
     <select id="findByTagName" resultType="Tag">
-        SELECT *
+        SELECT id,
+               tag_name as tagName
         FROM tag
         WHERE tag_name = #{tagName};
     </select>
@@ -132,7 +134,7 @@
     </select>
 
     <select id="getBucketCountByUserId" resultType="int">
-        SELECT count(*)
+        SELECT count(id)
         FROM bucket
         WHERE user_id = #{userId};
     </select>
