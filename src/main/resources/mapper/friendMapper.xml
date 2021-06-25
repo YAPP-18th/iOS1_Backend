@@ -10,22 +10,22 @@
     </select>
 
     <select id="getFollowListByUserId" resultType="Friend">
-        SELECT u.id as userId,
+        SELECT u.id             as userId,
                u.email,
                u.nickname,
                u.intro,
-               u.profile_url as profileUrl,
+               u.profile_url    as profileUrl,
                f1.friend_status as friendStatus
         FROM user u
                  JOIN follow f1
                      ON f1.following_id = u.id
         WHERE (f1.follower_id = #{userId} AND f1.friend_status = 2)
         UNION
-        SELECT u.id as userId,
+        SELECT u.id             as userId,
                u.email,
                u.nickname,
                u.intro,
-               u.profile_url as profileUrl,
+               u.profile_url    as profileUrl,
                f2.friend_status as friendStatus
         FROM user u
                  JOIN follow f2
