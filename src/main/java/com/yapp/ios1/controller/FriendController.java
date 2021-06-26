@@ -53,5 +53,4 @@ public class FriendController {
         List<Friend> friendList = friendService.getFriendList(userId);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_FRIEND_LIST, friendList));
     }
-
 }

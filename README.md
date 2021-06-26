@@ -59,8 +59,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 **수 많은 에러들을 어떻게 관리하고 있을까?**
 
-> Error 클래스 상속 관계를 통한 ControllerAdvice, ExceptionHandler 처리하기 <br> <br>
-> [Spring Error Handling 하기](https://devlog-wjdrbs96.tistory.com/348)
+> [Error 클래스 상속 관계를 통한 ControllerAdvice, ExceptionHandler 처리하기](https://devlog-wjdrbs96.tistory.com/348)
 
 <br>
 
