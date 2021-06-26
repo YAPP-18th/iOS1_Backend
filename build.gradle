@@ -47,6 +47,8 @@ dependencies {
 
     // logback
     compile group: 'ca.pjer', name: 'logback-awslogs-appender', version: '1.4.0'
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+
     implementation group: 'org.codehaus.janino', name: 'janino', version: '3.0.7'
 
     compile "javax.xml.bind:jaxb-api"
