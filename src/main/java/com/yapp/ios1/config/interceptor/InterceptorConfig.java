@@ -1,6 +1,5 @@
 package com.yapp.ios1.config.interceptor;
 
-import com.yapp.ios1.config.interceptor.LoggingInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

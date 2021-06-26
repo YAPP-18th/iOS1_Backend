@@ -10,7 +10,6 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 
 /**
  * created by jg 2021/06/27
@@ -39,7 +38,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
                 log.error(String.format("Request Body : %s", objectMapper.readTree(cachingRequest.getContentAsByteArray())));
                 log.error(String.format("Response Body : %s", objectMapper.readTree(cachingResponse.getContentAsByteArray())));
             }
-
             log.error("==============");
         }
     }
