@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.yapp.ios1.message.ResponseMessage.LOGIN_SUCCESS;
+import static com.yapp.ios1.message.ResponseMessage.REISSUE_TOKEN_SUCCESS;
 
 /**
  * created by jg 2021/05/05
@@ -37,6 +37,6 @@ public class TokenController {
     @ReAuth
     @PostMapping("/token/refresh")
     public ResponseEntity<ResponseDto> reissueToken() {
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(UserContext.getCurrentUserId())));
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, REISSUE_TOKEN_SUCCESS, jwtService.createTokenResponse(UserContext.getCurrentUserId())));
     }
 }
