@@ -27,7 +27,7 @@ public class BucketRequestDto {
     @NotBlank(message = NOT_VALID_BUCKET_NAME)
     private String bucketName;
     @Min(value = 2, message = NOT_VALID_STATE)
-    @Max(value = 4, message = NOT_VALID_STATE)
+    @Max(value = 5, message = NOT_VALID_STATE)
     private int bucketState;
     @Min(value = 2, message = NOT_VALID_CATEGORY_ID)
     @Max(value = 10, message = NOT_VALID_CATEGORY_ID)
