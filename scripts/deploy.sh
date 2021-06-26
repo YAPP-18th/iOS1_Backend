@@ -10,8 +10,8 @@ then
 else
   echo "> docker stop ${CONTAINER_ID}"
   sudo docker stop ${CONTAINER_ID}
-  # echo "> docker rm ${CONTAINER_ID}"
-  #sudo docker rm ${CONTAINER_ID}
+  echo "> docker rm ${CONTAINER_ID}"
+  sudo docker rm ${CONTAINER_ID}
   #sudo docker rmi yapp
   sleep 5
 fi
