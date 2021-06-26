@@ -10,6 +10,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 /**
  * created by jg 2021/06/27
@@ -24,7 +25,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         String[] requestURI = request.getRequestURI().split("/");
-        if (requestURI[0].equals("api") && requestURI[1].equals("/v2")) {
+        if (requestURI[1].equals("api") && requestURI[2].equals("v2")) {
             final String requestMethod = request.getMethod();
 
             log.error("==============");
