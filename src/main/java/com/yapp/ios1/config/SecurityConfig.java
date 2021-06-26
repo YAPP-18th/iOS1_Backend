@@ -11,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  * created by ayoung 2021/04/15
  */
-@Configuration
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -23,12 +23,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/v2/*", "/health").permitAll()
+                .antMatchers("/api/v2/*", "/health", "/swagger-ui.html", "/swagger/**",
+                        "/swagger-resources/**", "/webjars/**", "/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
                 .and()
                     .csrf().disable()
-            .formLogin()
-                .and()
-            .httpBasic();
+            .formLogin();
     }
 }
