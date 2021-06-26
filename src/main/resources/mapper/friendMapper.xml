@@ -6,7 +6,7 @@
     <select id="getFollowCountByUserId" resultType="int">
         SELECT COUNT(*)
         FROM follow
-        WHERE following_id = #{userId};
+        WHERE friend_status = 1 AND (following_id = #{userId} OR follower_id = #{userId});
     </select>
 
     <select id="getFollowListByUserId" resultType="Friend">
