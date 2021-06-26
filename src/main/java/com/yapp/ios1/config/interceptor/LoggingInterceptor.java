@@ -23,20 +23,23 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        final String requestMethod = request.getMethod();
+        String[] requestURI = request.getRequestURI().split("/");
+        if (requestURI[0].equals("api") && requestURI[1].equals("/v2")) {
+            final String requestMethod = request.getMethod();
 
-        log.error("==============");
-        log.error("Request URL : " + request.getRequestURL() + "\n" +
-                "Query String : " + request.getQueryString() + " || Request Method : " + requestMethod);
+            log.error("==============");
+            log.error("Request URL : " + request.getRequestURL() + "\n" +
+                    "Query String : " + request.getQueryString() + " || Request Method : " + requestMethod);
 
-        if (requestMethod.equals("POST")) {
-            final ContentCachingRequestWrapper cachingRequest = (ContentCachingRequestWrapper) request;
-            final ContentCachingResponseWrapper cachingResponse = (ContentCachingResponseWrapper) response;
+            if (requestMethod.equals("POST")) {
+                final ContentCachingRequestWrapper cachingRequest = (ContentCachingRequestWrapper) request;
+                final ContentCachingResponseWrapper cachingResponse = (ContentCachingResponseWrapper) response;
 
-            log.error(String.format("Request Body : %s", objectMapper.readTree(cachingRequest.getContentAsByteArray())));
-            log.error(String.format("Response Body : %s", objectMapper.readTree(cachingResponse.getContentAsByteArray())));
+                log.error(String.format("Request Body : %s", objectMapper.readTree(cachingRequest.getContentAsByteArray())));
+                log.error(String.format("Response Body : %s", objectMapper.readTree(cachingResponse.getContentAsByteArray())));
+            }
+
+            log.error("==============");
         }
-
-        log.error("==============");
     }
 }
