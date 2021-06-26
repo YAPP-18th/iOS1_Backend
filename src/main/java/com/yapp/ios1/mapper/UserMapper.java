@@ -15,6 +15,7 @@ public interface UserMapper {
 
     Optional<User> findByUserId(@Param("userId") Long userId);
 
+    // TODO id 없으면 왜 에러인지 알아보기
     Optional<User> findByEmail(@Param("email") String email);
 
     Optional<User> findByNickname(@Param("nickname") String nickname);
