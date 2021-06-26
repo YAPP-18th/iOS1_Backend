@@ -23,7 +23,7 @@
     </select>
 
     <select id="findByEmail" resultType="User">
-        SELECT email
+        SELECT id, email, password
         FROM user
         WHERE email = #{email};
     </select>

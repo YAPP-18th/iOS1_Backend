@@ -66,7 +66,7 @@ public class UserController {
     @ApiOperation(value = "비밀번호 재설정")
     @Auth
     @PutMapping("/password")
-    public ResponseEntity<ResponseDto> changePassword(@RequestBody PasswordDto passwordDto) {
+    public ResponseEntity<ResponseDto> changePassword(@RequestBody @Valid PasswordDto passwordDto) {
         Long userId = UserContext.getCurrentUserId();
         userService.changePassword(userId, passwordDto.getPassword());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS));
