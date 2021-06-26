@@ -19,6 +19,6 @@ public class HealthController {
 
     @GetMapping("/test")
     public String test() {
-        return "Docker Volume 적용 ! !";
+        return "Docker Volume 확인용 ~~";
     }
 }
