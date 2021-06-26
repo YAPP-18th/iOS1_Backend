@@ -16,9 +16,4 @@ public class HealthController {
     public String loadBalancer() {
         return "health";
     }
-
-    @GetMapping("/test")
-    public String test() {
-        return "Docker Volume 확인용 ~~";
-    }
 }
