@@ -15,6 +15,6 @@ else
   sudo docker rmi yapp
   sleep 5
 fi
-
-cd /home/ec2-user/yapp && docker build -t yapp .
-docker run --name yapp -d -e active=prod -p 8080:8080 yapp
+# && docker build -t yapp .
+cd /home/ec2-user/yapp
+docker run --name yapp -d -e active=prod -p 8080:8080 -v $(pwd)/build/libs:/root yapp
