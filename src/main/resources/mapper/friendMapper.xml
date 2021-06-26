@@ -17,9 +17,9 @@
                u.profile_url    as profileUrl,
                f1.friend_status as friendStatus
         FROM user u
-                 JOIN follow f1
-                     ON f1.following_id = u.id
-        WHERE (f1.follower_id = #{userId} AND f1.friend_status = 2)
+            JOIN follow f1
+                ON f1.following_id = u.id
+        WHERE (f1.follower_id = #{userId} AND f1.friend_status = 1)
         UNION
         SELECT u.id             as userId,
                u.email,
@@ -30,7 +30,7 @@
         FROM user u
                  JOIN follow f2
                      ON f2.follower_id = u.id
-        WHERE (f2.following_id = #{userId} AND f2.friend_status = 2);
+        WHERE (f2.following_id = #{userId} AND f2.friend_status = 1);
     </select>
 
     <select id="checkFriendByMyUserIdAndOtherUserId" resultType="int">
