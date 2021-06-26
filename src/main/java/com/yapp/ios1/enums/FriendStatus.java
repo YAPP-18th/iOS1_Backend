@@ -1,6 +1,6 @@
 package com.yapp.ios1.enums;
 
-/**
+/**정ㅎ
  * created by jg 2021/05/21
  */
 public enum FriendStatus {
