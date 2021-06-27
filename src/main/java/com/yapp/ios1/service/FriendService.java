@@ -64,7 +64,7 @@ public class FriendService {  // TODO 전체적인 리팩터링
     private void acceptFollow(Long myUserId, Long friendId, Long alarmId) {
         NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE, friendId);
         alarmMapper.updateFollowAlarmLog(notificationForOne, alarmId);
-        // TODO (친구 요청 보낸 사람한테도 알림 가야 하고 그 사람 알림 로그에도 저장이 되어야 함)
+        alarmMapper.insertFollowAlarmLog(notificationForOne, getNickName(myUserId), FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
         followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
         userService.updateUserAlarmReadStatus(friendId, false);
         firebaseService.sendByTokenForOne(notificationForOne);

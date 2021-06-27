@@ -22,11 +22,11 @@
     </insert>
 
     <select id="getCommonAlarmLog" resultType="Notification">
-        SELECT id as alarmId,
+        SELECT id           as alarmId,
                title,
                message,
                alarm_status as alarmStatus,
-               created_at as createdAt
+               created_at   as createdAt
         FROM whole_alarm_log
         where id NOT IN (SELECT alarm_id FROM whole_alarm_delete WHERE user_id = #{userId})
         ORDER BY created_at ASC
@@ -37,7 +37,7 @@
                f.follower_id   as myUserId,
                f.following_id  as friendId,
                message,
-               al.nick_name as nickName,
+               al.nick_name    as nickName,
                u.profile_url   as profileUrl,
                f.friend_status as friendStatus,
                alarm_status    as alarmStatus,

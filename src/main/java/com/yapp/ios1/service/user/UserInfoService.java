@@ -27,9 +27,10 @@ public class UserInfoService {
     public UserInfoDto getOtherUserInfo(Long myUserId, Long otherUserId) {
         UserInfoDto userInfo = getUserInfo(otherUserId);
 
-        // TODO 결과가 2개 이상 나올리는 없지만 2개 이상 나오면 에러남 -> 에러 처리는 해놓으면 좋긴 할듯
+        // TODO 결과가 2개 이상 나올리는 없지만 2개 이상 나오면 에러남 -> 에러 처리는 해놓으면 좋긴 할 수도..?
         int friendStatus = friendMapper.checkFriendStatus(myUserId, otherUserId);
 
+        // TODO 1, 2, 3 Magic 넘버 Enum 에서 가져온 값 써도 좋을 듯 => 다 바꾼다면 주석 삭제
         // 친구 아닐 때
         if (friendStatus == 0) {
             userInfo.setBucket(bucketFindService.getUserBucketList(otherUserId));
