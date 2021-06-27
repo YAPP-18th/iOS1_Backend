@@ -46,7 +46,7 @@ public class AlarmService {
         }
 
         alarmValidator.checkValidFollowAlarm(alarmId);
-        alarmMapper.deleteFollowAlarmLog(alarmId, userId);
+        alarmMapper.deleteFollowAlarmLog(alarmId);
     }
 
     // 초, 분, 시간, 일, 월, 요일 (매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정)

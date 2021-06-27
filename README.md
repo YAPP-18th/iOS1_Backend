@@ -30,6 +30,27 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 <br>
 
+## 📐프로젝트 전체 구성도
+
+![스크린샷 2021-06-16 오후 2 35 32](https://user-images.githubusercontent.com/45676906/122163400-1bbeff00-ceb0-11eb-8ecc-180cf128aef8.png)
+
+<br>
+
+## 🛠 사용한 기술 스택
+
+![TechStack](https://user-images.githubusercontent.com/45676906/122160183-6dfd2180-ceaa-11eb-8865-df08ec11d13f.png)
+
+<br>
+
+## 📂 Database Modeling
+
+| ER Diagram |
+|:---:|
+|<img src="https://user-images.githubusercontent.com/69340410/122346901-6dd15480-cf84-11eb-9dc1-13858a35bc27.png" width="100%"/>|
+
+
+<br>
+
 ## 프로젝트 하면서 겪은 과정들
 
 **AccessToken, RefreshToken 과정 정리**
@@ -42,6 +63,12 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 **Session을 사용하지 않고 JWT를 사용한 이유는 무엇일까?**
 
 > 정균(작성)
+
+<br>
+
+**JPA가 아니라 MyBatis를 사용한 이유**
+
+> [프로젝트에서 JPA가 아닌 MyBatis를 선택한 이유는?](https://devlog-wjdrbs96.tistory.com/350) - [정균](https://github.com/wjdrbs96)
 
 <br>
 
@@ -60,12 +87,6 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 **수 많은 에러들을 어떻게 관리하고 있을까?**
 
 > [Error 클래스 상속 관계를 통한 ControllerAdvice, ExceptionHandler 처리하기](https://devlog-wjdrbs96.tistory.com/348)
-
-<br>
-
-**테스트 코드는 어떤 것들을 어떻게 작성했을까?**
-
-> 정균, 아영 (작성)
 
 <br>
 
@@ -108,28 +129,6 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 > 무중단 자동화 배포 기능을 추가 <br> <br>
 > [Jenkins CI 설정](https://velog.io/@ayoung0073/jenkins-ci) - [아영](https://github.com/ayoung0073) <br>
 > [CodeDeploy, Load-Balancer 설정](https://devlog-wjdrbs96.tistory.com/345) - [정균](https://github.com/wjdrbs96)
-
-
-<br>
-
-## 📐프로젝트 전체 구성도
-
-![스크린샷 2021-06-16 오후 2 35 32](https://user-images.githubusercontent.com/45676906/122163400-1bbeff00-ceb0-11eb-8ecc-180cf128aef8.png)
-
-<br>
-
-## 🛠 사용한 기술 스택
-
-![TechStack](https://user-images.githubusercontent.com/45676906/122160183-6dfd2180-ceaa-11eb-8865-df08ec11d13f.png)
-
-<br>
-
-## 📂 Database Modeling
-
-| ER Diagram |
-|:---:|
-|<img src="https://user-images.githubusercontent.com/69340410/122346901-6dd15480-cf84-11eb-9dc1-13858a35bc27.png" width="100%"/>|
-
 
 <br>
 

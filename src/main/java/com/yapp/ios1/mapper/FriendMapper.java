@@ -28,4 +28,6 @@ public interface FriendMapper {
                       @Param("friendStatus") int friendStatus);
 
     void deleteFriend(Long myUserId, Long friendId);
+
+    Long findByFollowAlarmId(Long myUserId, Long friendId);
 }
