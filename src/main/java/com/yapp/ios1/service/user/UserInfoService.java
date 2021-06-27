@@ -7,6 +7,7 @@ import com.yapp.ios1.model.bookmark.Bookmark;
 import com.yapp.ios1.model.user.Profile;
 import com.yapp.ios1.service.bucket.BucketFindService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,26 +28,12 @@ public class UserInfoService {
     public UserInfoDto getOtherUserInfo(Long myUserId, Long otherUserId) {
         UserInfoDto userInfo = getUserInfo(otherUserId);
 
-        // TODO 결과가 2개 이상 나올리는 없지만 2개 이상 나오면 에러남 -> 에러 처리는 해놓으면 좋긴 할 수도..?
         int friendStatus = friendMapper.checkFriendStatus(myUserId, otherUserId);
-
-        // TODO 1, 2, 3 Magic 넘버 Enum 에서 가져온 값 써도 좋을 듯 => 다 바꾼다면 주석 삭제
-        // 친구 아닐 때
-        if (friendStatus == 0) {
-            userInfo.setBucket(bucketFindService.getUserBucketList(otherUserId));
-            userInfo.setFriend(3);
-            return userInfo;
-        }
-
-        // 나와 친구가 "친구 일 때"
+        userInfo.setFriend(friendStatus);
+        // 친구 일 때
         if (friendStatus == 1) {
-            userInfo.setFriend(1);
-            return userInfo;
+            userInfo.setBucket(bucketFindService.getUserBucketList(otherUserId));
         }
-
-        // 내가 친구에게 "친구 요청 중일 때"
-        userInfo.setBucket(bucketFindService.getUserBucketList(otherUserId));
-        userInfo.setFriend(2);
 
         return userInfo;
     }
