@@ -28,7 +28,7 @@ public class UserInfoController {
 
     private final UserInfoService userInfoService;
 
-    @ApiOperation(value = "마이 페이지")
+    @ApiOperation("마이 페이지")
     @Auth
     @GetMapping("/me")
     public ResponseEntity<ResponseDto> getMyInfo() {
@@ -36,7 +36,7 @@ public class UserInfoController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_MY_INFO, userInfoService.getUserInfo(userId)));
     }
 
-    @ApiOperation(value = "사용자 페이지")
+    @ApiOperation("사용자 페이지")
     @Auth
     @GetMapping("/{userId}")
     public ResponseEntity<ResponseDto> getUserInfo(@PathVariable Long userId) {

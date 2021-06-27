@@ -74,6 +74,10 @@ public class FriendService {  // TODO 전체적인 리팩터링
         alarmMapper.deleteFollowAlarmLog(myUserId, alarmId);
     }
 
+    public void deleteFriend(Long myUserId, Long friendId) {
+        followMapper.deleteFriend(myUserId, friendId);
+    }
+
     private String getNickName(Long myUserId) {
         return userFindService.getUser(myUserId).getNickname();
     }

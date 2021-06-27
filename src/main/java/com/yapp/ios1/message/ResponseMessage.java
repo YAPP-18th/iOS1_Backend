@@ -43,6 +43,7 @@ public class ResponseMessage {
     // Follow
     public static final String FRIEND_REQUEST = "팔로우 요청 성공입니다.";
     public static final String FRIEND_MESSAGE = "팔로우 응답 성공입니다.";
+    public static final String FRIEND_DELETE = "친구 끊기 성공입니다";
 
     // Email
     public static final String EMAIL_SEND_SUCCESS = "이메일 전송 성공입니다.";

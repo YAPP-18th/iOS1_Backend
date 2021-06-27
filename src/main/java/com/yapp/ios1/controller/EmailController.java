@@ -33,14 +33,14 @@ public class EmailController {
     private final EmailService emailService;
     private final JwtIssueService jwtIssueService;
 
-    @ApiOperation(value = "이메일 인증 코드 전송")
+    @ApiOperation("이메일 인증 코드 전송")
     @PostMapping("/send")
     public ResponseEntity<ResponseDto> sendEmail(@RequestBody @Valid EmailDto email) {
         emailService.sendEmailMessage(email.getEmail());
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, EMAIL_SEND_SUCCESS));
     }
 
-    @ApiOperation(value = "인증 코드 검증")
+    @ApiOperation("인증 코드 검증")
     @PostMapping("/verify")
     public ResponseEntity<ResponseDto> verifyCode(@RequestBody @Valid EmailCodeDto code) {
         Long userId = emailService.getUserIdByCode(code.getCode());

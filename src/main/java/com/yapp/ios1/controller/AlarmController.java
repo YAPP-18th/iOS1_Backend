@@ -25,7 +25,7 @@ public class AlarmController {
 
     private final AlarmService alarmService;
 
-    @ApiOperation(value = "알람 로그 조회")
+    @ApiOperation("알람 로그 조회")
     @Auth
     @GetMapping("/alarm")
     public ResponseEntity<ResponseDto> alarmLog() {
@@ -33,7 +33,7 @@ public class AlarmController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_ALARM_LOG, alarmService.getAlarmLog(userId)));
     }
 
-    @ApiOperation(value = "알람 로그 삭제 (alarmStatus: 1(전체 알람), 2(친구 알람))")
+    @ApiOperation("알람 로그 삭제 (alarmStatus: 1(전체 알람), 2(친구 알람))")
     @Auth
     @DeleteMapping("/alarm/{alarmId}")
     public ResponseEntity<ResponseDto> deleteAlarm(@PathVariable Long alarmId, @RequestParam("alarm_status") int alarmStatus) {

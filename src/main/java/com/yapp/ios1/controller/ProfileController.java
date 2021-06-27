@@ -26,7 +26,7 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
-    @ApiOperation(value = "프로필 가져오기")
+    @ApiOperation("프로필 가져오기")
     @Auth
     @GetMapping("")
     public ResponseEntity<ResponseDto> getProfile() {
@@ -34,7 +34,7 @@ public class ProfileController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_PROFILE_SUCCESS, profileService.getProfile(userId)));
     }
 
-    @ApiOperation(value = "프로필 수정")
+    @ApiOperation("프로필 수정")
     @Auth
     @PutMapping("")
     public ResponseEntity<ResponseDto> updateProfile(@RequestBody ProfileUpdateDto profile) {

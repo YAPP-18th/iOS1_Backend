@@ -36,34 +36,34 @@ public class UserController {
     private final UserValidator userValidator;
     private final JwtService jwtService;
 
-    @ApiOperation(value = "이메일 존재 여부")
+    @ApiOperation("이메일 존재 여부")
     @GetMapping("/email-check")
     public ResponseEntity<ResponseDto> emailCheck(@RequestParam String email) {
         userValidator.checkEmailDuplicate(email);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_EMAIL));
     }
 
-    @ApiOperation(value = "닉네임 존재 여부")
+    @ApiOperation("닉네임 존재 여부")
     @GetMapping("/nickname-check")
     public ResponseEntity<ResponseDto> nicknameCheck(@RequestParam String nickname) {
         userValidator.checkNickName(nickname);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, POSSIBLE_NICKNAME));
     }
 
-    @ApiOperation(value = "회원가입")
+    @ApiOperation("회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@RequestBody @Valid SignUpDto signUpDto) {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, SIGN_UP_SUCCESS, userService.signUp(User.of(signUpDto))));
     }
 
-    @ApiOperation(value = "로그인")
+    @ApiOperation("로그인")
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@RequestBody @Valid SignInDto signInDto) {
         User user = userValidator.checkPassword(signInDto);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, LOGIN_SUCCESS, jwtService.createTokenResponse(user.getId())));
     }
 
-    @ApiOperation(value = "비밀번호 재설정")
+    @ApiOperation("비밀번호 재설정")
     @Auth
     @PutMapping("/password")
     public ResponseEntity<ResponseDto> changePassword(@RequestBody @Valid PasswordDto passwordDto) {
@@ -72,7 +72,7 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, CHANGE_PASSWORD_SUCCESS));
     }
 
-    @ApiOperation(value = "회원 탈퇴")
+    @ApiOperation("회원 탈퇴")
     @Auth
     @DeleteMapping("")
     public ResponseEntity<ResponseDto> deleteUser() {
