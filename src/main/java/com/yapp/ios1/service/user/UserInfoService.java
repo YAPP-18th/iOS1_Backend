@@ -27,15 +27,25 @@ public class UserInfoService {
     public UserInfoDto getOtherUserInfo(Long myUserId, Long otherUserId) {
         UserInfoDto userInfo = getUserInfo(otherUserId);
 
-        int checkFriend = friendMapper.checkFriendByMyUserIdAndOtherUserId(myUserId, otherUserId);
+        // TODO 결과가 2개 이상 나올리는 없지만 2개 이상 나오면 에러남 -> 에러 처리는 해놓으면 좋긴 할듯
+        int friendStatus = friendMapper.checkFriendStatus(myUserId, otherUserId);
 
-        if (checkFriend == 0) {
-            userInfo.setFriend(Boolean.FALSE);
+        // 친구 아닐 때
+        if (friendStatus == 0) {
+            userInfo.setBucket(bucketFindService.getUserBucketList(otherUserId));
+            userInfo.setFriend(3);
             return userInfo;
         }
 
+        // 나와 친구가 "친구 일 때"
+        if (friendStatus == 1) {
+            userInfo.setFriend(1);
+            return userInfo;
+        }
+
+        // 내가 친구에게 "친구 요청 중일 때"
         userInfo.setBucket(bucketFindService.getUserBucketList(otherUserId));
-        userInfo.setFriend(Boolean.TRUE);
+        userInfo.setFriend(2);
 
         return userInfo;
     }

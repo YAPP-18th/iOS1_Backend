@@ -21,7 +21,7 @@ public class UserInfoDto {
     private int bucketCount;
     private BookmarkListDto bookmark;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean isFriend;
+    private int isFriend;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Bucket> bucket;
 
@@ -29,7 +29,7 @@ public class UserInfoDto {
         this.bucket = bucket;
     }
 
-    public void setFriend(Boolean friend) {
+    public void setFriend(int friend) {
         this.isFriend = friend;
     }
 
