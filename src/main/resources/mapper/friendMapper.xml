@@ -58,5 +58,12 @@
         WHERE (following_id = #{myUserId} AND follower_id = #{friendId})
             OR (following_id = #{friendId} AND follower_id = #{myUserId})
     </delete>
+
+    <select id="findByFollowAlarmId" resultType="Long">
+        SELECT alarm_id
+        FROM follow f
+        WHERE (f.following_id = #{myUserId} AND f.follower_id = #{friendId})
+            OR (f.follower_id = #{friendId} AND f.following_id = #{myUserId})
+    </select>
 </mapper>
 

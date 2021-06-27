@@ -57,7 +57,7 @@ public class FriendService {  // TODO 전체적인 리팩터링
             acceptFollow(myUserId, friendId, alarmId);
             return;
         }
-        noAcceptFollow(myUserId, alarmId);
+        noAcceptFollow(alarmId);
     }
 
     // TODO 리팩터링
@@ -70,12 +70,19 @@ public class FriendService {  // TODO 전체적인 리팩터링
         firebaseService.sendByTokenForOne(notificationForOne);
     }
 
-    private void noAcceptFollow(Long myUserId, Long alarmId) {
-        alarmMapper.deleteFollowAlarmLog(myUserId, alarmId);
+    private void noAcceptFollow(Long alarmId) {
+        alarmMapper.deleteFollowAlarmLog(alarmId);
     }
 
+    @Transactional
     public void deleteFriend(Long myUserId, Long friendId) {
+        Long followAlarmId = getFollowAlarmId(myUserId, friendId);
+        alarmMapper.deleteFollowAlarmLog(followAlarmId);
         followMapper.deleteFriend(myUserId, friendId);
+    }
+
+    private Long getFollowAlarmId(Long myUserId, Long friendId) {
+        return followMapper.findByFollowAlarmId(myUserId, friendId);
     }
 
     private String getNickName(Long myUserId) {
