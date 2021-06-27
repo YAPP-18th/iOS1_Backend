@@ -78,9 +78,10 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 <br>
 
-**Spring Logback으로 CloudWatch에 에러 로그 전송하기**
+**Spring Logback으로 Slack, CloudWatch로 에러 로그 전송하기**
 
-> [Spring Error log CloudWatch로 전송하기](https://devlog-wjdrbs96.tistory.com/329) - [정균](https://github.com/wjdrbs96)
+> [Spring Error log CloudWatch로 전송하기](https://devlog-wjdrbs96.tistory.com/329) - [정균](https://github.com/wjdrbs96) <br>
+> [Spring Error log Slack으로 전송하는 법]() - [정균](https://github.com/wjdrbs96)
 
 <br>
 
