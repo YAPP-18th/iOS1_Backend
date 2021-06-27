@@ -35,7 +35,7 @@ public class BucketController {
                       7(목표), 8(조직), 9(봉사), 10(기타)
      * @INFO sortI= 1(작성 순), sortId = 2(가나다 순)
      */
-    @ApiOperation(value = "홈 화면 버킷 조회")
+    @ApiOperation("홈 화면 버킷 조회")
     @Auth
     @GetMapping("")
     public ResponseEntity<ResponseDto> homeBucket(@RequestParam("state") int bucketState,
@@ -46,7 +46,7 @@ public class BucketController {
                 bucketFindService.getHomeBucketList(bucketState, category, userId, sort)));
     }
 
-    @ApiOperation(value = "버킷 상세 조회")
+    @ApiOperation("버킷 상세 조회")
     @Auth
     @GetMapping("/{bucketId}")
     public ResponseEntity<ResponseDto> bucketOne(@PathVariable Long bucketId) {
@@ -55,7 +55,7 @@ public class BucketController {
     }
 
     // bucketStateId 2(예정), 3(진행 중), 4(완료), 5(실패)
-    @ApiOperation(value = "버킷 상태 변경")
+    @ApiOperation("버킷 상태 변경")
     @Auth
     @PutMapping("/{bucketId}/state/{bucketStateId}")
     public ResponseEntity<ResponseDto> updateBucketState(@PathVariable Long bucketId,
@@ -65,7 +65,7 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_STATE));
     }
 
-    @ApiOperation(value = "버킷 핀 설정 or 해제")
+    @ApiOperation("버킷 핀 설정 or 해제")
     @Auth
     @PutMapping("/{bucketId}/fin")
     public ResponseEntity<ResponseDto> registerBucketFin(@PathVariable Long bucketId, @RequestParam("state") boolean isFin) {
@@ -74,7 +74,7 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, REGISTER_BUCKET_FIN_SUCCESS));
     }
 
-    @ApiOperation(value = "버킷 등록")
+    @ApiOperation("버킷 등록")
     @Auth
     @PostMapping("")
     public ResponseEntity<ResponseDto> registerBucket(@RequestBody @Valid BucketRequestDto bucket) {
@@ -83,7 +83,7 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.CREATED, REGISTER_BUCKET_SUCCESS));
     }
 
-    @ApiOperation(value = "버킷 수정")
+    @ApiOperation("버킷 수정")
     @Auth
     @PutMapping("/{bucketId}")
     public ResponseEntity<ResponseDto> updateBucket(@PathVariable Long bucketId, @RequestBody @Valid BucketRequestDto requestDto) {
@@ -91,7 +91,7 @@ public class BucketController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, UPDATE_BUCKET_SUCCESS));
     }
 
-    @ApiOperation(value = "북마크 설정 or 해제")
+    @ApiOperation("북마크 설정 or 해제")
     @Auth
     @PutMapping("/{bucketId}/bookmark")
     public ResponseEntity<ResponseDto> setBookmark(@PathVariable("bucketId") Long bucketId, @RequestParam("state") boolean isBookmark) {

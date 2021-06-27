@@ -26,4 +26,6 @@ public interface FriendMapper {
     void acceptFollow(@Param("myUserId") Long myUserId,
                       @Param("friendId") Long friendId,
                       @Param("friendStatus") int friendStatus);
+
+    void deleteFriend(Long myUserId, Long friendId);
 }

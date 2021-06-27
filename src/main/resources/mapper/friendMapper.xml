@@ -51,5 +51,11 @@
         SET friend_status = #{friendStatus}
         WHERE following_id = #{myUserId} AND follower_id = #{friendId}
     </update>
+
+    <delete id="deleteFriend">
+        DELETE FROM follow
+        WHERE (following_id = #{myUserId} AND follower_id = #{friendId})
+            OR (following_id = #{friendId} AND follower_id = #{myUserId})
+    </delete>
 </mapper>
 

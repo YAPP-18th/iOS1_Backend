@@ -26,10 +26,7 @@ public class S3Controller {
 
     private final S3Service s3Service;
 
-    @ApiOperation(
-            value = "이미지 업로드",
-            notes = "이미지 url 배열 리턴"
-    )
+    @ApiOperation("이미지 url 배열 리턴")
     @Auth
     @PostMapping("/images")
     public ResponseEntity<ResponseDto> registerBucketImageList(@RequestParam(value = "image") MultipartFile[] imageList) {
