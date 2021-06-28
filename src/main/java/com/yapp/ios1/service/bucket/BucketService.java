@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.yapp.ios1.enums.BucketLogStatus.*;
+
 /**
  * created by jg 2021/05/05
  */
@@ -36,18 +38,21 @@ public class BucketService {
     public void updateBucket(Long bucketId, BucketRequestDto updateDto, Long userId) {
         Bucket bucketDto = bucketFindService.getBucket(bucketId, userId);
 
+        String updateBucketName = updateDto.getBucketName();
+        String updateEndDate = updateDto.getEndDate().toString();
+
         updateDto.setId(bucketId);
         bucketMapper.updateBucket(updateDto);
 
         updateTag(bucketId, updateDto.getTagList());
         updateImageUrlList(bucketId, updateDto.getImageList());
 
-        if (!updateDto.getBucketName().equals(bucketDto.getBucketName())) {
-            bucketMapper.saveBucketNameLog(bucketId);
+        if (!updateBucketName.equals(bucketDto.getBucketName())) {
+            bucketMapper.saveBucketLog(bucketId, updateBucketName, BUCKET_NAME_LOG.get());
         }
 
-        if (!updateDto.getEndDate().toString().equals(bucketDto.getEndDate())) {
-            bucketMapper.saveBucketEndDateLog(bucketId);
+        if (!updateEndDate.equals(bucketDto.getEndDate())) {
+            bucketMapper.saveBucketLog(bucketId, updateEndDate.replaceAll("-", ". "), BUCKET_END_DATE_LOG.get());
         }
     }
 

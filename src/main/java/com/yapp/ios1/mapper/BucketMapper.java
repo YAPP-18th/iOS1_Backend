@@ -45,9 +45,7 @@ public interface BucketMapper {
 
     void deleteImageListByBucketId(Long bucketId);
 
-    void saveBucketNameLog(Long bucketId);
-
-    void saveBucketEndDateLog(Long bucketId);
+    void saveBucketLog(Long bucketId, String content, int updateType);
 
     void setBookmark(Long bucketId, boolean isBookmark);
 

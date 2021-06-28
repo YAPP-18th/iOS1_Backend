@@ -155,6 +155,19 @@
         </foreach>
     </insert>
 
+    <insert id="saveBucketLog">
+        INSERT INTO bucket_log (bucket_id, content)
+        VALUES
+        <choose>
+            <when test="updateType eq 1">
+                (#{bucketId}, CONCAT('제목이 ', #{content}, '로 변경되었습니다.'))
+            </when>
+            <otherwise>
+                (#{bucketId}, CONCAT('완료일이 ', #{content}, '로 변경되었습니다.'))
+            </otherwise>
+        </choose>
+    </insert>
+
     <insert id="saveBucketNameLog">
         INSERT INTO bucket_log (bucket_id, update_type, content)
         SELECT id, 1, bucket_name
