@@ -37,7 +37,7 @@ public class FriendService {
         NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_REQUEST_TITLE, FOLLOW_REQUEST_MESSAGE, friendId);
         // alarm_status = 1(전체알람), 2 (친구 알람)
         alarmMapper.insertFollowAlarmLog(notificationForOne, myUserId, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
-        followMapper.requestFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
+        followMapper.insertFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
         userService.updateUserAlarmReadStatus(friendId, false);
         firebaseService.sendByTokenForOne(notificationForOne);
     }
@@ -60,7 +60,8 @@ public class FriendService {
         NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE, friendId);
         alarmMapper.updateFollowAlarmLog(notificationForOne, alarmId);
         alarmMapper.insertFollowAlarmLog(notificationForOne, myUserId, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
-        followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
+        followMapper.insertFollow(myUserId, friendId, FRIEND.get(), notificationForOne.getAlarmId());
+        followMapper.updateFriendStatus(myUserId, friendId, FRIEND.get());
         userService.updateUserAlarmReadStatus(friendId, false);
         firebaseService.sendByTokenForOne(notificationForOne);
     }
