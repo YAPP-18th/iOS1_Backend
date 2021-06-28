@@ -26,7 +26,7 @@ import static com.yapp.ios1.message.AlarmMessage.*;
  */
 @RequiredArgsConstructor
 @Service
-public class FriendService {  // TODO 전체적인 리팩터링
+public class FriendService {
 
     private final FirebaseService firebaseService;
     private final FriendMapper followMapper;
@@ -35,12 +35,11 @@ public class FriendService {  // TODO 전체적인 리팩터링
     private final UserFindService userFindService;
     private final AlarmMessageUtil alarmMessage;
 
-    // TODO 리팩터링
     @Transactional
     public void requestFollow(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_REQUEST_TITLE, FOLLOW_REQUEST_MESSAGE, friendId);
         // alarm_status = 1(전체알람), 2 (친구 알람)
-        alarmMapper.insertFollowAlarmLog(notificationForOne, getNickName(myUserId), FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
+        alarmMapper.insertFollowAlarmLog(notificationForOne, myUserId, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
         followMapper.requestFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
         userService.updateUserAlarmReadStatus(friendId, false);
         firebaseService.sendByTokenForOne(notificationForOne);
@@ -60,11 +59,10 @@ public class FriendService {  // TODO 전체적인 리팩터링
         noAcceptFollow(alarmId);
     }
 
-    // TODO 리팩터링
     private void acceptFollow(Long myUserId, Long friendId, Long alarmId) {
         NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE, friendId);
         alarmMapper.updateFollowAlarmLog(notificationForOne, alarmId);
-        alarmMapper.insertFollowAlarmLog(notificationForOne, getNickName(myUserId), FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
+        alarmMapper.insertFollowAlarmLog(notificationForOne, myUserId, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
         followMapper.acceptFollow(myUserId, friendId, FRIEND.get());
         userService.updateUserAlarmReadStatus(friendId, false);
         firebaseService.sendByTokenForOne(notificationForOne);
@@ -83,9 +81,5 @@ public class FriendService {  // TODO 전체적인 리팩터링
 
     private Long getFollowAlarmId(Long myUserId, Long friendId) {
         return followMapper.findByFollowAlarmId(myUserId, friendId);
-    }
-
-    private String getNickName(Long myUserId) {
-        return userFindService.getUser(myUserId).getNickname();
     }
 }

@@ -42,7 +42,6 @@ public class FirebaseService {
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.
                             fromStream(new ClassPathResource(firebaseProperties.getPath()).getInputStream())).build();
-
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 log.info("Firebase Cloud Messaging 서비스를 성공적으로 초기화하였습니다.");

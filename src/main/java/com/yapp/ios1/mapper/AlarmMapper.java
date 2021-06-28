@@ -17,7 +17,7 @@ import java.util.Optional;
 public interface AlarmMapper {
 
     void insertFollowAlarmLog(@Param("notification") NotificationForOneDto notification,
-                              @Param("nickName") String nickName,
+                              @Param("fromUserId") Long fromUserId,
                               @Param("alarmStatus") int alarmStatus,
                               @Param("time") LocalDateTime localDateTime,
                               @Param("friendId") Long friendId);
