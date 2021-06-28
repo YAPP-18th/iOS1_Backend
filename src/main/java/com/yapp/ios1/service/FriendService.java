@@ -1,12 +1,10 @@
 package com.yapp.ios1.service;
 
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
-import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.mapper.AlarmMapper;
 import com.yapp.ios1.mapper.FriendMapper;
-import com.yapp.ios1.model.user.User;
+import com.yapp.ios1.model.user.Friend;
 import com.yapp.ios1.service.alarm.FirebaseService;
-import com.yapp.ios1.service.user.UserFindService;
 import com.yapp.ios1.service.user.UserService;
 import com.yapp.ios1.utils.AlarmMessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +30,6 @@ public class FriendService {
     private final FriendMapper followMapper;
     private final AlarmMapper alarmMapper;
     private final UserService userService;
-    private final UserFindService userFindService;
     private final AlarmMessageUtil alarmMessage;
 
     @Transactional

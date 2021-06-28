@@ -6,7 +6,7 @@
     <select id="getFollowCountByUserId" resultType="int">
         SELECT COUNT(*)
         FROM follow
-        WHERE friend_status = 1 AND (following_id = #{userId} OR follower_id = #{userId});
+        WHERE friend_status = 1 AND following_id = #{userId}
     </select>
 
     <select id="getFollowListByUserId" resultType="Friend">
@@ -37,14 +37,14 @@
         SELECT IFNULL((
             SELECT friend_status
             FROM follow
-            WHERE ((following_id = #{myUserId} AND follower_id = #{otherUserId}) OR
-                   (following_id = #{otherUserId} AND follower_id = #{myUserId})) LIMIT 1), 3)
+            WHERE (following_id = #{myUserId} AND follower_id = #{otherUserId}) LIMIT 1), 3)
                    as friend_status;
     </select>
 
     <insert id="requestFollow">
         INSERT INTO follow (following_id, follower_id, friend_status, alarm_id)
-        VALUES (#{friendId}, #{myUserId}, #{followRequest}, #{alarmId})
+        VALUES (#{friendId}, #{myUserId}, #{followRequest}, #{alarmId}),
+               (#{myUserId}, #{friendId}, #{followRequest}, #{alarmId})
     </insert>
 
     <update id="acceptFollow">
@@ -56,14 +56,12 @@
     <delete id="deleteFriend">
         DELETE FROM follow
         WHERE (following_id = #{myUserId} AND follower_id = #{friendId})
-            OR (following_id = #{friendId} AND follower_id = #{myUserId})
     </delete>
 
     <select id="findByFollowAlarmId" resultType="Long">
         SELECT alarm_id
         FROM follow f
         WHERE (f.following_id = #{myUserId} AND f.follower_id = #{friendId})
-            OR (f.follower_id = #{friendId} AND f.following_id = #{myUserId})
     </select>
 </mapper>
 
