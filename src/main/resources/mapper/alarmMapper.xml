@@ -34,8 +34,7 @@
 
     <select id="getFollowAlarmLog" resultType="Notification">
         SELECT al.id as alarmId,
-               f.follower_id   as myUserId,
-               f.following_id  as friendId,
+               al.from_user_id as friendId,
                message,
                u.nickname      as nickName,
                u.profile_url   as profileUrl,
@@ -65,7 +64,15 @@
 
     <delete id="deleteFollowAlarmLog">
         DELETE FROM follow_alarm_log
-        WHERE id = #{alarmId} AND user_id = #{userId}
+        WHERE id = #{alarmId}
+    </delete>
+
+    <delete id="deleteRequestAndAcceptFollowAlarmLog">
+        DELETE FROM follow_alarm_log
+        WHERE id = #{requestFollowAlarmId}
+
+        DELETE FROM follow_alarm_log
+        WHERE id = #{acceptFollowAlarmId}
     </delete>
 
     <delete id="deleteWholeAlarmLog">

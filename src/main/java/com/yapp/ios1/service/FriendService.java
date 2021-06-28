@@ -8,6 +8,7 @@ import com.yapp.ios1.service.alarm.FirebaseService;
 import com.yapp.ios1.service.user.UserService;
 import com.yapp.ios1.utils.AlarmMessageUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import static com.yapp.ios1.message.AlarmMessage.*;
 /**
  * created by jg 2021/05/21
  */
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class FriendService {
@@ -32,6 +34,7 @@ public class FriendService {
     private final UserService userService;
     private final AlarmMessageUtil alarmMessage;
 
+    // TODO 어떻게 리팩터링 할까
     @Transactional
     public void requestFollow(Long myUserId, Long friendId) {
         NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_REQUEST_TITLE, FOLLOW_REQUEST_MESSAGE, friendId);
@@ -56,6 +59,7 @@ public class FriendService {
         noAcceptFollow(alarmId);
     }
 
+    // TODO 어떻게 리팩터링 할까
     private void acceptFollow(Long myUserId, Long friendId, Long alarmId) {
         NotificationForOneDto notificationForOne = alarmMessage.createFollowAlarmMessage(FOLLOW_ACCEPT_TITLE, FOLLOW_ACCEPT_MESSAGE, friendId);
         alarmMapper.updateFollowAlarmLog(notificationForOne, alarmId);
@@ -70,10 +74,13 @@ public class FriendService {
         alarmMapper.deleteFollowAlarmLog(alarmId);
     }
 
+    // TODO : 좋지 않은 API (어떻게 리팩터링 할까
     @Transactional
     public void deleteFriend(Long myUserId, Long friendId) {
-        Long followAlarmId = getFollowAlarmId(myUserId, friendId);
-        alarmMapper.deleteFollowAlarmLog(followAlarmId);
+        Long followRequestAlarmId = getFollowAlarmId(myUserId, friendId);
+        Long followAcceptAlarmId = getFollowAlarmId(friendId, myUserId);
+        alarmMapper.deleteFollowAlarmLog(followRequestAlarmId);
+        alarmMapper.deleteRequestAndAcceptFollowAlarmLog(followRequestAlarmId, followAcceptAlarmId);
         followMapper.deleteFriend(myUserId, friendId);
     }
 

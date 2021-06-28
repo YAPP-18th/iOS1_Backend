@@ -9,7 +9,6 @@ import lombok.Getter;
 @Getter
 public class Notification {
     private Long alarmId;
-    private Long myUserId;
     private Long friendId;
     private String title;
     private String message;
