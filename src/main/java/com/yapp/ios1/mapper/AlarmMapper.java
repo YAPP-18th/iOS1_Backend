@@ -32,7 +32,6 @@ public interface AlarmMapper {
     List<Notification> getFollowAlarmLog(Long userId);
 
     void deleteFollowAlarmLog(Long alarmId);
-    void deleteRequestAndAcceptFollowAlarmLog(Long requestFollowAlarmId, Long acceptFollowAlarmId);
     void deleteWholeAlarmLog(Long alarmId, Long userId);
 
     Optional<Notification> findWholeAlarmByAlarmId(Long alarmId);

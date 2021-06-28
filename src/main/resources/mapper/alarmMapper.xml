@@ -67,14 +67,6 @@
         WHERE id = #{alarmId}
     </delete>
 
-    <delete id="deleteRequestAndAcceptFollowAlarmLog">
-        DELETE FROM follow_alarm_log
-        WHERE id = #{requestFollowAlarmId}
-
-        DELETE FROM follow_alarm_log
-        WHERE id = #{acceptFollowAlarmId}
-    </delete>
-
     <delete id="deleteWholeAlarmLog">
         INSERT INTO whole_alarm_delete (alarm_id, user_id)
         VALUES (#{alarmId}, #{userId})

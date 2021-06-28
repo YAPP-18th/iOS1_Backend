@@ -74,14 +74,15 @@ public class FriendService {
         alarmMapper.deleteFollowAlarmLog(alarmId);
     }
 
-    // TODO : 좋지 않은 API (어떻게 리팩터링 할까
+    // TODO: 망가진 API (어떻게 리팩터링 할까) => Mybatis에서 Multi Query 지원 하는 듯
     @Transactional
     public void deleteFriend(Long myUserId, Long friendId) {
         Long followRequestAlarmId = getFollowAlarmId(myUserId, friendId);
         Long followAcceptAlarmId = getFollowAlarmId(friendId, myUserId);
         alarmMapper.deleteFollowAlarmLog(followRequestAlarmId);
-        alarmMapper.deleteRequestAndAcceptFollowAlarmLog(followRequestAlarmId, followAcceptAlarmId);
+        alarmMapper.deleteFollowAlarmLog(followAcceptAlarmId);
         followMapper.deleteFriend(myUserId, friendId);
+        followMapper.deleteFriend(friendId, myUserId);
     }
 
     private Long getFollowAlarmId(Long myUserId, Long friendId) {
