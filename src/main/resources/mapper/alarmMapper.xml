@@ -5,8 +5,8 @@
 <mapper namespace="com.yapp.ios1.mapper.AlarmMapper">
     <insert id="insertFollowAlarmLog" parameterType="NotificationForOneDto"
             useGeneratedKeys="true" keyProperty="notification.alarmId">
-        INSERT INTO follow_alarm_log (title, message, nick_name, alarm_status, created_at, user_id)
-        VALUES (#{notification.title}, #{notification.message}, #{nickName}, #{alarmStatus}, #{time}, #{friendId})
+        INSERT INTO follow_alarm_log (title, message, from_user_id, alarm_status, created_at, user_id)
+        VALUES (#{notification.title}, #{notification.message}, #{fromUserId}, #{alarmStatus}, #{time}, #{friendId})
     </insert>
 
     <update id="updateFollowAlarmLog">
@@ -34,10 +34,9 @@
 
     <select id="getFollowAlarmLog" resultType="Notification">
         SELECT al.id as alarmId,
-               f.follower_id   as myUserId,
-               f.following_id  as friendId,
+               al.from_user_id as friendId,
                message,
-               al.nick_name    as nickName,
+               u.nickname      as nickName,
                u.profile_url   as profileUrl,
                f.friend_status as friendStatus,
                alarm_status    as alarmStatus,
@@ -46,7 +45,7 @@
             JOIN follow f
                 ON f.alarm_id = al.id
             JOIN user u
-                ON u.id = al.user_id
+                ON u.id = al.from_user_id
         WHERE al.user_id = #{userId}
         ORDER BY al.created_at ASC
     </select>
@@ -65,7 +64,7 @@
 
     <delete id="deleteFollowAlarmLog">
         DELETE FROM follow_alarm_log
-        WHERE id = #{alarmId} AND user_id = #{userId}
+        WHERE id = #{alarmId}
     </delete>
 
     <delete id="deleteWholeAlarmLog">

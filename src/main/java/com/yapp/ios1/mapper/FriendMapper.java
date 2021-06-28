@@ -18,16 +18,16 @@ public interface FriendMapper {
 
     int checkFriendStatus(Long myUserId, Long otherUserId);
 
-    void requestFollow(@Param("myUserId") Long myUserId,
+    void insertFollow(@Param("myUserId") Long myUserId,
                        @Param("friendId") Long friendId,
                        @Param("followRequest") int followRequest,
                        @Param("alarmId") Long alarmId);
 
-    void acceptFollow(@Param("myUserId") Long myUserId,
-                      @Param("friendId") Long friendId,
-                      @Param("friendStatus") int friendStatus);
-
     void deleteFriend(Long myUserId, Long friendId);
 
     Long findByFollowAlarmId(Long myUserId, Long friendId);
+
+    void updateFriendStatus(@Param("myUserId") Long myUserId,
+                            @Param("friendId") Long friendId,
+                            @Param("friendStatus") int friendStatus);
 }
