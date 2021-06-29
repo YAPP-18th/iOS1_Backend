@@ -48,6 +48,21 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 |:---:|
 |<img src="https://user-images.githubusercontent.com/69340410/122346901-6dd15480-cf84-11eb-9dc1-13858a35bc27.png" width="100%"/>|
 
+<br>
+
+## 프로젝트 주요 관심사
+
+### 공통사항
+
+- 지속적인 성능 개선
+- 나쁜 냄새가 나는 코드에 대한 리팩토링
+
+### 코드 컨벤션
+
+- 프로젝트 전반적으로 `일관되게` 코드를 작성하려고 노력
+
+### 성능 최적화
+- DB 서버와의 통신을 최소화(당연한 이야기지만 N+1 쿼리를 지양하려고 노력)
 
 <br>
 
@@ -118,6 +133,12 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 <br>
 
+**yml 파일 prod, dev, local 환경 분리하기**
+
+> [application.yml을 prod, dev, local로 분리시키기](https://devlog-wjdrbs96.tistory.com/343)
+
+<br>
+
 **이미지 리사이징**
 
 > 버킷리스트 앱의 특성상 이미지 업로드 양이 많기 때문에 AWS Lambda를 이용하여 이미지 리사이징 기능을 추가 <br>  
@@ -130,6 +151,12 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 > 무중단 자동화 배포 기능을 추가 <br> <br>
 > [Jenkins CI 설정](https://velog.io/@ayoung0073/jenkins-ci) - [아영](https://github.com/ayoung0073) <br>
 > [CodeDeploy, Load-Balancer 설정](https://devlog-wjdrbs96.tistory.com/345) - [정균](https://github.com/wjdrbs96)
+
+<br>
+
+## 브랜치 관리 전략 & 커밋 컨벤션
+
+- [iOS 1팀 BackEnd Branch && Commit Convention](https://github.com/YAPP-18th/iOS1_Backend/blob/develop/docs/Project%20Branch%2C%20Commit%20Convetion.md)
 
 <br>
 
