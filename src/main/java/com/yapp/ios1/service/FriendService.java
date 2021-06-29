@@ -26,7 +26,7 @@ import static com.yapp.ios1.message.AlarmMessage.*;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class FriendService {
+public class FriendService {  // TODO 친구 관련 API 들이 N+1 쿼리가 너무 많음 => 리팩터링 필수
 
     private final FirebaseService firebaseService;
     private final FriendMapper followMapper;
@@ -56,7 +56,7 @@ public class FriendService {
             acceptFollow(myUserId, friendId, alarmId);
             return;
         }
-        noAcceptFollow(alarmId);
+        noAcceptFollow(alarmId, myUserId, friendId);
     }
 
     // TODO 어떻게 리팩터링 할까
@@ -70,7 +70,10 @@ public class FriendService {
         firebaseService.sendByTokenForOne(notificationForOne);
     }
 
-    private void noAcceptFollow(Long alarmId) {
+    // TODO 리팩터링
+    private void noAcceptFollow(Long alarmId, Long myUserId, Long friendId) {
+        followMapper.deleteFriend(myUserId, friendId);
+        followMapper.deleteFriend(friendId, myUserId);
         alarmMapper.deleteFollowAlarmLog(alarmId);
     }
 
