@@ -120,17 +120,17 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 <br>
 
-**비밀번호 단방향 암호화 과정**
+**비밀번호 암호화**
 
-> 아영 (작성)
+> [단방향 해시 함수와 BCrypt로 비밀번호 암호화하기](https://velog.io/@ayoung0073/Security-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EB%8B%A8%EB%B0%A9%ED%96%A5-%EC%95%94%ED%98%B8%ED%99%94) - [아영](https://github.com/ayoung0073) <br>
 
 <br>
 
 **AOP로 중복로직 제거하기**
 
 > 프로젝트에서 대부분 API에서 인가 체크가 필요했는데, AOP를 적용하여 중복 로직을 제거 <br> <br>
-> [AOP를 사용하여 중복 로직 제거하기](https://devlog-wjdrbs96.tistory.com/344) - [정균](https://github.com/wjdrbs96)
-
+> [AOP를 사용하여 중복 로직 제거하기](https://devlog-wjdrbs96.tistory.com/344) - [정균](https://github.com/wjdrbs96)<br>
+> [ThreadLocal로 사용자 정보 저장하기](https://velog.io/@ayoung0073/Java-ThreadLocal) - [아영](https://github.com/ayoung0073)
 <br>
 
 **yml 파일 prod, dev, local 환경 분리하기**
