@@ -6,7 +6,7 @@
     <select id="getFollowCountByUserId" resultType="int">
         SELECT COUNT(*)
         FROM follow
-        WHERE friend_status = 1 AND following_id = #{userId}
+        WHERE friend_status = 1 AND follower_id = #{userId}
     </select>
 
     <select id="getFollowListByUserId" resultType="Friend">
@@ -15,22 +15,11 @@
                u.nickname,
                u.intro,
                u.profile_url    as profileUrl,
-               f1.friend_status as friendStatus
+               f.friend_status as friendStatus
         FROM user u
-            JOIN follow f1
-                ON f1.following_id = u.id
-        WHERE (f1.follower_id = #{userId} AND f1.friend_status = 1)
-        UNION
-        SELECT u.id             as userId,
-               u.email,
-               u.nickname,
-               u.intro,
-               u.profile_url    as profileUrl,
-               f2.friend_status as friendStatus
-        FROM user u
-                 JOIN follow f2
-                     ON f2.follower_id = u.id
-        WHERE (f2.following_id = #{userId} AND f2.friend_status = 1);
+            JOIN follow f
+                ON f.following_id = u.id
+        WHERE (f.follower_id = #{userId} AND f.friend_status = 1);
     </select>
 
     <select id="checkFriendStatus" resultType="int">
