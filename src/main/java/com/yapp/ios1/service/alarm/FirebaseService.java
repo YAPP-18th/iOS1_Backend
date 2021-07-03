@@ -1,12 +1,8 @@
 package com.yapp.ios1.service.alarm;
 
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.messaging.BatchResponse;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.*;
+import com.yapp.ios1.dto.notification.FcmMessage;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
 import com.yapp.ios1.properties.FirebaseProperties;
@@ -14,7 +10,9 @@ import com.yapp.ios1.service.user.UserFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -35,17 +33,17 @@ public class FirebaseService {
 
     private final UserFindService userFindService;
     private final FirebaseProperties firebaseProperties;
+    private final RestTemplate restTemplate;
+    private String fcmAccessToken;
 
     @PostConstruct
     public void init() {
         try {
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.
-                            fromStream(new ClassPathResource(firebaseProperties.getPath()).getInputStream())).build();
-            if (FirebaseApp.getApps().isEmpty()) {
-                FirebaseApp.initializeApp(options);
-                log.info("Firebase Cloud Messaging 서비스를 성공적으로 초기화하였습니다.");
-            }
+            GoogleCredentials googleCredentials =
+                    GoogleCredentials.fromStream(new ClassPathResource(firebaseProperties.getPath()).getInputStream())
+                            .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
+            googleCredentials.refreshIfExpired();
+            fcmAccessToken = googleCredentials.getAccessToken().getTokenValue();
         } catch (IOException e) {
             log.error("cannot initial firebase " + e.getMessage());
         }
@@ -71,19 +69,37 @@ public class FirebaseService {
     }
 
     public void sendByTokenForOne(NotificationForOneDto messageInfo) {
-        Message message = Message.builder()
-                .setToken(messageInfo.getDeviceToken())
-                .putData("title", messageInfo.getTitle())
-                .putData("message", messageInfo.getMessage())
-                .build();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(fcmAccessToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String response;
+        FcmMessage message = makeMessage(messageInfo);
+
+        HttpEntity<Object> request = new HttpEntity<>(message, headers);
         try {
-            response = FirebaseMessaging.getInstance().send(message);
+            ResponseEntity<String> response = restTemplate.exchange(
+                    "https://fcm.googleapis.com/v1/projects/buok-ios/messages:send",
+                    HttpMethod.POST,
+                    request,
+                    String.class
+            );
             log.info("send message: " + response);
-        } catch (FirebaseMessagingException e) {
+        } catch (Exception e) {
             log.error("cannot send message by token. error info : {}", e.getMessage());
         }
+    }
+
+    private FcmMessage makeMessage(NotificationForOneDto messageInfo) {
+        return FcmMessage.builder()
+                .message(FcmMessage.Message.builder()
+                        .token(messageInfo.getDeviceToken())
+                        .notification(FcmMessage.Notification.builder()
+                                .title(messageInfo.getTitle())
+                                .body(messageInfo.getMessage())
+                                .build())
+                        .build()
+                )
+                .build();
     }
 
     public NotificationDto getWholeAlarmMessage() {
