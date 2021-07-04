@@ -34,13 +34,18 @@ public class BucketFindService {
                 .build();
     }
 
-    public BucketDetailDto getBucketDetail(Long bucketId, Long userId) {
+    public BucketDetailDto getBucketDetail(Long bucketId) {
         return new BucketDetailDto(
-                getBucket(bucketId, userId),
-                getBucketImage(bucketId, userId),
+                getBucket(bucketId),
+                getBucketImage(bucketId),
                 getBucketTag(bucketId),
-                getBucketTimeline(bucketId, userId)
+                getBucketTimeline(bucketId)
         );
+    }
+
+    public Bucket getBucket(Long bucketId) {
+        return bucketMapper.findByBucketId(bucketId)
+                .orElseThrow(BucketNotFoundException::new);
     }
 
     public Bucket getBucket(Long bucketId, Long userId) {
@@ -52,12 +57,12 @@ public class BucketFindService {
         return bucketMapper.findByBucketTagByBucketId(bucketId);
     }
 
-    private List<Image> getBucketImage(Long bucketId, Long userId) {
-        return bucketMapper.findByBucketImageByBucketId(bucketId, userId);
+    private List<Image> getBucketImage(Long bucketId) {
+        return bucketMapper.findByBucketImageByBucketId(bucketId);
     }
 
-    private List<BucketTimeline> getBucketTimeline(Long bucketId, Long userId) {
-        return bucketMapper.findByBucketTimelineByBucketId(bucketId, userId);
+    private List<BucketTimeline> getBucketTimeline(Long bucketId) {
+        return bucketMapper.findByBucketTimelineByBucketId(bucketId);
     }
 
     public List<Bucket> getUserBucketList(Long userId) {

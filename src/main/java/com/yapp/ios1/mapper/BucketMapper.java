@@ -20,6 +20,8 @@ public interface BucketMapper {
 
     Optional<Bucket> findByBucketIdAndUserId(Long bucketId, Long userId);
 
+    Optional<Bucket> findByBucketId(Long bucketId);
+
     void registerBucket(BucketRequestDto registerDto);
 
     void updateBucket(BucketRequestDto updateDto);
@@ -51,9 +53,9 @@ public interface BucketMapper {
 
     List<Tag> findByBucketTagByBucketId(Long bucketId);
 
-    List<Image> findByBucketImageByBucketId(Long bucketId, Long userId);
+    List<Image> findByBucketImageByBucketId(Long bucketId);
 
-    List<BucketTimeline> findByBucketTimelineByBucketId(Long bucketId, Long userId);
+    List<BucketTimeline> findByBucketTimelineByBucketId(Long bucketId);
 
     void setBucketFin(Long bucketId, boolean isFin);
 
