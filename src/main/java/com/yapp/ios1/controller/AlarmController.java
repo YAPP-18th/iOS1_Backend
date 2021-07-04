@@ -46,15 +46,15 @@ public class AlarmController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, DELETE_ALARM_LOG));
     }
 
-    @ApiOperation("푸시 알림 테스트")
-    @PostMapping("/test")
-    public ResponseEntity<ResponseDto> alarmTest(@RequestBody NotificationTestDto requestDto) {
-        NotificationForOneDto notificationForOne = NotificationForOneDto.builder()
-                .title(requestDto.getTitle())
-                .message(requestDto.getMessage())
-                .deviceToken(requestDto.getDeviceToken())
-                .build();
-        firebaseService.sendByTokenForOne(notificationForOne);
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, "푸시 알림 보냄"));
-    }
+//    @ApiOperation("푸시 알림 테스트")
+//    @PostMapping("/test")
+//    public ResponseEntity<ResponseDto> alarmTest(@RequestBody NotificationTestDto requestDto) {
+//        NotificationForOneDto notificationForOne = NotificationForOneDto.builder()
+//                .title(requestDto.getTitle())
+//                .message(requestDto.getMessage())
+//                .deviceToken(requestDto.getDeviceToken())
+//                .build();
+//        firebaseService.sendByTokenForOne(notificationForOne);
+//        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, "푸시 알림 보냄"));
+//    }
 }

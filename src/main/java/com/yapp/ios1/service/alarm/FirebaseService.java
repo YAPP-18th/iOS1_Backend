@@ -5,6 +5,7 @@ import com.google.firebase.messaging.*;
 import com.yapp.ios1.dto.notification.FcmMessage;
 import com.yapp.ios1.dto.notification.NotificationDto;
 import com.yapp.ios1.dto.notification.NotificationForOneDto;
+import com.yapp.ios1.model.user.User;
 import com.yapp.ios1.properties.FirebaseProperties;
 import com.yapp.ios1.service.user.UserFindService;
 import lombok.RequiredArgsConstructor;
@@ -68,12 +69,12 @@ public class FirebaseService {
         }
     }
 
-    public void sendByTokenForOne(NotificationForOneDto messageInfo) {
+    public void sendByTokenForOne(NotificationForOneDto messageInfo, Long userId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(fcmAccessToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        FcmMessage message = makeMessage(messageInfo);
+        FcmMessage message = makeMessage(messageInfo, userId);
 
         HttpEntity<Object> request = new HttpEntity<>(message, headers);
         try {
@@ -89,13 +90,14 @@ public class FirebaseService {
         }
     }
 
-    private FcmMessage makeMessage(NotificationForOneDto messageInfo) {
+    private FcmMessage makeMessage(NotificationForOneDto messageInfo, Long userId) {
+        User user = userFindService.getUser(userId);
         return FcmMessage.builder()
                 .message(FcmMessage.Message.builder()
                         .token(messageInfo.getDeviceToken())
                         .notification(FcmMessage.Notification.builder()
                                 .title(messageInfo.getTitle())
-                                .body(messageInfo.getMessage())
+                                .body(user.getNickname() + messageInfo.getMessage())
                                 .build())
                         .build()
                 )
