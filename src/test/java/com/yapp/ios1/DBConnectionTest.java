@@ -2,7 +2,7 @@ package com.yapp.ios1;
 
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = "spring.config.location=classpath:application.yml")
+//@SpringBootTest(properties = "spring.config.location=classpath:application.yml")
 public class DBConnectionTest {
 
 //    private final Logger logger = LoggerFactory.getLogger(this.getClass());
