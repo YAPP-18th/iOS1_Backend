@@ -42,7 +42,7 @@ public class FriendService {  // TODO 친구 관련 API 들이 N+1 쿼리가 너
         alarmMapper.insertFollowAlarmLog(notificationForOne, myUserId, FOLLOW_ALARM.get(), LocalDateTime.now(), friendId);
         followMapper.insertFollow(myUserId, friendId, REQUEST.get(), notificationForOne.getAlarmId());
         userService.updateUserAlarmReadStatus(friendId, false);
-        firebaseService.sendByTokenForOne(notificationForOne);
+        firebaseService.sendByTokenForOne(notificationForOne, myUserId);
     }
 
     public List<Friend> getFriendList(Long userId) {
@@ -67,7 +67,7 @@ public class FriendService {  // TODO 친구 관련 API 들이 N+1 쿼리가 너
         followMapper.insertFollow(myUserId, friendId, FRIEND.get(), notificationForOne.getAlarmId());
         followMapper.updateFriendStatus(myUserId, friendId, FRIEND.get());
         userService.updateUserAlarmReadStatus(friendId, false);
-        firebaseService.sendByTokenForOne(notificationForOne);
+        firebaseService.sendByTokenForOne(notificationForOne, myUserId);
     }
 
     // TODO 리팩터링

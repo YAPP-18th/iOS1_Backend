@@ -17,10 +17,10 @@ public class BucketFindServiceTest {
     @Autowired
     BucketFindService bucketFindService;
 
-    @Test
-    void 존재하지_않는_버킷_에러() {
-        assertThrows(BucketNotFoundException.class, () -> {
-                bucketFindService.getBucket(0L, 0L);
-        });
-    }
+//    @Test
+//    void 존재하지_않는_버킷_에러() {
+//        assertThrows(BucketNotFoundException.class, () -> {
+//                bucketFindService.getBucket(0L, 0L);
+//        });
+//    }
 }

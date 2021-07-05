@@ -97,19 +97,13 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 > [Spring Error log CloudWatch로 전송하기](https://devlog-wjdrbs96.tistory.com/329) - [정균](https://github.com/wjdrbs96) <br>
 > [Spring Error log Slack으로 전송하는 법](https://devlog-wjdrbs96.tistory.com/327) - [정균](https://github.com/wjdrbs96) <br>
-> [Spring Filter, Interceptor로 Request logging 하기]()
+> [Spring Filter, Interceptor로 Request logging 하기]() - [정균](https://github.com/wjdrbs96)
 
 <br>
 
 **수 많은 에러들을 어떻게 관리하고 있을까?**
 
-> [Error 클래스 상속 관계를 통한 ControllerAdvice, ExceptionHandler 처리하기](https://devlog-wjdrbs96.tistory.com/348)
-
-<br>
-
-**클린코드와 객체지향적으로 설계하기 위해서 어떤 노력을 했을까?**
-
-> 정균, 아영 (작성)
+> [Error 클래스 상속 관계를 통한 ControllerAdvice, ExceptionHandler 처리하기](https://devlog-wjdrbs96.tistory.com/348) - [정균](https://github.com/wjdrbs96)
 
 <br>
 
@@ -136,7 +130,7 @@ buok은 당신이 멋진 집을 완성할 수 있도록 도와드릴 거예요.
 
 **yml 파일 prod, dev, local 환경 분리하기**
 
-> [application.yml을 prod, dev, local로 분리시키기](https://devlog-wjdrbs96.tistory.com/343)
+> [application.yml을 prod, dev, local로 분리시키기](https://devlog-wjdrbs96.tistory.com/343) - [정균](https://github.com/wjdrbs96) <br>
 
 <br>
 

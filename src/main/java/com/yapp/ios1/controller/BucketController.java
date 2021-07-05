@@ -47,11 +47,9 @@ public class BucketController {
     }
 
     @ApiOperation("버킷 상세 조회")
-    @Auth
     @GetMapping("/{bucketId}")
-    public ResponseEntity<ResponseDto> bucketOne(@PathVariable Long bucketId) {
-        Long userId = UserContext.getCurrentUserId();
-        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_DETAIL, bucketFindService.getBucketDetail(bucketId, userId)));
+    public ResponseEntity<ResponseDto> myBucket(@PathVariable Long bucketId) {
+        return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, GET_BUCKET_DETAIL, bucketFindService.getBucketDetail(bucketId)));
     }
 
     // bucketStateId 2(예정), 3(진행 중), 4(완료), 5(실패)
