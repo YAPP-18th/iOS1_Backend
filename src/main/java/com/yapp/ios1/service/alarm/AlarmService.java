@@ -49,10 +49,10 @@ public class AlarmService {
         alarmMapper.deleteFollowAlarmLog(alarmId);
     }
 
-    // 초, 분, 시간, 일, 월, 요일 (매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정)
-    @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
-    public void notificationSchedule() {
-        alarmMapper.insertWholeAlarmLog(firebaseService.getWholeAlarmMessage(), WHOLE_ALARM.get());  // alarm_status = 1 (전체 알람)
-        firebaseService.sendByTokenForMulti();
-    }
+//    // 초, 분, 시간, 일, 월, 요일 (매월, 1일, 20시 53분 30초에 알림을 보내도록 임시로 설정)
+//    @Scheduled(cron = "10 12 14 * * ?", zone = "Asia/Seoul")
+//    public void notificationSchedule() {
+//        alarmMapper.insertWholeAlarmLog(firebaseService.getWholeAlarmMessage(), WHOLE_ALARM.get());  // alarm_status = 1 (전체 알람)
+//        firebaseService.sendByTokenForMulti();
+//    }
 }
